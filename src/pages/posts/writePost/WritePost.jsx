@@ -1,7 +1,7 @@
 import React from 'react';
 import styles from './WritePost.module.scss';
 import cs from 'classnames/bind';
-import { DatesPicker, SelectedDate, SeparateDatesPicker, ShowSelectedDateList, TimesPicker } from '../../../components';
+import { DatesPicker, SeparateDatesPicker, ShowSelectedDateList, TimesPicker } from '../../../components';
 import { regions } from '../../../lib';
 import { useMultiSelection } from '../../../hooks';
 const cx = cs.bind(styles);
@@ -17,7 +17,7 @@ export default function WritePost() {
     negotiableRate: false,
     targetFeatures: '',
     cautionNotes: '',
-    careDates: [],
+    careDate: null,
     shortCareDates: [],
     startTime: null,
     endTime: null,
@@ -45,6 +45,11 @@ export default function WritePost() {
     return setValues({ ...values, careDays: checkedDaysList });
   }, [checkedDaysList]);
 
+  React.useEffect(() => {
+    setCheckedDaysList([]);
+    setValues({ ...values, careDates: [], shortCareDates: [], careDays: [] });
+  }, [values.careTerm]);
+
   function handleChange(e) {
     setValues({
       ...values,
@@ -61,9 +66,7 @@ export default function WritePost() {
     <div className={cx('wrapper')}>
       <form onSubmit={handleSubmit}>
         <div className={cx('titleWrapper')}>
-          <label htmlFor="" placeholder="">
-            제목
-          </label>
+          <label>제목</label>
           <input
             type="text"
             onChange={handleChange}
@@ -125,6 +128,10 @@ export default function WritePost() {
         </div>
         {values.careTerm === 'long' && (
           <div className={cx('careDaysWrapper')}>
+            <p>돌봄 시작일</p>
+            <div className={cx('calendarWrapper')}>
+              <DatesPicker />
+            </div>
             <span>돌봄 요일</span>
             {careDaysList.map((day, index) => (
               <span key={index}>
@@ -132,7 +139,9 @@ export default function WritePost() {
                   type="checkbox"
                   name="careDays"
                   checked={checkedDaysList.includes(day)}
-                  onChange={(e) => checkDayHandler(e, day)}
+                  onChange={(e) => {
+                    checkDayHandler(e, day);
+                  }}
                   id={`day${index}`}
                 />
                 <label htmlFor={`day${index}`}>{day}</label>
@@ -142,7 +151,6 @@ export default function WritePost() {
         )}
         <div className={cx('careDatesWrapper')}>
           {values.careTerm === 'short' && <SeparateDatesPicker values={values} setValues={setValues} />}
-          {(values.careTerm === 'long' || !values.careTerm) && <DatesPicker values={values} setValues={setValues} />}
 
           <div>
             <label htmlFor="">시작 시간</label>
@@ -150,7 +158,11 @@ export default function WritePost() {
             <label htmlFor="">종료 시간</label>
             <TimesPicker values={values} type="endTime" setValues={setValues} />
             <div>
-              <ShowSelectedDateList array={values.shortCareDates} />
+              {values.careTerm === 'short' ? (
+                <ShowSelectedDateList type="short" array={values.shortCareDates} values={values} />
+              ) : (
+                <ShowSelectedDateList type="long" array={values.careDays} values={values} />
+              )}
             </div>
           </div>
         </div>

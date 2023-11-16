@@ -18,17 +18,15 @@ export default function TimesPicker({ values, setValues, type }) {
         setStartDate(date);
         if (type === 'startTime') {
           setValues({ ...values, startTime: new Date(date) });
-        } else if (type === 'endTime') {
-          setValues({ ...values, endTime: new Date(date) });
         } else {
-          alert('type지정이 잘못되었습니다');
-          return;
+          setValues({ ...values, endTime: new Date(date) });
         }
       }}
+      selected={type === 'startTime' ? values.startTime : values.endTime}
       showTimeSelect
       showTimeSelectOnly
       timeIntervals={60}
-      timeCaption="Time"
+      timeCaption="시간"
       dateFormat="HH:mm"
       locale={ko}
     />

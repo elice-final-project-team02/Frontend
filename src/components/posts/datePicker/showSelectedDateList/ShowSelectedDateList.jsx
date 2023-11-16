@@ -11,10 +11,27 @@ export default function ShowSelectedDateList(props) {
       <ul className={cx('wrapper')}>
         {props.array
           .sort((a, b) => a - b)
-          .map((item) => (
-            <li key={uuidv4()}> {dateFormatter.changeDateToMonthAndDateAndDayOfTheWeek(item)}</li>
-          ))}
-        {console.log(props.array)}
+          .map((item) => {
+            if (props.type === 'short') {
+              return (
+                <li key={uuidv4()}>
+                  {`${dateFormatter.changeDateToMonthAndDateAndDayOfTheWeek(item)} ${dateFormatter.changeDateToHHMM(
+                    props.values.startTime
+                  )}-${dateFormatter.changeDateToHHMM(props.values.endTime)}`}
+                  <p>+시간 수정</p>
+                </li>
+              );
+            } else {
+              return (
+                <li key={uuidv4()}>
+                  {`${item}요일 ${dateFormatter.changeDateToHHMM(
+                    props.values.startTime
+                  )}-${dateFormatter.changeDateToHHMM(props.values.endTime)}`}
+                  <p>+ 시간 수정</p>
+                </li>
+              );
+            }
+          })}
       </ul>
     </>
   );

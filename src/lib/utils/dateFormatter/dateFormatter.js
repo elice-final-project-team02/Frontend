@@ -12,4 +12,9 @@ export default class dateFormatter {
   static changeDateToMonthAndDateAndDayOfTheWeek(date) {
     return moment(date).format('MM/DD(dd)');
   }
+
+  /** 14:00 */
+  static changeDateToHHMM(date) {
+    return moment(date).format('HH:00');
+  }
 }
