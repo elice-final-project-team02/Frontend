@@ -3,7 +3,7 @@ import styles from './WritePost.module.scss';
 import cs from 'classnames/bind';
 import { DatesPicker, SeparateDatesPicker, TimesPicker } from '../../../components';
 import { regions } from '../../../lib';
-import { useMultiSelection } from '../../../hooks/useMultiSelection/useMultiSelection';
+import { useMultiSelection } from '../../../hooks';
 const cx = cs.bind(styles);
 
 export default function WritePost() {
@@ -28,33 +28,41 @@ export default function WritePost() {
   });
 
   const ageList = ['20대', '30대', '40대', '50대', '60대', '성별무관'];
+  const [checkedAgeList, setCheckedAgeList] = React.useState([]);
+  const [isAgeChecked, setIsAgeChecked] = React.useState(false);
   const careDaysList = ['월', '화', '수', '목', '금', '토', '일'];
   const [checkedDaysList, setCheckedDaysList] = React.useState([]);
   const [isDayChecked, setIsDayChecked] = React.useState(false);
 
-  function checkedDayHandler(value, isDayChecked) {
-    if (isDayChecked) {
-      setCheckedDaysList((prev) => [...prev, value]);
-      return;
-    }
-    if (!isDayChecked && checkedDaysList.includes(value)) {
-      setCheckedDaysList(checkedDaysList.filter((item) => item !== value));
-      return;
-    }
-    return;
-  }
-  function checkHandler(e, value) {
-    console.log(value);
-    setIsDayChecked((prev) => !prev);
-    checkedDayHandler(value, e.target.checked);
-  }
-  React.useEffect(() => {
-    setValues({ ...values, careDays: checkedDaysList });
-  }, [isDayChecked]);
+  const { checkHandler } = useMultiSelection(checkedAgeList, setCheckedAgeList, isAgeChecked, setIsAgeChecked);
 
   React.useEffect(() => {
-    setValues({ ...values, careDates: [], shortCareDates: [] });
-  }, [values.careTerm]);
+    return setValues({ ...values, preferredMateAge: checkedAgeList });
+  }, [checkedAgeList]);
+
+  // function checkedDayHandler(value, isDayChecked) {
+  //   if (isDayChecked) {
+  //     setCheckedDaysList((prev) => [...prev, value]);
+  //     return;
+  //   }
+  //   if (!isDayChecked && checkedDaysList.includes(value)) {
+  //     setCheckedDaysList(checkedDaysList.filter((item) => item !== value));
+  //     return;
+  //   }
+  //   return;
+  // }
+  // function checkHandler(e, value) {
+  //   console.log(value);
+  //   setIsDayChecked((prev) => !prev);
+  //   checkedDayHandler(value, e.target.checked);
+  // }
+  // React.useEffect(() => {
+  //   setValues({ ...values, careDays: checkedDaysList });
+  // }, [isDayChecked]);
+
+  // React.useEffect(() => {
+  //   setValues({ ...values, careDates: [], shortCareDates: [] });
+  // }, [values.careTerm]);
   function handleChange(e) {
     setValues({
       ...values,
@@ -124,7 +132,7 @@ export default function WritePost() {
           <input type="radio" name="careTerm" value="short" onChange={handleChange} id="careTermShort" />
           <label htmlFor="careTermShort">단기</label>
           <input type="radio" name="careTerm" value="long" onChange={handleChange} id="careTermLong" />
-          <label htmlFor="careTermLong">장기</label>
+          <label htmlFor="careTermLong">정기</label>
         </div>
         {values.careTerm === 'long' && (
           <div className={cx('careDaysWrapper')}>
@@ -183,8 +191,16 @@ export default function WritePost() {
           <div className={cx('preferredMateAgeWrapper')}>
             {ageList.map((age, index) => (
               <span key={index}>
-                <label>{age}</label>
-                <input type="checkbox" name="" id="" />
+                <label htmlFor={age}>{age}</label>
+                <input
+                  id={age}
+                  type="checkbox"
+                  checked={checkedAgeList.includes(age)}
+                  onChange={(e) => {
+                    checkHandler(e, age);
+                    return setValues({ ...values, preferredMateAge: checkedAgeList });
+                  }}
+                />
               </span>
             ))}
           </div>

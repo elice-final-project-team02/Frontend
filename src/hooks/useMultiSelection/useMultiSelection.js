@@ -1,8 +1,7 @@
 import React from 'react';
 
-export function useMultiSelection() {
-  const [checkedList, setCheckedList] = React.useState([]);
-  const [isChecked, setIsChecked] = React.useState(false);
+//참조사이트 https://junheedot.tistory.com/11
+export default function useMultiSelection(checkedList, setCheckedList, isChecked, setIsChecked) {
   function checkedItemHandler(value, isChecked) {
     if (isChecked) {
       setCheckedList((prev) => [...prev, value]);
