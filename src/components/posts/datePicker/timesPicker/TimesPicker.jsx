@@ -4,6 +4,7 @@ import cs from 'classnames/bind';
 import 'react-datepicker/dist/react-datepicker.css';
 import DatePicker from 'react-datepicker';
 import { ko } from 'date-fns/esm/locale';
+import moment from 'moment';
 
 const cx = cs.bind(styles);
 
@@ -12,7 +13,7 @@ export default function TimesPicker({ values, setValues, type }) {
 
   return (
     <DatePicker
-      selected={startDate}
+      // selected={selectedTime}
       onChange={(date) => {
         setStartDate(date);
         if (type === 'startTime') {

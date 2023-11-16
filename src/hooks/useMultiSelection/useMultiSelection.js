@@ -17,5 +17,5 @@ export default function useMultiSelection(checkedList, setCheckedList, isChecked
     setIsChecked(!isChecked);
     checkedItemHandler(value, e.target.checked);
   }
-  return { checkHandler };
+  return checkHandler;
 }
