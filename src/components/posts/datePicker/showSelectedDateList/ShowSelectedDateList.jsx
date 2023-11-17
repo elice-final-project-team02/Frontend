@@ -6,10 +6,12 @@ import { v4 as uuidv4 } from 'uuid';
 const cx = cs.bind(styles);
 
 export default function ShowSelectedDateList(props) {
+  React.useEffect(() => {}, []);
   return (
     <>
       <ul className={cx('wrapper')}>
         {props.array
+          .filter((value, index) => index !== 0)
           .sort((a, b) => a - b)
           .map((item) => {
             if (props.type === 'short') {

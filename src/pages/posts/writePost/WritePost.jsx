@@ -11,6 +11,23 @@ export default function WritePost() {
     title: '',
     content: '',
     careTarget: '',
+    longTerm: {
+      startDate: new Date(),
+      schedule: [
+        {
+          careDay: '',
+          startTime: null,
+          endTime: null,
+        },
+      ],
+    },
+    shortTerm: [
+      {
+        careDate: new Date(99, 1),
+        startTime: null,
+        endTime: null,
+      },
+    ],
     careTerm: 'short',
     careDays: [],
     hourlyRate: 9620,
@@ -130,7 +147,7 @@ export default function WritePost() {
           <div className={cx('careDaysWrapper')}>
             <p>돌봄 시작일</p>
             <div className={cx('calendarWrapper')}>
-              <DatesPicker />
+              <DatesPicker values={values} setValues={setValues} />
             </div>
             <span>돌봄 요일</span>
             {careDaysList.map((day, index) => (
@@ -159,7 +176,11 @@ export default function WritePost() {
             <TimesPicker values={values} type="endTime" setValues={setValues} />
             <div>
               {values.careTerm === 'short' ? (
-                <ShowSelectedDateList type="short" array={values.shortCareDates} values={values} />
+                <ShowSelectedDateList
+                  type="short"
+                  array={values.shortTerm.map((obj) => obj.careDate)}
+                  values={values}
+                />
               ) : (
                 <ShowSelectedDateList type="long" array={values.careDays} values={values} />
               )}
