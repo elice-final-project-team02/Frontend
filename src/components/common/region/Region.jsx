@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { regions } from '../../../lib';
+import { region } from '../../../lib';
 
 export default function Region(props) {
   const [selectedSido, setSelectedSido] = useState(props.region1 || '');
@@ -24,7 +24,7 @@ export default function Region(props) {
     <>
       <select value={selectedSido} onChange={handleSidoChange}>
         <option value="">시/도 선택</option>
-        {regions[0].map((area, index) => (
+        {region[0].map((area, index) => (
           <option key={index} value={area}>
             {area}
           </option>
@@ -33,7 +33,7 @@ export default function Region(props) {
       <select value={selectedGugun} onChange={handleGugunChange}>
         <option value="">구/군 선택</option>
         {selectedSido &&
-          regions[regions[0].indexOf(selectedSido) + 1]?.map((area, index) => (
+          region[region[0].indexOf(selectedSido) + 1]?.map((area, index) => (
             <option key={index} value={area}>
               {area}
             </option>

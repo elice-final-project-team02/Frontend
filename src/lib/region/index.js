@@ -1,1 +1,1 @@
-export * from './region';
+export { default as region } from './region';

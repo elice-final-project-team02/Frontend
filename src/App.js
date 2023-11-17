@@ -12,7 +12,7 @@ function App() {
           <Header />
         </MaxWidth>
         <main>
-          <MaxWidth>
+          <MaxWidth >
             <Outlet />
           </MaxWidth>
         </main>

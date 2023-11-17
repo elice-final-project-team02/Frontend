@@ -13,6 +13,8 @@ import {
   NotFound,
   PostDetail,
   Register,
+  Info1,
+  Info2,
   Withdraw,
   WritePost,
 } from './pages';
@@ -26,6 +28,8 @@ export const router = createBrowserRouter([
       { index: true, path: '/', element: <Home /> },
       { path: '' },
       { path: '/register', element: <Register /> },
+      { path: '/register/info1', element: <Info1 /> },
+      { path: '/register/info2', element: <Info2 /> },
       { path: '/login', element: <Login /> },
 
       { path: '/about-us', element: <AboutUs /> },

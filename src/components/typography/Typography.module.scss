@@ -1,0 +1,27 @@
+.typographyText {
+  margin: 20px;
+  color: black;
+  gap: 8px;
+}
+
+.typographyTitle {
+  font-size: 1.2rem;
+  margin: 20px;
+  color: rgb(39, 150, 168);
+  font-weight: bold;
+}
+
+.typographyMainTitle {
+  font-size: 1.2rem;
+  color: rgb(39, 150, 168);
+  font-weight: bold;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.typographyMainText {
+  color: black;
+  gap: 8px;
+  width: 250px;
+}

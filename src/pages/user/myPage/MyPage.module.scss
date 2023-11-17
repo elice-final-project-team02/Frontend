@@ -13,7 +13,7 @@
     select {
       width: 90%;
       margin-top: 2px;
-      padding: 2px 4px;
+      padding: 6px;
     }
     button {
       padding: 4px 8px;
@@ -48,13 +48,14 @@
   h1 {
     font-size: 16px;
     font-weight: bold;
+    margin-bottom: 4px;
   }
   .left,
   .right {
     width: 50%;
     padding: 0 10px;
     div:not(:first-child) {
-      margin-top: 8px;
+      margin-top: 12px;
     }
   }
 }
@@ -92,12 +93,12 @@
 .cancelBtn {
   float: right;
   width: 90px;
-  border: 1px solid black;
+  border: none;
 }
 
 .editBtn,
 .saveBtn {
-  background-color: black;
+  background-color: #8aa1dd;
   color: white;
   margin-right: 20%;
 }
@@ -106,6 +107,7 @@
   background-color: #fff9f9;
   color: black;
   margin-right: 4px;
+  border: 1px solid #8aa1dd;
 }
 
 .editPwd,

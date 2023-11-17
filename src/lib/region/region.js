@@ -243,7 +243,7 @@ const area15 = [
 ];
 const area16 = ['서귀포시', '제주시', '남제주군', '북제주군'];
 
-export const regions = [
+const regions = [
   area0,
   area1,
   area2,
@@ -262,3 +262,5 @@ export const regions = [
   area15,
   area16,
 ];
+
+export default regions;

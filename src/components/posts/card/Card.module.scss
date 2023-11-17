@@ -11,6 +11,7 @@
   }
 }
 
+/* 폰트 지정 후 수정 */
 .mainInfo {
   background-color: #b6caff;
   border-radius: 10px 10px 0 0;
@@ -22,14 +23,26 @@
   height: 50px;
 }
 
-.upperInfo {
+.targetImage {
+  width: 85px;
+  height: 85px;
+  margin-right: 20px;
+  border-radius: 50%;
+}
+
+.mainUpper {
   display: flex;
-  text-align: center;
-  width: 160px;
+  width: 260px;
+  margin-bottom: 15px;
+}
+
+.upperInfo {
+  // display: flex;
+  width: 200px;
   flex-wrap: wrap;
-  justify-content: space-between;
 
   span {
+    //careTerm 이미지로 변경 후 삭제
     display: flex;
     justify-content: space-evenly;
   }
@@ -41,7 +54,7 @@
 //   align-items: center;
 // }
 
-// component로 변경해야함 임시 아이콘
+// 이미지로 변경해야함 임시 아이콘
 .careTerm {
   border-radius: 20px;
   width: 50px;
@@ -49,34 +62,46 @@
   background-color: white;
 }
 
-.timeStamp {
-  font-size: 13px;
-}
-
-.mainUpper {
+.mainBottom {
   display: flex;
   justify-content: space-between;
-  width: 260px;
+  // align-items: flex-end; 폰트 정하고 결정
 }
 
-.targetImage {
-  width: 85px;
-  height: 85px;
-  border-radius: 50%;
+.timeStamp {
+  display: flex;
+  font-size: 13px;
+  align-items: center;
+  color: #575757;
+}
+
+.cardStatus {
+  display: flex;
+  align-items: center;
+  color: white;
+  font-size: 25px;
+}
+
+.iconContainer {
+  display: flex;
+  align-items: center;
+  margin-right: 10px;
+  max-width: 78.4px;
 }
 
 .extraInfo {
   ul {
     display: flex;
     flex-direction: column;
+    margin-top: 10px;
   }
 
   li {
     display: flex;
     align-items: center;
-
     box-sizing: content-box;
-    padding: 7px 35px;
+    padding: 9px 35px;
+
     &.location,
     &.date,
     &.time,
@@ -89,14 +114,9 @@
   }
 }
 
-.mainBottom {
-  display: flex;
-  justify-content: space-between;
-  align-items: flex-end;
-}
-
 .title {
-  font-size: 20px;
+  font-size: 18px;
+  line-height: normal;
   display: block;
   max-width: 200px;
   height: 50px;
@@ -109,21 +129,4 @@
 
 .centeredTitle {
   line-height: 50px;
-}
-
-.iconContainer {
-  display: flex;
-  max-width: 78.4px;
-
-  .messageIcon {
-    font-size: 40px;
-    color: white;
-    margin-right: 10px;
-    max-width: 40px;
-  }
-
-  .wishlistIcon {
-    font-size: 40px;
-    color: white;
-  }
 }

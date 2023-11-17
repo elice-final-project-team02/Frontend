@@ -12,3 +12,5 @@ export * from './posts/postDetail';
 export * from './user/register';
 export * from './user/myPage/withdraw';
 export * from './posts/writePost';
+export * from './user/register/info1';
+export * from './user/register/info2';

@@ -115,7 +115,7 @@ export default function WritePost() {
           <span>지역</span>
           <select value={values.region} name="region" onChange={handleChange}>
             <option value="">시/도 선택</option>
-            {regions[0].map((area, index) => (
+            {region[0].map((area, index) => (
               <option key={index} value={area}>
                 {area}
               </option>
@@ -124,7 +124,7 @@ export default function WritePost() {
           <select value={values.subRegion} name="subRegion" onChange={handleChange}>
             <option value="">구/군 선택</option>
             {values.region &&
-              regions[regions[0].indexOf(values.region) + 1]?.map((area, index) => (
+              region[region[0].indexOf(values.region) + 1]?.map((area, index) => (
                 <option key={index} value={area}>
                   {area}
                 </option>
