@@ -4,31 +4,51 @@ import cs from 'classnames/bind';
 import 'react-datepicker/dist/react-datepicker.css';
 import DatePicker from 'react-datepicker';
 import { ko } from 'date-fns/esm/locale';
-import moment from 'moment';
 
 const cx = cs.bind(styles);
 
-export default function TimesPicker({ values, setValues, type }) {
-  const [startDate, setStartDate] = React.useState();
-
-  return (
-    <DatePicker
-      // selected={selectedTime}
-      onChange={(date) => {
-        setStartDate(date);
-        if (type === 'startTime') {
-          setValues({ ...values, startTime: new Date(date) });
-        } else {
-          setValues({ ...values, endTime: new Date(date) });
-        }
-      }}
-      selected={type === 'startTime' ? values.startTime : values.endTime}
-      showTimeSelect
-      showTimeSelectOnly
-      timeIntervals={60}
-      timeCaption="시간"
-      dateFormat="HH:mm"
-      locale={ko}
-    />
-  );
+export default function TimesPicker({ values, setValues, type, mainTime, setMainTime }) {
+  /** 단기 타입 */
+  if (values.careTerm === 'short') {
+    return (
+      <DatePicker
+        // selected={selectedTime}
+        onChange={(date) => {
+          if (type === 'startTime') {
+            setMainTime({ ...mainTime, mainStartTime: new Date(date) });
+          } else {
+            setMainTime({ ...mainTime, mainEndTime: new Date(date) });
+          }
+        }}
+        selected={type === 'startTime' ? mainTime.mainStartTime : mainTime.mainEndTime}
+        showTimeSelect
+        showTimeSelectOnly
+        timeIntervals={60}
+        timeCaption="시간"
+        dateFormat="HH:00"
+        locale={ko}
+      />
+    );
+  } else {
+    /** 정기 타입 */
+    return (
+      <DatePicker
+        // selected={selectedTime}
+        onChange={(date) => {
+          if (type === 'startTime') {
+            setMainTime({ ...mainTime, mainStartTime: new Date(date) });
+          } else {
+            setMainTime({ ...mainTime, mainEndTime: new Date(date) });
+          }
+        }}
+        selected={type === 'startTime' ? mainTime.mainStartTime : mainTime.mainEndTime}
+        showTimeSelect
+        showTimeSelectOnly
+        timeIntervals={60}
+        timeCaption="시간"
+        dateFormat="HH:00"
+        locale={ko}
+      />
+    );
+  }
 }

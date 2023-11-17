@@ -7,6 +7,11 @@ import { useMultiSelection } from '../../../hooks';
 const cx = cs.bind(styles);
 
 export default function WritePost() {
+  const [mainTime, setMainTime] = React.useState({
+    mainStartTime: new Date(2020, 0, 0, 8),
+    mainEndTime: new Date(2020, 0, 0, 20),
+  });
+
   const [values, setValues] = React.useState({
     title: '',
     content: '',
@@ -16,16 +21,16 @@ export default function WritePost() {
       schedule: [
         {
           careDay: '',
-          startTime: null,
-          endTime: null,
+          startTime: mainTime.mainStartTime,
+          endTime: mainTime.mainEndTime,
         },
       ],
     },
     shortTerm: [
       {
         careDate: new Date(99, 1),
-        startTime: null,
-        endTime: null,
+        startTime: mainTime.mainStartTime,
+        endTime: mainTime.mainEndTime,
       },
     ],
     careTerm: 'short',
@@ -36,8 +41,6 @@ export default function WritePost() {
     cautionNotes: '',
     careDate: null,
     shortCareDates: [],
-    startTime: null,
-    endTime: null,
     region: '',
     subRegion: '',
     preferredMateAge: [],
@@ -59,12 +62,19 @@ export default function WritePost() {
   }, [checkedAgeList]);
 
   React.useEffect(() => {
-    return setValues({ ...values, careDays: checkedDaysList });
+    return setValues({
+      ...values,
+      longTerm: {
+        ...values.longTerm,
+        schedule: checkedDaysList.map((item, index) => ({ ...values.longTerm.schedule[index], careDay: item })),
+      },
+    });
   }, [checkedDaysList]);
 
   React.useEffect(() => {
     setCheckedDaysList([]);
     setValues({ ...values, careDates: [], shortCareDates: [], careDays: [] });
+    setMainTime({ mainStartTime: new Date(2020, 0, 0, 8), mainEndTime: new Date(2020, 0, 0, 20) });
   }, [values.careTerm]);
 
   function handleChange(e) {
@@ -72,7 +82,6 @@ export default function WritePost() {
       ...values,
       [e.target.name]: e.target.value,
     });
-    console.log(e.target.name, e.target.value);
   }
   function handleSubmit(e) {
     e.preventDefault();
@@ -171,18 +180,36 @@ export default function WritePost() {
 
           <div>
             <label htmlFor="">시작 시간</label>
-            <TimesPicker values={values} type="startTime" setValues={setValues} />
+            <TimesPicker
+              mainTime={mainTime}
+              setMainTime={setMainTime}
+              values={values}
+              type="startTime"
+              setValues={setValues}
+            />
             <label htmlFor="">종료 시간</label>
-            <TimesPicker values={values} type="endTime" setValues={setValues} />
+            <TimesPicker
+              mainTime={mainTime}
+              setMainTime={setMainTime}
+              values={values}
+              type="endTime"
+              setValues={setValues}
+            />
             <div>
               {values.careTerm === 'short' ? (
                 <ShowSelectedDateList
                   type="short"
+                  mainTime={mainTime}
                   array={values.shortTerm.map((obj) => obj.careDate)}
                   values={values}
                 />
               ) : (
-                <ShowSelectedDateList type="long" array={values.careDays} values={values} />
+                <ShowSelectedDateList
+                  type="long"
+                  mainTime={mainTime}
+                  array={values.longTerm.schedule.map((item) => item.careDay)}
+                  values={values}
+                />
               )}
             </div>
           </div>
