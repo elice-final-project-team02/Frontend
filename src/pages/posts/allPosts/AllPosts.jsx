@@ -3,6 +3,7 @@ import styles from './AllPosts.module.scss';
 import cs from 'classnames/bind';
 import Card from '../../../components/posts/card/Card';
 import { FaSearch } from 'react-icons/fa';
+import { Link } from 'react-router-dom';
 
 const cx = cs.bind(styles);
 const sampleData = {
@@ -38,7 +39,10 @@ export default function AllPosts() {
           <FilterCareTarget />
         </div>
         <div className={cx('cardListContainer')}>
-          <Card {...sampleData} />
+          {/* 임시링크 */}
+          <Link to="./123">
+            <Card {...sampleData} />
+          </Link>
         </div>
       </div>
     </>

@@ -2,6 +2,7 @@ import React from 'react';
 import styles from './PostDetail.module.scss';
 import cs from 'classnames/bind';
 import { FiTrash } from 'react-icons/fi';
+import { Link } from 'react-router-dom';
 const cx = cs.bind(styles);
 
 export default function PostDetail() {
@@ -27,7 +28,9 @@ export default function PostDetail() {
             <option value="">예약중</option>
             <option value="">완료</option>
           </select>
-          <span>수정하기</span>
+          <span>
+            <Link to="/posts/new">글작성(임시, 원래는 수정하기버튼)</Link>
+          </span>
           <span className={cx('removePost')}>
             <FiTrash />
           </span>

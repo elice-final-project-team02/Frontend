@@ -13,11 +13,13 @@ import {
   NotFound,
   PostDetail,
   Register,
-  Info1,
   Info2,
   Withdraw,
   WritePost,
 } from './pages';
+
+//알 수 없는 경로설정 오류로 인해 Info1 파일 개별 임포트
+import Info1 from './pages/user/register/info1/Info1';
 
 export const router = createBrowserRouter([
   {

@@ -3,7 +3,7 @@ import styles from '../Register.module.scss';
 import cs from 'classnames/bind';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { AuthInput } from '../../../../components';
-import { validateInput, InputStatus } from '../../../../lib';
+import { InputStatus, validateInput } from '../../../../lib';
 const cx = cs.bind(styles);
 
 export default function Info1() {

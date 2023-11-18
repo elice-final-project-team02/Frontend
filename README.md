@@ -37,7 +37,7 @@
 - /posts : 전체게시글 리스트
 - /posts/new : 게시글 작성
 - /posts/:id : 게시글 상세페이지
-- /posts/:id/edit : 게시글 수정페이지
+- /posts/:id/edit : 게시글 수정페이지 (아직 구현x)
 
 ## 피그마
 
