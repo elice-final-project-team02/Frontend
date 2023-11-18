@@ -66,7 +66,12 @@ export default function WritePost() {
       ...values,
       longTerm: {
         ...values.longTerm,
-        schedule: checkedDaysList.map((item, index) => ({ ...values.longTerm.schedule[index], careDay: item })),
+        schedule: checkedDaysList.map((item, index) => ({
+          ...values.longTerm.schedule[index],
+          careDay: item,
+          startTime: mainTime.mainStartTime,
+          endTime: mainTime.mainEndTime,
+        })),
       },
     });
   }, [checkedDaysList]);
@@ -76,7 +81,24 @@ export default function WritePost() {
     setValues({ ...values, careDates: [], shortCareDates: [], careDays: [] });
     setMainTime({ mainStartTime: new Date(2020, 0, 0, 8), mainEndTime: new Date(2020, 0, 0, 20) });
   }, [values.careTerm]);
-
+  React.useEffect(() => {
+    setValues({
+      ...values,
+      shortTerm: values.shortTerm.map((obj) => ({
+        ...obj,
+        startTime: mainTime.mainStartTime,
+        endTime: mainTime.mainEndTime,
+      })),
+      longTerm: {
+        ...values.longTerm,
+        schedule: values.longTerm.schedule.map((obj) => ({
+          ...obj,
+          startTime: mainTime.mainStartTime,
+          endTime: mainTime.mainEndTime,
+        })),
+      },
+    });
+  }, [mainTime]);
   function handleChange(e) {
     setValues({
       ...values,
@@ -209,6 +231,7 @@ export default function WritePost() {
                   mainTime={mainTime}
                   array={values.longTerm.schedule.map((item) => item.careDay)}
                   values={values}
+                  setValues={setValues}
                 />
               )}
             </div>
