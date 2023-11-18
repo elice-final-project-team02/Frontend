@@ -66,6 +66,19 @@ export default function ShowSelectedDateList({ values, setValues, array, type, m
       },
     });
   }
+  function patchDateToShortTermValuesState(selectedTimeIndex, property, value) {
+    setValues({
+      ...values,
+      shortTerm: values.shortTerm.map((obj, index) => {
+        if (index === selectedTimeIndex && property === 'startTime') {
+          return { ...obj, startTime: value };
+        } else if (index === selectedTimeIndex && property === 'endTime') {
+          return { ...obj, endTime: value };
+        }
+        return obj;
+      }),
+    });
+  }
 
   const [isIndivisualTimeControll, setIsIndivisualTimeControll] = React.useState(
     new Array(array.length - 1).fill(false)
@@ -87,11 +100,28 @@ export default function ShowSelectedDateList({ values, setValues, array, type, m
                 <li key={uuidv4()}>
                   <div>
                     {`${dateFormatter.changeDateToMonthAndDateAndDayOfTheWeek(item)} ${dateFormatter.changeDateToHHMM(
-                      mainTime.mainStartTime
-                    )}-${dateFormatter.changeDateToHHMM(mainTime.mainEndTime)}`}
+                      values.shortTerm[index].startTime
+                    )}-${dateFormatter.changeDateToHHMM(values.shortTerm[index].endTime)}`}
                     <button onClick={() => handleItemClick(index)}>+시간 수정</button>
                   </div>
-                  {/* {isIndivisualTimeControll[index] && <TimeSelectInput />} */}
+                  {isIndivisualTimeControll[index] && (
+                    <span className={cx('indivisualTimeControllWrapper')}>
+                      <span>시작시간</span>
+                      <NewTimesPicker
+                        time={values.shortTerm[index].startTime}
+                        setTime={(date) => {
+                          patchDateToShortTermValuesState(index, 'startTime', date);
+                        }}
+                      />
+                      <span>종료시간</span>
+                      <NewTimesPicker
+                        time={values.shortTerm[index].endTime}
+                        setTime={(date) => {
+                          patchDateToShortTermValuesState(index, 'endTime', date);
+                        }}
+                      />
+                    </span>
+                  )}
                 </li>
               ))
           : array
@@ -110,7 +140,6 @@ export default function ShowSelectedDateList({ values, setValues, array, type, m
                     <span className={cx('indivisualTimeControllWrapper')}>
                       <span>시작시간</span>
                       <NewTimesPicker
-                        mainType="longTerm"
                         time={values.longTerm.schedule[index].startTime}
                         setTime={(date) => {
                           patchDateToLongTermValuesState(index, 'startTime', date);
@@ -118,7 +147,6 @@ export default function ShowSelectedDateList({ values, setValues, array, type, m
                       />
                       <span>종료시간</span>
                       <NewTimesPicker
-                        mainType="longTerm"
                         time={values.longTerm.schedule[index].endTime}
                         setTime={(date) => {
                           patchDateToLongTermValuesState(index, 'endTime', date);

@@ -78,7 +78,29 @@ export default function WritePost() {
 
   React.useEffect(() => {
     setCheckedDaysList([]);
-    setValues({ ...values, careDates: [], shortCareDates: [], careDays: [] });
+    setValues({
+      ...values,
+      longTerm: {
+        startDate: new Date(),
+        schedule: [
+          {
+            careDay: '',
+            startTime: mainTime.mainStartTime,
+            endTime: mainTime.mainEndTime,
+          },
+        ],
+      },
+      shortTerm: [
+        {
+          careDate: new Date(99, 1),
+          startTime: mainTime.mainStartTime,
+          endTime: mainTime.mainEndTime,
+        },
+      ],
+      careDates: [],
+      shortCareDates: [],
+      careDays: [],
+    });
     setMainTime({ mainStartTime: new Date(2020, 0, 0, 8), mainEndTime: new Date(2020, 0, 0, 20) });
   }, [values.careTerm]);
   React.useEffect(() => {
@@ -198,7 +220,9 @@ export default function WritePost() {
           </div>
         )}
         <div className={cx('careDatesWrapper')}>
-          {values.careTerm === 'short' && <SeparateDatesPicker values={values} setValues={setValues} />}
+          {values.careTerm === 'short' && (
+            <SeparateDatesPicker values={values} setValues={setValues} mainTime={mainTime} />
+          )}
 
           <div>
             <label htmlFor="">시작 시간</label>
@@ -223,16 +247,19 @@ export default function WritePost() {
                   type="short"
                   mainTime={mainTime}
                   array={values.shortTerm.map((obj) => obj.careDate)}
+                  setValues={setValues}
                   values={values}
                 />
               ) : (
-                <ShowSelectedDateList
-                  type="long"
-                  mainTime={mainTime}
-                  array={values.longTerm.schedule.map((item) => item.careDay)}
-                  values={values}
-                  setValues={setValues}
-                />
+                !!checkedDaysList.length && (
+                  <ShowSelectedDateList
+                    type="long"
+                    mainTime={mainTime}
+                    array={values.longTerm.schedule.map((item) => item.careDay)}
+                    values={values}
+                    setValues={setValues}
+                  />
+                )
               )}
             </div>
           </div>
