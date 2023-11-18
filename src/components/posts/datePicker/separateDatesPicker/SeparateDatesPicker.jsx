@@ -11,7 +11,6 @@ export default function SeparateDatesPicker({ values, setValues, mainTime }) {
     const isDateSelected = values.shortTerm.some(
       (selectedDateObj) => selectedDateObj.careDate.getTime() === date.getTime()
     );
-    console.log(isDateSelected);
     // 이미 선택된 날짜라면 제거, 아니면 추가
     if (isDateSelected) {
       setValues({

@@ -84,6 +84,10 @@ export default function ShowSelectedDateList({ values, setValues, array, type, m
     new Array(array.length - 1).fill(false)
   );
 
+  React.useEffect(() => {
+    setIsIndivisualTimeControll(new Array(array.length - 1).fill(false));
+  }, [values.careTerm]);
+
   function handleItemClick(index) {
     const newStates = [...isIndivisualTimeControll];
     newStates[index] = !newStates[index];
