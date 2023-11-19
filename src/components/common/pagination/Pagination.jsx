@@ -28,26 +28,27 @@ export default function Pagination({ currPage, pageCount, onClickPage }) {
   return (
     <div className={cx('wrpper')}>
       <button
-        className={cx('prevBtn')}
+        className={cx('prev-button')}
         onClick={() => currPage > 0 && onClickPage(currPage - 1)}
         disabled={currPage <= 0}
       >
         이전
       </button>
-      {getPaginationArray(currPage, pageCount).map((page) => {
-        return (
-          <button
-            onClick={() => onClickPage(page)}
-            key={`page-button-${page}`}
-            data-active={page === currPage ? 'true' : 'false'}
-            className={cx('pageBtn')}
-          >
-            {page + 1}
-          </button>
-        );
-      })}
+      {React.Children.toArray(
+        getPaginationArray(currPage, pageCount).map((page) => {
+          return (
+            <button
+              onClick={() => onClickPage(page)}
+              data-active={page === currPage ? 'true' : 'false'}
+              className={cx('page-button', { active: page === currPage })}
+            >
+              {page + 1}
+            </button>
+          );
+        })
+      )}
       <button
-        className={cx('nextBtn')}
+        className={cx('next-button')}
         onClick={() => currPage < pageCount - 1 && onClickPage(currPage + 1)}
         disabled={currPage >= pageCount - 1}
       >

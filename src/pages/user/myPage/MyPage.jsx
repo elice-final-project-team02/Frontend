@@ -27,7 +27,7 @@ export default function MyPage() {
   const [selectedImage, setSelectedImage] = useState(userInfo.profile_url || ProfileImage);
 
   // img 수정
-  const onUploadImage = useCallback(
+  const handleUploadImage = useCallback(
     (e) => {
       if (e.target.files && e.target.files[0]) {
         const reader = new FileReader();
@@ -41,11 +41,11 @@ export default function MyPage() {
     [userInfo]
   );
 
-  const onUploadImageButtonClick = useCallback(() => {
+  const handleUploadImageButtonClick = () => {
     if (imgRef.current) {
       imgRef.current.click();
     }
-  }, []);
+  };
 
   const handleInputChange = (e) => {
     setUserInfo({ ...userInfo, [e.target.name]: e.target.value });
@@ -77,8 +77,8 @@ export default function MyPage() {
                 {edit ? (
                   <>
                     <img src={selectedImage} alt="이미지 미리보기" />
-                    <input type="file" accept="image/*" name="profile_url" ref={imgRef} onChange={onUploadImage} />
-                    <button type="button" onClick={onUploadImageButtonClick} className={cx('editImg')}>
+                    <input type="file" accept="image/*" name="profile_url" ref={imgRef} onChange={handleUploadImage} />
+                    <button type="button" onClick={handleUploadImageButtonClick} className={cx('editImg')}>
                       변경하기
                     </button>
                   </>

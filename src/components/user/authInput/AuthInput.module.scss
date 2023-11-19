@@ -1,5 +1,5 @@
 .wrapper {
-  .authWrapper {
+  .auth-wrapper {
     display: flex;
     padding: 0 40px;
     input:disabled {
@@ -19,7 +19,7 @@
     }
   }
 
-  .messageContainer {
+  .message-container {
     // text-align: end;
     margin-left: 35%;
     p {

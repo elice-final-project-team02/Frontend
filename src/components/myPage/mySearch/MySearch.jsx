@@ -3,13 +3,13 @@ import styles from './MySearch.module.scss';
 import cs from 'classnames/bind';
 const cx = cs.bind(styles);
 
-export default function MySearch(props) {
+export default function MySearch({ onSearchChange }) {
   const [searchText, setSearchText] = useState('');
 
   const handleChangeSearchText = (e) => {
     const text = e.target.value;
     setSearchText(text);
-    props.onSearchChange(text);
+    onSearchChange(text);
   };
 
   return (

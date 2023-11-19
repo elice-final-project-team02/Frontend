@@ -7,7 +7,7 @@
     border: none;
   }
 
-  .pageBtn {
+  .page-button {
     font-size: 14px;
     line-height: 22px;
     text-align: center;
@@ -17,18 +17,18 @@
     background: transparent;
     border-radius: 4px;
 
-    + button:not(.nextBtn) {
+    + button:not(.next-button) {
       margin-left: 4px;
     }
 
-    &[data-active='true'] {
+    &.active {
       background-color: #ffdddd;
       color: #f9fafc;
     }
   }
 
-  .prevBtn,
-  .nextBtn {
+  .prev-button,
+  .next-button {
     padding: 2px 6px;
     width: 50px;
     border-radius: 8px;
@@ -39,11 +39,11 @@
     }
   }
 
-  .prevBtn {
+  .prev-button {
     margin-right: 16px;
   }
 
-  .nextBtn {
+  .next-button {
     margin-left: 16px;
   }
 } // wrapper close

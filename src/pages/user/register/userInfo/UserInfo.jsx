@@ -3,10 +3,23 @@ import styles from 'pages/user/register/Register.module.scss';
 import cs from 'classnames/bind';
 import { useNavigate, useLocation } from 'react-router-dom';
 import { AuthInput, AuthSelect, Region } from 'components';
-import { validateInput, InputStatus } from 'lib';
+import { InputStatus, validateInput } from 'lib';
 const cx = cs.bind(styles);
 
-export default function Info2() {
+const genderOptions = [
+  { value: '남자', label: '남자' },
+  { value: '여자', label: '여자' },
+];
+
+const ageOptions = [
+  { value: '20대', label: '20대' },
+  { value: '30대', label: '30대' },
+  { value: '40대', label: '40대' },
+  { value: '50대', label: '50대' },
+  { value: '60대이상', label: '60대이상' },
+];
+
+export default function UserInfo() {
   const nav = useNavigate();
   const location = useLocation();
   const { role, email, password } = location.state;
@@ -70,8 +83,14 @@ export default function Info2() {
           onChange={(val) => handleInputChange(val, 'phone', setPhoneStatus, setPhone)}
           message={phoneStatus === InputStatus.ERROR ? '올바른 형식이 아닙니다.' : ''}
         />
-        <AuthSelect name="gender" text="성별" value={gender} onChange={(e) => setGender(e.target.value)} />
-        <AuthSelect name="age" text="나이" value={age} onChange={(e) => setAge(e.target.value)} />
+        <AuthSelect
+          name="gender"
+          text="성별"
+          value={gender}
+          onChange={(e) => setGender(e.target.value)}
+          options={genderOptions}
+        />
+        <AuthSelect name="age" text="나이" value={age} onChange={(e) => setAge(e.target.value)} options={ageOptions} />
         <div className={cx('regionContainer')}>
           <label htmlFor="">지역</label>
           <div className={cx('region')}>
