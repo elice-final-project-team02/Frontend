@@ -13,31 +13,31 @@
   }
 
   /* 폰트 지정 후 수정 */
-  .mainInfo {
+  .main-info {
     background-color: #b6caff;
     border-radius: 10px 10px 0 0;
     height: 180px;
     padding: 20px 10px 0 20px;
   }
 
-  .mainInfo span {
+  .main-info span {
     height: 50px;
   }
 
-  .targetImage {
+  .target-image {
     width: 85px;
     height: 85px;
     margin-right: 20px;
     border-radius: 50%;
   }
 
-  .mainUpper {
+  .main-upper {
     display: flex;
     width: 260px;
     margin-bottom: 15px;
   }
 
-  .upperInfo {
+  .upper-info {
     // display: flex;
     width: 200px;
     flex-wrap: wrap;
@@ -49,48 +49,42 @@
     }
   }
 
-  // .upperInfo span {
-  //   display: flex;
-  //   justify-content: center;
-  //   align-items: center;
-  // }
-
   // 이미지로 변경해야함 임시 아이콘
-  .careTerm {
+  .care-term {
     border-radius: 20px;
     width: 50px;
     max-height: 30px;
     background-color: white;
   }
 
-  .mainBottom {
+  .main-bottom {
     display: flex;
     justify-content: space-between;
     // align-items: flex-end; 폰트 정하고 결정
   }
 
-  .timeStamp {
+  .time-stamp {
     display: flex;
     font-size: 13px;
     align-items: center;
     color: #575757;
   }
 
-  .cardStatus {
+  .card-status {
     display: flex;
     align-items: center;
     color: white;
     font-size: 25px;
   }
 
-  .iconContainer {
+  .icon-container {
     display: flex;
     align-items: center;
     margin-right: 10px;
     max-width: 78.4px;
   }
 
-  .extraInfo {
+  .extra-info {
     ul {
       display: flex;
       flex-direction: column;
@@ -106,7 +100,7 @@
       &.location,
       &.date,
       &.time,
-      &.preferMate,
+      &.prefer-mate,
       &.wage {
         svg {
           margin-right: 12px;
@@ -128,7 +122,7 @@
     -webkit-box-orient: vertical;
   }
 
-  .centeredTitle {
+  .centered-title {
     line-height: 50px;
   }
 } // wrapper close

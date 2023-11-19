@@ -1,0 +1,31 @@
+.filter-container {
+  display: flex;
+  justify-content: center;
+  padding: 0 0 30px 8px;
+}
+
+.filter-target {
+  margin-right: 20px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+input[type='checkbox'] {
+  // background-color: #b6caff;
+  appearance: none;
+  width: 20px;
+  height: 20px;
+  border: 3px solid #b6caff;
+  margin-right: 10px;
+  // outline: none;
+  cursor: pointer;
+}
+
+input[type='checkbox']:checked::before {
+  background-color: #b6caff;
+  border: 1px solid #b6caff;
+  content: '\2713';
+  color: #41b883;
+  // position: absolute;
+}

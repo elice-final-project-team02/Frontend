@@ -1,8 +1,21 @@
 .wrapper {
-  .messageIcon {
+  .message-icon {
     font-size: 37px;
     color: white;
     margin-right: 10px;
     max-width: 40px;
+    display: inline-block;
   }
-} // wrapper close
+
+  .envelope-fill-icon {
+    display: none;
+  }
+
+  .message-icon:hover .envelope-icon {
+    display: none;
+  }
+
+  .message-icon:hover .envelope-fill-icon {
+    display: inline-block;
+  }
+}
