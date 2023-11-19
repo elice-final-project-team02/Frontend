@@ -13,7 +13,7 @@ export default function Register() {
       <div className={cx('buttonRole')}>
         <button
           onClick={() => {
-            nav('/register/info1', { state: { role: '일반유저' } });
+            nav('/register/authInfo', { state: { role: '일반유저' } });
           }}
         >
           <div className={cx('container')}>

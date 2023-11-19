@@ -20,7 +20,7 @@ export default function AuthInput({
 }) {
   return (
     <div className={cx('wrapper')}>
-      <div className={cx('authWrapper')} status={status}>
+      <div className={cx('auth-wrapper')} status={status}>
         <label htmlFor={name}>{text}</label>
         <input
           type={type}
@@ -34,7 +34,7 @@ export default function AuthInput({
         {isCode && <button>코드전송</button>}
         {isConfirm && <button onClick={onVerify}>인증확인</button>}
       </div>
-      <div className={cx('messageContainer')}>
+      <div className={cx('message-container')}>
         <p>{message}</p>
       </div>
     </div>

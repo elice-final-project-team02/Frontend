@@ -16,8 +16,8 @@
 ### Auth
 
 - /register : 회원가입(role)
-- /register/info1 : 회원가입(email, pwd)
-- /register/info2 : 회원가입(그 외 정보들)
+- /register/authInfo : 회원가입(email, pwd)
+- /register/userInfo : 회원가입(그 외 정보들)
 - /login : 로그인
 
 ### intro

@@ -6,10 +6,10 @@ import { AuthInput } from 'components';
 import { InputStatus, validateInput } from 'lib';
 const cx = cs.bind(styles);
 
-export default function Info1() {
+export default function AuthInfo() {
   const nav = useNavigate();
   const location = useLocation();
-  const role = location.state.role;
+  const { role } = location.state;
 
   const [email, setEmail] = useState('');
   const [emailCode, setEmailCode] = useState('');
@@ -107,7 +107,7 @@ export default function Info1() {
           <button
             className={cx('nextBtn')}
             onClick={() => {
-              nav('/register/info2', { state: { role: role, email: email, password: password } });
+              nav('/register/userInfo', { state: { role: role, email: email, password: password } });
             }}
             disabled={!isValid}
           >
