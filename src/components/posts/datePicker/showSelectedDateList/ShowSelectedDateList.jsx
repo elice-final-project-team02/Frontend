@@ -6,13 +6,13 @@ import { v4 as uuidv4 } from 'uuid';
 import { NewTimesPicker } from 'components';
 const cx = cs.bind(styles);
 
-export default function ShowSelectedDateList({ values, setValues, array, type, mainTime }) {
+export default function ShowSelectedDateList({ postContent, setPostContent, array, type, mainTime }) {
   function patchDateToLongTermValuesState(selectedTimeIndex, property, value) {
-    setValues({
-      ...values,
+    setPostContent({
+      ...postContent,
       longTerm: {
-        ...values.longTerm,
-        schedule: values.longTerm.schedule.map((obj, index) => {
+        ...postContent.longTerm,
+        schedule: postContent.longTerm.schedule.map((obj, index) => {
           if (index === selectedTimeIndex && property === 'startTime') {
             return { ...obj, startTime: value };
           } else if (index === selectedTimeIndex && property === 'endTime') {
@@ -24,9 +24,9 @@ export default function ShowSelectedDateList({ values, setValues, array, type, m
     });
   }
   function patchDateToShortTermValuesState(selectedTimeIndex, property, value) {
-    setValues({
-      ...values,
-      shortTerm: values.shortTerm.map((obj, index) => {
+    setPostContent({
+      ...postContent,
+      shortTerm: postContent.shortTerm.map((obj, index) => {
         if (index === selectedTimeIndex && property === 'startTime') {
           return { ...obj, startTime: value };
         } else if (index === selectedTimeIndex && property === 'endTime') {
@@ -43,7 +43,7 @@ export default function ShowSelectedDateList({ values, setValues, array, type, m
 
   React.useEffect(() => {
     setIsIndivisualTimeControll(new Array((array.length || 1) - 1).fill(false));
-  }, [values.careTerm]);
+  }, [postContent.careTerm]);
 
   function handleItemClick(index) {
     const newStates = [...isIndivisualTimeControll];
@@ -61,22 +61,22 @@ export default function ShowSelectedDateList({ values, setValues, array, type, m
                 <li key={uuidv4()}>
                   <div>
                     {`${dateFormatter.changeDateToMonthAndDateAndDayOfTheWeek(item)} ${dateFormatter.changeDateToHHMM(
-                      values.shortTerm[index].startTime
-                    )}-${dateFormatter.changeDateToHHMM(values.shortTerm[index].endTime)}`}
+                      postContent.shortTerm[index].startTime
+                    )}-${dateFormatter.changeDateToHHMM(postContent.shortTerm[index].endTime)}`}
                     <button onClick={() => handleItemClick(index)}>+시간 수정</button>
                   </div>
                   {isIndivisualTimeControll[index] && (
                     <span className={cx('indivisual-time-controll-wrapper')}>
                       <span>시작시간</span>
                       <NewTimesPicker
-                        time={values.shortTerm[index].startTime}
+                        time={postContent.shortTerm[index].startTime}
                         setTime={(date) => {
                           patchDateToShortTermValuesState(index, 'startTime', date);
                         }}
                       />
                       <span>종료시간</span>
                       <NewTimesPicker
-                        time={values.shortTerm[index].endTime}
+                        time={postContent.shortTerm[index].endTime}
                         setTime={(date) => {
                           patchDateToShortTermValuesState(index, 'endTime', date);
                         }}
@@ -92,23 +92,23 @@ export default function ShowSelectedDateList({ values, setValues, array, type, m
               .map((item, index) => (
                 <li key={uuidv4()}>
                   <div>
-                    {`${item}요일 ${values.longTerm.schedule[index].startTime.getHours()}:00-${values.longTerm.schedule[
+                    {`${item}요일 ${postContent.longTerm.schedule[
                       index
-                    ].endTime.getHours()}:00`}
+                    ].startTime.getHours()}:00-${postContent.longTerm.schedule[index].endTime.getHours()}:00`}
                     <button onClick={() => handleItemClick(index)}>+시간 수정</button>
                   </div>
                   {isIndivisualTimeControll[index] && (
                     <span className={cx('indivisual-time-controll-wrapper')}>
                       <span>시작시간</span>
                       <NewTimesPicker
-                        time={values.longTerm.schedule[index].startTime}
+                        time={postContent.longTerm.schedule[index].startTime}
                         setTime={(date) => {
                           patchDateToLongTermValuesState(index, 'startTime', date);
                         }}
                       />
                       <span>종료시간</span>
                       <NewTimesPicker
-                        time={values.longTerm.schedule[index].endTime}
+                        time={postContent.longTerm.schedule[index].endTime}
                         setTime={(date) => {
                           patchDateToLongTermValuesState(index, 'endTime', date);
                         }}

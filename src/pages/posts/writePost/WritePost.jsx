@@ -11,7 +11,7 @@ export default function WritePost() {
     mainEndTime: new Date(2020, 0, 0, 20),
   });
 
-  const [values, setValues] = React.useState({
+  const [postContent, setPostContent] = React.useState({
     title: '',
     content: '',
     careTarget: '',
@@ -76,16 +76,16 @@ export default function WritePost() {
   }
 
   React.useEffect(() => {
-    return setValues({ ...values, preferredMateAge: checkedAgeList });
+    return setPostContent({ ...postContent, preferredMateAge: checkedAgeList });
   }, [checkedAgeList]);
 
   React.useEffect(() => {
-    return setValues({
-      ...values,
+    return setPostContent({
+      ...postContent,
       longTerm: {
-        ...values.longTerm,
+        ...postContent.longTerm,
         schedule: checkedDaysList.map((item, index) => ({
-          ...values.longTerm.schedule[index],
+          ...postContent.longTerm.schedule[index],
           careDay: item,
           startTime: mainTime.mainStartTime,
           endTime: mainTime.mainEndTime,
@@ -96,8 +96,8 @@ export default function WritePost() {
 
   React.useEffect(() => {
     setCheckedDaysList([]);
-    setValues({
-      ...values,
+    setPostContent({
+      ...postContent,
       longTerm: {
         startDate: new Date(),
         schedule: [
@@ -120,18 +120,18 @@ export default function WritePost() {
       careDays: [],
     });
     setMainTime({ mainStartTime: new Date(2020, 0, 0, 8), mainEndTime: new Date(2020, 0, 0, 20) });
-  }, [values.careTerm]);
+  }, [postContent.careTerm]);
   React.useEffect(() => {
-    setValues({
-      ...values,
-      shortTerm: values.shortTerm.map((obj) => ({
+    setPostContent({
+      ...postContent,
+      shortTerm: postContent.shortTerm.map((obj) => ({
         ...obj,
         startTime: mainTime.mainStartTime,
         endTime: mainTime.mainEndTime,
       })),
       longTerm: {
-        ...values.longTerm,
-        schedule: values.longTerm.schedule.map((obj) => ({
+        ...postContent.longTerm,
+        schedule: postContent.longTerm.schedule.map((obj) => ({
           ...obj,
           startTime: mainTime.mainStartTime,
           endTime: mainTime.mainEndTime,
@@ -140,8 +140,8 @@ export default function WritePost() {
     });
   }, [mainTime]);
   function handleChange(e) {
-    setValues({
-      ...values,
+    setPostContent({
+      ...postContent,
       [e.target.name]: e.target.value,
     });
   }
@@ -157,14 +157,14 @@ export default function WritePost() {
           <input
             type="text"
             onChange={handleChange}
-            value={values.title}
+            value={postContent.title}
             name="title"
             placeholder="ex) 5세 남아 등하원 도우미 구합니다."
           />
         </div>
         <div>
           <textarea
-            value={values.content}
+            value={postContent.content}
             onChange={handleChange}
             placeholder="내용 작성 칸"
             name="content"
@@ -174,7 +174,7 @@ export default function WritePost() {
         </div>
         <div className={cx('region-wrapper')}>
           <span>지역</span>
-          <select value={values.region} name="region" onChange={handleChange}>
+          <select value={postContent.region} name="region" onChange={handleChange}>
             <option value="">시/도 선택</option>
             {region[0].map((area, index) => (
               <option key={index} value={area}>
@@ -182,10 +182,10 @@ export default function WritePost() {
               </option>
             ))}
           </select>
-          <select value={values.subRegion} name="subRegion" onChange={handleChange}>
+          <select value={postContent.subRegion} name="subRegion" onChange={handleChange}>
             <option value="">구/군 선택</option>
-            {values.region &&
-              region[region[0].indexOf(values.region) + 1]?.map((area, index) => (
+            {postContent.region &&
+              region[region[0].indexOf(postContent.region) + 1]?.map((area, index) => (
                 <option key={index} value={area}>
                   {area}
                 </option>
@@ -207,17 +207,17 @@ export default function WritePost() {
             value="short"
             onChange={handleChange}
             id="careTermShort"
-            checked={values.careTerm === 'short'}
+            checked={postContent.careTerm === 'short'}
           />
           <label htmlFor="careTermShort">단기</label>
           <input type="radio" name="careTerm" value="long" onChange={handleChange} id="careTermLong" />
           <label htmlFor="careTermLong">정기</label>
         </div>
-        {values.careTerm === 'long' && (
+        {postContent.careTerm === 'long' && (
           <div className={cx('care-days-wrapper')}>
             <p>돌봄 시작일</p>
             <div className={cx('calendar-wrapper')}>
-              <DatesPicker values={values} setValues={setValues} />
+              <DatesPicker postContent={postContent} setPostContent={setPostContent} />
             </div>
             <span>돌봄 요일</span>
             {careDaysList.map((day, index) => (
@@ -237,8 +237,8 @@ export default function WritePost() {
           </div>
         )}
         <div className={cx('care-dates-wrapper')}>
-          {values.careTerm === 'short' && (
-            <SeparateDatesPicker values={values} setValues={setValues} mainTime={mainTime} />
+          {postContent.careTerm === 'short' && (
+            <SeparateDatesPicker postContent={postContent} setPostContent={setPostContent} mainTime={mainTime} />
           )}
 
           <div>
@@ -246,35 +246,35 @@ export default function WritePost() {
             <TimesPicker
               mainTime={mainTime}
               setMainTime={setMainTime}
-              values={values}
+              postContent={postContent}
               type="startTime"
-              setValues={setValues}
+              setPostContent={setPostContent}
             />
             <label htmlFor="">종료 시간</label>
             <TimesPicker
               mainTime={mainTime}
               setMainTime={setMainTime}
-              values={values}
+              postContent={postContent}
               type="endTime"
-              setValues={setValues}
+              setPostContent={setPostContent}
             />
             <div>
-              {values.careTerm === 'short' ? (
+              {postContent.careTerm === 'short' ? (
                 <ShowSelectedDateList
                   type="short"
                   mainTime={mainTime}
-                  array={values.shortTerm.map((obj) => obj.careDate)}
-                  setValues={setValues}
-                  values={values}
+                  array={postContent.shortTerm.map((obj) => obj.careDate)}
+                  setPostContent={setPostContent}
+                  postContent={postContent}
                 />
               ) : (
                 !!checkedDaysList.length && (
                   <ShowSelectedDateList
                     type="long"
                     mainTime={mainTime}
-                    array={values.longTerm.schedule.map((item) => item.careDay)}
-                    values={values}
-                    setValues={setValues}
+                    array={postContent.longTerm.schedule.map((item) => item.careDay)}
+                    postContent={postContent}
+                    setPostContent={setPostContent}
                   />
                 )
               )}
@@ -317,7 +317,7 @@ export default function WritePost() {
                   checked={checkedAgeList.includes(age)}
                   onChange={(e) => {
                     checkAgeHandler(e, age);
-                    return setValues({ ...values, preferredMateAge: checkedAgeList });
+                    return setPostContent({ ...postContent, preferredMateAge: checkedAgeList });
                   }}
                 />
               </span>
@@ -329,25 +329,25 @@ export default function WritePost() {
           <input
             type="text"
             name="hourlyRate"
-            value={Number(values.hourlyRate)}
+            value={Number(postContent.hourlyRate)}
             onChange={handleChange}
             placeholder="숫자만 입력"
           />
           <input
             type="checkbox"
             name="negotiableRate"
-            value={values.negotiableRate}
+            value={postContent.negotiableRate}
             onChange={() => {
-              setValues({ ...values, negotiableRate: !values.negotiableRate });
+              setPostContent({ ...postContent, negotiableRate: !postContent.negotiableRate });
             }}
           />
           <label htmlFor="">시급 협의 가능</label>
         </div>
         <div className={cx('caution-note-wrapper')}>
           <span htmlFor="">돌봄 대상 특징</span>
-          <textarea name="targetFeatures" onChange={handleChange} value={values.targetFeatures}></textarea>
+          <textarea name="targetFeatures" onChange={handleChange} value={postContent.targetFeatures}></textarea>
           <span htmlFor="">돌봄 대상 유의사항</span>
-          <textarea name="cautionNotes" onChange={handleChange} value={values.cautionNotes}></textarea>
+          <textarea name="cautionNotes" onChange={handleChange} value={postContent.cautionNotes}></textarea>
         </div>
         <div className={cx('button-wrapper')}>
           <button>취소</button>

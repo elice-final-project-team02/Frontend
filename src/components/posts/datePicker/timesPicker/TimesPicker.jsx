@@ -7,9 +7,9 @@ import { ko } from 'date-fns/esm/locale';
 
 const cx = cs.bind(styles);
 
-export default function TimesPicker({ values, setValues, type, mainTime, setMainTime }) {
+export default function TimesPicker({ postContent, setPostContent, type, mainTime, setMainTime }) {
   /** 단기 타입 */
-  if (values.careTerm === 'short') {
+  if (postContent.careTerm === 'short') {
     return (
       <DatePicker
         // selected={selectedTime}
