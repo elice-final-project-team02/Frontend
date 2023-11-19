@@ -1,5 +1,5 @@
 .wrapper {
-  .messageIcon {
+  .message-icon {
     font-size: 37px;
     color: white;
     margin-right: 10px;
@@ -7,15 +7,15 @@
     display: inline-block;
   }
 
-  .envelopeFillIcon {
+  .envelope-fill-icon {
     display: none;
   }
 
-  .messageIcon:hover .envelopeIcon {
+  .message-icon:hover .envelope-icon {
     display: none;
   }
 
-  .messageIcon:hover .envelopeFillIcon {
+  .message-icon:hover .envelope-fill-icon {
     display: inline-block;
   }
 }

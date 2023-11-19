@@ -8,9 +8,9 @@ const careTargets = ['아동', '노인', '장애인'];
 const FilterCareTarget = () => {
   // const recruitingPost = [];
   return (
-    <div className={cx('filterContainer')}>
+    <div className={cx('filter-container')}>
       {careTargets.map((target) => (
-        <label className={cx('filterTarget')}>
+        <label className={cx('filter-target')}>
           <input type="checkbox" value={target} />
           {target}
         </label>

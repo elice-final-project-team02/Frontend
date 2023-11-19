@@ -14,15 +14,15 @@ const SearchBar = () => {
   };
 
   return (
-    <div className={cx('searchBarContainer')}>
+    <div className={cx('wrapper')}>
       <input
         type="text"
-        className={cx('searchBar')}
+        className={cx('search-bar')}
         placeholder="검색어를 입력하세요"
         onChange={handleChange}
         value={searchInput}
       />
-      <button className={cx('searchIcon')}>
+      <button className={cx('search-icon')}>
         <FaSearch color="#d3d3d3" />
       </button>
     </div>

@@ -6,9 +6,10 @@ import { Pagination, FilterCareTarget, SearchBar, Card } from '../../../componen
 import { Link } from 'react-router-dom';
 
 const cx = cs.bind(styles);
-const sampleData = [
-  {
-    post_id: 1,
+
+const generateSampleData = (count) => {
+  return Array.from({ length: count }, (_, index) => ({
+    post_id: index + 1,
     region: '부산시 어쩌구',
     care_target: 'child',
     target_features: 'Example Target Features',
@@ -26,8 +27,10 @@ const sampleData = [
     status: '모집 중',
     startDate: '2023-01-10',
     endDate: '2023-01-20',
-  },
-];
+  }));
+};
+
+const sampleData = generateSampleData(10);
 
 const cardsPerPage = 6;
 
@@ -37,19 +40,17 @@ export default function AllPosts() {
   return (
     <div className={cx('wrapper')}>
       <SearchBar />
-      <div className={cx('recruitContainer')}>
+      <div className={cx('recruit-container')}>
         {/* <input type="text" value={search} onChange={onChange} /> */}
-        <div className={cx('filterContainer')}>
-          <FilterCareTarget />
-        </div>
-        <div className={cx('cardListContainer')}>
+        <FilterCareTarget />
+        <div className={cx('card-list-container')}>
           {sampleData.slice(currPage * cardsPerPage, (currPage + 1) * cardsPerPage).map((data) => (
             <Link to={'./123'}>
               <Card {...data} />
             </Link>
           ))}
         </div>
-        <div className={cx('paginationContainer')}>
+        <div className={cx('pagination-container')}>
           <Pagination currPage={currPage} onClickPage={setCurrPage} pageCount={10} />
         </div>
       </div>

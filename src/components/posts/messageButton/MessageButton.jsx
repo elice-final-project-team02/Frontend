@@ -8,9 +8,9 @@ const cx = cs.bind(styles);
 const MessageButton = () => {
   return (
     <div className={cx('wrapper')}>
-      <div className={cx('messageIcon')}>
-        <BsEnvelope className={cx('envelopeIcon')} />
-        <BsEnvelopeFill className={cx('envelopeFillIcon')} />
+      <div className={cx('message-icon')}>
+        <BsEnvelope className={cx('envelope-icon')} />
+        <BsEnvelopeFill className={cx('envelope-fill-icon')} />
       </div>
     </div>
   );
