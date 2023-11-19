@@ -12,8 +12,24 @@ const WishButton = () => {
     setIsWish(!isWish);
   };
   return (
-    <div className={cx('heartIcons')}>
-      {isWish ? <FaHeart onClick={onClickHandler} /> : <FaRegHeart onClick={onClickHandler} />}
+    <div className={cx('wrapper')}>
+      <div className={cx('heartIcons')}>
+        {isWish ? (
+          <FaHeart
+            onClick={(e) => {
+              e.preventDefault();
+              onClickHandler();
+            }}
+          />
+        ) : (
+          <FaRegHeart
+            onClick={(e) => {
+              e.preventDefault();
+              onClickHandler();
+            }}
+          />
+        )}
+      </div>
     </div>
   );
 };
