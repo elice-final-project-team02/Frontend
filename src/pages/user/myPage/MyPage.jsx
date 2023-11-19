@@ -58,7 +58,6 @@ export default function MyPage() {
   const handleSubmit = (e) => {
     e.preventDefault();
     // put 요청 > 데이터 get 요청
-    console.log(userInfo);
     alert('수정이 완료되었습니다.');
     setEdit(false);
     setEditPwd(false);

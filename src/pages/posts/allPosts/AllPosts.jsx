@@ -55,7 +55,6 @@ const SearchBar = () => {
   const handleChange = (e) => {
     e.preventDefault();
     setSearchInput(e.target.value);
-    console.log(e.target.value);
   };
 
   return (

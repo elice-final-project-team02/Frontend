@@ -39,12 +39,10 @@ export default function Info2() {
     gender !== '' &&
     region !== '' &&
     subRegion !== '';
-  console.log(isValid);
 
   const handleSubmit = (e) => {
     e.preventDefault();
     alert('회원가입이 완료되었습니다!');
-    console.log(role, email, password, name, phone, gender, age, region, subRegion);
     nav('/login');
   };
 
