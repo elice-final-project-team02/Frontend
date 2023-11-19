@@ -3,7 +3,6 @@ import styles from './WritePost.module.scss';
 import cs from 'classnames/bind';
 import { DatesPicker, SeparateDatesPicker, ShowSelectedDateList, TimesPicker } from '../../../components';
 import { region } from '../../../lib';
-import { useMultiSelection } from '../../../hooks';
 const cx = cs.bind(styles);
 
 export default function WritePost() {

@@ -5,7 +5,7 @@
     border: 1px solid black;
   }
 
-  .writerWrapper {
+  .writer-wrapper {
     padding-block: 20px;
     width: 20%;
     display: flex;
@@ -13,7 +13,7 @@
     flex-direction: column;
     gap: 20px;
     align-items: center;
-    .writerImage {
+    .writer-image {
       width: 100px;
       aspect-ratio: 1;
       background-color: gray;
@@ -22,7 +22,7 @@
       text-align: center;
     }
   }
-  .titleWrapper {
+  .title-wrapper {
     width: 80%;
     display: flex;
     line-height: 1.5;
@@ -31,12 +31,12 @@
       font-size: 25px;
       font-weight: bold;
     }
-    .hourlyRate {
+    .hourly-rate {
       font-size: 18px;
     }
   }
 
-  .buttonWrapper {
+  .button-wrapper {
     flex-grow: 1;
     align-self: flex-end;
     display: flex;
@@ -46,23 +46,23 @@
       border: 1px solid black;
       padding: 5px 10px;
     }
-    .serviceStatus {
+    .service-status {
       margin-right: auto;
     }
-    .removePost {
+    .remove-post {
       border: 0;
       font-size: 25px;
     }
   }
 
-  .bodyWrapper {
+  .body-wrapper {
     flex-grow: 1;
     display: flex;
     flex-direction: column;
     gap: 50px;
     min-height: 400px;
     padding: 50px;
-    .mainBody {
+    .main-body {
       margin-bottom: 100px;
     }
   }
