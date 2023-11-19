@@ -19,7 +19,7 @@ export default function AuthInput({
   disabled,
 }) {
   return (
-    <>
+    <div className={cx('wrapper')}>
       <div className={cx('authWrapper')} status={status}>
         <label htmlFor={name}>{text}</label>
         <input
@@ -37,6 +37,6 @@ export default function AuthInput({
       <div className={cx('messageContainer')}>
         <p>{message}</p>
       </div>
-    </>
+    </div>
   );
 }

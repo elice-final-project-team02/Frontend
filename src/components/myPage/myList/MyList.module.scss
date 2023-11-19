@@ -1,47 +1,49 @@
-.post {
-  width: 590px;
-  padding: 8px 16px;
-  display: flex;
-  align-items: center;
-  background-color: #ffffff;
-  border-bottom: 1px solid rgb(197, 197, 197);
-  input {
-    width: 16px;
-  }
+.wrapper {
+  .post {
+    width: 590px;
+    padding: 8px 16px;
+    display: flex;
+    align-items: center;
+    background-color: #ffffff;
+    border-bottom: 1px solid rgb(197, 197, 197);
+    input {
+      width: 16px;
+    }
 
-  span {
-    margin-left: 10px;
-    font-size: 16px;
-  }
-  .deleteBtn {
-    padding: 2px 4px;
-    border-radius: 8px;
-    border: 1px solid black;
-    width: 60px;
-    background-color: #fff9f9;
-    cursor: pointer;
-    &:hover {
-      background-color: #ffdddd;
+    span {
+      margin-left: 10px;
+      font-size: 16px;
+    }
+    .deleteBtn {
+      padding: 2px 4px;
+      border-radius: 8px;
+      border: 1px solid black;
+      width: 60px;
+      background-color: #fff9f9;
+      cursor: pointer;
+      &:hover {
+        background-color: #ffdddd;
+      }
+    }
+    .heart {
+      color: #8aa1dd;
+    }
+    .whole {
+      color: #8aa1dd;
+      font-size: 20px;
+    }
+    .deleteBtn,
+    .heart,
+    .whole {
+      margin-left: auto;
+    }
+    input {
+      accent-color: #8aa1dd;
     }
   }
-  .heart {
-    color: #8aa1dd;
-  }
-  .whole {
-    color: #8aa1dd;
-    font-size: 20px;
-  }
-  .deleteBtn,
-  .heart,
-  .whole {
-    margin-left: auto;
-  }
-  input {
-    accent-color: #8aa1dd;
-  }
-}
 
-.nothing {
-  display: flex;
-  justify-content: center;
-}
+  .nothing {
+    display: flex;
+    justify-content: center;
+  }
+} // wrapper close

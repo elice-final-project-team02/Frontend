@@ -5,7 +5,7 @@ const cx = cs.bind(styles);
 
 export default function Footer() {
   return (
-    <footer>
+    <footer className={cx('wrapper')}>
       <div>
         <p>상호: 쓰담쓰담 | 대표자명: 엘리스 2팀</p>
         <p>사업자 등록번호: 000-00-00000 | 통신판매업신고번호: 제0000-서울마포-0000호</p>

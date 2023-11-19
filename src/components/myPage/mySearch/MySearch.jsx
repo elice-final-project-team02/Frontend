@@ -13,12 +13,14 @@ export default function MySearch(props) {
   };
 
   return (
-    <input
-      value={searchText}
-      onChange={handleChangeSearchText}
-      className={cx('search')}
-      type="text"
-      placeholder="검색어를 입력하세요."
-    />
+    <span className={cx('wrapper')}>
+      <input
+        value={searchText}
+        onChange={handleChangeSearchText}
+        className={cx('search')}
+        type="text"
+        placeholder="검색어를 입력하세요."
+      />
+    </span>
   );
 }

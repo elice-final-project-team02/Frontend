@@ -6,44 +6,44 @@
   button {
     border: none;
   }
-}
 
-.pageBtn {
-  font-size: 14px;
-  line-height: 22px;
-  text-align: center;
-  color: #5e5f61;
-  width: 22px;
-  height: 22px;
-  background: transparent;
-  border-radius: 4px;
+  .pageBtn {
+    font-size: 14px;
+    line-height: 22px;
+    text-align: center;
+    color: #5e5f61;
+    width: 22px;
+    height: 22px;
+    background: transparent;
+    border-radius: 4px;
 
-  + button:not(.nextBtn) {
-    margin-left: 4px;
+    + button:not(.nextBtn) {
+      margin-left: 4px;
+    }
+
+    &[data-active='true'] {
+      background-color: #ffdddd;
+      color: #f9fafc;
+    }
   }
 
-  &[data-active='true'] {
-    background-color: #ffdddd;
-    color: #f9fafc;
+  .prevBtn,
+  .nextBtn {
+    padding: 2px 6px;
+    width: 50px;
+    border-radius: 8px;
+    background-color: #dcdcdc;
+    cursor: pointer;
+    &:disabled {
+      cursor: not-allowed;
+    }
   }
-}
 
-.prevBtn,
-.nextBtn {
-  padding: 2px 6px;
-  width: 50px;
-  border-radius: 8px;
-  background-color: #dcdcdc;
-  cursor: pointer;
-  &:disabled {
-    cursor: not-allowed;
+  .prevBtn {
+    margin-right: 16px;
   }
-}
 
-.prevBtn {
-  margin-right: 16px;
-}
-
-.nextBtn {
-  margin-left: 16px;
-}
+  .nextBtn {
+    margin-left: 16px;
+  }
+} // wrapper close

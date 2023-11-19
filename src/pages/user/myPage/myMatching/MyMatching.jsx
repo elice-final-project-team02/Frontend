@@ -47,18 +47,20 @@ export default function MyMatching() {
   };
 
   return (
-    <div className={cx('mypage')}>
-      <div className={cx('sidebar')}>
-        <MySideBar />
-      </div>
-      <main>
-        <MyTitle text="매칭 완료된 리스트" />
-        <MySearch onSearchChange={handleSearchChange} />
-        <div className={cx('content')}>
-          <MyList postList={postList} searchText={searchText} role={role} matching />
-          <Pagination currPage={currPage} onClickPage={setCurrPage} pageCount={10} />
+    <div className={cx('wrapper')}>
+      <div className={cx('mypage')}>
+        <div className={cx('sidebar')}>
+          <MySideBar />
         </div>
-      </main>
+        <main>
+          <MyTitle text="매칭 완료된 리스트" />
+          <MySearch onSearchChange={handleSearchChange} />
+          <div className={cx('content')}>
+            <MyList postList={postList} searchText={searchText} role={role} matching />
+            <Pagination currPage={currPage} onClickPage={setCurrPage} pageCount={10} />
+          </div>
+        </main>
+      </div>
     </div>
   );
 }

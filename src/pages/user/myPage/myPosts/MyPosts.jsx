@@ -48,18 +48,20 @@ export default function MyPosts() {
   };
 
   return (
-    <div className={cx('mypage')}>
-      <div className={cx('sidebar')}>
-        <MySideBar />
-      </div>
-      <main>
-        <MyTitle text="MY 등록 게시물" />
-        <MySearch onSearchChange={handleSearchChange} />
-        <div className={cx('content')}>
-          <MyList postList={postList} searchText={searchText} role={role} />
-          <Pagination currPage={currPage} onClickPage={setCurrPage} pageCount={10} />
+    <div className={cx('wrapper')}>
+      <div className={cx('mypage')}>
+        <div className={cx('sidebar')}>
+          <MySideBar />
         </div>
-      </main>
+        <main>
+          <MyTitle text="MY 등록 게시물" />
+          <MySearch onSearchChange={handleSearchChange} />
+          <div className={cx('content')}>
+            <MyList postList={postList} searchText={searchText} role={role} />
+            <Pagination currPage={currPage} onClickPage={setCurrPage} pageCount={10} />
+          </div>
+        </main>
+      </div>
     </div>
   );
 }

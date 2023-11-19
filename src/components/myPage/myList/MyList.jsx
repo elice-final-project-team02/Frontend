@@ -35,7 +35,7 @@ export default function MyList(props) {
   };
 
   return (
-    <>
+    <div className={cx('wrapper')}>
       {filteredPostList.length > 0 ? (
         filteredPostList.map((post, idx) => (
           <div key={`${post._id}-${idx}`} className={cx('post')}>
@@ -63,6 +63,6 @@ export default function MyList(props) {
       ) : (
         <div className={cx('nothing')}>검색결과가 없습니다.</div>
       )}
-    </>
+    </div>
   );
 }
