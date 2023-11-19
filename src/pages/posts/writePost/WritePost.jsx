@@ -46,16 +46,38 @@ export default function WritePost() {
     preferredMateGender: '',
   });
 
-  const ageList = ['20대', '30대', '40대', '50대', '60대', '성별무관'];
-  const [checkedAgeList, setCheckedAgeList] = React.useState([]);
-  const [isAgeChecked, setIsAgeChecked] = React.useState(false);
-  const careDaysList = ['월', '화', '수', '목', '금', '토', '일'];
-  const [checkedDaysList, setCheckedDaysList] = React.useState([]);
-  const [isDayChecked, setIsDayChecked] = React.useState(false);
+  function handleChange(e) {
+    setPostContent({
+      ...postContent,
+      [e.target.name]: e.target.value,
+    });
+  }
 
-  const checkAgeHandler = makeCheckHandler(checkedAgeList, setCheckedAgeList, isAgeChecked, setIsAgeChecked);
-  const checkDayHandler = makeCheckHandler(checkedDaysList, setCheckedDaysList, isDayChecked, setIsDayChecked);
+  function handleSubmit(e) {
+    e.preventDefault();
+  }
 
+  /** 단기, 정기 시작,종료 시간 일괄수정 */
+  React.useEffect(() => {
+    setPostContent({
+      ...postContent,
+      shortTerm: postContent.shortTerm.map((obj) => ({
+        ...obj,
+        startTime: mainTime.mainStartTime,
+        endTime: mainTime.mainEndTime,
+      })),
+      longTerm: {
+        ...postContent.longTerm,
+        schedule: postContent.longTerm.schedule.map((obj) => ({
+          ...obj,
+          startTime: mainTime.mainStartTime,
+          endTime: mainTime.mainEndTime,
+        })),
+      },
+    });
+  }, [mainTime]);
+
+  /** 체크박스 기능함수 */
   function makeCheckHandler(checkedList, setCheckedList, isChecked, setIsChecked) {
     function checkedItemHandler(value, isChecked) {
       if (isChecked) {
@@ -74,11 +96,22 @@ export default function WritePost() {
     }
     return checkHandler;
   }
+  const ageList = ['20대', '30대', '40대', '50대', '60대', '성별무관'];
+  const [checkedAgeList, setCheckedAgeList] = React.useState([]);
+  const [isAgeChecked, setIsAgeChecked] = React.useState(false);
+  const checkAgeHandler = makeCheckHandler(checkedAgeList, setCheckedAgeList, isAgeChecked, setIsAgeChecked);
 
+  /** 선호연령 체크박스 실시간 반영 */
   React.useEffect(() => {
     return setPostContent({ ...postContent, preferredMateAge: checkedAgeList });
   }, [checkedAgeList]);
 
+  const careDaysList = ['월', '화', '수', '목', '금', '토', '일'];
+  const [checkedDaysList, setCheckedDaysList] = React.useState([]);
+  const [isDayChecked, setIsDayChecked] = React.useState(false);
+  const checkDayHandler = makeCheckHandler(checkedDaysList, setCheckedDaysList, isDayChecked, setIsDayChecked);
+
+  /** 정기일정 요일 체크박스 실시간 반영 */
   React.useEffect(() => {
     return setPostContent({
       ...postContent,
@@ -94,6 +127,7 @@ export default function WritePost() {
     });
   }, [checkedDaysList]);
 
+  /** 단기, 정기일정 토글시마다 관련 데이터 초기화 */
   React.useEffect(() => {
     setCheckedDaysList([]);
     setPostContent({
@@ -121,33 +155,6 @@ export default function WritePost() {
     });
     setMainTime({ mainStartTime: new Date(2020, 0, 0, 8), mainEndTime: new Date(2020, 0, 0, 20) });
   }, [postContent.careTerm]);
-  React.useEffect(() => {
-    setPostContent({
-      ...postContent,
-      shortTerm: postContent.shortTerm.map((obj) => ({
-        ...obj,
-        startTime: mainTime.mainStartTime,
-        endTime: mainTime.mainEndTime,
-      })),
-      longTerm: {
-        ...postContent.longTerm,
-        schedule: postContent.longTerm.schedule.map((obj) => ({
-          ...obj,
-          startTime: mainTime.mainStartTime,
-          endTime: mainTime.mainEndTime,
-        })),
-      },
-    });
-  }, [mainTime]);
-  function handleChange(e) {
-    setPostContent({
-      ...postContent,
-      [e.target.name]: e.target.value,
-    });
-  }
-  function handleSubmit(e) {
-    e.preventDefault();
-  }
 
   return (
     <div className={cx('wrapper')}>
