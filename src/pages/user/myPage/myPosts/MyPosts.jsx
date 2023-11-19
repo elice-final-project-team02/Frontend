@@ -2,10 +2,6 @@ import React, { useState } from 'react';
 import styles from './MyPosts.module.scss';
 import cs from 'classnames/bind';
 import { MyTitle, MySideBar, MySearch, MyList, Pagination } from 'components';
-<<<<<<< HEAD
-
-=======
->>>>>>> dev
 const cx = cs.bind(styles);
 
 const postList = [

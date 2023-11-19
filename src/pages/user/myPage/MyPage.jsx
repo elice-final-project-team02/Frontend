@@ -77,13 +77,8 @@ export default function MyPage() {
                 {edit ? (
                   <>
                     <img src={selectedImage} alt="이미지 미리보기" />
-<<<<<<< HEAD
-                    <input type="file" accept="image/*" name="profile_url" ref={imgRef} onChange={onUploadImage} />
-                    <button type="button" onClick={onUploadImageButtonClick} className={cx('editImg')}>
-=======
                     <input type="file" accept="image/*" name="profile_url" ref={imgRef} onChange={handleUploadImage} />
                     <button type="button" onClick={handleUploadImageButtonClick} className={cx('editImg')}>
->>>>>>> dev
                       변경하기
                     </button>
                   </>

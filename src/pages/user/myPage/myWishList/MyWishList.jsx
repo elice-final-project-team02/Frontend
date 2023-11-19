@@ -96,28 +96,16 @@ export default function MyWishList() {
             </button>
           )}
           <div className={cx('content')}>
-<<<<<<< HEAD
-            {postData[0].length === 0 ? (
-              <div>찜한 목록이 없습니다.</div>
-            ) : (
-              <MyList
-                postList={postData}
-=======
             {postList[0].length === 0 ? (
               <div>찜한 목록이 없습니다.</div>
             ) : (
               <MyList
                 postList={postList}
->>>>>>> dev
                 searchText={searchText}
                 role={role}
                 edit={edit}
                 checkedId={checkedId}
-<<<<<<< HEAD
-                setCheckedId={setCheckedId}
-=======
                 onChangeCheckbox={handleChangeCheckbox}
->>>>>>> dev
               />
             )}
             <Pagination currPage={currPage} onClickPage={setCurrPage} pageCount={10} />

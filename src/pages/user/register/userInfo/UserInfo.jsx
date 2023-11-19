@@ -3,11 +3,7 @@ import styles from 'pages/user/register/Register.module.scss';
 import cs from 'classnames/bind';
 import { useNavigate, useLocation } from 'react-router-dom';
 import { AuthInput, AuthSelect, Region } from 'components';
-<<<<<<< HEAD:src/pages/user/register/info2/Info2.jsx
-import { validateInput, InputStatus } from 'lib';
-=======
 import { InputStatus, validateInput } from 'lib';
->>>>>>> dev:src/pages/user/register/userInfo/UserInfo.jsx
 const cx = cs.bind(styles);
 
 const genderOptions = [

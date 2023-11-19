@@ -8,11 +8,7 @@ export default function MyTitle({ text }) {
     <div className={cx('wrapper')}>
       <div className={cx('title')}>
         <img src="https://ifh.cc/g/zyKAbq.png" alt="캐릭터" />
-<<<<<<< HEAD
-        <span>{props.text}</span>
-=======
         <span>{text}</span>
->>>>>>> dev
       </div>
     </div>
   );
