@@ -3,8 +3,8 @@ import { BsEnvelope, BsPersonFill } from 'react-icons/bs';
 import { FaRegHeart, FaMapMarkerAlt, FaCalendar, FaClock } from 'react-icons/fa';
 import { PiMoneyFill } from 'react-icons/pi';
 import targetImg from './draftImage.png';
-import WishButton from '../wishButton/WishButton.jsx';
-import MessageButton from '../messageButton/MessageButton.jsx';
+import WishButton from 'components/posts/wishButton/WishButton.jsx';
+import MessageButton from 'components/posts/messageButton/MessageButton.jsx';
 import styles from './Card.module.scss';
 import cs from 'classnames/bind';
 

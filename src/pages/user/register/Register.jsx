@@ -1,5 +1,5 @@
 import React from 'react';
-import { ReactComponent as PinkClam } from '../../../assets/images/pinkClam.svg';
+import { ReactComponent as PinkClam } from 'assets/images/pinkClam.svg';
 import styles from './Register.module.scss';
 import cs from 'classnames/bind';
 import { Link, useNavigate } from 'react-router-dom';

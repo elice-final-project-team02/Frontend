@@ -1,7 +1,7 @@
 import React from 'react';
 import styles from './AuthInput.module.scss';
 import cs from 'classnames/bind';
-import { InputStatus } from '../../../lib';
+import { InputStatus } from 'lib';
 const cx = cs.bind(styles);
 
 export default function AuthInput({

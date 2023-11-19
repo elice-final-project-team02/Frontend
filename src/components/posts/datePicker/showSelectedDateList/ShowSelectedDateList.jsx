@@ -1,9 +1,9 @@
 import React from 'react';
 import styles from './ShowSelectedDateList.module.scss';
 import cs from 'classnames/bind';
-import { dateFormatter } from '../../../../lib';
+import { dateFormatter } from 'lib';
 import { v4 as uuidv4 } from 'uuid';
-import { NewTimesPicker } from '../../../../components';
+import { NewTimesPicker } from 'components';
 const cx = cs.bind(styles);
 
 export default function ShowSelectedDateList({ values, setValues, array, type, mainTime }) {

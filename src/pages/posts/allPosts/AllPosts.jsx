@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import styles from './AllPosts.module.scss';
 import cs from 'classnames/bind';
-import Card from '../../../components/posts/card/Card';
+import Card from 'components/posts/card/Card';
 import { FaSearch } from 'react-icons/fa';
 import { Link } from 'react-router-dom';
 

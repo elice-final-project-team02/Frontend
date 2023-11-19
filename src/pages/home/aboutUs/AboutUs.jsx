@@ -1,10 +1,10 @@
 import React from 'react';
 import styles from './AboutUs.module.scss';
 import cs from 'classnames/bind';
-import Title from '../../../components/typography/Title';
-import Text from '../../../components/typography/Text';
-import MainTitle from '../../../components/typography/MainTitle';
-import MainText from '../../../components/typography/MainText';
+import Title from 'components/typography/Title';
+import Text from 'components/typography/Text';
+import MainTitle from 'components/typography/MainTitle';
+import MainText from 'components/typography/MainText';
 
 const cx = cs.bind(styles);
 
