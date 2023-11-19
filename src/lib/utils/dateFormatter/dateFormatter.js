@@ -4,7 +4,6 @@ import 'moment/locale/ko';
 // 사용법 임포트 후 dateFormatter.changeDateToDayOfTheWeek(date) 쓴다
 
 export default class dateFormatter {
-  koreaDaysOfWeek = ['월', '화', '수', '목', '금', '토', '일'];
   /** 금요일 */
   static changeDateToDayOfTheWeek(date) {
     return moment(date).format('dddd');
