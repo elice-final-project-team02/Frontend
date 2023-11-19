@@ -1,9 +1,9 @@
 import React, { useState } from 'react';
-import styles from '../Register.module.scss';
+import styles from 'pages/user/register/Register.module.scss';
 import cs from 'classnames/bind';
 import { useLocation, useNavigate } from 'react-router-dom';
-import { AuthInput } from '../../../../components';
-import { InputStatus, validateInput } from '../../../../lib';
+import { AuthInput } from 'components';
+import { InputStatus, validateInput } from 'lib';
 const cx = cs.bind(styles);
 
 export default function Info1() {

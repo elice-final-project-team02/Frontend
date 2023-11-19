@@ -1,7 +1,7 @@
 import React from 'react';
 import styles from './AuthInput.module.scss';
 import cs from 'classnames/bind';
-import { InputStatus } from '../../../lib';
+import { InputStatus } from 'lib';
 const cx = cs.bind(styles);
 
 export default function AuthInput({
@@ -19,7 +19,7 @@ export default function AuthInput({
   disabled,
 }) {
   return (
-    <>
+    <div className={cx('wrapper')}>
       <div className={cx('authWrapper')} status={status}>
         <label htmlFor={name}>{text}</label>
         <input
@@ -37,6 +37,6 @@ export default function AuthInput({
       <div className={cx('messageContainer')}>
         <p>{message}</p>
       </div>
-    </>
+    </div>
   );
 }

@@ -7,135 +7,136 @@
   select + select {
     margin-left: 15px;
   }
-}
-form {
-  display: flex;
-  flex-direction: column;
-  gap: 50px;
-}
-textarea {
-  resize: none;
-}
-*:focus {
-  outline: 0;
-}
 
-.titleWrapper {
-  input {
-    width: 500px;
-    border: 0;
-    border-bottom: 1px solid black;
-  }
-}
-
-.regionWrapper {
-  select {
-    width: 100px;
-  }
-}
-
-.careTermWrapper,
-.careDaysWrapper {
-  label {
-    border: 1px solid black;
-    padding: 2px 6px;
-  }
-  input {
-    display: none;
-    &:checked + label {
-      background: rgb(189, 189, 189);
-    }
-  }
-}
-
-.calendarWrapper {
-  margin-top: 20px;
-  margin-bottom: 50px;
-}
-
-.careDatesWrapper {
-  display: flex;
-  gap: 30px;
-  & > div {
+  form {
     display: flex;
     flex-direction: column;
-    gap: 20px;
+    gap: 50px;
   }
-}
+  textarea {
+    resize: none;
+  }
+  *:focus {
+    outline: 0;
+  }
 
-.hourlyRateWrapper {
-  input + label {
-    margin-left: 6px;
+  .title-wrapper {
+    input {
+      width: 500px;
+      border: 0;
+      border-bottom: 1px solid black;
+    }
   }
-  input[type='checkbox'] {
-    margin-left: 20px;
-  }
-}
 
-.cautionNoteWrapper {
-  display: grid;
-  grid-template-columns: 140px 400px;
-  grid-auto-rows: 80px;
-  row-gap: 40px;
-  column-gap: 70px;
-}
-
-.buttonWrapper {
-  display: flex;
-  margin-left: auto;
-  gap: 20px;
-  button {
-    width: 100px;
-    background: white;
-    border: 1px solid black;
-    padding-block: 6px;
+  .region-wrapper {
+    select {
+      width: 100px;
+    }
   }
-}
-.preferredMateWrapper {
-  display: flex;
-  flex-direction: column;
-  gap: 10px;
-}
-.preferredMateGenderWrapper {
-  display: flex;
-  gap: 10px;
-  label {
-    display: flex;
-    gap: 6px;
-    align-items: center;
-  }
-  .radioOn {
-    display: inline-block;
-    border: 1px solid black;
-    border-radius: 2px;
-    width: 13px;
-    height: 13px;
-    background-color: white;
-    position: relative;
-  }
-  [type='radio'] {
-    display: none;
 
-    &:checked + .radioOn {
-      background-color: var(--crl-blue);
-
-      &:after {
-        content: '\2713';
-        position: absolute;
-        left: 1px;
-        top: -2px;
-        color: white;
-        font-size: 11px;
-        font-weight: bold;
+  .care-term-wrapper,
+  .care-days-wrapper {
+    label {
+      border: 1px solid black;
+      padding: 2px 6px;
+    }
+    input {
+      display: none;
+      &:checked + label {
+        background: rgb(189, 189, 189);
       }
     }
   }
-}
 
-.preferredMateAgeWrapper {
-  display: flex;
-  gap: 10px;
-  input {
-    margin-left: 5px;
+  .calendar-wrapper {
+    margin-top: 20px;
+    margin-bottom: 50px;
   }
-}
+
+  .care-dates-wrapper {
+    display: flex;
+    gap: 30px;
+    & > div {
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
+    }
+  }
+
+  .hourly-rate-wrapper {
+    input + label {
+      margin-left: 6px;
+    }
+    input[type='checkbox'] {
+      margin-left: 20px;
+    }
+  }
+
+  .caution-note-wrapper {
+    display: grid;
+    grid-template-columns: 140px 400px;
+    grid-auto-rows: 80px;
+    row-gap: 40px;
+    column-gap: 70px;
+  }
+
+  .button-wrapper {
+    display: flex;
+    margin-left: auto;
+    gap: 20px;
+    button {
+      width: 100px;
+      background: white;
+      border: 1px solid black;
+      padding-block: 6px;
+    }
+  }
+  .preferred-mate-wrapper {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+  }
+  .preferred-mate-gender-wrapper {
+    display: flex;
+    gap: 10px;
+    label {
+      display: flex;
+      gap: 6px;
+      align-items: center;
+    }
+    .radio-on {
+      display: inline-block;
+      border: 1px solid black;
+      border-radius: 2px;
+      width: 13px;
+      height: 13px;
+      background-color: white;
+      position: relative;
+    }
+    [type='radio'] {
+      display: none;
+
+      &:checked + .radio-on {
+        background-color: var(--crl-blue);
+
+        &:after {
+          content: '\2713';
+          position: absolute;
+          left: 1px;
+          top: -2px;
+          color: white;
+          font-size: 11px;
+          font-weight: bold;
+        }
+      }
+    }
+  }
+
+  .preferred-mate-age-wrapper {
+    display: flex;
+    gap: 10px;
+    input {
+      margin-left: 5px;
+    }
+  }
+} // wrapper close

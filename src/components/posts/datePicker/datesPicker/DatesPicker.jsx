@@ -5,8 +5,7 @@ import { ko } from 'date-fns/esm/locale';
 import DatePicker from 'react-datepicker';
 const cx = cs.bind(styles);
 
-export default function DatesPicker(props) {
-  const { values, setValues } = props;
+export default function DatesPicker({ postContent, setPostContent }) {
   const ExampleCustomInput = React.forwardRef(({ value, onClick }, ref) => (
     <button className={cx('example-custom-input')} onClick={onClick} ref={ref}>
       {value}
@@ -14,8 +13,8 @@ export default function DatesPicker(props) {
   ));
   return (
     <DatePicker
-      selected={values.longTerm.startDate}
-      onChange={(date) => setValues({ ...values, longTerm: { ...values.longTerm, startDate: date } })}
+      selected={postContent.longTerm.startDate}
+      onChange={(date) => setPostContent({ ...postContent, longTerm: { ...postContent.longTerm, startDate: date } })}
       customInput={<ExampleCustomInput />}
       locale={ko}
       minDate={new Date()}

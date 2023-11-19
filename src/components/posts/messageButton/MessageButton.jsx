@@ -12,8 +12,10 @@ const MessageButton = () => {
     setIsHover(!isHover);
   };
   return (
-    <div className={cx('messageIcon')}>
-      {isHover ? <BsEnvelopeFill onMouseOut={mouseHoverHandler} /> : <BsEnvelope onMouseOver={mouseHoverHandler} />}
+    <div className={cx('wrapper')}>
+      <div className={cx('messageIcon')}>
+        {isHover ? <BsEnvelopeFill onMouseOut={mouseHoverHandler} /> : <BsEnvelope onMouseOver={mouseHoverHandler} />}
+      </div>
     </div>
   );
 };

@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import styles from './MyMatching.module.scss';
 import cs from 'classnames/bind';
-import { MyTitle, MySideBar, MySearch, MyList, Pagination } from '../../../../components';
+import { MyTitle, MySideBar, MySearch, MyList, Pagination } from 'components';
 const cx = cs.bind(styles);
 
 export default function MyMatching() {
@@ -47,18 +47,20 @@ export default function MyMatching() {
   };
 
   return (
-    <div className={cx('mypage')}>
-      <div className={cx('sidebar')}>
-        <MySideBar />
-      </div>
-      <main>
-        <MyTitle text="매칭 완료된 리스트" />
-        <MySearch onSearchChange={handleSearchChange} />
-        <div className={cx('content')}>
-          <MyList postList={postList} searchText={searchText} role={role} matching />
-          <Pagination currPage={currPage} onClickPage={setCurrPage} pageCount={10} />
+    <div className={cx('wrapper')}>
+      <div className={cx('mypage')}>
+        <div className={cx('sidebar')}>
+          <MySideBar />
         </div>
-      </main>
+        <main>
+          <MyTitle text="매칭 완료된 리스트" />
+          <MySearch onSearchChange={handleSearchChange} />
+          <div className={cx('content')}>
+            <MyList postList={postList} searchText={searchText} role={role} matching />
+            <Pagination currPage={currPage} onClickPage={setCurrPage} pageCount={10} />
+          </div>
+        </main>
+      </div>
     </div>
   );
 }

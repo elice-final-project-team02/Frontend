@@ -4,66 +4,66 @@
   & > * {
     border: 1px solid black;
   }
-}
 
-.writerWrapper {
-  padding-block: 20px;
-  width: 20%;
-  display: flex;
-  justify-content: center;
-  flex-direction: column;
-  gap: 20px;
-  align-items: center;
-  .writerImage {
-    width: 100px;
-    aspect-ratio: 1;
-    background-color: gray;
-    border-radius: 100%;
-    line-height: 100px;
-    text-align: center;
+  .writer-wrapper {
+    padding-block: 20px;
+    width: 20%;
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+    gap: 20px;
+    align-items: center;
+    .writer-image {
+      width: 100px;
+      aspect-ratio: 1;
+      background-color: gray;
+      border-radius: 100%;
+      line-height: 100px;
+      text-align: center;
+    }
   }
-}
-.titleWrapper {
-  width: 80%;
-  display: flex;
-  line-height: 1.5;
-  padding: 15px;
-  .title {
-    font-size: 25px;
-    font-weight: bold;
+  .title-wrapper {
+    width: 80%;
+    display: flex;
+    line-height: 1.5;
+    padding: 15px;
+    .title {
+      font-size: 25px;
+      font-weight: bold;
+    }
+    .hourly-rate {
+      font-size: 18px;
+    }
   }
-  .hourlyRate {
-    font-size: 18px;
-  }
-}
 
-.buttonWrapper {
-  flex-grow: 1;
-  align-self: flex-end;
-  display: flex;
-  gap: 30px;
-  justify-content: flex-end;
-  & > * {
-    border: 1px solid black;
-    padding: 5px 10px;
+  .button-wrapper {
+    flex-grow: 1;
+    align-self: flex-end;
+    display: flex;
+    gap: 30px;
+    justify-content: flex-end;
+    & > * {
+      border: 1px solid black;
+      padding: 5px 10px;
+    }
+    .service-status {
+      margin-right: auto;
+    }
+    .remove-post {
+      border: 0;
+      font-size: 25px;
+    }
   }
-  .serviceStatus {
-    margin-right: auto;
-  }
-  .removePost {
-    border: 0;
-    font-size: 25px;
-  }
-}
 
-.bodyWrapper {
-  flex-grow: 1;
-  display: flex;
-  flex-direction: column;
-  gap: 50px;
-  min-height: 400px;
-  padding: 50px;
-  .mainBody {
-    margin-bottom: 100px;
+  .body-wrapper {
+    flex-grow: 1;
+    display: flex;
+    flex-direction: column;
+    gap: 50px;
+    min-height: 400px;
+    padding: 50px;
+    .main-body {
+      margin-bottom: 100px;
+    }
   }
-}
+} // wrapper close

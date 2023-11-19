@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import styles from './MyWishList.module.scss';
 import cs from 'classnames/bind';
-import { MyTitle, MySideBar, MySearch, MyList, Pagination } from '../../../../components';
+import { MyTitle, MySideBar, MySearch, MyList, Pagination } from 'components';
 const cx = cs.bind(styles);
 
 export default function MyWishList() {
@@ -64,43 +64,45 @@ export default function MyWishList() {
   };
 
   return (
-    <div className={cx('mypage')}>
-      <div className={cx('sidebar')}>
-        <MySideBar />
-      </div>
-      <main>
-        <MyTitle text="찜한 돌봄서비스" />
-        <MySearch onSearchChange={handleSearchChange} />
-        {edit ? (
-          <>
-            <button onClick={() => setEdit(false)} className={cx('cancel')}>
-              취소
-            </button>
-            <button onClick={handleDeleteList} className={cx('complete')}>
-              삭제
-            </button>
-          </>
-        ) : (
-          <button onClick={() => setEdit(true)} className={cx('edit')}>
-            편집
-          </button>
-        )}
-        <div className={cx('content')}>
-          {postData[0].length === 0 ? (
-            <div>찜한 목록이 없습니다.</div>
-          ) : (
-            <MyList
-              postList={postData}
-              searchText={searchText}
-              role={role}
-              edit={edit}
-              checkedId={checkedId}
-              setCheckedId={setCheckedId}
-            />
-          )}
-          <Pagination currPage={currPage} onClickPage={setCurrPage} pageCount={10} />
+    <div className={cx('wrapper')}>
+      <div className={cx('mypage')}>
+        <div className={cx('sidebar')}>
+          <MySideBar />
         </div>
-      </main>
+        <main>
+          <MyTitle text="찜한 돌봄서비스" />
+          <MySearch onSearchChange={handleSearchChange} />
+          {edit ? (
+            <>
+              <button onClick={() => setEdit(false)} className={cx('cancel')}>
+                취소
+              </button>
+              <button onClick={handleDeleteList} className={cx('complete')}>
+                삭제
+              </button>
+            </>
+          ) : (
+            <button onClick={() => setEdit(true)} className={cx('edit')}>
+              편집
+            </button>
+          )}
+          <div className={cx('content')}>
+            {postData[0].length === 0 ? (
+              <div>찜한 목록이 없습니다.</div>
+            ) : (
+              <MyList
+                postList={postData}
+                searchText={searchText}
+                role={role}
+                edit={edit}
+                checkedId={checkedId}
+                setCheckedId={setCheckedId}
+              />
+            )}
+            <Pagination currPage={currPage} onClickPage={setCurrPage} pageCount={10} />
+          </div>
+        </main>
+      </div>
     </div>
   );
 }
