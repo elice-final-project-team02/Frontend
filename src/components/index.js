@@ -3,7 +3,6 @@ export * from './common/header';
 export * from './common/maxWidth';
 export * from './common/region';
 export * from './posts/datePicker/datesPicker';
-export * from './posts/datePicker/timesPicker';
 export * from './posts/datePicker/separateDatesPicker';
 export * from './posts/datePicker/showSelectedDateList';
 export * from './posts/datePicker/newTimesPicker';

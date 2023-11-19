@@ -1,7 +1,7 @@
 import React from 'react';
 import styles from './WritePost.module.scss';
 import cs from 'classnames/bind';
-import { DatesPicker, SeparateDatesPicker, ShowSelectedDateList, TimesPicker } from 'components';
+import { DatesPicker, SeparateDatesPicker, ShowSelectedDateList, NewTimesPicker } from 'components';
 import { region } from 'lib';
 const cx = cs.bind(styles);
 
@@ -250,20 +250,18 @@ export default function WritePost() {
 
           <div>
             <label htmlFor="">시작 시간</label>
-            <TimesPicker
-              mainTime={mainTime}
-              setMainTime={setMainTime}
-              postContent={postContent}
-              type="startTime"
-              setPostContent={setPostContent}
+            <NewTimesPicker
+              time={mainTime.mainStartTime}
+              setTime={(date) => {
+                setMainTime({ ...mainTime, mainStartTime: new Date(date) });
+              }}
             />
             <label htmlFor="">종료 시간</label>
-            <TimesPicker
-              mainTime={mainTime}
-              setMainTime={setMainTime}
-              postContent={postContent}
-              type="endTime"
-              setPostContent={setPostContent}
+            <NewTimesPicker
+              time={mainTime.mainEndTime}
+              setTime={(date) => {
+                setMainTime({ ...mainTime, mainEndTime: new Date(date) });
+              }}
             />
             <div>
               {postContent.careTerm === 'short' ? (
