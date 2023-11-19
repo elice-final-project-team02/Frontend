@@ -20,7 +20,7 @@
     outline: 0;
   }
 
-  .titleWrapper {
+  .title-wrapper {
     input {
       width: 500px;
       border: 0;
@@ -28,14 +28,14 @@
     }
   }
 
-  .regionWrapper {
+  .region-wrapper {
     select {
       width: 100px;
     }
   }
 
-  .careTermWrapper,
-  .careDaysWrapper {
+  .care-term-wrapper,
+  .care-days-wrapper {
     label {
       border: 1px solid black;
       padding: 2px 6px;
@@ -48,12 +48,12 @@
     }
   }
 
-  .calendarWrapper {
+  .calendar-wrapper {
     margin-top: 20px;
     margin-bottom: 50px;
   }
 
-  .careDatesWrapper {
+  .care-dates-wrapper {
     display: flex;
     gap: 30px;
     & > div {
@@ -63,7 +63,7 @@
     }
   }
 
-  .hourlyRateWrapper {
+  .hourly-rate-wrapper {
     input + label {
       margin-left: 6px;
     }
@@ -72,7 +72,7 @@
     }
   }
 
-  .cautionNoteWrapper {
+  .caution-note-wrapper {
     display: grid;
     grid-template-columns: 140px 400px;
     grid-auto-rows: 80px;
@@ -80,7 +80,7 @@
     column-gap: 70px;
   }
 
-  .buttonWrapper {
+  .button-wrapper {
     display: flex;
     margin-left: auto;
     gap: 20px;
@@ -91,12 +91,12 @@
       padding-block: 6px;
     }
   }
-  .preferredMateWrapper {
+  .preferred-mate-wrapper {
     display: flex;
     flex-direction: column;
     gap: 10px;
   }
-  .preferredMateGenderWrapper {
+  .preferred-mate-gender-wrapper {
     display: flex;
     gap: 10px;
     label {
@@ -104,7 +104,7 @@
       gap: 6px;
       align-items: center;
     }
-    .radioOn {
+    .radio-on {
       display: inline-block;
       border: 1px solid black;
       border-radius: 2px;
@@ -116,7 +116,7 @@
     [type='radio'] {
       display: none;
 
-      &:checked + .radioOn {
+      &:checked + .radio-on {
         background-color: var(--crl-blue);
 
         &:after {
@@ -132,7 +132,7 @@
     }
   }
 
-  .preferredMateAgeWrapper {
+  .preferred-mate-age-wrapper {
     display: flex;
     gap: 10px;
     input {

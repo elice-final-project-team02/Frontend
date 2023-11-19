@@ -153,7 +153,7 @@ export default function WritePost() {
   return (
     <div className={cx('wrapper')}>
       <form onSubmit={handleSubmit}>
-        <div className={cx('titleWrapper')}>
+        <div className={cx('title-wrapper')}>
           <label>제목</label>
           <input
             type="text"
@@ -173,7 +173,7 @@ export default function WritePost() {
             rows="7"
           ></textarea>
         </div>
-        <div className={cx('regionWrapper')}>
+        <div className={cx('region-wrapper')}>
           <span>지역</span>
           <select value={values.region} name="region" onChange={handleChange}>
             <option value="">시/도 선택</option>
@@ -201,7 +201,7 @@ export default function WritePost() {
             <option value="disabled">장애인</option>
           </select>
         </div>
-        <div className={cx('careTermWrapper')}>
+        <div className={cx('care-term-wrapper')}>
           <input
             type="radio"
             name="careTerm"
@@ -215,9 +215,9 @@ export default function WritePost() {
           <label htmlFor="careTermLong">정기</label>
         </div>
         {values.careTerm === 'long' && (
-          <div className={cx('careDaysWrapper')}>
+          <div className={cx('care-days-wrapper')}>
             <p>돌봄 시작일</p>
-            <div className={cx('calendarWrapper')}>
+            <div className={cx('calendar-wrapper')}>
               <DatesPicker values={values} setValues={setValues} />
             </div>
             <span>돌봄 요일</span>
@@ -237,7 +237,7 @@ export default function WritePost() {
             ))}
           </div>
         )}
-        <div className={cx('careDatesWrapper')}>
+        <div className={cx('care-dates-wrapper')}>
           {values.careTerm === 'short' && (
             <SeparateDatesPicker values={values} setValues={setValues} mainTime={mainTime} />
           )}
@@ -282,33 +282,33 @@ export default function WritePost() {
             </div>
           </div>
         </div>
-        <div className={cx('preferredMateWrapper')}>
+        <div className={cx('preferred-mate-wrapper')}>
           <p>선호 메이트</p>
-          <div className={cx('preferredMateGenderWrapper')}>
+          <div className={cx('preferred-mate-gender-wrapper')}>
             <label htmlFor="mateWoman">
               여자
               <input type="radio" onChange={handleChange} name="preferredMateGender" id="mateWoman" value="여자" />
-              <span className={cx('radioOn')}></span>
+              <span className={cx('radio-on')}></span>
             </label>
             <label htmlFor="mateMan">
               남자
               <input type="radio" onChange={handleChange} name="preferredMateGender" id="mateMan" value="남자" />
-              <span className={cx('radioOn')}></span>
+              <span className={cx('radio-on')}></span>
             </label>
             <label htmlFor="mateGenderFree">
               성별무관
               <input
                 type="radio"
                 onChange={handleChange}
-                name="preferredMateGender"
+                name="preferred-mate-gender"
                 id="mateGenderFree"
                 value="성별무관"
               />
-              <span className={cx('radioOn')}></span>
+              <span className={cx('radio-on')}></span>
             </label>
           </div>
 
-          <div className={cx('preferredMateAgeWrapper')}>
+          <div className={cx('preferred-mate-age-wrapper')}>
             {ageList.map((age, index) => (
               <span key={index}>
                 <label htmlFor={age}>{age}</label>
@@ -325,7 +325,7 @@ export default function WritePost() {
             ))}
           </div>
         </div>
-        <div className={cx('hourlyRateWrapper')}>
+        <div className={cx('hourly-rate-wrapper')}>
           <label htmlFor="">시급(원)</label>
           <input
             type="text"
@@ -344,13 +344,13 @@ export default function WritePost() {
           />
           <label htmlFor="">시급 협의 가능</label>
         </div>
-        <div className={cx('cautionNoteWrapper')}>
+        <div className={cx('caution-note-wrapper')}>
           <span htmlFor="">돌봄 대상 특징</span>
           <textarea name="targetFeatures" onChange={handleChange} value={values.targetFeatures}></textarea>
           <span htmlFor="">돌봄 대상 유의사항</span>
           <textarea name="cautionNotes" onChange={handleChange} value={values.cautionNotes}></textarea>
         </div>
-        <div className={cx('buttonWrapper')}>
+        <div className={cx('button-wrapper')}>
           <button>취소</button>
           <button>작성하기</button>
         </div>

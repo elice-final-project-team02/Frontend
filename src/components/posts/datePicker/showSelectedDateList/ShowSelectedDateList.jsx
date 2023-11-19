@@ -66,7 +66,7 @@ export default function ShowSelectedDateList({ values, setValues, array, type, m
                     <button onClick={() => handleItemClick(index)}>+시간 수정</button>
                   </div>
                   {isIndivisualTimeControll[index] && (
-                    <span className={cx('indivisualTimeControllWrapper')}>
+                    <span className={cx('indivisual-time-controll-wrapper')}>
                       <span>시작시간</span>
                       <NewTimesPicker
                         time={values.shortTerm[index].startTime}
@@ -98,7 +98,7 @@ export default function ShowSelectedDateList({ values, setValues, array, type, m
                     <button onClick={() => handleItemClick(index)}>+시간 수정</button>
                   </div>
                   {isIndivisualTimeControll[index] && (
-                    <span className={cx('indivisualTimeControllWrapper')}>
+                    <span className={cx('indivisual-time-controll-wrapper')}>
                       <span>시작시간</span>
                       <NewTimesPicker
                         time={values.longTerm.schedule[index].startTime}
