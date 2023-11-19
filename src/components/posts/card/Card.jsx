@@ -1,6 +1,6 @@
 import React from 'react';
-import { BsEnvelope, BsPersonFill } from 'react-icons/bs';
-import { FaRegHeart, FaMapMarkerAlt, FaCalendar, FaClock } from 'react-icons/fa';
+import { BsPersonFill } from 'react-icons/bs';
+import { FaMapMarkerAlt, FaCalendar, FaClock } from 'react-icons/fa';
 import { PiMoneyFill } from 'react-icons/pi';
 import targetImg from './draftImage.png';
 import WishButton from '../wishButton/WishButton.jsx';
