@@ -5,8 +5,7 @@ import { ko } from 'date-fns/esm/locale';
 import DatePicker from 'react-datepicker';
 const cx = cs.bind(styles);
 
-export default function DatesPicker(props) {
-  const { values, setValues } = props;
+export default function DatesPicker({ values, setValues }) {
   const ExampleCustomInput = React.forwardRef(({ value, onClick }, ref) => (
     <button className={cx('example-custom-input')} onClick={onClick} ref={ref}>
       {value}

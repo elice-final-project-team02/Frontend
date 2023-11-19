@@ -54,8 +54,27 @@ export default function WritePost() {
   const [checkedDaysList, setCheckedDaysList] = React.useState([]);
   const [isDayChecked, setIsDayChecked] = React.useState(false);
 
-  const checkAgeHandler = useMultiSelection(checkedAgeList, setCheckedAgeList, isAgeChecked, setIsAgeChecked);
-  const checkDayHandler = useMultiSelection(checkedDaysList, setCheckedDaysList, isDayChecked, setIsDayChecked);
+  const checkAgeHandler = makeCheckHandler(checkedAgeList, setCheckedAgeList, isAgeChecked, setIsAgeChecked);
+  const checkDayHandler = makeCheckHandler(checkedDaysList, setCheckedDaysList, isDayChecked, setIsDayChecked);
+
+  function makeCheckHandler(checkedList, setCheckedList, isChecked, setIsChecked) {
+    function checkedItemHandler(value, isChecked) {
+      if (isChecked) {
+        setCheckedList((prev) => [...prev, value]);
+        return;
+      }
+      if (!isChecked && checkedList.includes(value)) {
+        setCheckedList(checkedList.filter((item) => item !== value));
+        return;
+      }
+      return;
+    }
+    function checkHandler(e, value) {
+      setIsChecked(!isChecked);
+      checkedItemHandler(value, e.target.checked);
+    }
+    return checkHandler;
+  }
 
   React.useEffect(() => {
     return setValues({ ...values, preferredMateAge: checkedAgeList });
@@ -129,7 +148,6 @@ export default function WritePost() {
   }
   function handleSubmit(e) {
     e.preventDefault();
-    console.log(values);
   }
 
   return (
