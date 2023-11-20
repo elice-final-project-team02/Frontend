@@ -1,5 +1,5 @@
 import React from 'react';
-import { ReactComponent as PinkClam } from 'assets/images/pinkClam.svg';
+import PinkClam from 'assets/images/clam-pink.png';
 import styles from './Register.module.scss';
 import cs from 'classnames/bind';
 import { Link, useNavigate } from 'react-router-dom';
@@ -17,7 +17,10 @@ export default function Register() {
           }}
         >
           <div className={cx('container')}>
-            <PinkClam className={cx('clamImg')} />
+            <div>
+              <img src={PinkClam} className={cx('clamImg')} alt="Pink Clam" />
+            </div>
+            {/* <PinkClam className={cx('clamImg')} /> */}
             <div>
               <span>" 돌봄 서비스를 신청하고싶어요. "</span>
               <p>일반유저 회원가입</p>
@@ -30,7 +33,9 @@ export default function Register() {
           }}
         >
           <div className={cx('container')}>
-            <PinkClam className={cx('clamImg')} />
+            <div>
+              <img src={PinkClam} className={cx('clamImg')} alt="Pink Clam" />
+            </div>
             <div>
               <span>" 돌봄 서비스를 제공하고싶어요. "</span>
               <p>돌봄유저 회원가입</p>
