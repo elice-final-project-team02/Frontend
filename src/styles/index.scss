@@ -1,6 +1,14 @@
 @import './reset.scss';
 @import './_variables.scss';
 @import './_libraryCustom.scss';
+@import './_font.scss';
+
+*,
+*::after,
+*::before {
+  font-family: 'GmarketSansMedium' !important;
+}
+
 body {
   font-size: 16px;
 }
