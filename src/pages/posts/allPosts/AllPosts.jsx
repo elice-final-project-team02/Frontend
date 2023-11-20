@@ -17,7 +17,7 @@ const generateSampleData = (count) => {
     preferredmate_gender: '남성',
     author: 'John Doe',
     timestamp: '11/10',
-    title: '5세 남아 등하원, 실내놀이실내놀이실내놀이 시터 구합니다.',
+    title: '5세 남아 등하원등하원 등하원 등하원  시터 구합니다.',
     care_term: '정기',
     care_days: '월 수 금',
     start_time: '09:00 AM',
@@ -30,7 +30,7 @@ const generateSampleData = (count) => {
   }));
 };
 
-const sampleData = generateSampleData(10);
+const sampleData = generateSampleData(11);
 
 const cardsPerPage = 6;
 

@@ -16,6 +16,14 @@ const FilterCareTarget = () => {
             {target}
           </label>
         ))}
+        <label className={cx('filter-target')}>
+          <input type="checkbox" value="단기" />
+          단기
+        </label>
+        <label className={cx('filter-target')}>
+          <input type="checkbox" value="정기" />
+          정기
+        </label>
       </div>
     </div>
   );

@@ -42,10 +42,11 @@
     width: 200px;
     flex-wrap: wrap;
 
-    span {
+    img {
       //careTerm 이미지로 변경 후 삭제
       display: flex;
       justify-content: space-evenly;
+      width: 50px;
     }
   }
 
@@ -60,7 +61,7 @@
   .main-bottom {
     display: flex;
     justify-content: space-between;
-    // align-items: flex-end; 폰트 정하고 결정
+    align-items: flex-end;
   }
 
   .time-stamp {
@@ -68,6 +69,7 @@
     font-size: 13px;
     align-items: center;
     color: #575757;
+    margin-right: 20px;
   }
 
   .card-status {
@@ -79,9 +81,7 @@
 
   .icon-container {
     display: flex;
-    align-items: center;
-    margin-right: 10px;
-    max-width: 78.4px;
+    margin-right: 20px;
   }
 
   .extra-info {
@@ -110,11 +110,12 @@
   }
 
   .title {
-    font-size: 18px;
+    font-size: 20px;
     line-height: normal;
     display: block;
-    max-width: 200px;
-    height: 50px;
+    max-width: 230px;
+    height: 55px;
+    padding: 10px 0;
     overflow: hidden;
     text-overflow: ellipsis;
     display: -webkit-box;

@@ -2,10 +2,9 @@
   .card-list-container {
     display: flex;
     flex-wrap: wrap;
-    justify-content: space-between;
   }
 
   .card-list-container > * {
-    margin-bottom: 60px;
+    margin: 10px 20px 30px 20px;
   }
 }

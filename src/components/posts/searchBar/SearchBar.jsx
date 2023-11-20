@@ -23,7 +23,7 @@ const SearchBar = () => {
         value={searchInput}
       />
       <button className={cx('search-icon')}>
-        <FaSearch color="#d3d3d3" />
+        <FaSearch color="#999999" />
       </button>
     </div>
   );
