@@ -1,0 +1,10 @@
+export const LongTerm = require('./long-term.png');
+export const ShortTerm = require('./short-term.png');
+export const Child = require('./child.png');
+export const Senior1 = require('./senior1.png');
+export const Senior2 = require('./senior2.png');
+export const PinkClam = require('./clam-pink.png');
+export const Infant = require('./infant.png');
+export const Disabled = require('./disabled.png');
+export const Logo = require('./logo.png');
+export const LogoClam = require('./logo-clam.png');

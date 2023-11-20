@@ -3,8 +3,10 @@ import { BsPersonFill } from 'react-icons/bs';
 import { FaMapMarkerAlt, FaCalendar, FaClock } from 'react-icons/fa';
 import { PiMoneyFill } from 'react-icons/pi';
 import targetImg from './draftImage.png';
-import WishButton from 'components/posts/wishButton/WishButton.jsx';
-import MessageButton from 'components/posts/messageButton/MessageButton.jsx';
+import { MessageButton, WishButton } from 'components';
+// import LongTerm from 'assets/images/long-term.png';
+// import ShortTerm from 'assets/images/short-term.png';
+import { LongTerm, ShortTerm } from 'assets/images';
 import styles from './Card.module.scss';
 import cs from 'classnames/bind';
 
@@ -38,7 +40,7 @@ const Card = ({
           <div className={cx('main-upper')}>
             <img src={targetImg} alt="targetImage" className={cx('target-image')} />
             <div className={cx('upper-info')}>
-              <span className={cx('care-term')}>{care_term}</span>
+              <img src={LongTerm} alt="longTerm" className={cx('long-term-icon')} />
               <h3 className={titleContainer}>{title}</h3>
             </div>
           </div>
