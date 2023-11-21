@@ -1,7 +1,7 @@
 .wrapper {
   .card {
     border: 1px solid #e0e0e0;
-    width: 280px;
+    width: 270px;
     height: 350px;
     border-radius: 10px;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
@@ -30,18 +30,15 @@
       }
 
       .time-stamp {
-        // display: flex;
         font-size: 13px;
-        // align-items: center;
         color: #575757;
       }
 
       .card-status {
-        // display: flex;
-        // align-items: center;
         color: white;
-        font-size: 25px;
-        font-family: var(--font-soyoMapleBold) !important;
+        font-size: 23px;
+        font-family: var(--ff-accent) !important;
+        font-weight: var(--fw-bold);
       }
     }
   }
@@ -117,10 +114,9 @@
   }
 
   .title {
-    font-size: 18px;
+    font-size: 19px;
     line-height: normal;
     display: block;
-    // max-width: 230px;
     height: 55px;
     padding: 10px 0;
     overflow: hidden;
