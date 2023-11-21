@@ -6,7 +6,13 @@
 *,
 *::after,
 *::before {
-  font-family: 'GmarketSansMedium' !important;
+  font-family: 'Pretendard-Medium' !important;
+}
+
+:root {
+  --font-soyoMapleBold: 'Soyo-Maple-Bold';
+  --font-pretendardBold: 'Pretendard-Bold';
+  --font-pretendardRegular: 'Pretendard-Regular';
 }
 
 body {
