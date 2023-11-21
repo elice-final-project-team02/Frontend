@@ -3,7 +3,7 @@ import InputStatus from './inputStatus';
 const rules = {
   email: /^[A-Za-z0-9_]+[A-Za-z0-9]*[@]{1}[A-Za-z0-9]+[A-Za-z0-9]*[.]{1}[A-Za-z]{1,3}$/,
   password: /^(?=.*[a-zA-Z])(?=.*[!@#$%^*+=-])(?=.*[0-9]).{8,25}$/,
-  phone: /^01([0|1|6|7|8|9])-?([0-9]{3,4})-?([0-9]{4})$/,
+  phone: /^(010|011|016|017|018|019)(\d{3,4})(\d{4})$/,
   passwordConfirm: (inputValue, password) => inputValue === password,
   name: (inputValue) => inputValue.length >= 2,
 };

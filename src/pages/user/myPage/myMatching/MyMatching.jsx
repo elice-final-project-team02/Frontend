@@ -6,30 +6,37 @@ const cx = cs.bind(styles);
 
 const postList = [
   {
+    matched: 'user1',
     _id: '1234',
     title: '8시부터 10시까지 돌봄 서비스 요청합니다.',
   },
   {
+    matched: 'user1',
     _id: '12345',
     title: '등하원 시터 구합니다.',
   },
   {
+    matched: 'user1',
     _id: '12346',
     title: '8시부터 10시까지 돌봄 서비스 요청합니다.',
   },
   {
+    matched: 'user1',
     _id: '12347',
     title: '등하원 시터 구합니다.',
   },
   {
+    matched: 'user1',
     _id: '12348',
     title: '8시부터 10시까지 돌봄 서비스 요청합니다.',
   },
   {
+    matched: 'user1',
     _id: '12349',
     title: '등하원 시터 구합니다.',
   },
   {
+    matched: 'user1',
     _id: '123410',
     title: '8시부터 10시까지 돌봄 서비스 요청합니다.',
   },

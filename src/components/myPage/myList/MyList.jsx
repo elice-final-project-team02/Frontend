@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import styles from './MyList.module.scss';
 import { FaHeart } from 'react-icons/fa';
-import { CiCircleCheck } from 'react-icons/ci';
+import { PiTrashFill } from 'react-icons/pi';
 import cs from 'classnames/bind';
 const cx = cs.bind(styles);
 
@@ -32,15 +32,14 @@ export default function MyList({ postList, searchText, role, edit, checkedId, on
                 onChange={() => onChangeCheckbox(post._id)}
               />
             )}
+            {matching && <span className={cx('matched-name')}>{post.matched}님과 매칭</span>}
             <Link to={`/posts/${post._id}`}>
-              <span>{post.title}</span>
+              <span className={cx('title')}>{post.title}</span>
             </Link>
             {matching ? (
-              <CiCircleCheck className={cx('whole')} />
+              ''
             ) : role === '일반' ? (
-              <button className={cx('delete-button')} onClick={() => handleDeletePost(post._id)}>
-                삭제
-              </button>
+              <PiTrashFill className={cx('delete-button')} onClick={() => handleDeletePost(post._id)} size="18" />
             ) : (
               <FaHeart className={cx('heart')} />
             )}

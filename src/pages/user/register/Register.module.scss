@@ -80,15 +80,20 @@
     display: flex;
     .clamImg {
       width: 100px;
-      margin-right: 40px;
+      margin-right: 50px;
     }
     span {
       font-size: 24px;
     }
     p {
-      font-size: 28px;
-      margin-top: 20px;
-      color: #ff6464;
+      font-size: 24px;
+      margin-top: 30px;
+    }
+    .general > p {
+      color: var(--crl-blue-900);
+    }
+    .care > p {
+      color: --crl-red-800;
     }
   }
 
@@ -107,7 +112,7 @@
     font-weight: bold;
   }
 
-  // info1, info2
+  // authInfo, userInfo
 
   .registerContainer {
     display: flex;
@@ -151,9 +156,6 @@
     button:first-child {
       margin-right: 10px;
     }
-    .nextBtn {
-      background-color: #fee5e5;
-    }
   }
 
   .submitBtnContainer {
@@ -165,10 +167,23 @@
 
   .submitBtn {
     width: 40%;
-    background-color: #fee5e5;
     padding: 8px 0;
     border: none;
     border-radius: 4px;
     font-size: 16px;
+  }
+  .generalButton {
+    background-color: var(--crl-blue-900);
+    color: white;
+    &:disabled {
+      background-color: var(--crl-blue-700);
+    }
+  }
+  .careButton {
+    background-color: var(--crl-red-800);
+    color: white;
+    &:disabled {
+      background-color: var(--crl-red-600);
+    }
   }
 } // wrapper close

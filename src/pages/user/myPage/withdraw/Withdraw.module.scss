@@ -18,14 +18,15 @@
     align-items: center;
     justify-content: center;
     flex-direction: column;
-    border: 1.2px solid black;
+    border: 1.2px solid var(--crl-neutral-400);
+    border-radius: 4px;
 
     h1 {
       font-size: 24px;
     }
     p {
       color: #ff2929;
-      font-size: 13px;
+      font-size: 12px;
       margin: 12px 0;
     }
     input {

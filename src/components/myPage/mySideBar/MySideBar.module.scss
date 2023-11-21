@@ -1,12 +1,13 @@
 .wrapper {
   .sidebar {
-    border: 1px solid #dcdcdc;
+    // border: 1px solid #dcdcdc;
     border-radius: 10px;
-    width: 220px;
-    padding: 30px 15px;
+    width: 195px;
+    padding: 40px 20px;
     position: sticky;
     top: 50px;
     left: 0;
+    box-shadow: 1px 3px 6px var(--crl-neutral-600);
   }
 
   .section {
@@ -22,14 +23,11 @@
   .user,
   .post {
     ul {
-      margin-top: 12px;
-      margin-left: 16px;
+      margin: 20px 0 0 16px;
       li {
         margin-top: 10px;
+        font-size: 14px;
       }
-    }
-    li {
-      list-style: inside;
     }
     + li {
       margin-top: 40px;

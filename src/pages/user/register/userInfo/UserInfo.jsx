@@ -31,21 +31,21 @@ export default function UserInfo() {
   const [region, setRegion] = useState('');
   const [subRegion, setSubRegion] = useState('');
 
-  //오류 메시지
-  const [nameStatus, setNameStatus] = useState(InputStatus.NORMAL);
-  const [phoneStatus, setPhoneStatus] = useState(InputStatus.NORMAL);
+  // error 존재 여부 (name, phone)
+  const [hasError, setHasError] = useState([false, false]);
 
   // 입력 값 변경 시 유효성 검사 수행
-  const handleInputChange = (inputValue, inputName, setStatus, setState) => {
+  const handleInputChange = (inputValue, inputName, index, setState) => {
     const status = validateInput(inputValue, inputName);
-    setStatus(status);
     setState(inputValue);
+    const newErrors = [...hasError];
+    newErrors[index] = status === InputStatus.ERROR;
+    setHasError(newErrors);
   };
 
   // 모든 필드가 유효하고 값이 존재하는지 확인
   const isValid =
-    nameStatus !== InputStatus.ERROR &&
-    phoneStatus !== InputStatus.ERROR &&
+    !hasError.includes(true) &&
     name !== '' &&
     phone !== '' &&
     age !== '' &&
@@ -65,23 +65,21 @@ export default function UserInfo() {
       <div className={cx('registerContainer')}>
         <AuthInput
           text="이름"
-          status={nameStatus}
           type="string"
           name="name"
-          onChange={(val) => handleInputChange(val, 'name', setNameStatus, setName)}
+          onChange={(val) => handleInputChange(val, 'name', 0, setName)}
           value={name}
           placeholder="본명을 입력해주세요"
-          message={nameStatus === InputStatus.ERROR ? '이름은 2글자 이상 작성해주세요.' : ''}
+          message={hasError[0] ? '이름은 2글자 이상 작성해주세요.' : ''}
         />
         <AuthInput
           text="휴대폰 번호"
-          status={phoneStatus}
           type="string"
           name="phone"
           value={phone}
           placeholder="-을 제외하고 입력해주세요"
-          onChange={(val) => handleInputChange(val, 'phone', setPhoneStatus, setPhone)}
-          message={phoneStatus === InputStatus.ERROR ? '올바른 형식이 아닙니다.' : ''}
+          onChange={(val) => handleInputChange(val, 'phone', 1, setPhone)}
+          message={hasError[1] ? '올바른 형식이 아닙니다.' : ''}
         />
         <AuthSelect
           name="gender"
@@ -105,7 +103,11 @@ export default function UserInfo() {
           </div>
         </div>
         <div className={cx('submitBtnContainer')}>
-          <button className={cx('submitBtn')} onClick={handleSubmit} disabled={!isValid}>
+          <button
+            className={cx('submitBtn', { careButton: role === '돌봄유저', generalButton: role === '일반유저' })}
+            onClick={handleSubmit}
+            disabled={!isValid}
+          >
             가입하기
           </button>
         </div>

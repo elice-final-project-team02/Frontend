@@ -1,12 +1,10 @@
 import React from 'react';
 import styles from './AuthInput.module.scss';
 import cs from 'classnames/bind';
-import { InputStatus } from 'lib';
 const cx = cs.bind(styles);
 
 export default function AuthInput({
   text,
-  status = InputStatus.NORMAL,
   placeholder,
   name,
   type,
@@ -20,7 +18,7 @@ export default function AuthInput({
 }) {
   return (
     <div className={cx('wrapper')}>
-      <div className={cx('auth-wrapper')} status={status}>
+      <div className={cx('auth-wrapper')}>
         <label htmlFor={name}>{text}</label>
         <input
           type={type}

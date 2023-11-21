@@ -83,7 +83,13 @@ export default function MyWishList() {
           <MySearch onSearchChange={handleSearchChange} />
           {edit ? (
             <>
-              <button onClick={() => setEdit(false)} className={cx('cancel')}>
+              <button
+                onClick={() => {
+                  setEdit(false);
+                  setCheckedId([]);
+                }}
+                className={cx('cancel')}
+              >
                 취소
               </button>
               <button onClick={handleDeleteList} className={cx('complete')}>

@@ -3,4 +3,46 @@
   display: flex;
   flex-direction: column;
 }
+.react-datepicker {
+  border: 0;
+  border-radius: 0;
+  background-color: var(--crl-blue-100);
+  font-size: 12px;
+  transition: 0.4s;
+}
+
+.react-datepicker__header {
+  background-color: var(--crl-blue-900);
+}
+.react-datepicker__day--today {
+  font-weight: initial;
+}
+.react-datepicker__header:not(.react-datepicker__header--has-time-select) {
+  border-top-right-radius: 0;
+}
+.react-datepicker__header {
+  border-top-left-radius: 0;
+  padding: 16px 0;
+}
+.react-datepicker__current-month {
+  font-size: 12px;
+  font-weight: initial;
+}
+.react-datepicker__day--highlighted {
+  background-color: var(--crl-blue-900);
+  border-radius: 100%;
+}
+.react-datepicker__day--highlighted:hover {
+  background-color: var(--crl-blue-900);
+}
+.react-datepicker__day:hover {
+  border-radius: 100%;
+}
+// timepicker
+.react-datepicker__input-container {
+  cursor: pointer;
+}
+.react-datepicker-ignore-onclickoutside {
+  cursor: pointer;
+}
 //

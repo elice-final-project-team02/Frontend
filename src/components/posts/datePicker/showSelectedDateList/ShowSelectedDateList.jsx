@@ -4,6 +4,7 @@ import cs from 'classnames/bind';
 import { dateFormatter } from 'lib';
 import { v4 as uuidv4 } from 'uuid';
 import { NewTimesPicker } from 'components';
+import { BiSolidPencil } from 'react-icons/bi';
 const cx = cs.bind(styles);
 
 export default function ShowSelectedDateList({ postContent, setPostContent, array, type }) {
@@ -58,11 +59,15 @@ export default function ShowSelectedDateList({ postContent, setPostContent, arra
             .sort((a, b) => a - b)
             .map((item, index) => (
               <li key={uuidv4()}>
-                <div>
-                  {`${dateFormatter.changeDateToMonthAndDateAndDayOfTheWeek(item)} ${dateFormatter.changeDateToHHMM(
-                    postContent.shortTerm[index].startTime
-                  )}-${dateFormatter.changeDateToHHMM(postContent.shortTerm[index].endTime)}`}
-                  <button onClick={() => handleItemClick(index)}>+시간 수정</button>
+                <div className={cx('selected-time-wrapper')}>
+                  <span>
+                    {`${dateFormatter.changeDateToMonthAndDateAndDayOfTheWeek(item)} ${dateFormatter.changeDateToHHMM(
+                      postContent.shortTerm[index].startTime
+                    )}-${dateFormatter.changeDateToHHMM(postContent.shortTerm[index].endTime)}`}
+                  </span>
+                  <button onClick={() => handleItemClick(index)}>
+                    <BiSolidPencil />
+                  </button>
                 </div>
                 {isIndivisualTimeControll[index] && (
                   <span className={cx('indivisual-time-controll-wrapper')}>
@@ -90,11 +95,15 @@ export default function ShowSelectedDateList({ postContent, setPostContent, arra
             .map((number) => dateFormatter.changeNumberToKoreaDayOfWeek(number))
             .map((item, index) => (
               <li key={uuidv4()}>
-                <div>
-                  {`${item}요일 ${postContent.longTerm.schedule[
-                    index
-                  ].startTime.getHours()}:00-${postContent.longTerm.schedule[index].endTime.getHours()}:00`}
-                  <button onClick={() => handleItemClick(index)}>+시간 수정</button>
+                <div className={cx('selected-time-wrapper')}>
+                  <span>
+                    {`${item}요일 ${postContent.longTerm.schedule[
+                      index
+                    ].startTime.getHours()}:00-${postContent.longTerm.schedule[index].endTime.getHours()}:00`}
+                  </span>
+                  <button onClick={() => handleItemClick(index)}>
+                    <BiSolidPencil />
+                  </button>
                 </div>
                 {isIndivisualTimeControll[index] && (
                   <span className={cx('indivisual-time-controll-wrapper')}>

@@ -1,7 +1,7 @@
 import React, { useState, useRef, useCallback } from 'react';
 import styles from './MyPage.module.scss';
 import cs from 'classnames/bind';
-import ProfileImage from 'assets/images/user.png';
+import { ProfileImage } from 'assets/images';
 import { MyTitle, MySideBar, Region } from 'components';
 const cx = cs.bind(styles);
 
@@ -17,7 +17,7 @@ export default function MyPage() {
     region: '서울특별시',
     sub_region: '강남구',
     role: '돌봄유저',
-    introduction: '안녕하세요! 저는 사회복지사 2급 자격증을 가지고 있습니다.',
+    introduction: '안녕하세요. 저는 사회복지사 2급 자격증을 가지고 있습니다.',
   });
   const formattedPhone = userInfo.phone_number.replace(/(\d{3})(\d{3,4})(\d{4})/, '$1-$2-$3');
 
