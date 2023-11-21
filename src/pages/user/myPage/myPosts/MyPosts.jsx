@@ -56,7 +56,7 @@ export default function MyPosts() {
         </div>
         <main>
           <MyTitle text="MY 등록 게시물" />
-          <MySearch onSearchChange={handleSearchChange} />
+          <MySearch value={searchText} onChange={handleSearchChange} />
           <div className={cx('content')}>
             <MyList postList={postList} searchText={searchText} role={role} />
             <Pagination currPage={currPage} onClickPage={setCurrPage} pageCount={10} />

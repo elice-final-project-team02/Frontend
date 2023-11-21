@@ -63,7 +63,7 @@ export default function MyMatching() {
         </div>
         <main>
           <MyTitle text="매칭 완료된 리스트" />
-          <MySearch onSearchChange={handleSearchChange} />
+          <MySearch value={searchText} onChange={handleSearchChange} />
           <div className={cx('content')}>
             <MyList postList={postList} searchText={searchText} role={role} matching />
             <Pagination currPage={currPage} onClickPage={setCurrPage} pageCount={10} />

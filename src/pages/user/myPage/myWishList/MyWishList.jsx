@@ -80,7 +80,7 @@ export default function MyWishList() {
         </div>
         <main>
           <MyTitle text="찜한 돌봄서비스" />
-          <MySearch onSearchChange={handleSearchChange} />
+          <MySearch value={searchText} onChange={handleSearchChange} />
           {edit ? (
             <>
               <button

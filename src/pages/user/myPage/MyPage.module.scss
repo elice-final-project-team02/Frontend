@@ -39,8 +39,8 @@
     align-items: center;
     flex-direction: column;
     img {
-      width: 120px;
-      height: 120px;
+      width: 110px;
+      height: 110px;
       border-radius: 50%;
     }
   }
@@ -52,7 +52,7 @@
     h1 {
       font-size: 16px;
       font-weight: bold;
-      margin-bottom: 8px;
+      margin-bottom: 4px;
     }
     .left,
     .right {
@@ -107,6 +107,10 @@
     color: white;
     margin-right: 20%;
   }
+  .saveBtn:disabled {
+    cursor: not-allowed;
+    background-color: var(--crl-blue-700);
+  }
 
   .cancelBtn {
     background-color: var(--crl-red-100);
@@ -128,11 +132,29 @@
     width: 90%;
   }
 
+  .error-text {
+    width: 90%;
+    margin-top: 4px;
+    font-size: 13px;
+    color: #ff6464;
+  }
+
   input:focus {
     outline: none;
   }
 
   input[type='file'] {
     display: none;
+  }
+
+  input:-internal-autofill-selected {
+    background-image: none !important;
+    background-color: transparent !important;
+    color: inherit !important;
+  }
+  input:-webkit-autofill,
+  input:-webkit-autofill:active {
+    transition: background-color 5000s ease-in-out 0s;
+    -webkit-text-fill-color: inherit !important;
   }
 } // wrapper close

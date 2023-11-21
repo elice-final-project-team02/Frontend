@@ -1,21 +1,62 @@
 @font-face {
+  font-family: 'Pretendard-light';
+  src: url('/assets/font/pretendard/Pretendard-Regular.ttf');
+}
+@font-face {
   font-family: 'Pretendard-Regular';
-  src: url('../font/pretendard/Pretendard-Regular.ttf');
-  // font-weight: 400;
-  // font-style: normal;
+  src: url('/assets/font/pretendard/Pretendard-Regular.ttf');
 }
 
 @font-face {
   font-family: 'Pretendard-Bold';
-  src: url('../font/pretendard/Pretendard-Bold.ttf');
+  src: url('/assets/font/pretendard/Pretendard-Bold.ttf');
 }
 
 @font-face {
   font-family: 'Pretendard-Medium';
-  src: url('../font/pretendard/Pretendard-Medium.ttf');
+  src: url('/assets/font/pretendard/Pretendard-Medium.ttf');
 }
 
 @font-face {
+  font-family: 'Soyo-Maple-Regular';
+  src: url('/assets/font/soyoMaple/Soyo-Maple-Regular.ttf');
+}
+@font-face {
   font-family: 'Soyo-Maple-Bold';
-  src: url('../font/soyoMaple/Soyo-Maple-Bold.ttf');
+  src: url('/assets/font/soyoMaple/Soyo-Maple-Bold.ttf');
+}
+
+///////////////////////////////////////////////////
+///
+@font-face {
+  font-family: 'Pretendard';
+  src: url('/assets/font/pretendard/Pretendard-Light.ttf');
+  font-weight: 200;
+}
+@font-face {
+  font-family: 'Pretendard';
+  src: url('/assets/font/pretendard/Pretendard-Regular.ttf');
+  font-weight: 400;
+}
+
+@font-face {
+  font-family: 'Pretendard';
+  src: url('/assets/font/pretendard/Pretendard-Medium.ttf');
+  font-weight: 500;
+}
+@font-face {
+  font-family: 'Pretendard';
+  src: url('/assets/font/pretendard/Pretendard-Bold.ttf');
+  font-weight: 600;
+}
+
+@font-face {
+  font-family: 'Soyo-Maple';
+  src: url('/assets/font/soyoMaple/Soyo-Maple-Regular.ttf');
+  font-weight: 200;
+}
+@font-face {
+  font-family: 'Soyo-Maple';
+  src: url('/assets/font/soyoMaple/Soyo-Maple-Bold.ttf');
+  font-weight: 600;
 }

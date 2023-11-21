@@ -6,7 +6,8 @@
 *,
 *::after,
 *::before {
-  font-family: 'Pretendard-Medium' !important;
+  font-family: var(--ff-primary);
+  font-weight: var(--fw-medium);
 }
 
 :root {
@@ -17,6 +18,8 @@
 
 body {
   font-size: 16px;
+  font-family: var(--ff-primary);
+  font-weight: var(--fw-medium);
 }
 
 // 본문 content 최소영역 확보

@@ -214,6 +214,10 @@
     }
     input {
       display: none;
+      &:checked + label {
+        background-color: var(--crl-blue-900);
+        color: var(--crl-neutral-100);
+      }
     }
   }
   .preferred-mate-gender-wrapper {

@@ -329,7 +329,7 @@ export default function WritePost() {
             <input
               type="radio"
               onChange={handleChange}
-              name="preferred-mate-gender"
+              name="preferredMateGender"
               id="mateGenderFree"
               value="성별무관"
             />
@@ -339,7 +339,6 @@ export default function WritePost() {
           <div className={cx('preferred-mate-age-wrapper')}>
             {ageList.map((age, index) => (
               <span key={index}>
-                <label htmlFor={age}>{age}</label>
                 <input
                   id={age}
                   type="checkbox"
@@ -349,6 +348,7 @@ export default function WritePost() {
                     return setPostContent({ ...postContent, preferredMateAge: checkedAgeList });
                   }}
                 />
+                <label htmlFor={age}>{age}</label>
               </span>
             ))}
           </div>
