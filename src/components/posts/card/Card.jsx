@@ -46,9 +46,7 @@ const Card = ({
           <div className={cx('main-bottom')}>
             <span className={cx('card-status')}>{status}</span>
             <span className={cx('time-stamp')}>등록일 {timestamp}</span>
-            <div className={cx('icon-container')}>
-              <WishButton />
-            </div>
+            <WishButton />
           </div>
         </div>
         <div className={cx('extra-info')}>
