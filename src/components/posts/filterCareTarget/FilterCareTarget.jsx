@@ -10,8 +10,8 @@ const FilterCareTarget = () => {
   return (
     <div className={cx('wrapper')}>
       <div className={cx('filter-container')}>
-        {careTargets.map((target) => (
-          <label className={cx('filter-target')}>
+        {careTargets.map((target, index) => (
+          <label className={cx('filter-target')} key={index}>
             <input type="checkbox" value={target} />
             {target}
           </label>

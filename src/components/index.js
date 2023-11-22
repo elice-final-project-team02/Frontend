@@ -18,6 +18,7 @@ export * from './posts/wishButton';
 export * from './posts/toggle';
 export * from './posts/searchBar';
 export * from './posts/filterCareTarget';
+export * from './posts/postList';
 export * from './myPage/mySideBar';
 export * from './myPage/myTitle';
 export * from './myPage/mySearch';

@@ -1,13 +1,11 @@
 import React, { useState } from 'react';
 import styles from './AllPosts.module.scss';
 import cs from 'classnames/bind';
-import { Pagination, FilterCareTarget, SearchBar, Card } from '../../../components';
-
-import { Link } from 'react-router-dom';
+import { Pagination, FilterCareTarget, SearchBar, PostList } from '../../../components';
 
 const cx = cs.bind(styles);
 
-const generateSampleData = (count) => {
+const generateSampleData = (count, titlePrefix) => {
   return Array.from({ length: count }, (_, index) => ({
     post_id: index + 1,
     region: '부산시 어쩌구',
@@ -17,7 +15,7 @@ const generateSampleData = (count) => {
     preferredmate_gender: '남성',
     author: 'John Doe',
     timestamp: '11/10',
-    title: '5세 남아 등하원등하원 등하원 등하원  시터 구합니다.',
+    title: `${titlePrefix} ${index + 1}`,
     care_term: '정기',
     care_days: '월 수 금',
     start_time: '09:00 AM',
@@ -30,28 +28,34 @@ const generateSampleData = (count) => {
   }));
 };
 
-const sampleData = generateSampleData(11);
+const sampleData1 = generateSampleData(6, '5세 남아 등하원 시터 구해요');
+const sampleData2 = generateSampleData(5, '휠체어 장애인 돌봄 서비스 요청합니다. ');
+const sampleData3 = generateSampleData(5, '등하원 시터');
 
-const cardsPerPage = 6;
+const sampleData = [...sampleData1, ...sampleData2, ...sampleData3];
 
 export default function AllPosts() {
-  const [currPage, setCurrPage] = useState(0);
+  const [searchInput, setSearchInput] = useState('');
+  const [currentPage, setCurrentPage] = useState(0);
   // const slicedCards = sampleData.slice((currPage - 1) * cardsPerPage, currPage * cardsPerPage);
+
+  const handleSearchChange = (text) => {
+    setSearchInput(text);
+  };
+
   return (
     <div className={cx('wrapper')}>
-      <SearchBar />
+      <SearchBar value={searchInput} onChange={handleSearchChange} />
       <div className={cx('recruit-container')}>
-        {/* <input type="text" value={search} onChange={onChange} /> */}
         <FilterCareTarget />
-        <div className={cx('card-list-container')}>
-          {sampleData.slice(currPage * cardsPerPage, (currPage + 1) * cardsPerPage).map((data) => (
-            <Link to={'./123'}>
-              <Card {...data} />
-            </Link>
-          ))}
-        </div>
+        <PostList
+          cardList={sampleData}
+          searchInput={searchInput}
+          currentPage={currentPage}
+          onPageChange={setCurrentPage}
+        />
         <div className={cx('pagination-container')}>
-          <Pagination currPage={currPage} onClickPage={setCurrPage} pageCount={10} />
+          <Pagination currPage={currentPage} onClickPage={setCurrentPage} pageCount={10} />
         </div>
       </div>
     </div>
