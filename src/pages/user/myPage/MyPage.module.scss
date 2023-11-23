@@ -93,42 +93,42 @@
     }
   }
 
-  .editBtn,
-  .saveBtn,
-  .cancelBtn {
+  .edit-button,
+  .save-button,
+  .cancel-button {
     float: right;
     width: 90px;
     border: none;
   }
 
-  .editBtn,
-  .saveBtn {
+  .edit-button,
+  .save-button {
     background-color: var(--crl-blue-900);
     color: white;
     margin-right: 20%;
   }
-  .saveBtn:disabled {
+  .save-button:disabled {
     cursor: not-allowed;
     background-color: var(--crl-blue-700);
   }
 
-  .cancelBtn {
+  .cancel-button {
     background-color: var(--crl-red-100);
     color: black;
     margin-right: 4px;
     border: 1px solid var(--crl-blue-900);
   }
 
-  .editPwd,
-  .cancelPwd,
-  .editImg {
+  .edit-password,
+  .cancel-password,
+  .edit-image {
     border: none;
   }
-  .editImg {
+  .edit-image {
     width: 80px;
   }
-  .editPwd,
-  .cancelPwd {
+  .edit-password,
+  .cancel-password {
     width: 90%;
   }
 

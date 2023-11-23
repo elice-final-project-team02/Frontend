@@ -4,26 +4,65 @@ import cs from 'classnames/bind';
 import { ProfileImage } from 'assets/images';
 import { MyTitle, MySideBar, Region } from 'components';
 import { InputStatus, validateInput } from 'lib';
+import { useGetUser, usePutUser } from 'hooks';
 const cx = cs.bind(styles);
 
 export default function MyPage() {
-  // 임시 데이터 (추후 get 요청)
+  const { data, isLoading } = useGetUser();
+  // 임시 데이터
   const [userInfo, setUserInfo] = useState({
     profile_url: '',
     email: 'test@test.com',
-    currentPassword: '',
-    password: '',
-    passwordConfirm: '',
-    name: 'user1',
-    phone: '01011112222',
+    name: '김유저',
+    phoneNumber: '01011112222',
     age: '20대',
     gender: '여자',
     region: '서울특별시',
-    sub_region: '강남구',
+    subRegion: '강남구',
     role: '돌봄유저',
-    introduction: '안녕하세요. 저는 사회복지사 2급 자격증을 가지고 있습니다.',
+    introduction: '안녕하세요! 저는 사회복지사 2급 자격증을 가지고 있습니다.',
   });
-  const formattedPhone = userInfo.phone.replace(/(\d{3})(\d{3,4})(\d{4})/, '$1-$2-$3');
+
+  if (data) {
+    const displayedRole = data.role.careUser === 'user' ? '일반유저' : '돌봄유저';
+    setUserInfo({
+      profile_url: '',
+      email: data.email,
+      currentPassword: '',
+      password: '',
+      passwordConfirm: '',
+      name: data.name,
+      phoneNumber: data.phoneNumber,
+      age: data.age,
+      gender: data.gender,
+      region: data.area.region,
+      sub_region: data.area.subRegion,
+      role: displayedRole,
+      introduction: '안녕하세요. 저는 사회복지사 2급 자격증을 가지고 있습니다.',
+    });
+  }
+
+  const updatedUserInfo = {
+    profile_url: userInfo.profile_url,
+    name: userInfo.name,
+    phoneNumber: userInfo.phoneNumber,
+    age: userInfo.age,
+    gender: userInfo.gender,
+    region: userInfo.region,
+    subRegion: userInfo.subRegion,
+    introduction: userInfo.introduction,
+  };
+
+  if (userInfo.currentPassword) {
+    updatedUserInfo.password = userInfo.currentPassword;
+  }
+  if (userInfo.password) {
+    updatedUserInfo.newPassword = userInfo.password;
+  }
+
+  const { mutate } = usePutUser(updatedUserInfo);
+
+  const formattedPhone = userInfo.phoneNumber && userInfo.phoneNumber.replace(/(\d{3})(\d{3,4})(\d{4})/, '$1-$2-$3');
 
   const [inputErrors, setInputErrors] = useState({
     profile_url: false,
@@ -83,15 +122,14 @@ export default function MyPage() {
   const isValid =
     !Object.values(inputErrors).includes(true) &&
     userInfo.name !== '' &&
-    userInfo.phone !== '' &&
+    userInfo.phoneNumber !== '' &&
     userInfo.region !== '' &&
     userInfo.sub_region !== '' &&
     (!editPwd || (userInfo.currentPassword !== '' && userInfo.password !== '' && userInfo.passwordConfirm !== ''));
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    // put 요청 > 데이터 get 요청
-    alert('수정이 완료되었습니다.');
+    mutate();
     setEdit(false);
     setEditPwd(false);
   };
@@ -111,7 +149,7 @@ export default function MyPage() {
                   <>
                     <img src={selectedImage} alt="이미지 미리보기" />
                     <input type="file" accept="image/*" name="profile_url" ref={imgRef} onChange={handleUploadImage} />
-                    <button type="button" onClick={handleUploadImageButtonClick} className={cx('editImg')}>
+                    <button type="button" onClick={handleUploadImageButtonClick} className={cx('edit-image')}>
                       변경하기
                     </button>
                     {inputErrors.profile_url && (
@@ -143,17 +181,17 @@ export default function MyPage() {
                     )}
                   </div>
                   {edit && (
-                    <button type="button" className={cx('editPwd')} onClick={() => setEditPwd(true)}>
+                    <button type="button" className={cx('edit-password')} onClick={() => setEditPwd(true)}>
                       비밀번호 수정
                     </button>
                   )}
                   {editPwd && (
                     <div>
-                      <div className={cx('currentPwd')}>
+                      <div className={cx('current-password')}>
                         <h1>기존 비밀번호</h1>
                         <input type="password" name="currentPassword" onChange={handleInputChange} />
                       </div>
-                      <div className={cx('newPwd')}>
+                      <div className={cx('new-password')}>
                         <h1>새 비밀번호</h1>
                         <input type="password" name="password" onChange={handleInputChange} />
                         {inputErrors.password && (
@@ -162,7 +200,7 @@ export default function MyPage() {
                           </p>
                         )}
                       </div>
-                      <div className={cx('confirmNewPwd')}>
+                      <div className={cx('confirm-new-password')}>
                         <h1>새 비밀번호 확인</h1>
                         <input
                           type="password"
@@ -173,25 +211,25 @@ export default function MyPage() {
                           <p className={cx('error-text')}>비밀번호가 일치하지 않습니다.</p>
                         )}
                       </div>
-                      <button type="button" onClick={() => setEditPwd(false)} className={cx('cancelPwd')}>
+                      <button type="button" onClick={() => setEditPwd(false)} className={cx('cancel-password')}>
                         비밀번호 수정 취소
                       </button>
                     </div>
                   )}
                 </div>
                 <div className={cx('right')}>
-                  <div className={cx('phone')}>
+                  <div className={cx('phone-number')}>
                     <h1>전화번호</h1>
                     {edit ? (
                       <>
                         <input
                           type="text"
                           name="phone"
-                          value={userInfo.phone}
+                          value={userInfo.phoneNumber}
                           onChange={handleInputChange}
                           placeholder="-을 제외하고 입력해주세요."
                         />
-                        {inputErrors.phone && <p className={cx('error-text')}>올바른 형식이 아닙니다.</p>}
+                        {inputErrors.phoneNumber && <p className={cx('error-text')}>올바른 형식이 아닙니다.</p>}
                       </>
                     ) : (
                       <p>{formattedPhone}</p>
@@ -227,12 +265,12 @@ export default function MyPage() {
                     {edit ? (
                       <Region
                         region1={userInfo.region}
-                        region2={userInfo.sub_region}
+                        region2={userInfo.subRegion}
                         onRegionChange={handleRegionChange}
                       />
                     ) : (
                       <p>
-                        {userInfo.region}/{userInfo.sub_region}
+                        {userInfo.region}/{userInfo.subRegion}
                       </p>
                     )}
                   </div>
@@ -251,18 +289,18 @@ export default function MyPage() {
             {edit ? (
               ''
             ) : (
-              <button type="button" className={cx('editBtn')} onClick={() => setEdit(true)}>
+              <button type="button" className={cx('edit-button')} onClick={() => setEdit(true)}>
                 수정하기
               </button>
             )}
             {edit && (
               <div>
-                <button type="submit" disabled={!isValid} className={cx('saveBtn')}>
+                <button type="submit" disabled={!isValid} className={cx('save-button')}>
                   수정완료
                 </button>
                 <button
                   type="button"
-                  className={cx('cancelBtn')}
+                  className={cx('cancel-button')}
                   onClick={() => {
                     setEdit(false);
                     setEditPwd(false);

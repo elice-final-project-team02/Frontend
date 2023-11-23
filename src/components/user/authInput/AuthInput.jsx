@@ -29,7 +29,7 @@ export default function AuthInput({
           disabled={disabled}
           className={cx({ inputWithButton: isConfirm || isCode })}
         />
-        {isCode && <button>코드전송</button>}
+        {isCode && <button onClick={onVerify}>코드전송</button>}
         {isConfirm && <button onClick={onVerify}>인증확인</button>}
       </div>
       <div className={cx('message-container')}>

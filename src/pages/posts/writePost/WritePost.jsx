@@ -6,6 +6,7 @@ import { region } from 'lib';
 import InfantImage from 'assets/images/infant.png';
 import SeniorOneImage from 'assets/images/senior1.png';
 import DisabledImage from 'assets/images/disabled.png';
+import axios from 'axios';
 const cx = cs.bind(styles);
 
 export default function WritePost() {
@@ -17,6 +18,8 @@ export default function WritePost() {
   const [postContent, setPostContent] = React.useState({
     title: '',
     content: '',
+    region: '',
+    subRegion: '',
     careTarget: '',
     longTerm: {
       startDate: new Date(),
@@ -35,19 +38,25 @@ export default function WritePost() {
         endTime: mainTime.mainEndTime,
       },
     ],
-    careTerm: 'short',
-    careDays: [],
+    preferredMateAge: [],
+    preferredMateGender: '',
     hourlyRate: 9620,
     negotiableRate: false,
     targetFeatures: '',
     cautionNotes: '',
-    careDate: null,
-    shortCareDates: [],
-    region: '',
-    subRegion: '',
-    preferredMateAge: [],
-    preferredMateGender: '',
+    careTerm: 'short',
   });
+
+  async function handleSubmit(e) {
+    e.preventDefault();
+    formatHourlyRate();
+    const body = { ...postContent };
+    alert(JSON.stringify(body));
+    // axios
+    //   .post('http://localhost:5001/api/post', body)
+    //   .then((response) => console.log(response))
+    //   .catch((err) => console.log(err));
+  }
 
   function handleChange(e) {
     setPostContent({
@@ -56,8 +65,9 @@ export default function WritePost() {
     });
   }
 
-  function handleSubmit(e) {
-    e.preventDefault();
+  function formatHourlyRate() {
+    setPostContent({ ...postContent, hourlyRate: Number(removeCommaInString(postContent.hourlyRate)) });
+    return;
   }
 
   /** 단기, 정기 시작,종료 시간 일괄수정 */
@@ -99,13 +109,31 @@ export default function WritePost() {
     }
     return checkHandler;
   }
-  const ageList = ['20대', '30대', '40대', '50대', '60대', '성별무관'];
+  const ageList = ['20대', '30대', '40대', '50대', '60대 이상'];
   const [checkedAgeList, setCheckedAgeList] = React.useState([]);
   const [isAgeChecked, setIsAgeChecked] = React.useState(false);
   const checkAgeHandler = makeCheckHandler(checkedAgeList, setCheckedAgeList, isAgeChecked, setIsAgeChecked);
 
+  function handleAgeFree(e) {
+    if (e.target.checked) {
+      setCheckedAgeList([e.target.value]);
+      return;
+    } else {
+      setCheckedAgeList([]);
+      return;
+    }
+  }
+
   /** 선호연령 체크박스 실시간 반영 */
   React.useEffect(() => {
+    /** 나이 무관 체크된 상태에서 다른 연령 체크하면 나이무관 해제  */
+    if (checkedAgeList.includes('나이 무관') && checkedAgeList.length > 1) {
+      const temp = [...checkedAgeList];
+      const indexOfAgeFree = temp.indexOf('나이 무관');
+      temp.splice(indexOfAgeFree, 1);
+      setCheckedAgeList(temp);
+      return;
+    }
     return setPostContent({ ...postContent, preferredMateAge: checkedAgeList });
   }, [checkedAgeList]);
 
@@ -152,18 +180,33 @@ export default function WritePost() {
           endTime: mainTime.mainEndTime,
         },
       ],
-      careDates: [],
-      shortCareDates: [],
-      careDays: [],
     });
     setMainTime({ mainStartTime: new Date(2020, 0, 0, 8), mainEndTime: new Date(2020, 0, 0, 20) });
   }, [postContent.careTerm]);
+
+  /** 시급 입력창 3글자마다 쉼표 */
+  function formatNumber(e) {
+    const inputValue = removeCommaInString(e.target.value);
+    const formattedValue = addCommas(inputValue);
+    e.target.value = formattedValue;
+  }
+
+  function removeCommaInString(string) {
+    if (typeof string === 'string') {
+      return string.replace(/,/g, '');
+    }
+    return;
+  }
+
+  function addCommas(number) {
+    return number.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',');
+  }
 
   return (
     <div className={cx('wrapper')}>
       <form onSubmit={handleSubmit}>
         <div className={cx('title-wrapper')}>
-          <label>제목</label>
+          <label className={cx('title-level')}>제목</label>
           <input
             type="text"
             onChange={handleChange}
@@ -182,7 +225,9 @@ export default function WritePost() {
           ></textarea>
         </div>
         <div className={cx('region-wrapper')}>
-          <span>지역</span>
+          <span className={cx('title-level')} v>
+            지역
+          </span>
           <select value={postContent.region} name="region" onChange={handleChange}>
             <option value="">시</option>
             {region[0].map((area, index) => (
@@ -202,10 +247,10 @@ export default function WritePost() {
           </select>
         </div>
         <div className={cx('care-target-wrapper')}>
-          <span>돌봄 대상</span>
+          <span className={cx('title-level')}>돌봄 대상</span>
           <div className={cx('targets-wrapper')}>
             <div className={cx('target-wrapper')}>
-              <input type="radio" name="careTarget" id="target-infant" />
+              <input type="radio" onChange={handleChange} name="careTarget" value="아동" id="target-infant" />
               <label htmlFor="target-infant">
                 <span className={cx('target-image-wrapper')}>
                   <img src={InfantImage} alt="아동" />
@@ -214,7 +259,7 @@ export default function WritePost() {
               <span>아동</span>
             </div>
             <div className={cx('target-wrapper')}>
-              <input type="radio" name="careTarget" id="target-senior" />
+              <input type="radio" onChange={handleChange} name="careTarget" value="노인" id="target-senior" />
               <label htmlFor="target-senior">
                 <span className={cx('target-image-wrapper')}>
                   <img src={SeniorOneImage} alt="노인" />
@@ -223,7 +268,7 @@ export default function WritePost() {
               <span>노인</span>
             </div>
             <div className={cx('target-wrapper')}>
-              <input type="radio" name="careTarget" id="target-disabled" />
+              <input type="radio" onChange={handleChange} name="careTarget" value="장애인" id="target-disabled" />
               <label htmlFor="target-disabled">
                 <span className={cx('target-image-wrapper')}>
                   <img src={DisabledImage} alt="장애인" />
@@ -234,7 +279,7 @@ export default function WritePost() {
           </div>
         </div>
         <div className={cx('care-term-wrapper')}>
-          <span>돌봄 기간</span>
+          <span className={cx('title-level')}>돌봄 기간</span>
           <Toggle
             onChange={(e) => {
               if (e.target.checked) {
@@ -247,12 +292,12 @@ export default function WritePost() {
         </div>
         {postContent.careTerm === 'long' && (
           <div className={cx('care-days-wrapper')}>
-            <span>돌봄 시작일</span>
+            <span className={cx('title-level')}>돌봄 시작일</span>
             <span className={cx('calendar-wrapper')}>
               <DatesPicker postContent={postContent} setPostContent={setPostContent} />
             </span>
             <div className={cx('days-title-wrapper')}>
-              <span>돌봄 요일</span>
+              <span className={cx('title-level')}>돌봄 요일</span>
               <div className={cx('days-wrapper')}>
                 {careDaysList.map((day, index) => (
                   <span key={index}>
@@ -274,11 +319,17 @@ export default function WritePost() {
         )}
         <div className={cx('care-dates-wrapper')}>
           {postContent.careTerm === 'short' && (
-            <SeparateDatesPicker postContent={postContent} setPostContent={setPostContent} mainTime={mainTime} />
+            <SeparateDatesPicker
+              postContent={postContent}
+              setPostContent={setPostContent}
+              mainTime={mainTime}
+              maxDate={postContent.shortTerm[0].startTime}
+              // maxDate={postContent.shortTerm[0].careDate}
+            />
           )}
 
           <div className={cx('main-time-wrapper')}>
-            <label htmlFor="">시작 시간</label>
+            <label className={cx('title-level')}>시작 시간</label>
             <div className={cx('time-wrapper')}>
               <NewTimesPicker
                 time={mainTime.mainStartTime}
@@ -287,7 +338,7 @@ export default function WritePost() {
                 }}
               />
             </div>
-            <label htmlFor="">종료 시간</label>
+            <label className={cx('title-level')}>종료 시간</label>
             <div className={cx('time-wrapper')}>
               <NewTimesPicker
                 time={mainTime.mainEndTime}
@@ -320,7 +371,7 @@ export default function WritePost() {
           </div>
         </div>
         <div className={cx('preferred-mate-wrapper')}>
-          <p>선호 메이트</p>
+          <p className={cx('title-level')}>선호 돌봄유저</p>
           <div className={cx('preferred-mate-gender-wrapper')}>
             <input type="radio" onChange={handleChange} name="preferredMateGender" id="mateWoman" value="여자" />
             <label htmlFor="mateWoman">여자</label>
@@ -331,9 +382,9 @@ export default function WritePost() {
               onChange={handleChange}
               name="preferredMateGender"
               id="mateGenderFree"
-              value="성별무관"
+              value="성별 무관"
             />
-            <label htmlFor="mateGenderFree">성별무관</label>
+            <label htmlFor="mateGenderFree">성별 무관</label>
           </div>
 
           <div className={cx('preferred-mate-age-wrapper')}>
@@ -351,36 +402,50 @@ export default function WritePost() {
                 <label htmlFor={age}>{age}</label>
               </span>
             ))}
+            <span>
+              <input
+                type="checkbox"
+                id="mateAgeFree"
+                value="나이 무관"
+                checked={checkedAgeList.includes('나이 무관')}
+                onChange={handleAgeFree}
+              />
+              <label htmlFor="mateAgeFree">나이 무관</label>
+            </span>
           </div>
         </div>
         <div className={cx('hourly-rate-wrapper')}>
-          <label htmlFor="">시급</label>
+          <label className={cx('title-level')} htmlFor="">
+            시급
+          </label>
           <input
             type="text"
             name="hourlyRate"
             // value={Number(postContent.hourlyRate)}
+            onInput={formatNumber}
             onChange={handleChange}
             placeholder="숫자만 입력"
           />
           <input
             type="checkbox"
             name="negotiableRate"
+            id="negotiableRate"
             value={postContent.negotiableRate}
             onChange={() => {
               setPostContent({ ...postContent, negotiableRate: !postContent.negotiableRate });
             }}
           />
-          <label htmlFor="">시급 협의 가능</label>
+          <label htmlFor="negotiableRate">시급 협의 가능</label>
         </div>
         <div className={cx('caution-note-wrapper')}>
-          <span htmlFor="">돌봄 대상 특징</span>
+          <span className={cx('title-level')}>돌봄 대상 특징</span>
           <textarea
             name="targetFeatures"
             onChange={handleChange}
             value={postContent.targetFeatures}
             placeholder="ex) 나이, 성격, 좋아하는 것, 싫어하는 것 등"
           ></textarea>
-          <span htmlFor="">돌봄 대상 유의사항</span>
+          <span className={cx('title-level')}>돌봄 대상 유의사항</span>
           <textarea
             name="cautionNotes"
             onChange={handleChange}
@@ -389,8 +454,12 @@ export default function WritePost() {
           ></textarea>
         </div>
         <div className={cx('button-wrapper')}>
-          <Button type="cancel">취소</Button>
-          <Button type="primary">작성하기</Button>
+          <Button type="reset" types="cancel">
+            취소
+          </Button>
+          <Button type="submit" types="primary">
+            작성하기
+          </Button>
         </div>
       </form>
     </div>

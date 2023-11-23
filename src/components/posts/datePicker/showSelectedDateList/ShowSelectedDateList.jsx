@@ -1,10 +1,15 @@
 import React from 'react';
 import styles from './ShowSelectedDateList.module.scss';
 import cs from 'classnames/bind';
-import { dateFormatter } from 'lib';
 import { v4 as uuidv4 } from 'uuid';
 import { NewTimesPicker } from 'components';
 import { BiSolidPencil } from 'react-icons/bi';
+import {
+  changeDateToHHMM,
+  changeDateToMonthAndDateAndDayOfTheWeek,
+  changeKoreaDayOfWeekToNumber,
+  changeNumberToKoreaDayOfWeek,
+} from 'lib';
 const cx = cs.bind(styles);
 
 export default function ShowSelectedDateList({ postContent, setPostContent, array, type }) {
@@ -61,9 +66,9 @@ export default function ShowSelectedDateList({ postContent, setPostContent, arra
               <li key={uuidv4()}>
                 <div className={cx('selected-time-wrapper')}>
                   <span>
-                    {`${dateFormatter.changeDateToMonthAndDateAndDayOfTheWeek(item)} ${dateFormatter.changeDateToHHMM(
+                    {`${changeDateToMonthAndDateAndDayOfTheWeek(item)} ${changeDateToHHMM(
                       postContent.shortTerm[index].startTime
-                    )}-${dateFormatter.changeDateToHHMM(postContent.shortTerm[index].endTime)}`}
+                    )}-${changeDateToHHMM(postContent.shortTerm[index].endTime)}`}
                   </span>
                   <button onClick={() => handleItemClick(index)}>
                     <BiSolidPencil />
@@ -90,9 +95,9 @@ export default function ShowSelectedDateList({ postContent, setPostContent, arra
               </li>
             ))
         : array
-            .map((day) => dateFormatter.changeKoreaDayOfWeekToNumber(day))
+            .map((day) => changeKoreaDayOfWeekToNumber(day))
             .sort()
-            .map((number) => dateFormatter.changeNumberToKoreaDayOfWeek(number))
+            .map((number) => changeNumberToKoreaDayOfWeek(number))
             .map((item, index) => (
               <li key={uuidv4()}>
                 <div className={cx('selected-time-wrapper')}>
