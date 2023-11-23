@@ -19,18 +19,23 @@
   }
 
   .cancel,
-  .complete,
+  .delete,
   .edit {
     width: 50px;
+    height: 25px;
     margin-top: 16px;
-    margin-left: 10px;
+    margin-left: 30px;
     padding: 4px 8px;
-    border-radius: 4px;
-    border: 1px solid var(--crl-neutral-400);
+    border-radius: 6px;
+    border: none;
     cursor: pointer;
   }
 
-  .complete {
+  .edit {
+    background-color: #d4e0ff;
+  }
+
+  .delete {
     margin-left: 4px;
     background-color: var(--crl-red-800);
   }

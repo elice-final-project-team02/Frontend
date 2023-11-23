@@ -6,7 +6,16 @@ import { PiTrashFill } from 'react-icons/pi';
 import cs from 'classnames/bind';
 const cx = cs.bind(styles);
 
-export default function MyList({ postList, searchText, role, edit, checkedId, onChangeCheckbox, matching }) {
+export default function MyList({
+  postList,
+  searchText,
+  role,
+  edit,
+  checkedId,
+  onAllCheck,
+  onChangeCheckbox,
+  matching,
+}) {
   const [filteredPostList, setFilteredPostList] = useState([]);
 
   useEffect(() => {
@@ -22,6 +31,16 @@ export default function MyList({ postList, searchText, role, edit, checkedId, on
 
   return (
     <div className={cx('wrapper')}>
+      {edit && (
+        <div className={cx('all-checkbox-container')}>
+          <input
+            type="checkbox"
+            onChange={(e) => onAllCheck(e.target.checked)}
+            checked={checkedId.length === postList.length ? true : false}
+          />
+          <span>전체선택</span>
+        </div>
+      )}
       {filteredPostList.length > 0 ? (
         filteredPostList.map((post, idx) => (
           <div key={`${post._id}-${idx}`} className={cx('post')}>

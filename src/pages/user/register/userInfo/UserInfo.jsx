@@ -5,8 +5,6 @@ import { useLocation } from 'react-router-dom';
 import { AuthInput, AuthSelect, Region } from 'components';
 import { InputStatus, validateInput } from 'lib';
 import { usePostRegister } from 'hooks';
-import axios from 'axios';
-
 const cx = cs.bind(styles);
 
 const genderOptions = [

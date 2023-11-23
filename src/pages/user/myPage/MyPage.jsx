@@ -1,4 +1,4 @@
-import React, { useState, useRef } from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 import styles from './MyPage.module.scss';
 import cs from 'classnames/bind';
 import { ProfileImage } from 'assets/images';
@@ -8,39 +8,30 @@ import { useGetUser, usePutUser } from 'hooks';
 const cx = cs.bind(styles);
 
 export default function MyPage() {
-  const { data, isLoading } = useGetUser();
-  // 임시 데이터
-  const [userInfo, setUserInfo] = useState({
-    profile_url: '',
-    email: 'test@test.com',
-    name: '김유저',
-    phoneNumber: '01011112222',
-    age: '20대',
-    gender: '여자',
-    region: '서울특별시',
-    subRegion: '강남구',
-    role: '돌봄유저',
-    introduction: '안녕하세요! 저는 사회복지사 2급 자격증을 가지고 있습니다.',
-  });
+  const { data, isLoading } = useGetUser(); // 추후 로딩처리
 
-  if (data) {
-    const displayedRole = data.role.careUser === 'user' ? '일반유저' : '돌봄유저';
-    setUserInfo({
-      profile_url: '',
-      email: data.email,
-      currentPassword: '',
-      password: '',
-      passwordConfirm: '',
-      name: data.name,
-      phoneNumber: data.phoneNumber,
-      age: data.age,
-      gender: data.gender,
-      region: data.area.region,
-      sub_region: data.area.subRegion,
-      role: displayedRole,
-      introduction: '안녕하세요. 저는 사회복지사 2급 자격증을 가지고 있습니다.',
-    });
-  }
+  const [userInfo, setUserInfo] = useState({});
+
+  useEffect(() => {
+    if (data) {
+      const displayedRole = data.role.careUser === 'user' ? '일반유저' : '돌봄유저';
+      setUserInfo({
+        profile_url: '',
+        email: data.email,
+        currentPassword: '',
+        password: '',
+        passwordConfirm: '',
+        name: data.name,
+        phoneNumber: data.phoneNumber,
+        age: data.age,
+        gender: data.gender,
+        region: data.area.region,
+        subRegion: data.area.subRegion,
+        role: displayedRole,
+        introduction: '',
+      });
+    }
+  }, [data]);
 
   const updatedUserInfo = {
     profile_url: userInfo.profile_url,
@@ -60,14 +51,14 @@ export default function MyPage() {
     updatedUserInfo.newPassword = userInfo.password;
   }
 
-  const { mutate } = usePutUser(updatedUserInfo);
+  const { mutate } = usePutUser();
 
   const formattedPhone = userInfo.phoneNumber && userInfo.phoneNumber.replace(/(\d{3})(\d{3,4})(\d{4})/, '$1-$2-$3');
 
   const [inputErrors, setInputErrors] = useState({
     profile_url: false,
     name: false,
-    phone: false,
+    phoneNumber: false,
     password: false,
     passwordConfirm: false,
   });
@@ -115,7 +106,7 @@ export default function MyPage() {
   };
 
   const handleRegionChange = (region1, region2) => {
-    setUserInfo({ ...userInfo, region: region1, sub_region: region2 });
+    setUserInfo({ ...userInfo, region: region1, subRegion: region2 });
   };
 
   // 모든 필드가 유효하고 값이 존재하는지 확인
@@ -124,12 +115,24 @@ export default function MyPage() {
     userInfo.name !== '' &&
     userInfo.phoneNumber !== '' &&
     userInfo.region !== '' &&
-    userInfo.sub_region !== '' &&
+    userInfo.subRegion !== '' &&
     (!editPwd || (userInfo.currentPassword !== '' && userInfo.password !== '' && userInfo.passwordConfirm !== ''));
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    mutate();
+    const formData = new FormData();
+
+    // 각 필드 값을 FormData에 추가
+    Object.keys(updatedUserInfo).forEach((key) => {
+      formData.append(key, updatedUserInfo[key]);
+    });
+
+    // 값 확인
+    for (let key of formData.keys()) {
+      console.log(key, ':', formData.get(key));
+    }
+
+    mutate(formData);
     setEdit(false);
     setEditPwd(false);
   };
@@ -211,7 +214,19 @@ export default function MyPage() {
                           <p className={cx('error-text')}>비밀번호가 일치하지 않습니다.</p>
                         )}
                       </div>
-                      <button type="button" onClick={() => setEditPwd(false)} className={cx('cancel-password')}>
+                      <button
+                        type="button"
+                        onClick={() => {
+                          setEditPwd(false);
+                          setUserInfo({
+                            ...userInfo,
+                            currentPassword: '',
+                            password: '',
+                            passwordConfirm: '',
+                          });
+                        }}
+                        className={cx('cancel-password')}
+                      >
                         비밀번호 수정 취소
                       </button>
                     </div>
@@ -224,7 +239,7 @@ export default function MyPage() {
                       <>
                         <input
                           type="text"
-                          name="phone"
+                          name="phoneNumber"
                           value={userInfo.phoneNumber}
                           onChange={handleInputChange}
                           placeholder="-을 제외하고 입력해주세요."
@@ -281,7 +296,12 @@ export default function MyPage() {
               <h1>INTRODUCE</h1>
               <span>{userInfo.role}</span>
               {edit ? (
-                <textarea name="introduction" value={userInfo.introduction} onChange={handleInputChange} />
+                <textarea
+                  name="introduction"
+                  value={userInfo.introduction}
+                  onChange={handleInputChange}
+                  placeholder="안녕하세요. 저는 사회복지사 2급 자격증을 가지고 있습니다."
+                />
               ) : (
                 <p>{userInfo.introduction}</p>
               )}

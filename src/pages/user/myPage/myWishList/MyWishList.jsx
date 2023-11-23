@@ -72,6 +72,15 @@ export default function MyWishList() {
     }
   };
 
+  const handleAllCheck = (checked) => {
+    if (checked) {
+      const idArray = postList.map((post) => post._id);
+      setCheckedId(idArray);
+    } else {
+      setCheckedId([]);
+    }
+  };
+
   return (
     <div className={cx('wrapper')}>
       <div className={cx('mypage')}>
@@ -92,7 +101,7 @@ export default function MyWishList() {
               >
                 취소
               </button>
-              <button onClick={handleDeleteList} className={cx('complete')}>
+              <button onClick={handleDeleteList} className={cx('delete')}>
                 삭제
               </button>
             </>
@@ -111,6 +120,7 @@ export default function MyWishList() {
                 role={role}
                 edit={edit}
                 checkedId={checkedId}
+                onAllCheck={handleAllCheck}
                 onChangeCheckbox={handleChangeCheckbox}
               />
             )}
