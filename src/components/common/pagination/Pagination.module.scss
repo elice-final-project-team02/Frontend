@@ -8,22 +8,19 @@
   }
 
   .page-button {
-    font-size: 14px;
-    line-height: 22px;
-    text-align: center;
     color: #5e5f61;
     width: 22px;
     height: 22px;
     background: transparent;
-    border-radius: 4px;
+    border-radius: 50%;
 
     + button:not(.next-button) {
       margin-left: 4px;
     }
 
     &.active {
-      background-color: #ffdddd;
-      color: #f9fafc;
+      background-color: var(--crl-blue-800);
+      color: var(--crl-blue-100);
     }
   }
 
@@ -31,8 +28,7 @@
   .next-button {
     padding: 2px 6px;
     width: 50px;
-    border-radius: 8px;
-    background-color: #dcdcdc;
+    background-color: white;
     cursor: pointer;
     &:disabled {
       cursor: not-allowed;

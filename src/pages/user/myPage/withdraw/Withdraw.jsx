@@ -1,13 +1,23 @@
-import React from 'react';
+import React, { useState } from 'react';
 import styles from './Withdraw.module.scss';
 import cs from 'classnames/bind';
 import { MySideBar, MyTitle } from 'components';
-
+import { useDeleteUser } from 'hooks';
 const cx = cs.bind(styles);
 
 export default function Withdraw() {
+  const [password, setPassword] = useState('');
+  const [passwordConfirm, setPasswordConfirm] = useState('');
+  const { mutate } = useDeleteUser(password);
+
   const handelDeleteUser = () => {
-    alert('회원 탈퇴가 완료되었습니다.');
+    if (password !== passwordConfirm) {
+      alert('비밀번호가 일치하지 않습니다.');
+      return;
+    }
+    if (window.confirm('정말 쓰담쓰담을 떠나시겠습니까?😢')) {
+      mutate();
+    }
   };
 
   return (
@@ -21,8 +31,8 @@ export default function Withdraw() {
           <div className={cx('content')}>
             <h1>회원을 탈퇴하시겠습니까?</h1>
             <p>비밀번호를 입력하시면 최종 탈퇴가 진행됩니다.</p>
-            <input type="password" placeholder="비밀번호" />
-            <input type="password" placeholder="비밀번호 확인" />
+            <input type="password" placeholder="비밀번호" onChange={(e) => setPassword(e.target.value)} />
+            <input type="password" placeholder="비밀번호 확인" onChange={(e) => setPasswordConfirm(e.target.value)} />
             <button onClick={handelDeleteUser}>탈퇴하기</button>
           </div>
         </main>

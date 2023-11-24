@@ -13,12 +13,12 @@ export default function Register() {
       <div className={cx('buttonRole')}>
         <button
           onClick={() => {
-            nav('/register/authInfo', { state: { role: '일반유저' } });
+            nav('/register/authInfo', { state: { role: 'user' } });
           }}
         >
           <div className={cx('container')}>
             <div>
-              <img src={BlueClam} className={cx('clamImg')} alt="Pink Clam" />
+              <img src={BlueClam} className={cx('clam-image')} alt="Pink Clam" />
             </div>
             <div className={cx('general')}>
               <span>"돌봄 서비스를 신청하고싶어요."</span>
@@ -28,12 +28,12 @@ export default function Register() {
         </button>
         <button
           onClick={() => {
-            nav('/register/authInfo', { state: { role: '돌봄유저' } });
+            nav('/register/authInfo', { state: { role: 'careUser' } });
           }}
         >
           <div className={cx('container')}>
             <div>
-              <img src={PinkClam} className={cx('clamImg')} alt="Pink Clam" />
+              <img src={PinkClam} className={cx('clam-image')} alt="Pink Clam" />
             </div>
             <div className={cx('care')}>
               <span>"돌봄 서비스를 제공하고싶어요."</span>
@@ -41,9 +41,9 @@ export default function Register() {
             </div>
           </div>
         </button>
-        <div className={cx('isUser')}>
+        <div className={cx('is-user')}>
           <span>이미 쓰담쓰담 회원이신가요?</span>
-          <Link to={'/login'} className={cx('goLogin')}>
+          <Link to={'/login'} className={cx('go-login')}>
             로그인 하기
           </Link>
         </div>

@@ -1,27 +1,40 @@
 .typographyText {
+  font-size: 16px;
+  line-height: 1.5;
   margin: 20px;
   color: black;
   gap: 8px;
+  word-break: keep-all;
 }
 
 .typographyTitle {
-  font-size: 1.2rem;
+  color: #909090;
+  font-size: 24px;
   margin: 20px;
-  color: rgb(39, 150, 168);
   font-weight: bold;
 }
 
 .typographyMainTitle {
-  font-size: 1.2rem;
-  color: rgb(39, 150, 168);
+  font-size: 30px;
+  color: black;
   font-weight: bold;
-  display: flex;
-  align-items: center;
-  justify-content: center;
+  margin: 20px;
 }
 
 .typographyMainText {
+  font-size: 18px;
+  line-height: 1.5;
+  margin: 20px;
   color: black;
   gap: 8px;
-  width: 250px;
+  word-break: keep-all;
+}
+
+.flexItem {
+  height: 250px;
+  flex: 0 0 calc(50% - 22px);
+  border: 1px solid white;
+  border-radius: 10px;
+  box-shadow: 2px 2px 4px 0px;
+  margin: 30px 10px 30px 10px;
 }

@@ -1,11 +1,20 @@
 .wrapper {
-  padding-block: 2rem;
   display: flex;
   align-items: center;
   justify-content: space-between;
+  padding: 70px 100px;
+  font-size: 20px;
+  & > * {
+    flex-shrink: 0;
+  }
+  .navigations-wrapper {
+    display: flex;
+    gap: 50px;
+  }
   h1 {
-    font-size: 30px;
-    font-weight: bold;
+    img {
+      width: 250px;
+    }
   }
 
   ul {

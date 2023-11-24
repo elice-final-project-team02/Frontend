@@ -1,1 +1,1 @@
-export { default as dateFormatter } from './dateFormatter';
+export * from './dateFormatter';
