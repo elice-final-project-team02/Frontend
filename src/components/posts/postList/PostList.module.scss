@@ -1,10 +1,11 @@
 .wrapper {
   .card-list-container {
     display: flex;
+    justify-content: center;
     flex-wrap: wrap;
   }
 
   .card-list-container > * {
-    margin: 20px 40px 60px 40px;
+    margin: 20px 35px 10px 35px;
   }
 }
