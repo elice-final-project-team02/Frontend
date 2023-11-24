@@ -5,3 +5,5 @@ export * from './postRegister';
 export * from './postSendMail';
 export * from './postVerifyCode';
 export * from './postLogin';
+export * from './post/postRequest';
+export * from './post/getRequest';

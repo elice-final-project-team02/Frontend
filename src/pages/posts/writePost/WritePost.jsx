@@ -7,6 +7,7 @@ import InfantImage from 'assets/images/infant.png';
 import SeniorOneImage from 'assets/images/senior1.png';
 import DisabledImage from 'assets/images/disabled.png';
 import axios from 'axios';
+import { usePostRequest } from 'hooks';
 const cx = cs.bind(styles);
 
 export default function WritePost() {
@@ -14,7 +15,7 @@ export default function WritePost() {
     mainStartTime: new Date(2020, 0, 0, 8),
     mainEndTime: new Date(2020, 0, 0, 20),
   });
-
+  const [isEmptyValueInputNames, setIsEmptyValueInputNames] = React.useState([]);
   const [postContent, setPostContent] = React.useState({
     title: '',
     content: '',
@@ -47,26 +48,102 @@ export default function WritePost() {
     careTerm: 'short',
   });
 
+  function formatDataToSendToApi(obj) {
+    return {
+      title: postContent.title,
+      content: postContent.content,
+      region: postContent.region,
+      subRegion: postContent.subRegion,
+      careTarget: postContent.careTarget,
+      isLongTerm: postContent.careTerm === 'short' ? false : true,
+      longTerm: { ...postContent.longTerm },
+      shortTerm: [...postContent.shortTerm],
+      hourlyRate: postContent.hourlyRate,
+      negotiableRate: postContent.negotiableRate,
+      preferredMateAge: postContent.preferredMateAge,
+      targetFeatures: postContent.targetFeatures,
+      cautionNotes: postContent.cautionNotes,
+    };
+  }
+  const body = formatDataToSendToApi(postContent);
+  const { mutate } = usePostRequest(postContent);
+
   async function handleSubmit(e) {
     e.preventDefault();
-    formatHourlyRate();
-    const body = { ...postContent };
-    alert(JSON.stringify(body));
-    // axios
-    //   .post('http://localhost:5001/api/post', body)
-    //   .then((response) => console.log(response))
-    //   .catch((err) => console.log(err));
+
+    checkEmptyValue();
+    checkEmptyValueOfDate();
+    if (isEmptyValueInputNames.length > 0) {
+      alert('작성을 모두 완료해주시기 바랍니다');
+      return;
+    }
+
+    const response = await axios
+      .post(
+        'http://localhost:5001/api/post',
+        {
+          title: postContent.title,
+          content: postContent.content,
+          region: postContent.region,
+          subRegion: postContent.subRegion,
+          careTarget: postContent.careTarget,
+          isLongTerm: postContent.careTerm === 'short' ? false : true,
+          longTerm: { ...postContent.longTerm },
+          shortTerm: [...postContent.shortTerm],
+          hourlyRate: postContent.hourlyRate,
+          negotiableRate: postContent.negotiableRate,
+          preferredMateAge: postContent.preferredMateAge,
+          targetFeatures: postContent.targetFeatures,
+          cautionNotes: postContent.cautionNotes,
+        },
+        {
+          withCredentials: true,
+        }
+      )
+      .catch((e) => console.log(e));
+    // mutate();
+    console.log(response);
   }
 
   function handleChange(e) {
-    setPostContent({
-      ...postContent,
+    if (e.target.name === 'hourlyRate') formatHourlyRate(e, e.target.value);
+    setPostContent((prev) => ({
+      ...prev,
       [e.target.name]: e.target.value,
-    });
+    }));
+    checkEmptyValue();
   }
 
-  function formatHourlyRate() {
-    setPostContent({ ...postContent, hourlyRate: Number(removeCommaInString(postContent.hourlyRate)) });
+  function checkEmptyValue() {
+    setIsEmptyValueInputNames([]);
+    for (let key in postContent) {
+      if (!postContent[key].length && key !== 'longTerm' && key !== 'negotiableRate') {
+        setIsEmptyValueInputNames((prev) => [...prev, key]);
+      }
+    }
+    return;
+  }
+
+  function checkEmptyValueOfDate() {
+    if (postContent.careTerm === 'long' && !postContent.longTerm.schedule.length) {
+      alert('돌봄 요일을 선택해주세요');
+      return;
+    } else if (postContent.careTerm === 'short' && postContent.shortTerm.length < 2) {
+      alert('돌봄 날짜를 선택해주세요');
+      return;
+    }
+    return;
+  }
+
+  function formatHourlyRate(e, StringOfMoney) {
+    const regex = new RegExp(/^(\d{1,3},)*(\d{3},)*\d{1,3}$/);
+    if (regex.test(StringOfMoney))
+      setPostContent((prev) => ({ ...prev, hourlyRate: Number(removeCommaInString(StringOfMoney)) }));
+    else if (!null) {
+      alert('시급을 숫자로 입력해주세요');
+      e.target.value = '';
+      return;
+    }
     return;
   }
 
@@ -212,7 +289,9 @@ export default function WritePost() {
             onChange={handleChange}
             value={postContent.title}
             name="title"
+            onBlur={checkEmptyValue}
             placeholder="ex) 5세 남아 등하원 도우미 구합니다."
+            maxLength={200}
           />
         </div>
         <div className={cx('content')}>
@@ -221,6 +300,8 @@ export default function WritePost() {
             onChange={handleChange}
             placeholder="ex) 유치원 등하원 시 케어해주시면 됩니다."
             name="content"
+            onBlur={checkEmptyValue}
+            maxLength={200}
             rows="6"
           ></textarea>
         </div>
@@ -425,6 +506,7 @@ export default function WritePost() {
             onInput={formatNumber}
             onChange={handleChange}
             placeholder="숫자만 입력"
+            onBlur={checkEmptyValue}
           />
           <input
             type="checkbox"
@@ -444,13 +526,17 @@ export default function WritePost() {
             onChange={handleChange}
             value={postContent.targetFeatures}
             placeholder="ex) 나이, 성격, 좋아하는 것, 싫어하는 것 등"
+            onBlur={checkEmptyValue}
+            maxLength={200}
           ></textarea>
           <span className={cx('title-level')}>돌봄 대상 유의사항</span>
           <textarea
             name="cautionNotes"
             onChange={handleChange}
             value={postContent.cautionNotes}
+            onBlur={checkEmptyValue}
             placeholder="ex) 나이, 성격, 좋아하는 것, 싫어하는 것 등"
+            maxLength={200}
           ></textarea>
         </div>
         <div className={cx('button-wrapper')}>

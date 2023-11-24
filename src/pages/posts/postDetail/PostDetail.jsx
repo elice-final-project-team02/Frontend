@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import styles from './PostDetail.module.scss';
 import cs from 'classnames/bind';
 import { FiTrash } from 'react-icons/fi';
@@ -10,10 +10,14 @@ import { BiSolidPencil } from 'react-icons/bi';
 import { Child } from 'assets/images';
 import { Link } from 'react-router-dom';
 import { Button } from 'components';
+import axios from 'axios';
+import { useGetRequest } from 'hooks';
 const cx = cs.bind(styles);
 
 export default function PostDetail() {
   const [userRole, setUserRole] = React.useState('user');
+  const [postData, setPostData] = React.useState({});
+  const { mutate } = useGetRequest('655819a3e1f7d427ef5c1474');
   const postStatus = '모집중';
   const countOfCandidates = 3;
   const isLongTerm = true;
@@ -65,6 +69,13 @@ export default function PostDetail() {
   //       return;
   //   }
   // }
+
+  React.useEffect(
+    () => async () => {
+      mutate();
+    },
+    []
+  );
 
   function handleUserRole() {
     if (userRole === 'user') setUserRole('care-user');
@@ -129,8 +140,8 @@ export default function PostDetail() {
                 <IoMdPerson />
               </span>
               <span className={cx('text-information')}>
-                {mockData.preferredMateAge.map((item) => (
-                  <span>{item} </span>
+                {mockData.preferredMateAge.map((item, index) => (
+                  <span key={index}>{item} </span>
                 ))}
               </span>
               <span className={cx('text-information')}>{mockData.preferredMateGender}</span>

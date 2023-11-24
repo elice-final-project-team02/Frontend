@@ -1,36 +1,25 @@
 import axios from 'axios';
 import { useMutation } from 'react-query';
-import { useNavigate } from 'react-router-dom';
-import { isLoggedInState } from 'recoil/storage';
-import { useRecoilState } from 'recoil';
+import { useNavigate } from 'react-router';
 
-const postLogin = async (email, password) => {
-  const response = await axios.post(
-    'http://localhost:5001/api/user/login',
-    {
-      email: email,
-      password: password,
-    },
-    { withCredentials: true }
-  );
+const apiUrl = 'http://localhost:5001/api/post';
+
+const getRequest = async (postId) => {
+  const response = await axios.get(`${apiUrl}/${postId}`, {
+    withCredentials: true,
+  });
   return response.data;
 };
 
-export function usePostLogin(email, password) {
-  const nav = useNavigate();
-  const [loggedIn, setLoggedIn] = useRecoilState(isLoggedInState);
-
-  return useMutation(() => postLogin(email, password), {
+export function useGetRequest(postId) {
+  return useMutation(() => getRequest(postId), {
     onSuccess: (response) => {
       alert(response.message);
-      setLoggedIn(true);
-      nav('/');
     },
     onError: (error) => {
       if (error.response) {
         const errorCode = error.response.status;
         const errorMessage = error.response.data.message;
-
         if (errorCode === 400) {
           alert(errorMessage);
         } else {

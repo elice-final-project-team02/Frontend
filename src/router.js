@@ -18,6 +18,7 @@ import {
   Withdraw,
   WritePost,
 } from './pages';
+import { PrivateRoute } from './routes/PrivateRoute';
 
 export const router = createBrowserRouter([
   {
@@ -34,16 +35,79 @@ export const router = createBrowserRouter([
 
       { path: '/about-us', element: <AboutUs /> },
 
-      { path: '/mypage', element: <MyPage /> },
-      { path: '/mypage/withdraw', element: <Withdraw /> },
-      { path: '/mypage/posts', element: <MyPosts /> },
-      { path: '/mypage/wishlist', element: <MyWishList /> },
-      { path: '/mypage/matching', element: <MyMatching /> },
+      {
+        path: '/mypage',
+        element: (
+          <PrivateRoute>
+            <MyPage />
+          </PrivateRoute>
+        ),
+      },
+      {
+        path: '/mypage/withdraw',
+        element: (
+          <PrivateRoute>
+            <Withdraw />
+          </PrivateRoute>
+        ),
+      },
+      {
+        path: '/mypage/posts',
+        element: (
+          <PrivateRoute>
+            <MyPosts />
+          </PrivateRoute>
+        ),
+      },
+      {
+        path: '/mypage/wishlist',
+        element: (
+          <PrivateRoute>
+            <MyWishList />
+          </PrivateRoute>
+        ),
+      },
+      {
+        path: '/mypage/matching',
+        element: (
+          <PrivateRoute>
+            <MyMatching />
+          </PrivateRoute>
+        ),
+      },
 
-      { path: '/posts', element: <AllPosts /> },
-      { path: '/posts/new', element: <WritePost /> },
-      { path: '/posts/:id', element: <PostDetail /> },
-      { path: '/posts/:id/edit', element: <EditPost /> },
+      {
+        path: '/posts',
+        element: (
+          <PrivateRoute>
+            <AllPosts />
+          </PrivateRoute>
+        ),
+      },
+      {
+        path: '/posts/new',
+        element: (
+          <PrivateRoute>
+            <WritePost />
+          </PrivateRoute>
+        ),
+      },
+      {
+        path: '/posts/:id',
+        element: (
+          <PrivateRoute>
+            <PostDetail />
+          </PrivateRoute>
+        ),
+      },
+      {
+        path: '/posts/:id/edit',
+        element: (
+          <PrivateRoute>
+            <EditPost />
+          </PrivateRoute>
+        ),
+      },
     ],
   },
 ]);

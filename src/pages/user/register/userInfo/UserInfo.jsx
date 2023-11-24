@@ -45,7 +45,6 @@ export default function UserInfo() {
     region: region,
     subRegion: subRegion,
   };
-  console.log(userInfo);
 
   const { mutate } = usePostRegister(userInfo);
 

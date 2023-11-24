@@ -1,6 +1,6 @@
 .wrapper {
   padding: 80px 80px;
-
+  position: relative;
   form {
     display: flex;
     flex-direction: column;
@@ -30,6 +30,7 @@
   *:focus {
     outline: 0;
   }
+
   .caution-note-wrapper {
     textarea {
       padding: 16px 10px;
