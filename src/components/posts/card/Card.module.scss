@@ -1,8 +1,12 @@
+$base-color-child: #e5ee7b; // 아동
+$base-color-senior: #fac7c7; // 노인
+$base-color-disabled: #9cb4fa; // 장애인
+
 .wrapper {
   .card {
     border: 1px solid #e0e0e0;
     width: 270px;
-    height: 350px;
+    height: 360px;
     border-radius: 10px;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
     transition: box-shadow 0.3s ease-in-out;
@@ -12,12 +16,37 @@
     }
   }
 
-  /* 폰트 지정 후 수정 */
   .main-info {
-    background-color: #b6caff;
     border-radius: 10px 10px 0 0;
     height: 170px;
     padding: 20px 10px 0 20px;
+
+    @function generate-gradient($base-color) {
+      $gradient: ();
+
+      @for $i from 3 through 10 {
+        $color: mix($base-color, white, percentage($i / 10));
+        $gradient: append($gradient, $color, comma);
+      }
+
+      @return $gradient;
+    }
+
+    @mixin gradient-style($base-color) {
+      background: linear-gradient(to bottom, generate-gradient($base-color));
+    }
+
+    &.child {
+      @include gradient-style($base-color-child);
+    }
+
+    &.senior {
+      @include gradient-style($base-color-senior);
+    }
+
+    &.disabled {
+      @include gradient-style($base-color-disabled);
+    }
 
     .main-bottom {
       display: flex;
@@ -85,6 +114,7 @@
     font-size: 25px;
     font-family: var(--font-soyoMapleBold) !important;
     padding: 5px 0 0 5px;
+    text-shadow: 1px 1px 2px #575757;
   }
 
   .extra-info {
@@ -94,11 +124,15 @@
       margin-top: 10px;
     }
 
+    .extra-info-icon {
+      font-size: 16px;
+    }
+
     li {
       display: flex;
       align-items: center;
       box-sizing: content-box;
-      padding: 9px 40px;
+      padding: 7px 40px;
 
       &.location,
       &.date,

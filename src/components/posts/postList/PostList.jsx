@@ -7,13 +7,13 @@ const cx = cs.bind(styles);
 
 const cardsPerPage = 6;
 
-export default function PostList({ cardList, searchInput, currentPage, onPageChange }) {
+export default function PostList({ posts, searchInput, currentPage, onPageChange }) {
   const [searchedPostsList, setSearchedPostsList] = useState([]);
 
   useEffect(() => {
-    const searchedPosts = cardList.filter((card) => card.title.includes(searchInput));
+    const searchedPosts = posts.filter((card) => card.title.includes(searchInput));
     setSearchedPostsList(searchedPosts);
-  }, [searchInput, cardList]);
+  }, [searchInput, posts]);
 
   return (
     <div className={cx('wrapper')}>
