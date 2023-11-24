@@ -72,15 +72,23 @@ $base-color-disabled: #9cb4fa; // 장애인
     }
   }
 
-  .target-image {
-    width: 80px;
-    height: 80px;
-    margin-right: 20px;
+  .target-image-container {
+    padding: 10px 20px;
+    background-color: white;
     border-radius: 50%;
+    margin-right: 20px;
+
+    .target-image {
+      width: 70px;
+      height: 60px;
+      margin-top: 5px;
+    }
   }
 
   .main-upper {
     display: flex;
+    // box-sizing: content-box;
+
     width: 230px; // 타이틀 길이
     margin-bottom: 20px;
   }
