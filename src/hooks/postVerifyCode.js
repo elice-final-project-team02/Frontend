@@ -9,17 +9,18 @@ const postVerifyCode = async (email, code) => {
   return response.data;
 };
 
-export function usePostVerifyCode(email, code) {
+export function usePostVerifyCode(email, code, setEmailVerified) {
   return useMutation(() => postVerifyCode(email, code), {
     onSuccess: (response) => {
       alert(response.message);
+      setEmailVerified(true);
     },
     onError: (error) => {
       if (error.response) {
         const errorCode = error.response.status;
         const errorMessage = error.response.data.message;
 
-        if (errorCode === 404) {
+        if (errorCode === 400) {
           alert(errorMessage);
         } else {
           alert('서버에서 오류가 발생했습니다. 잠시 후 다시 시도해주세요.');

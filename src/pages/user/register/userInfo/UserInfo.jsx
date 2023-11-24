@@ -88,10 +88,10 @@ export default function UserInfo() {
         <AuthInput
           text="휴대폰 번호"
           type="string"
-          name="phone"
+          name="phoneNumber"
           value={phoneNumber}
           placeholder="-을 제외하고 입력해주세요"
-          onChange={(val) => handleInputChange(val, 'phone', 1, setPhoneNumber)}
+          onChange={(val) => handleInputChange(val, 'phoneNumber', 1, setPhoneNumber)}
           message={hasError[1] ? '올바른 형식이 아닙니다.' : ''}
         />
         <AuthSelect

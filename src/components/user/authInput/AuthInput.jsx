@@ -52,11 +52,15 @@ export default function AuthInput({
           className={cx({ inputWithButton: isConfirm || isCode })}
         />
         {isCode && (
-          <button onClick={handleVerify} disabled={isDisabled}>
+          <button onClick={handleVerify} disabled={isDisabled || !value || message}>
             {isDisabled ? `재전송 (${countdown}s)` : '코드전송'}
           </button>
         )}
-        {isConfirm && <button onClick={onVerify}>인증확인</button>}
+        {isConfirm && (
+          <button onClick={onVerify} disabled={!value}>
+            인증확인
+          </button>
+        )}
       </div>
       <div className={cx('message-container')}>
         <p>{message}</p>

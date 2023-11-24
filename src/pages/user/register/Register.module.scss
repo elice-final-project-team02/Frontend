@@ -63,53 +63,123 @@
     width: 80%;
 
     button {
-      background-color: rgba(0, 0, 0, 0);
-      padding: 50px 100px;
+      width: 85%;
+      height: 230px;
       border: none;
-      + button {
-        margin-top: 8px;
-      }
+      border-radius: 30px;
+      position: relative;
       &:hover {
-        background-color: #ebe9e9;
-        cursor: pointer;
+        box-shadow: 1px 3px 6px var(--crl-neutral-600);
+      }
+
+      span {
+        color: black;
+      }
+      + button {
+        margin-top: 20px;
       }
     }
-  }
 
-  .container {
-    display: flex;
-    .clam-image {
-      width: 100px;
-      margin-right: 50px;
+    .user-button {
+      background-color: var(--crl-blue-600);
     }
-    span {
-      font-size: 24px;
+    .care-button {
+      background-color: var(--crl-red-600);
     }
-    p {
-      font-size: 24px;
-      margin-top: 30px;
-    }
-    .general > p {
-      color: var(--crl-blue-900);
-    }
-    .care > p {
-      color: --crl-red-800;
-    }
-  }
 
-  .is-user {
-    margin: 20px;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    span {
-      margin-bottom: 8px;
-    }
-  }
+    .container {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      padding-top: 10px;
 
-  .go-login {
-    text-decoration: underline;
-    font-weight: bold;
+      img {
+        position: absolute;
+      }
+
+      @keyframes moveUpDownPearl {
+        0% {
+          transform: translateY(-2px);
+        }
+        100% {
+          transform: translateY(2px);
+        }
+      }
+      @keyframes moveUpDownBlue {
+        0% {
+          transform: rotate(325deg) translateY(-2px);
+        }
+        100% {
+          transform: rotate(325deg) translateY(2px);
+        }
+      }
+      @keyframes moveUpDownPink {
+        0% {
+          transform: rotate(45deg) translateY(-2px);
+        }
+        100% {
+          transform: rotate(45deg) translateY(2px);
+        }
+      }
+
+      .blue-clam-image {
+        width: 85px;
+        height: 90px;
+        animation: moveUpDownBlue 0.8s ease-in-out infinite alternate;
+        top: 100px;
+        left: 50px;
+      }
+      .blue-pearl-image {
+        width: 48px;
+        height: 48px;
+        animation: moveUpDownPearl 0.8s ease-in-out infinite alternate;
+        top: 16px;
+        left: 150px;
+      }
+      .pink-clam-image {
+        width: 50px;
+        height: 55px;
+        animation: moveUpDownPink 0.8s ease-in-out infinite alternate;
+        top: 25px;
+        right: 120px;
+      }
+      .pink-pearl-image {
+        width: 90px;
+        height: 90px;
+        animation: moveUpDownPearl 0.8s ease-in-out infinite alternate;
+        top: 100px;
+        left: 80px;
+      }
+
+      span {
+        font-size: 24px;
+      }
+      p {
+        font-size: 24px;
+        margin-top: 16px;
+      }
+      .general > p {
+        color: var(--crl-blue-900);
+      }
+      .care > p {
+        color: var(--crl-red-800);
+      }
+    }
+
+    .is-user {
+      margin: 40px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      span {
+        margin-bottom: 8px;
+      }
+    }
+
+    .go-login {
+      text-decoration: underline;
+      font-weight: bold;
+    }
   }
 
   // authInfo, userInfo
@@ -146,15 +216,16 @@
   .button-container {
     display: flex;
     justify-content: center;
+    margin-top: 30px;
     button {
-      width: 60px;
-      padding: 8px 0;
-      border: none;
-      border-radius: 4px;
+      width: 100px;
+      height: 32px;
+      padding: 4px 0;
+      border-radius: 10px;
       font-size: 16px;
     }
     button:first-child {
-      margin-right: 10px;
+      margin-right: 16px;
     }
   }
 
@@ -172,7 +243,17 @@
     border-radius: 4px;
     font-size: 16px;
   }
+
+  .prev-general-button {
+    background-color: var(--crl-blue-100);
+    border: 1px solid var(--crl-blue-900);
+  }
+  .prev-care-button {
+    background-color: var(--crl-red-100);
+    border: 1px solid var(--crl-red-800);
+  }
   .general-button {
+    border: none;
     background-color: var(--crl-blue-900);
     color: white;
     &:disabled {
@@ -180,6 +261,7 @@
     }
   }
   .care-button {
+    border: none;
     background-color: var(--crl-red-800);
     color: white;
     &:disabled {
