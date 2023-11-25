@@ -19,3 +19,4 @@ export const SeniorYarn = require('./senior-item.png');
 export const DesabledBathchair = require('./disabled-item.png');
 export const PinkPearl = require('./pearl-red.png');
 export const BluePearl = require('./pearl-blue.png');
+export const Challenged = require('./challenged.png');

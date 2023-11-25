@@ -15,12 +15,14 @@ import axios from 'axios';
 import { useGetRequest } from '../../../hooks/post/getRequest';
 import { useGetUser } from '../../../hooks/getUser';
 import * as data from 'lib';
+import { useDeletePost } from 'hooks';
 const cx = cs.bind(styles);
 
 export default function PostDetail() {
   const [displayData, setDisplayData] = React.useState({});
-  const { data: requestData, isLoading: isRequestLoading } = useGetRequest('6561a46ad4e9f2b691a7b9a6');
+  const { data: requestData, isLoading: isRequestLoading } = useGetRequest('65618baad4e9f2b691a7b428');
   const { data: userData, isLoading: isUserLoading } = useGetUser();
+  const { mutate } = useDeletePost('65618baad4e9f2b691a7b428');
 
   React.useEffect(() => {
     if (requestData && userData) {
@@ -45,6 +47,13 @@ export default function PostDetail() {
       });
     }
   }, [requestData, userData]);
+
+  function handleDeletePost() {
+    if (window.confirm('게시물을 삭제하시겠습니까?')) {
+      mutate();
+    }
+    return;
+  }
 
   function isSomeWordsInArray(array) {
     return array.some((item) => item.includes('이상'));
@@ -190,7 +199,7 @@ export default function PostDetail() {
               <span className={cx('post-edit-icons')}>
                 <BiSolidPencil />
               </span>
-              <span className={cx('post-edit-icons')}>
+              <span className={cx('post-edit-icons')} onClick={handleDeletePost}>
                 <PiTrashFill />
               </span>
               <button>
