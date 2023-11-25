@@ -13,6 +13,11 @@ export function changeDateToMonthAndDate(date) {
   return dayjs(date).format('MM/DD');
 }
 
+/** 오후 6시 */
+export function changeDateToAmPmAndHour(date) {
+  return dayjs(date).format('a h시');
+}
+
 /** 월 => 0 */
 export function changeKoreaDayOfWeekToNumber(day) {
   switch (day) {

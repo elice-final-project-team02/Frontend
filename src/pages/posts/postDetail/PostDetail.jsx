@@ -14,11 +14,12 @@ import * as date from 'lib';
 import axios from 'axios';
 import { useGetRequest } from '../../../hooks/post/getRequest';
 import { useGetUser } from '../../../hooks/getUser';
+import * as data from 'lib';
 const cx = cs.bind(styles);
 
 export default function PostDetail() {
   const [displayData, setDisplayData] = React.useState({});
-  const { data: requestData, isLoading: isRequestLoading } = useGetRequest('65600c3a09c52d1b49d688ba');
+  const { data: requestData, isLoading: isRequestLoading } = useGetRequest('6561a46ad4e9f2b691a7b9a6');
   const { data: userData, isLoading: isUserLoading } = useGetUser();
 
   React.useEffect(() => {
@@ -29,15 +30,15 @@ export default function PostDetail() {
         region: requestData.careInformation.area.region,
         subRegion: requestData.careInformation.area.subRegion,
         careTarget: requestData.careInformation.careTarget,
-        preferredMateAge: requestData.careInformation.preferredMateAge,
-        preferredMateGender: requestData.careInformation.preferredMateGender,
+        preferredmateAge: requestData.careInformation.preferredmateAge,
+        preferredmateGender: requestData.careInformation.preferredmateGender,
         hourlyRate: requestData.reservation.hourlyRate,
         negotiableRate: requestData.negotiableRate,
         targetFeatures: requestData.careInformation.targetFeatures,
         cautionNotes: requestData.careInformation.cautionNotes,
         isLongTerm: requestData.reservation.isLongTerm,
         longTerm: requestData.reservation.longTerm,
-        shortTerm: requestData.reservation.shortTerm,
+        shortTerm: requestData.reservation.shortTerm.filter((obj, index) => index !== 0),
         status: requestData.reservation.status,
         userRole: userData.role.role,
         userName: userData.name,
@@ -45,10 +46,38 @@ export default function PostDetail() {
     }
   }, [requestData, userData]);
 
+  function isSomeWordsInArray(array) {
+    return array.some((item) => item.includes('이상'));
+  }
+  function sortAgeList(array) {
+    return array.map((age) => parseInt(age[0])).sort();
+  }
+  function formmatAgeListToTrimPretty(array) {
+    let sortedArray = [];
+    if (array.length > 1 && !isSomeWordsInArray(array)) {
+      sortedArray = sortAgeList(array);
+      return sortedArray.map((item, index, arr) => {
+        if (index < arr.length - 1) {
+          return `${item}0, `;
+        } else if (index === arr.length - 1) return `${item}0대`;
+        return item;
+      });
+    } else if (array.length > 1 && isSomeWordsInArray(array)) {
+      sortedArray = sortAgeList(array);
+      return sortedArray.map((item, index, arr) => {
+        if (index < arr.length - 1) {
+          return `${item}0, `;
+        } else if (index === arr.length - 1) return `${item}0대 이상`;
+        return item;
+      });
+    }
+    return array;
+  }
   if (isRequestLoading) return <div>로딩중</div>;
 
   return (
     <div className={cx('wrapper')}>
+      <button onClick={() => console.log(displayData)}>조회</button>
       <div
         className={cx(
           'title-wrapper',
@@ -94,13 +123,15 @@ export default function PostDetail() {
                   displayData.longTerm.startDate?.getMonth() + 1
                 }/20~    ${displayData.longTerm.schedule.map((obj) => obj.careDay)}`}</span>
               ) : (
-                <span className={cx('text-information')}>
-                  {/* {`${date.changeDateToMonthAndDate(
-                    displayData?.shortTerm[0].careDate
-                  )} ~ ${date.changeDateToMonthAndDate(
-                    displayData?.shortTerm[displayData.shortTerm.length - 1].careDate
-                  )} (총 ${displayData.shortTerm.length}일)`} */}
-                </span>
+                displayData.shortTerm && (
+                  <span className={cx('text-information')}>
+                    {`${date.changeDateToMonthAndDate(
+                      displayData?.shortTerm[0].careDate
+                    )} ~ ${date.changeDateToMonthAndDate(
+                      displayData?.shortTerm[displayData.shortTerm.length - 1].careDate
+                    )} (총 ${displayData.shortTerm.length}일)`}
+                  </span>
+                )
               )}
             </div>
             <div className={cx('icon-text-wrapper')}>
@@ -112,7 +143,12 @@ export default function PostDetail() {
                   className={cx('text-information')}
                 >{`${displayData.longTerm.schedule[0].startTime} ~ ${displayData.longTerm.schedule[0].endTime}`}</span>
               ) : (
-                <span>{`${date.changeDateToMonthAndDate(displayData?.shortTerm?.careDate)}`}</span>
+                <span className={cx('text-information')}>
+                  {displayData.shortTerm &&
+                    `${date.changeDateToAmPmAndHour(
+                      displayData.shortTerm[0].startTime
+                    )} ~ ${date.changeDateToAmPmAndHour(displayData.shortTerm[0].endTime)}`}
+                </span>
               )}
             </div>
             <div className={cx('icon-text-wrapper')}>
@@ -120,17 +156,18 @@ export default function PostDetail() {
                 <IoMdPerson />
               </span>
               <span className={cx('text-information')}>
-                {displayData.preferredMateAge?.map((item, index) => (
-                  <span key={index}>{item} </span>
-                ))}
+                {displayData.preferredmateAge &&
+                  formmatAgeListToTrimPretty(displayData.preferredmateAge).map((item, index) => (
+                    <span key={index}>{item} </span>
+                  ))}
               </span>
-              <span className={cx('text-information')}>{displayData.preferredMateGender}</span>
+              <span className={cx('text-information', 'gender-span')}>{displayData.preferredmateGender}</span>
             </div>
             <div className={cx('icon-text-wrapper')}>
               <span className={cx('information-icons')}>
                 <PiMoneyFill />
               </span>
-              <span className={cx('text-information')}>{`${displayData.hourlyRate}원 ${
+              <span className={cx('text-information')}>{`${data.addCommas(displayData.hourlyRate)}원 ${
                 displayData.negotiableRate ? '(협의가능)' : ''
               }`}</span>
             </div>

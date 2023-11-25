@@ -87,17 +87,17 @@ export const router = createBrowserRouter([
       {
         path: '/posts/new',
         element: (
-          <PrivateRoute>
-            <WritePost />
-          </PrivateRoute>
+          // <PrivateRoute>
+          <WritePost />
+          // </PrivateRoute>
         ),
       },
       {
         path: '/posts/:id',
         element: (
-          <PrivateRoute>
-            <PostDetail />
-          </PrivateRoute>
+          // <PrivateRoute>
+          <PostDetail />
+          // </PrivateRoute>
         ),
       },
       {
