@@ -10,18 +10,18 @@ import { useNavigate } from 'react-router';
 import { usePostRequest } from '../../../hooks/post/postRequest';
 const cx = cs.bind(styles);
 
-export default function WritePost() {
+export default function WritePost({ params, beforeData }) {
   const [mainTime, setMainTime] = React.useState({
     mainStartTime: new Date(2020, 0, 0, 8),
     mainEndTime: new Date(2020, 0, 0, 20),
   });
   const [isEmptyValueInputNames, setIsEmptyValueInputNames] = React.useState([]);
   const [postContent, setPostContent] = React.useState({
-    title: '',
-    content: '',
-    region: '',
-    subRegion: '',
-    careTarget: '',
+    title: beforeData ? beforeData.post.title : '',
+    content: beforeData ? beforeData.post.content : '',
+    region: beforeData ? beforeData.post.careInformation.area.region : '',
+    subRegion: beforeData ? beforeData.post.careInformation.area.subRegion : '',
+    careTarget: beforeData ? beforeData.post.careInformation.careTarget : '',
     longTerm: {
       startDate: new Date(),
       schedule: [
@@ -39,13 +39,13 @@ export default function WritePost() {
         endTime: mainTime.mainEndTime,
       },
     ],
-    preferredMateAge: [],
-    preferredMateGender: '',
-    hourlyRate: 9620,
-    negotiableRate: false,
-    targetFeatures: '',
-    cautionNotes: '',
-    careTerm: 'short',
+    preferredMateAge: beforeData ? beforeData.post.careInformation.preferredmateAge : [],
+    preferredMateGender: beforeData ? beforeData.post.careInformation.preferredmateGender : '',
+    hourlyRate: beforeData ? beforeData.post.reservation.hourlyRate : 9620,
+    negotiableRate: beforeData ? beforeData.post.negotiableRate : false,
+    targetFeatures: beforeData ? beforeData.post.careInformation.targetFeatures : '',
+    cautionNotes: beforeData ? beforeData.post.careInformation.cautionNotes : '',
+    careTerm: beforeData ? (beforeData.post.reservation.isLongTerm ? 'long' : 'short') : 'short',
   });
 
   function formatterFinalHourlyRateToNumber() {

@@ -12,7 +12,9 @@ export function changeDateToMonthAndDateAndDayOfTheWeek(date) {
 export function changeDateToMonthAndDate(date) {
   return dayjs(date).format('MM/DD');
 }
-
+export function changeDateToMonth(date) {
+  return dayjs(date).format('');
+}
 /** 오후 6시 */
 export function changeDateToAmPmAndHour(date) {
   return dayjs(date).format('a h시');

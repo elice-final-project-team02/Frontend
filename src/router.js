@@ -103,9 +103,9 @@ export const router = createBrowserRouter([
       {
         path: '/posts/:id/edit',
         element: (
-          <PrivateRoute>
-            <EditPost />
-          </PrivateRoute>
+          // <PrivateRoute>
+          <EditPost />
+          // </PrivateRoute>
         ),
       },
     ],
