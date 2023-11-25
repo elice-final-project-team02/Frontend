@@ -9,13 +9,14 @@ const postVerifyCode = async (email, code) => {
   return response.data;
 };
 
-export function usePostVerifyCode(email, code, setEmailVerified) {
+export function usePostVerifyCode(email, code, setVerifyButtonDisabled) {
   return useMutation(() => postVerifyCode(email, code), {
     onSuccess: (response) => {
       alert(response.message);
-      setEmailVerified(true);
+      setVerifyButtonDisabled(true);
     },
     onError: (error) => {
+      setVerifyButtonDisabled(false);
       if (error.response) {
         const errorCode = error.response.status;
         const errorMessage = error.response.data.message;

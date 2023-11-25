@@ -1,0 +1,151 @@
+.wrapper {
+
+  .message-box {
+    position: fixed;
+    right: 267px;
+    bottom: 140px;
+    width: 420px;
+    height: 620px;
+    background-color: var(--crl-neutral-100);
+    box-shadow: 1px 1px 12px #777;
+    box-shadow: 0 0 0 555;
+    border-radius: 10px;
+
+
+    .message-header {
+      position: relative;
+
+      >img {
+        position: absolute;
+        width: 35px;
+      }
+
+      >h1 {
+        padding: 30px;
+        font-size: 40px;
+        font-weight: 500;
+        box-sizing: border-box;
+      }
+
+      .hat {
+        top: 13px;
+        left: 13px;
+      }
+
+      .yarn {
+        bottom: 15px;
+        left: 84px;
+      }
+      .bathchair {
+        top: 25px;
+        right: 150px;
+        transform: rotate( 20deg );
+      }
+  
+
+    }
+
+    
+    .message-list {
+      max-height: 470px;
+      overflow-y: auto;
+      cursor: pointer;
+    }
+
+    .message-items {
+      padding: 15px 10px 0;
+      background: var(--crl-neutral-100);
+      box-sizing: border-box;
+    }
+
+
+    // 대화 상대별 메시지방
+    .message-item {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      padding: 0 0 20px;
+
+      .user-profilebox { // 감싸는 div
+        position: relative; 
+        flex: 0 0 60px;
+        align-self: center;
+
+        .img-profile {
+          display: block; // 이미지태그 여백 버그 해결을 위한 display 속성 추가.
+          width: 100%;
+          object-fit: cover;
+        }
+
+        .img-newmessage {
+          position: absolute;
+          width: 18px;
+          top: 0;
+          right:0;
+        }
+
+      }
+      
+      // 이름, 키워드, 내용
+      .user-itembox {
+        flex: 1 1 auto;
+        padding: 0 25px;
+
+        .username {
+          font-size: 18px;
+          font-weight: 700;
+          line-height: 1.8;
+        }
+
+        .keyword {
+          display: inline-block;
+          width: 50px;
+          height: 22px;
+          margin-left: 10px;
+          padding-top: 4px;
+          border-radius: 10px;
+          background-color: var(--crl-green-800);
+          font-size: 13px;
+          text-align: center;
+          vertical-align: middle;
+        }
+  
+        .message-text { // 임시. 글자수 줄임은 나중에 js로 해결예정.
+          display: -webkit-box;
+          overflow: hidden;
+          height: 2em;
+          margin-top: 8px;
+          font-size: 15px;
+          text-overflow: ellipsis;
+          word-wrap: break-word;
+          -webkit-line-clamp: 2;
+          -webkit-box-orient: vertical;
+        }
+
+      }
+
+
+      .date-box {
+        flex: 0 0 auto;
+
+        .last-date {
+          font-size: 14px;
+          font-weight: 500;
+          line-height: 1.8;
+        }
+
+        
+        .last-time {
+          font-size: 12px;
+        }
+
+      }
+
+      
+     
+    }
+  
+  }
+  
+  
+}

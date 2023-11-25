@@ -7,6 +7,9 @@ import { ko } from 'date-fns/esm/locale';
 const cx = cs.bind(styles);
 
 export default function SeparateDatesPicker({ postContent, setPostContent, mainTime }) {
+  const today = new Date();
+  const oneMonthLater = new Date();
+  oneMonthLater.setMonth(today.getMonth() + 1);
   function handleDateChange(date) {
     const isDateSelected = postContent.shortTerm.some(
       (selectedDateObj) => selectedDateObj.careDate.getTime() === date.getTime()
@@ -36,7 +39,8 @@ export default function SeparateDatesPicker({ postContent, setPostContent, mainT
         handleDateChange(date);
         return;
       }}
-      minDate={new Date()}
+      minDate={today}
+      maxDate={oneMonthLater}
       selectsDisabledDaysInRange
       disabledKeyboardNavigation
       locale={ko}

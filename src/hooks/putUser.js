@@ -9,9 +9,11 @@ const putUser = async (userInfo) => {
 export function usePutUser(userInfo) {
   const queryClient = useQueryClient();
   return useMutation(() => putUser(userInfo), {
+    onSettled: () => {
+      queryClient.invalidateQueries('get-user');
+    },
     onSuccess: (response) => {
       alert(response.message);
-      queryClient.invalidateQueries('get-user');
     },
     onError: (error) => {
       if (error.response) {

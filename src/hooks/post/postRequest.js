@@ -16,7 +16,7 @@ export function usePostRequest(body) {
   return useMutation(() => postRequest(body), {
     onSuccess: (response) => {
       alert(response.message);
-      nav('/');
+      nav('/posts');
     },
     onError: (error) => {
       if (error.response) {

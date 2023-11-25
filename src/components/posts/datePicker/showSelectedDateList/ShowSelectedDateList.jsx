@@ -70,7 +70,7 @@ export default function ShowSelectedDateList({ postContent, setPostContent, arra
                       postContent.shortTerm[index].startTime
                     )}-${changeDateToHHMM(postContent.shortTerm[index].endTime)}`}
                   </span>
-                  <button onClick={() => handleItemClick(index)}>
+                  <button className={cx('hover-icon')} onClick={() => handleItemClick(index)}>
                     <BiSolidPencil />
                   </button>
                 </div>
@@ -106,7 +106,7 @@ export default function ShowSelectedDateList({ postContent, setPostContent, arra
                       index
                     ].startTime.getHours()}:00-${postContent.longTerm.schedule[index].endTime.getHours()}:00`}
                   </span>
-                  <button onClick={() => handleItemClick(index)}>
+                  <button className={cx('hover-icon')} onClick={() => handleItemClick(index)}>
                     <BiSolidPencil />
                   </button>
                 </div>

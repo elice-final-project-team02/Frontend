@@ -9,6 +9,9 @@
   background-color: var(--crl-blue-100);
   font-size: 12px;
   transition: 0.4s;
+  & button {
+    border-width: 0;
+  }
 }
 
 .react-datepicker__header {
@@ -38,6 +41,7 @@
 .react-datepicker__day:hover {
   border-radius: 100%;
 }
+
 // timepicker
 .react-datepicker__input-container {
   & > input {

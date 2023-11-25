@@ -6,12 +6,14 @@ const postSendMail = async (email) => {
   return response.data;
 };
 
-export function usePostSendMail(email) {
+export function usePostSendMail(email, setEmailButtonDisabled) {
   return useMutation(() => postSendMail(email), {
     onSuccess: (response) => {
       alert(response.message);
+      setEmailButtonDisabled(true);
     },
     onError: (error) => {
+      setEmailButtonDisabled(false);
       if (error.response) {
         const errorCode = error.response.status;
         const errorMessage = error.response.data.message;

@@ -28,4 +28,10 @@
       border: 0;
     }
   }
+  .hover-icon {
+    &:hover {
+      color: black;
+      cursor: pointer;
+    }
+  }
 } // wrapper close

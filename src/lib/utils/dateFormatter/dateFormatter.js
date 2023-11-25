@@ -9,6 +9,9 @@ export function changeDateToHHMM(date) {
 export function changeDateToMonthAndDateAndDayOfTheWeek(date) {
   return dayjs(date).format('MM/DD(dd)');
 }
+export function changeDateToMonthAndDate(date) {
+  return dayjs(date).format('MM/DD');
+}
 
 /** 월 => 0 */
 export function changeKoreaDayOfWeekToNumber(day) {

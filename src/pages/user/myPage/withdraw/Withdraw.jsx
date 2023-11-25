@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import styles from './Withdraw.module.scss';
 import cs from 'classnames/bind';
 import { MySideBar, MyTitle } from 'components';
-import { useDeleteUser } from 'hooks';
+import { useDeleteUser } from '../../../../hooks/deleteUser';
 const cx = cs.bind(styles);
 
 export default function Withdraw() {

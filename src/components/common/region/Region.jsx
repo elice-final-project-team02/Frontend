@@ -1,24 +1,24 @@
 import React, { useState } from 'react';
 import { region } from 'lib';
 
-export default function Region(props) {
-  const [selectedRegion, setSelectedRegion] = useState(props.region1 || '');
-  const [selectedSubRegion, setSelectedSubRegion] = useState(props.region2 || '');
+export default function Region({ region1, region2, onRegionChange }) {
+  const [selectedRegion, setSelectedRegion] = useState(region1 || '');
+  const [selectedSubRegion, setSelectedSubRegion] = useState(region2 || '');
 
   const handleSidoChange = (event) => {
     const selectedValue = event.target.value;
     setSelectedRegion(selectedValue);
     setSelectedSubRegion('');
-    if (props.onRegionChange) {
-      props.onRegionChange(selectedValue, '');
+    if (onRegionChange) {
+      onRegionChange(selectedValue, '');
     }
   };
 
   const handleGugunChange = (event) => {
     const selectedValue = event.target.value;
     setSelectedSubRegion(selectedValue);
-    if (props.onRegionChange) {
-      props.onRegionChange(selectedRegion, selectedValue);
+    if (onRegionChange) {
+      onRegionChange(selectedRegion, selectedValue);
     }
   };
 

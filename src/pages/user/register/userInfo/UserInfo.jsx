@@ -4,7 +4,7 @@ import cs from 'classnames/bind';
 import { useLocation } from 'react-router-dom';
 import { AuthInput, AuthSelect, Region } from 'components';
 import { InputStatus, validateInput } from 'lib';
-import { usePostRegister } from 'hooks';
+import { usePostRegister } from '../../../../hooks/postRegister';
 const cx = cs.bind(styles);
 
 const genderOptions = [

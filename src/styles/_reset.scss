@@ -9,7 +9,10 @@
 *::before {
   box-sizing: border-box;
 }
-
+li::marker {
+  content: " ";
+  list-style: none;
+}
 a,
 abbr,
 acronym,

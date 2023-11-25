@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import styles from './Login.module.scss';
 import cs from 'classnames/bind';
-import { usePostLogin } from 'hooks';
+import { usePostLogin } from '../../../hooks/postLogin';
 const cx = cs.bind(styles);
 
 export default function Login() {

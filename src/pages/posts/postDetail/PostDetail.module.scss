@@ -22,8 +22,7 @@
   }
   .description-wrapper {
     min-height: 200px;
-    border-top-left-radius: 50px;
-    border-top-right-radius: 50px;
+    border-radius: 50px;
   }
 
   .title-wrapper {
@@ -84,15 +83,17 @@
       font-size: 13px;
     }
   }
+  .post-edit-icons {
+    &:hover {
+      color: var(--crl-neutral-800);
+    }
+  }
   .icon-text-wrapper {
     display: flex;
     gap: 20px;
     .information-icons {
       color: var(--crl-neutral-400);
     }
-  }
-  .watch-icon {
-    font-size: 30px;
   }
 
   .button-wrapper {

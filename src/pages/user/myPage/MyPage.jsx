@@ -4,7 +4,8 @@ import cs from 'classnames/bind';
 import { ProfileImage } from 'assets/images';
 import { MyTitle, MySideBar, Region } from 'components';
 import { InputStatus, validateInput } from 'lib';
-import { useGetUser, usePutUser } from 'hooks';
+import { useGetUser } from '../../../hooks/getUser';
+import { usePutUser } from '../../../hooks/putUser';
 const cx = cs.bind(styles);
 
 export default function MyPage() {
@@ -28,7 +29,7 @@ export default function MyPage() {
         region: data.area.region,
         subRegion: data.area.subRegion,
         role: displayedRole,
-        introduction: '',
+        introduction: data.introduction || '',
       });
     }
   }, [data]);
@@ -127,14 +128,12 @@ export default function MyPage() {
       formData.append(key, updatedUserInfo[key]);
     });
 
-    // 값 확인
-    for (let key of formData.keys()) {
-      console.log(key, ':', formData.get(key));
-    }
-
-    mutate(formData);
-    setEdit(false);
-    setEditPwd(false);
+    mutate(formData, {
+      onSuccess: () => {
+        setEdit(false);
+        setEditPwd(false);
+      },
+    });
   };
 
   return (
@@ -144,194 +143,192 @@ export default function MyPage() {
           <MySideBar />
         </div>
         <main>
-          <form onSubmit={handleSubmit}>
-            <MyTitle text="MY PAGE" />
-            <div className={cx('content')}>
-              <div className={cx('profile')}>
-                {edit ? (
-                  <>
-                    <img src={selectedImage} alt="이미지 미리보기" />
-                    <input type="file" accept="image/*" name="profile_url" ref={imgRef} onChange={handleUploadImage} />
-                    <button type="button" onClick={handleUploadImageButtonClick} className={cx('edit-image')}>
-                      변경하기
-                    </button>
-                    {inputErrors.profile_url && (
-                      <p className={cx('error-text')}>
-                        이미지 용량은 최대
-                        <br /> 5MB 입니다.
-                      </p>
+          {isLoading ? (
+            <div className={cx('loading')}>로딩중...</div>
+          ) : (
+            <form onSubmit={handleSubmit}>
+              <MyTitle text="MY PAGE" />
+              <div className={cx('content')}>
+                <div className={cx('profile')}>
+                  {edit ? (
+                    <>
+                      <img src={selectedImage} alt="이미지 미리보기" />
+                      <input
+                        type="file"
+                        accept="image/*"
+                        name="profile_url"
+                        ref={imgRef}
+                        onChange={handleUploadImage}
+                      />
+                      <button type="button" onClick={handleUploadImageButtonClick} className={cx('edit-image')}>
+                        변경하기
+                      </button>
+                      {inputErrors.profile_url && (
+                        <p className={cx('error-text')}>
+                          이미지 용량은 최대
+                          <br /> 5MB 입니다.
+                        </p>
+                      )}
+                    </>
+                  ) : (
+                    <img src={ProfileImage} alt="프로필사진" />
+                  )}
+                </div>
+                <div className={cx('info')}>
+                  <div className={cx('left')}>
+                    <div className={cx('email')}>
+                      <h1>이메일</h1>
+                      <p>{userInfo.email}</p>
+                    </div>
+                    <div className={cx('name')}>
+                      <h1>이름</h1>
+                      {edit ? (
+                        <>
+                          <input type="text" name="name" value={userInfo.name} onChange={handleInputChange} />
+                          {inputErrors.name && <p className={cx('error-text')}>이름은 2글자 이상 작성해주세요.</p>}
+                        </>
+                      ) : (
+                        <p>{userInfo.name}</p>
+                      )}
+                    </div>
+                    {edit && (
+                      <button type="button" className={cx('edit-password')} onClick={() => setEditPwd(true)}>
+                        비밀번호 수정
+                      </button>
                     )}
-                  </>
+                    {editPwd && (
+                      <div>
+                        <div className={cx('current-password')}>
+                          <h1>기존 비밀번호</h1>
+                          <input type="password" name="currentPassword" onChange={handleInputChange} />
+                        </div>
+                        <div className={cx('new-password')}>
+                          <h1>새 비밀번호</h1>
+                          <input type="password" name="password" onChange={handleInputChange} />
+                          {inputErrors.password && (
+                            <p className={cx('error-text')}>
+                              비밀번호는 숫자, 영문자, 특수문자 조합으로 8자 이상이어야 합니다.
+                            </p>
+                          )}
+                        </div>
+                        <div className={cx('confirm-new-password')}>
+                          <h1>새 비밀번호 확인</h1>
+                          <input
+                            type="password"
+                            name="passwordConfirm"
+                            onChange={(e) => handleInputChange(e, userInfo.password)}
+                          />
+                          {inputErrors.passwordConfirm && (
+                            <p className={cx('error-text')}>비밀번호가 일치하지 않습니다.</p>
+                          )}
+                        </div>
+                        <button type="button" onClick={() => setEditPwd(false)} className={cx('cancel-password')}>
+                          비밀번호 수정 취소
+                        </button>
+                      </div>
+                    )}
+                  </div>
+                  <div className={cx('right')}>
+                    <div className={cx('phone-number')}>
+                      <h1>전화번호</h1>
+                      {edit ? (
+                        <>
+                          <input
+                            type="text"
+                            name="phone"
+                            value={userInfo.phoneNumber}
+                            onChange={handleInputChange}
+                            placeholder="-을 제외하고 입력해주세요."
+                          />
+                          {inputErrors.phoneNumber && <p className={cx('error-text')}>올바른 형식이 아닙니다.</p>}
+                        </>
+                      ) : (
+                        <p>{formattedPhone}</p>
+                      )}
+                    </div>
+                    <div className={cx('age')}>
+                      <h1>나이</h1>
+                      {edit ? (
+                        <select name="age" value={userInfo.age} onChange={handleInputChange}>
+                          <option value="20대">20대</option>
+                          <option value="30대">30대</option>
+                          <option value="40대">40대</option>
+                          <option value="50대">50대</option>
+                          <option value="60대 이상">60대 이상</option>
+                        </select>
+                      ) : (
+                        <p>{userInfo.age}</p>
+                      )}
+                    </div>
+                    <div className={cx('gender')}>
+                      <h1>성별</h1>
+                      {edit ? (
+                        <select name="gender" value={userInfo.gender} onChange={handleInputChange}>
+                          <option value="남자">남자</option>
+                          <option value="여자">여자</option>
+                        </select>
+                      ) : (
+                        <p>{userInfo.gender}</p>
+                      )}
+                    </div>
+                    <div className={cx('region')}>
+                      <h1>지역</h1>
+                      {edit ? (
+                        <Region
+                          region1={userInfo.region}
+                          region2={userInfo.subRegion}
+                          onRegionChange={handleRegionChange}
+                        />
+                      ) : (
+                        <p>
+                          {userInfo.region}/{userInfo.subRegion}
+                        </p>
+                      )}
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div className={cx('introduce')}>
+                <h1>INTRODUCE</h1>
+                <span>{userInfo.role}</span>
+                {edit ? (
+                  <textarea
+                    name="introduction"
+                    value={userInfo.introduction}
+                    onChange={handleInputChange}
+                    placeholder="안녕하세요. 저는 사회복지사 자격증 2급을 가지고 있습니다."
+                  />
                 ) : (
-                  <img src={ProfileImage} alt="프로필사진" />
+                  <p>{userInfo.introduction}</p>
                 )}
               </div>
-              <div className={cx('info')}>
-                <div className={cx('left')}>
-                  <div className={cx('email')}>
-                    <h1>이메일</h1>
-                    <p>{userInfo.email}</p>
-                  </div>
-                  <div className={cx('name')}>
-                    <h1>이름</h1>
-                    {edit ? (
-                      <>
-                        <input type="text" name="name" value={userInfo.name} onChange={handleInputChange} />
-                        {inputErrors.name && <p className={cx('error-text')}>이름은 2글자 이상 작성해주세요.</p>}
-                      </>
-                    ) : (
-                      <p>{userInfo.name}</p>
-                    )}
-                  </div>
-                  {edit && (
-                    <button type="button" className={cx('edit-password')} onClick={() => setEditPwd(true)}>
-                      비밀번호 수정
-                    </button>
-                  )}
-                  {editPwd && (
-                    <div>
-                      <div className={cx('current-password')}>
-                        <h1>기존 비밀번호</h1>
-                        <input type="password" name="currentPassword" onChange={handleInputChange} />
-                      </div>
-                      <div className={cx('new-password')}>
-                        <h1>새 비밀번호</h1>
-                        <input type="password" name="password" onChange={handleInputChange} />
-                        {inputErrors.password && (
-                          <p className={cx('error-text')}>
-                            비밀번호는 숫자, 영문자, 특수문자 조합으로 8자 이상이어야 합니다.
-                          </p>
-                        )}
-                      </div>
-                      <div className={cx('confirm-new-password')}>
-                        <h1>새 비밀번호 확인</h1>
-                        <input
-                          type="password"
-                          name="passwordConfirm"
-                          onChange={(e) => handleInputChange(e, userInfo.password)}
-                        />
-                        {inputErrors.passwordConfirm && (
-                          <p className={cx('error-text')}>비밀번호가 일치하지 않습니다.</p>
-                        )}
-                      </div>
-                      <button
-                        type="button"
-                        onClick={() => {
-                          setEditPwd(false);
-                          setUserInfo({
-                            ...userInfo,
-                            currentPassword: '',
-                            password: '',
-                            passwordConfirm: '',
-                          });
-                        }}
-                        className={cx('cancel-password')}
-                      >
-                        비밀번호 수정 취소
-                      </button>
-                    </div>
-                  )}
-                </div>
-                <div className={cx('right')}>
-                  <div className={cx('phone-number')}>
-                    <h1>전화번호</h1>
-                    {edit ? (
-                      <>
-                        <input
-                          type="text"
-                          name="phoneNumber"
-                          value={userInfo.phoneNumber}
-                          onChange={handleInputChange}
-                          placeholder="-을 제외하고 입력해주세요."
-                        />
-                        {inputErrors.phoneNumber && <p className={cx('error-text')}>올바른 형식이 아닙니다.</p>}
-                      </>
-                    ) : (
-                      <p>{formattedPhone}</p>
-                    )}
-                  </div>
-                  <div className={cx('age')}>
-                    <h1>나이</h1>
-                    {edit ? (
-                      <select name="age" value={userInfo.age} onChange={handleInputChange}>
-                        <option value="20대">20대</option>
-                        <option value="30대">30대</option>
-                        <option value="40대">40대</option>
-                        <option value="50대">50대</option>
-                        <option value="60대 이상">60대 이상</option>
-                      </select>
-                    ) : (
-                      <p>{userInfo.age}</p>
-                    )}
-                  </div>
-                  <div className={cx('gender')}>
-                    <h1>성별</h1>
-                    {edit ? (
-                      <select name="gender" value={userInfo.gender} onChange={handleInputChange}>
-                        <option value="남자">남자</option>
-                        <option value="여자">여자</option>
-                      </select>
-                    ) : (
-                      <p>{userInfo.gender}</p>
-                    )}
-                  </div>
-                  <div className={cx('region')}>
-                    <h1>지역</h1>
-                    {edit ? (
-                      <Region
-                        region1={userInfo.region}
-                        region2={userInfo.subRegion}
-                        onRegionChange={handleRegionChange}
-                      />
-                    ) : (
-                      <p>
-                        {userInfo.region}/{userInfo.subRegion}
-                      </p>
-                    )}
-                  </div>
-                </div>
-              </div>
-            </div>
-            <div className={cx('introduce')}>
-              <h1>INTRODUCE</h1>
-              <span>{userInfo.role}</span>
               {edit ? (
-                <textarea
-                  name="introduction"
-                  value={userInfo.introduction}
-                  onChange={handleInputChange}
-                  placeholder="안녕하세요. 저는 사회복지사 2급 자격증을 가지고 있습니다."
-                />
+                ''
               ) : (
-                <p>{userInfo.introduction}</p>
+                <button type="button" className={cx('edit-button')} onClick={() => setEdit(true)}>
+                  수정하기
+                </button>
               )}
-            </div>
-            {edit ? (
-              ''
-            ) : (
-              <button type="button" className={cx('edit-button')} onClick={() => setEdit(true)}>
-                수정하기
-              </button>
-            )}
-            {edit && (
-              <div>
-                <button type="submit" disabled={!isValid} className={cx('save-button')}>
-                  수정완료
-                </button>
-                <button
-                  type="button"
-                  className={cx('cancel-button')}
-                  onClick={() => {
-                    setEdit(false);
-                    setEditPwd(false);
-                    setSelectedImage(userInfo.profile_url || ProfileImage);
-                  }}
-                >
-                  취소
-                </button>
-              </div>
-            )}
-          </form>
+              {edit && (
+                <div>
+                  <button type="submit" disabled={!isValid} className={cx('save-button')}>
+                    수정완료
+                  </button>
+                  <button
+                    type="button"
+                    className={cx('cancel-button')}
+                    onClick={() => {
+                      setEdit(false);
+                      setEditPwd(false);
+                      setSelectedImage(userInfo.profile_url || ProfileImage);
+                    }}
+                  >
+                    취소
+                  </button>
+                </div>
+              )}
+            </form>
+          )}
         </main>
       </div>
     </div>

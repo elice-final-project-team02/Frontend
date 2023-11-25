@@ -1,13 +1,13 @@
 import React from 'react';
 import styles from './WritePost.module.scss';
 import cs from 'classnames/bind';
-import { DatesPicker, Button, SeparateDatesPicker, ShowSelectedDateList, NewTimesPicker, Toggle } from 'components';
+import { DatesPicker, SeparateDatesPicker, ShowSelectedDateList, NewTimesPicker, Toggle } from 'components';
 import { region } from 'lib';
 import InfantImage from 'assets/images/infant.png';
 import SeniorOneImage from 'assets/images/senior1.png';
 import DisabledImage from 'assets/images/disabled.png';
-import axios from 'axios';
-import { usePostRequest } from 'hooks';
+import { useNavigate } from 'react-router';
+import { usePostRequest } from '../../../hooks/post/postRequest';
 const cx = cs.bind(styles);
 
 export default function WritePost() {
@@ -48,7 +48,15 @@ export default function WritePost() {
     careTerm: 'short',
   });
 
-  function formatDataToSendToApi(obj) {
+  function formatterFinalHourlyRateToNumber() {
+    if (typeof postContent.hourlyRate === 'string') {
+      return postContent.hourlyRate.replace(',', '');
+    } else {
+      return postContent.hourlyRate;
+    }
+  }
+
+  function formatDataToSendToApi() {
     return {
       title: postContent.title,
       content: postContent.content,
@@ -58,19 +66,20 @@ export default function WritePost() {
       isLongTerm: postContent.careTerm === 'short' ? false : true,
       longTerm: { ...postContent.longTerm },
       shortTerm: [...postContent.shortTerm],
-      hourlyRate: postContent.hourlyRate,
+      hourlyRate: parseInt(formatterFinalHourlyRateToNumber()),
       negotiableRate: postContent.negotiableRate,
-      preferredMateAge: postContent.preferredMateAge,
+      preferredmateAge: postContent.preferredMateAge,
+      preferredmateGender: postContent.preferredMateGender,
       targetFeatures: postContent.targetFeatures,
       cautionNotes: postContent.cautionNotes,
     };
   }
   const body = formatDataToSendToApi(postContent);
-  const { mutate } = usePostRequest(postContent);
+
+  const { mutate, isLoading } = usePostRequest(body);
 
   async function handleSubmit(e) {
     e.preventDefault();
-
     checkEmptyValue();
     checkEmptyValueOfDate();
     if (isEmptyValueInputNames.length > 0) {
@@ -78,31 +87,7 @@ export default function WritePost() {
       return;
     }
 
-    const response = await axios
-      .post(
-        'http://localhost:5001/api/post',
-        {
-          title: postContent.title,
-          content: postContent.content,
-          region: postContent.region,
-          subRegion: postContent.subRegion,
-          careTarget: postContent.careTarget,
-          isLongTerm: postContent.careTerm === 'short' ? false : true,
-          longTerm: { ...postContent.longTerm },
-          shortTerm: [...postContent.shortTerm],
-          hourlyRate: postContent.hourlyRate,
-          negotiableRate: postContent.negotiableRate,
-          preferredMateAge: postContent.preferredMateAge,
-          targetFeatures: postContent.targetFeatures,
-          cautionNotes: postContent.cautionNotes,
-        },
-        {
-          withCredentials: true,
-        }
-      )
-      .catch((e) => console.log(e));
-    // mutate();
-    console.log(response);
+    mutate();
   }
 
   function handleChange(e) {
@@ -112,6 +97,16 @@ export default function WritePost() {
       [e.target.name]: e.target.value,
     }));
     checkEmptyValue();
+  }
+
+  const navigation = useNavigate();
+
+  function handleCancel() {
+    if (window.confirm('페이지의 내용이 삭제됩니다. 계속 진행하시겠습니까?')) {
+      navigation('/');
+      return;
+    }
+    return;
   }
 
   function checkEmptyValue() {
@@ -139,7 +134,7 @@ export default function WritePost() {
     const regex = new RegExp(/^(\d{1,3},)*(\d{3},)*\d{1,3}$/);
     if (regex.test(StringOfMoney))
       setPostContent((prev) => ({ ...prev, hourlyRate: Number(removeCommaInString(StringOfMoney)) }));
-    else if (!null) {
+    else if (!null && e.target.value.length > 0) {
       alert('시급을 숫자로 입력해주세요');
       e.target.value = '';
       return;
@@ -360,7 +355,11 @@ export default function WritePost() {
           </div>
         </div>
         <div className={cx('care-term-wrapper')}>
-          <span className={cx('title-level')}>돌봄 기간</span>
+          <span className={cx('title-level', 'term-wrapper')}>
+            돌봄 기간
+            <span className={cx('hover-space', postContent.careTerm === 'long' ? 'hide' : null)}></span>
+            <span className={cx('short-term-tooltip')}>한달 내 선택가능</span>
+          </span>
           <Toggle
             onChange={(e) => {
               if (e.target.checked) {
@@ -400,13 +399,7 @@ export default function WritePost() {
         )}
         <div className={cx('care-dates-wrapper')}>
           {postContent.careTerm === 'short' && (
-            <SeparateDatesPicker
-              postContent={postContent}
-              setPostContent={setPostContent}
-              mainTime={mainTime}
-              maxDate={postContent.shortTerm[0].startTime}
-              // maxDate={postContent.shortTerm[0].careDate}
-            />
+            <SeparateDatesPicker postContent={postContent} setPostContent={setPostContent} mainTime={mainTime} />
           )}
 
           <div className={cx('main-time-wrapper')}>
@@ -454,10 +447,10 @@ export default function WritePost() {
         <div className={cx('preferred-mate-wrapper')}>
           <p className={cx('title-level')}>선호 돌봄유저</p>
           <div className={cx('preferred-mate-gender-wrapper')}>
-            <input type="radio" onChange={handleChange} name="preferredMateGender" id="mateWoman" value="여자" />
-            <label htmlFor="mateWoman">여자</label>
-            <input type="radio" onChange={handleChange} name="preferredMateGender" id="mateMan" value="남자" />
-            <label htmlFor="mateMan">남자</label>
+            <input type="radio" onChange={handleChange} name="preferredMateGender" id="mateWoman" value="여성" />
+            <label htmlFor="mateWoman">여성</label>
+            <input type="radio" onChange={handleChange} name="preferredMateGender" id="mateMan" value="남성" />
+            <label htmlFor="mateMan">남성</label>
             <input
               type="radio"
               onChange={handleChange}
@@ -502,7 +495,6 @@ export default function WritePost() {
           <input
             type="text"
             name="hourlyRate"
-            // value={Number(postContent.hourlyRate)}
             onInput={formatNumber}
             onChange={handleChange}
             placeholder="숫자만 입력"
@@ -540,14 +532,15 @@ export default function WritePost() {
           ></textarea>
         </div>
         <div className={cx('button-wrapper')}>
-          <Button type="reset" types="cancel">
+          <button type="button" className={cx('cancel')} onClick={handleCancel}>
             취소
-          </Button>
-          <Button type="submit" types="primary">
+          </button>
+          <button type="submit" className={cx('primary')}>
             작성하기
-          </Button>
+          </button>
         </div>
       </form>
+      {isLoading && <span style={{ marginRight: 'auto' }}>게시글 업로드중(임시)</span>}
     </div>
   );
 }

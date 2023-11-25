@@ -1,0 +1,211 @@
+// 채팅 창 스타일
+.wrapper {
+  position: relative;
+
+  .chat-roombox {
+    position: fixed;
+    right: 700px;
+    bottom: 140px;
+    width: 450px;
+    height: 620px;
+    background-color: var(--crl-neutral-100);
+    box-shadow: 1px 1px 12px #777;
+    box-shadow: 0 0 0 555;
+    border-radius: 10px;
+    z-index: 9;
+
+    .chat-room-header {
+      position: relative;
+      display: flex;
+      height: 130px;
+      margin: 25px 5px;
+      padding-top: 10px;
+      
+
+      .backbtn {
+        position: absolute;
+        top: -20px;
+        right: 0;
+        border: 0;
+        background: none;
+        cursor: pointer;
+      }
+    
+
+      .mate-photobox { // 돌봄메이트 프로필 사진 자동으로 들어가는곳
+        flex: 0 0 65px;
+        padding-top: 10px;
+
+        .profile-photo {
+          display: block;
+          width: 100%;
+          object-fit: cover;
+        }
+      }
+    
+
+    .mateinfo-leftbox {
+      flex: 1 1 auto;
+      padding: 0 15px;
+      
+      .matename {
+        font-size: 20px;
+        font-weight: 700;
+        margin-right: 10px;
+      }
+      .keyword {
+        display: inline-block;
+        width: 60px;
+        height: 22px;
+        border-radius: 10px;
+        background-color: var(--crl-green-800);
+        text-align: center;
+        font-size: 13px;
+        line-height: 1.6;
+      }
+
+      .certificate {
+        font-weight: 600;
+        line-height: 2.8;
+
+      }
+
+      .icons-box {
+        display: flex;
+
+        span {
+          margin: 0 8px;
+          font-size: 14px;
+
+
+          &:last-child {
+            margin-right: 0;
+          }
+        }
+        
+      } // react-icons box End
+
+    } // leftbox End
+
+      .mateinfo-rightbox {
+        line-height: 1.8;
+        
+        span {
+          font-weight: 600;
+        }
+
+        .mate-phonenum {
+          font-size: 14px;
+          padding-bottom: 6px;
+        }
+
+        button {
+          height: 35px;
+          border: 0;
+          outline: 0;
+          border-radius: 10px;
+          font-size: 12px;
+          font-weight: 500;
+          cursor: pointer;
+        }
+
+        .mate-confirmed {
+          background-color: var(--crl-blue-900);
+          color: var(--crl-neutral-100);
+          
+        }
+        .chatroom-out {
+          margin-left: 10px;
+          background-color: var(--crl-red-800);
+        }
+
+      }
+    } // chat-room-header End
+
+    .chat-room-contents {
+
+      .chat-date {
+        max-width: 100px;
+        margin: 0px auto;
+      }
+
+      .chat-textsbox {
+        height: 300px; // 임시 높이값
+        padding: 0 10px;
+        margin-top: 40px;
+
+        .text-item { 
+          display: flex;
+          justify-content: space-around;
+          align-items: flex-start;
+          margin-bottom: 40px;
+          
+
+          .user-imgbox {
+            flex: 0 0 60px;
+
+            .img-user1,
+            .img-user2 {
+              display: block;
+              width: 100%;
+              object-fit: cover;
+              
+            }
+            
+          }
+          
+          .username1, 
+          .username2 {
+            font-size: 16px;
+            font-weight: 700;
+          }
+
+          .chat-text {
+            width: 230px;
+            height: 40px;
+            margin: 10px 0;
+            background-color: var(--crl-blue-700);
+            border-radius: 15px;
+            text-align: center;
+            line-height: 2.3;
+
+          }
+          .chat-time,
+          .chat-read {
+            padding-top: 30px;
+            font-size: 14px;
+            
+          }
+          .chat-read {
+            color: var(--crl-blue-900);
+          }
+
+
+        } // li tag End
+
+      }
+    } // chat-room-contents End
+
+    .chat-room-footer {
+      width: 100%;
+      height: 80px;
+      max-width: 400px;
+      text-align: center;
+     
+      input {
+        width: 280px;
+        height: 35px;
+        padding: 8px 8px;
+        background-color: var(--crl-blue-700);
+        border: none;
+        border-radius: 10px;
+      }
+      button {
+        margin-left: 30px;
+      }
+    }
+
+  }
+
+}
+

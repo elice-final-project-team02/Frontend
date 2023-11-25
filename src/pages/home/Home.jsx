@@ -3,7 +3,7 @@ import styles from './Home.module.scss';
 import cs from 'classnames/bind';
 import InfantImage from '../../assets/images/infant.png';
 import SeniorOneImage from '../../assets/images/SeniorOne.png';
-import DisabledImage from '../../assets/images/disabled.png';
+// import DisabledImage from '../../assets/images/disabled.png';
 import MainLogo from '../../assets/images/logo.png';
 const cx = cs.bind(styles);
 
@@ -24,7 +24,7 @@ export default function Home() {
         </div>
         <div className={cx('card')}>
           <span>장애인</span>
-          <img src={DisabledImage} alt="장애인" />
+          {/* <img src={DisabledImage} alt="장애인" /> */}
         </div>
       </div>
     </div>
