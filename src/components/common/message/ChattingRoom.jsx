@@ -4,6 +4,7 @@ import { ProfileImage } from 'assets/images';
 import { FaUser, FaMapMarkerAlt } from "react-icons/fa";
 import { IoReturnUpBackOutline } from "react-icons/io5";
 import cs from 'classnames/bind';
+import { FiSend } from 'react-icons/fi';
 
 const cx = cs.bind(styles); 
 
@@ -106,7 +107,7 @@ export default function ChattingRoom () {
           <div className={cx('chat-room-footer')}>
             <input type="text" placeholder="메시지를 입력해주세요." />
             <button className={cx('send-message')}>
-              보내기
+              <FiSend size="30" color="var(--crl-blue-900)"/>
             </button>
           </div>
 
