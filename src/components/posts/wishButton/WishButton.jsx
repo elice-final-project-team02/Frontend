@@ -8,7 +8,7 @@ const cx = cs.bind(styles);
 const WishButton = () => {
   const [isWish, setIsWish] = useState(false);
 
-  const onClickHandler = () => {
+  const handleClick = () => {
     setIsWish(!isWish);
   };
   return (
@@ -18,14 +18,14 @@ const WishButton = () => {
           <FaHeart
             onClick={(e) => {
               e.preventDefault();
-              onClickHandler();
+              handleClick();
             }}
           />
         ) : (
           <FaRegHeart
             onClick={(e) => {
               e.preventDefault();
-              onClickHandler();
+              handleClick();
             }}
           />
         )}

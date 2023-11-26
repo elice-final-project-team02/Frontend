@@ -1,6 +1,5 @@
 import React from 'react';
 import styles from './Card.module.scss';
-
 import { BsPersonFill } from 'react-icons/bs';
 import { FaMapMarkerAlt, FaCalendar, FaClock } from 'react-icons/fa';
 import { PiMoneyFill } from 'react-icons/pi';
@@ -37,14 +36,10 @@ export default function Card({
   const formattedHourlyRate = hourlyRate.toLocaleString();
   const formattedMateAge = preferredMateAge.join(' ');
 
-  const childString = 'child';
-  const seniorString = 'senior';
-  const disabledString = 'disabled';
-
   const currentCareTarget = cx('main-info', {
-    [childString]: careTarget === '아동',
-    [seniorString]: careTarget === '노인',
-    [disabledString]: careTarget === '장애인',
+    child: careTarget === '아동',
+    senior: careTarget === '노인',
+    disabled: careTarget === '장애인',
   });
 
   return (
