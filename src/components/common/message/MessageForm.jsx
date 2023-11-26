@@ -9,12 +9,11 @@ const cx = cs.bind(styles);
 
 export default function MessageForm () {
   return (
-    <>
-      <div className={cx('wrapper')}>
-
+    <div className={cx('wrapper')}>
+      <div>
+        꾸미자...
       </div>
-      
-    </>
+    </div>
   );
 }
 

@@ -1,7 +1,7 @@
 import axios from 'axios';
 import { useQuery } from 'react-query';
 
-const apiUrl = 'http://localhost:5001/api/post';
+const apiUrl = '/api/post';
 
 const getRequest = async (postId) => {
   const response = await axios.get(`${apiUrl}/${postId}`, {

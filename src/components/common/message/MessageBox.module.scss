@@ -1,4 +1,22 @@
 // 메시지함 전체 감싸기용 컴포넌트
 .wrapper {
-  // 추후 스타일 속성 필요해질 경우 사용 예정.
+  overflow: hidden;
+  position: fixed;
+  right: 267px;
+  bottom: 140px;
+  width: 420px;
+  height: 620px;
+  background-color: var(--crl-neutral-100);
+  box-shadow: 1px 1px 12px #777;
+  border-radius: 10px;
+
+  opacity: 0;
+  transform: scale(0);
+  transform-origin: 100% 100%;
+  transition: all 0.4s ease-in-out;
+
+  &.open {
+    opacity: 1;
+  transform: scale(1);
+  }
 }

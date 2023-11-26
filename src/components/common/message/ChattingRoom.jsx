@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import styles from './ChattingRoom.module.scss';
 import { ProfileImage } from 'assets/images';
 import { FaUser, FaMapMarkerAlt } from "react-icons/fa";
@@ -9,27 +9,78 @@ import { FiSend } from 'react-icons/fi';
 const cx = cs.bind(styles); 
 
 // 채팅(메시지)방 컴포넌트
-export default function ChattingRoom () {
+export default function ChattingRoom(props) {
+
+
+  const [showFlag, setShowFlag] = useState(false);
+  const [postUrl, setPostUrl] = useState(""); // 채팅방 내 게시글 주소
+  const [chatRoomInfo, setChatRoomInfo] = useState({});
+
+  
+  // 채팅방 정보 조회 함수
+  const getChatRoom = () => {
+
+    setChatRoomInfo({ postId: "123" })
+    
+      setPostUrl("/posts/" + "123")
+    
+  }
+
+  
+
+  // 채팅창 보임 함수
+  const showChatRoom = (flag) => {
+    if (flag) {
+      getChatRoom(); //  채팅방 정보 조회
+
+      setTimeout(() => { // 채팅창 띄움.
+        setShowFlag(flag);
+      }, 0)
+    } else {
+      setShowFlag(flag); //숨긴 후
+      setTimeout(() => {
+        //엘리먼트 제거
+        props.chatInfoSelect("");
+      },200)
+    }
+    
+  }
+    
+  useEffect(() => {
+    if (props.selectedChatId === "") {
+      showChatRoom(false)
+    } else {
+      showChatRoom(true)
+    }
+  }, [props.selectedChatId])
+
   return (
-    <>
-      <div className={cx('wrapper')}>
+      <div className={cx('wrapper', {on: showFlag})}>
 
         {/* 채팅창 영역 */}
         <div className={cx('chat-roombox')}>
           {/* 헤더 영역 */}
           <div className={cx('chat-room-header')}>
 
-          <button className={cx('backbtn')}><IoReturnUpBackOutline size="30" color="var(--crl-blue-900)"/></button>
+          <button onClick={() => showChatRoom(false)}
+            className={cx('backbtn')}><IoReturnUpBackOutline size="30" color="var(--crl-blue-900)" /></button>
 
             <div className={cx('mate-photobox')}>
               <img className={cx('profile-photo')} src={ProfileImage} alt="돌봄메이트 프로필사진이미지" />
             </div>
 
             {/* 돌봄메이트 - 이름, 키워드, 자격, 성별, 지역 */}
-            <div className={cx('mateinfo-leftbox')}>
+          <div className={cx('mateinfo-leftbox')}>
+            <a href={postUrl} target="_blank" className={cx('post-title')} rel="noreferrer">
+              
+              <span className={cx('post-num')}>#123 </span>
+              병원 동행해주실 메이트분 구합니다. 병원 동행해주실 메이트분 구합니다.
+            </a>
+
+            
+            
               <span className={cx('matename')}>홍길동</span>
               <span className={cx('keyword')}>장애인</span>
-              <p className={cx('certificate')}>사회복지사 2급</p>
               {/* react-icons */}
               
               <div className={cx('icons-box')}>
@@ -37,16 +88,12 @@ export default function ChattingRoom () {
                 <span className={cx('genderinfo')}>20대 남성</span>
                 <FaMapMarkerAlt size="15" color="#999" />
                 <span className={cx('areainfo')}>서울 강남</span>
-              </div>
-            </div>
-
-            <div className={cx('mateinfo-rightbox')}>
               
-              <span>Phone</span>
-              <p className={cx('mate-phonenum')}>010-1234-5678</p>
+                <button className={cx('mate-confirmed')}>돌봄메이트 확정</button>
+                <button className={cx('chatroom-out')}>대화 종료하기</button>
+              </div>
 
-              <button className={cx('mate-confirmed')}>돌봄메이트 확정</button>
-              <button className={cx('chatroom-out')}>대화 종료하기</button>
+              
             </div>
           </div>
 
@@ -107,13 +154,12 @@ export default function ChattingRoom () {
           <div className={cx('chat-room-footer')}>
             <input type="text" placeholder="메시지를 입력해주세요." />
             <button className={cx('send-message')}>
-              <FiSend size="30" color="var(--crl-blue-900)"/>
+              <FiSend size="30" color="var(--crl-blue-900) "/>
             </button>
           </div>
 
         </div>
       </div>
-    </>
   );
 }
 
