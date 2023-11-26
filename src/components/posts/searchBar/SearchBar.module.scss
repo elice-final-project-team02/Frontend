@@ -1,4 +1,4 @@
-.wrapper {
+.wrapper-all-posts-style {
   display: flex;
   justify-content: center;
   padding: 25px 0;
@@ -14,6 +14,38 @@
 
   .search-bar {
     width: 300px;
+    height: 35px;
+    background-color: #f9fafb;
+    border-radius: 20px;
+    border: solid 2px #f9fafb;
+    padding: 0 20px;
+    outline: none;
+  }
+
+  .search-bar:focus {
+    border-color: #b6caff;
+  }
+}
+
+.wrapper-my-page-style {
+  display: flex;
+  align-items: center;
+  float: right;
+  margin-right: 22%;
+  margin-top: 10px;
+  position: relative;
+
+  .search-icon {
+    position: absolute;
+    font-size: 15px;
+    margin: 9px 0 0 -40px;
+    border: none;
+    background-color: transparent;
+    cursor: pointer;
+  }
+
+  .search-bar {
+    width: 220px;
     height: 35px;
     background-color: #f9fafb;
     border-radius: 20px;

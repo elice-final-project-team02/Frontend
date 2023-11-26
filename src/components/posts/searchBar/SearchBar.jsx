@@ -5,18 +5,21 @@ import cs from 'classnames/bind';
 const cx = cs.bind(styles);
 
 SearchBar.defaultProps = {
-  value: '',
-  onChange: () => {},
+  searchInput: '',
+  onSearchChange: () => {},
 };
 
-export default function SearchBar({ value, onChange }) {
+export default function SearchBar({ className, searchInput, onSearchChange }) {
+  const handleSearchChange = (e) => {
+    onSearchChange(e.target.value);
+  };
   return (
-    <div className={cx('wrapper')}>
+    <div className={cx(`wrapper-${className}`)}>
       <div className={cx('search-container')}>
         <input
           type="text"
-          value={value}
-          onChange={(e) => onChange(e.target.value)}
+          value={searchInput}
+          onChange={handleSearchChange}
           className={cx('search-bar')}
           placeholder="검색어를 입력하세요"
         />

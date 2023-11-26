@@ -1,7 +1,8 @@
 import React, { useState } from 'react';
 import styles from './MyPosts.module.scss';
 import cs from 'classnames/bind';
-import { MyTitle, MySideBar, MySearch, MyList, Pagination } from 'components';
+import { MyTitle, MySideBar, SearchBar, MyList, Pagination } from 'components';
+
 const cx = cs.bind(styles);
 
 const postList = [
@@ -56,7 +57,7 @@ export default function MyPosts() {
         </div>
         <main>
           <MyTitle text="MY 등록 게시물" />
-          <MySearch value={searchText} onChange={handleSearchChange} />
+          <SearchBar className={cx('my-page-style')} searchInput={searchText} onSearchChange={handleSearchChange} />
           <div className={cx('content')}>
             <MyList postList={postList} searchText={searchText} role={role} />
             <Pagination currPage={currPage} onClickPage={setCurrPage} pageCount={10} />

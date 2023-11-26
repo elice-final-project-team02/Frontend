@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import styles from './MyMatching.module.scss';
 import cs from 'classnames/bind';
-import { MyTitle, MySideBar, MySearch, MyList, Pagination } from 'components';
+import { MyTitle, MySideBar, SearchBar, MyList, Pagination } from 'components';
 const cx = cs.bind(styles);
 
 const postList = [
@@ -63,7 +63,7 @@ export default function MyMatching() {
         </div>
         <main>
           <MyTitle text="매칭 완료된 리스트" />
-          <MySearch value={searchText} onChange={handleSearchChange} />
+          <SearchBar className={cx('my-page-style')} searchInput={searchText} onSearchChange={handleSearchChange} />
           <div className={cx('content')}>
             <MyList postList={postList} searchText={searchText} role={role} matching />
             <Pagination currPage={currPage} onClickPage={setCurrPage} pageCount={10} />

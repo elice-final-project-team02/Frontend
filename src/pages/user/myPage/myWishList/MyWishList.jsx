@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import styles from './MyWishList.module.scss';
 import cs from 'classnames/bind';
-import { MyTitle, MySideBar, MySearch, MyList, Pagination } from 'components';
+import { MyTitle, MySideBar, SearchBar, MyList, Pagination } from 'components';
 const cx = cs.bind(styles);
 
 const postList = [
@@ -89,7 +89,7 @@ export default function MyWishList() {
         </div>
         <main>
           <MyTitle text="찜한 돌봄서비스" />
-          <MySearch value={searchText} onChange={handleSearchChange} />
+          <SearchBar className={cx('my-page-style')} searchInput={searchText} onSearchChange={handleSearchChange} />
           {edit ? (
             <>
               <button
