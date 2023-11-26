@@ -15,6 +15,7 @@
 }
 
 .typographyMainTitle {
+  line-height: 1.2;
   font-size: 30px;
   color: black;
   font-weight: bold;
@@ -37,4 +38,10 @@
   border-radius: 10px;
   box-shadow: 2px 2px 4px 0px;
   margin: 30px 10px 30px 10px;
+
+  background-color: var(--background-color);
+
+  &:hover {
+    background-color: var(--hover-color);
+  }
 }

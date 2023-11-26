@@ -1,0 +1,47 @@
+.card {
+  display: inline-block;
+  justify-content: center;
+  .description {
+    cursor: pointer;
+    position: relative;
+    margin: 0 50px 0 50px;
+    width: 200px;
+    height: 300px;
+    border-radius: 10px;
+    img {
+      position: absolute;
+      top: 100px;
+      left: 80px;
+      width: 150px;
+      height: 210px;
+    }
+
+    span {
+      display: inline-block;
+      margin: 20px;
+      font-size: 26px;
+    }
+  }
+
+  .description img {
+    transition: transform 0.5s ease;
+  }
+  .description:hover img {
+    transform: rotate(30deg);
+  }
+
+  .infant {
+    background: linear-gradient(var(--crl-green-800), #fff);
+    box-shadow: 0 2px 4px 2px rgba(0, 0, 0, 0.2);
+  }
+
+  .seniorOne {
+    background: linear-gradient(var(--crl-red-800), #fff);
+    box-shadow: 0 2px 4px 2px rgba(0, 0, 0, 0.2);
+  }
+
+  .disabled {
+    background: linear-gradient(var(--crl-blue-800), #fff);
+    box-shadow: 0 2px 4px 2px rgba(0, 0, 0, 0.2);
+  }
+}
