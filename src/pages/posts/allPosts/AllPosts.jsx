@@ -81,7 +81,7 @@ export default function AllPosts() {
 
   return (
     <div className={cx('wrapper')}>
-      <SearchBar value={searchInput} onChange={handleSearchChange} />
+      <SearchBar className={cx('all-posts-style')} searchInput={searchInput} onSearchChange={handleSearchChange} />
       <div className={cx('recruit-container')}>
         <FilterCareTarget />
         <PostList
