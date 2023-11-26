@@ -47,14 +47,12 @@ export default function AuthInfo() {
   };
 
   // 모든 필드가 유효하고 값이 존재하는지 확인
-  const isValid =
-    !hasError.includes(true) &&
-    email !== '' &&
-    emailCode !== '' &&
-    password !== '' &&
-    passwordConfirm !== '' &&
-    isEmailButtonDisabled &&
-    isVerifyButtonDisabled;
+  const isValid = [
+    !hasError[0] && email !== '' && isEmailButtonDisabled,
+    !hasError[1] && emailCode !== '' && isVerifyButtonDisabled,
+    !hasError[2] && password !== '',
+    !hasError[3] && passwordConfirm !== '',
+  ].some((field) => !field);
 
   return (
     <div className={cx('wrapper')}>
@@ -113,7 +111,7 @@ export default function AuthInfo() {
             onClick={() => {
               nav('/register/userInfo', { state: { role: role, email: email, password: password } });
             }}
-            disabled={!isValid}
+            disabled={isValid}
           >
             다음
           </button>

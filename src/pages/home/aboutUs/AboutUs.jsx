@@ -2,6 +2,7 @@ import React from 'react';
 import styles from './AboutUs.module.scss';
 import cs from 'classnames/bind';
 import { Title, Text, MainTitle, MainText, FlexItem } from '../../../components/typography';
+import AboutImage from '../../../assets/images/banner-3d.png';
 
 const cx = cs.bind(styles);
 
@@ -10,7 +11,11 @@ export default function AboutUs() {
     <div className={cx('wrapper')}>
       <div className={styles.flexContainer}>
         <div className={styles.flexMainItem}>
-          <MainTitle>쓰담쓰담 서비스는 무엇인가요?</MainTitle>
+          <MainTitle>
+            쓰담쓰담 서비스는
+            <br />
+            어떤것인가요?
+          </MainTitle>
           <div>
             <MainText>
               돌봄이 중요한 현 시기에 여러 사람들이 함께 살아가는 공동체를 위해 만들어진 플랫폼입니다. 지역사회를 위한
@@ -20,7 +25,7 @@ export default function AboutUs() {
           </div>
         </div>
         <div className={styles.flexImage} id="image">
-          Image
+          <img src={AboutImage} alt="소개이미지" />
         </div>
         <FlexItem backgroundColor="#ffefef" hoverColor="#ffd6d6">
           <div style={{ display: 'flex', flexDirection: 'column' }}>

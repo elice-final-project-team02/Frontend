@@ -6,7 +6,7 @@ import { MaxWidth } from './common/maxWidth';
 import MessageButton from './common/message/MessageButton';
 import '../styles/index.scss';
 import { Outlet } from 'react-router-dom';
-import { isLoggedInState } from 'recoil/storage';
+import { isLoggedInState } from 'recoil/isLoggedInState';
 import { useSetRecoilState } from 'recoil';
 import { useGetUser } from '../hooks/getUser';
 
