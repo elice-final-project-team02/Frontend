@@ -5,6 +5,9 @@ dayjs.locale('ko');
 export function changeDateToHHMM(date) {
   return dayjs(date).format('HH:mm');
 }
+export function changeDateTohh(date) {
+  return dayjs(date).format('hh');
+}
 
 export function changeDateToMonthAndDateAndDayOfTheWeek(date) {
   return dayjs(date).format('MM/DD(dd)');

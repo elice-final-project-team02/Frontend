@@ -94,14 +94,19 @@
     justify-content: center;
     align-items: center;
     .writer-image {
-      width: 80px;
+      width: 110px;
       aspect-ratio: 1;
       border-radius: 50%;
-      background-color: var(--crl-neutral-400);
+      background-color: var(--crl-neutral-500);
       display: flex;
       justify-content: center;
       align-items: center;
-      font-size: 40px;
+      font-size: 20px;
+      overflow: hidden;
+      color: var(--crl-neutral-100);
+      & img {
+        object-fit: cover;
+      }
     }
   }
   .post-badge {

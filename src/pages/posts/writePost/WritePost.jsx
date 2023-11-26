@@ -1,16 +1,26 @@
 import React from 'react';
 import styles from './WritePost.module.scss';
 import cs from 'classnames/bind';
-import { DatesPicker, SeparateDatesPicker, ShowSelectedDateList, NewTimesPicker, Toggle } from 'components';
+import {
+  DatesPicker,
+  SeparateDatesPicker,
+  ShowSelectedDateList,
+  NewTimesPicker,
+  Toggle,
+  NewTwoTimesPicker,
+} from 'components';
 import { regions } from 'lib';
 import InfantImage from 'assets/images/infant.png';
 import SeniorOneImage from 'assets/images/senior1.png';
 import Challenged from 'assets/images/challenged.png';
 import { useNavigate } from 'react-router';
 import { usePostRequest } from '../../../hooks/post/postRequest';
+import { useSearchParams } from 'react-router-dom';
 const cx = cs.bind(styles);
 
 export default function WritePost({ params, beforeData }) {
+  const [searchParams, setSearchParams] = useSearchParams('');
+  const predeterminedCareTarget = searchParams.get('careTarget');
   const [mainTime, setMainTime] = React.useState({
     mainStartTime: new Date(2020, 0, 0, 8),
     mainEndTime: new Date(2020, 0, 0, 20),
@@ -21,7 +31,7 @@ export default function WritePost({ params, beforeData }) {
     content: beforeData ? beforeData.post.content : '',
     region: beforeData ? beforeData.post.careInformation.area.region : '',
     subRegion: beforeData ? beforeData.post.careInformation.area.subRegion : '',
-    careTarget: beforeData ? beforeData.post.careInformation.careTarget : '',
+    careTarget: beforeData ? beforeData.post.careInformation.careTarget : predeterminedCareTarget,
     longTerm: {
       startDate: new Date(),
       schedule: [
@@ -326,7 +336,14 @@ export default function WritePost({ params, beforeData }) {
           <span className={cx('title-level')}>돌봄 대상</span>
           <div className={cx('targets-wrapper')}>
             <div className={cx('target-wrapper')}>
-              <input type="radio" onChange={handleChange} name="careTarget" value="아동" id="target-infant" />
+              <input
+                type="radio"
+                onChange={handleChange}
+                name="careTarget"
+                value="아동"
+                checked={postContent.careTarget === '아동'}
+                id="target-infant"
+              />
               <label htmlFor="target-infant">
                 <span className={cx('target-image-wrapper')}>
                   <img src={InfantImage} alt="아동" />
@@ -335,7 +352,14 @@ export default function WritePost({ params, beforeData }) {
               <span>아동</span>
             </div>
             <div className={cx('target-wrapper')}>
-              <input type="radio" onChange={handleChange} name="careTarget" value="노인" id="target-senior" />
+              <input
+                type="radio"
+                onChange={handleChange}
+                checked={postContent.careTarget === '노인'}
+                name="careTarget"
+                value="노인"
+                id="target-senior"
+              />
               <label htmlFor="target-senior">
                 <span className={cx('target-image-wrapper')}>
                   <img src={SeniorOneImage} alt="노인" />
@@ -344,7 +368,14 @@ export default function WritePost({ params, beforeData }) {
               <span>노인</span>
             </div>
             <div className={cx('target-wrapper')}>
-              <input type="radio" onChange={handleChange} name="careTarget" value="장애인" id="target-disabled" />
+              <input
+                type="radio"
+                onChange={handleChange}
+                checked={postContent.careTarget === '장애인'}
+                name="careTarget"
+                value="장애인"
+                id="target-disabled"
+              />
               <label htmlFor="target-disabled">
                 <span className={cx('target-image-wrapper')}>
                   <img src={Challenged} alt="장애인" />
@@ -401,7 +432,9 @@ export default function WritePost({ params, beforeData }) {
           {postContent.careTerm === 'short' && (
             <SeparateDatesPicker postContent={postContent} setPostContent={setPostContent} mainTime={mainTime} />
           )}
-
+          {/* <div>
+            <NewTwoTimesPicker times={mainTime} setTimes={setMainTime} />
+          </div> */}
           <div className={cx('main-time-wrapper')}>
             <label className={cx('title-level')}>시작 시간</label>
             <div className={cx('time-wrapper')}>
@@ -419,6 +452,7 @@ export default function WritePost({ params, beforeData }) {
                 setTime={(date) => {
                   setMainTime({ ...mainTime, mainEndTime: new Date(date) });
                 }}
+                minzTime={mainTime.mainStartTime}
               />
             </div>
           </div>

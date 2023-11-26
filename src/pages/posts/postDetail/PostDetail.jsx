@@ -55,6 +55,7 @@ export default function PostDetail() {
         userId: userData._id,
         authorName: requestData.authorProfile.name,
         authorId: requestData.post.author,
+        authorImageUrl: requestData.authorProfile.profileUrl,
       });
     }
   }, [requestData]);
@@ -100,7 +101,7 @@ export default function PostDetail() {
       <span className={cx('role-bookmark', displayData.isLongTerm ? 'long-term-background' : 'short-term-background')}>
         {displayData.isLongTerm ? '정기' : '단기'}
       </span>
-      <button onClick={() => console.log(requestData.post.author)}>조회</button>
+      <button onClick={() => console.log(requestData)}>조회</button>
       <div
         className={cx(
           'title-wrapper',
@@ -109,7 +110,14 @@ export default function PostDetail() {
       >
         <div className={cx('even-columns')}>
           <div className={cx('writer-image-wrapper')}>
-            <span className={cx('writer-image')}>{<IoMdPerson />}</span>
+            {displayData.authorImageUrl ? (
+              <span className={cx('writer-image')}>
+                <img src={displayData.authorImageUrl} alt="작성자 프로필사진" />
+              </span>
+            ) : (
+              <span className={cx('writer-image')}>{<IoMdPerson />}</span>
+            )}
+
             <span>{displayData.authorName}</span>
           </div>
         </div>
