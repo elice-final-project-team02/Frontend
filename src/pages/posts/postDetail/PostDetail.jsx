@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 import styles from './PostDetail.module.scss';
 import cs from 'classnames/bind';
 import { FiTrash } from 'react-icons/fi';
@@ -9,46 +9,90 @@ import { PiMoneyFill, PiTrashFill } from 'react-icons/pi';
 import { BiSolidPencil } from 'react-icons/bi';
 import { Child } from 'assets/images';
 import { Link } from 'react-router-dom';
-import { Button } from 'components';
 import * as date from 'lib';
-import axios from 'axios';
-import { useGetRequest } from '../../../hooks/post/getRequest';
-import { useGetUser } from '../../../hooks/getUser';
+import { useGetRequest, useGetUser, useDeletePost } from 'hooks';
+import * as data from 'lib';
 const cx = cs.bind(styles);
 
 export default function PostDetail() {
+  const postId = '65620600d69d9b209f5444c2';
   const [displayData, setDisplayData] = React.useState({});
-  const { data: requestData, isLoading: isRequestLoading } = useGetRequest('65600c3a09c52d1b49d688ba');
-  const { data: userData, isLoading: isUserLoading } = useGetUser();
+  const { data: requestData, isLoading: isRequestLoading } = useGetRequest(postId);
+  const { data: userData } = useGetUser();
+  const { mutate } = useDeletePost(postId);
 
   React.useEffect(() => {
-    if (requestData && userData) {
+    if (requestData) {
       setDisplayData({
-        title: requestData.title,
-        content: requestData.content,
-        region: requestData.careInformation.area.region,
-        subRegion: requestData.careInformation.area.subRegion,
-        careTarget: requestData.careInformation.careTarget,
-        preferredMateAge: requestData.careInformation.preferredMateAge,
-        preferredMateGender: requestData.careInformation.preferredMateGender,
-        hourlyRate: requestData.reservation.hourlyRate,
-        negotiableRate: requestData.negotiableRate,
-        targetFeatures: requestData.careInformation.targetFeatures,
-        cautionNotes: requestData.careInformation.cautionNotes,
-        isLongTerm: requestData.reservation.isLongTerm,
-        longTerm: requestData.reservation.longTerm,
-        shortTerm: requestData.reservation.shortTerm,
-        status: requestData.reservation.status,
+        title: requestData.post.title,
+        content: requestData.post.content,
+        region: requestData.post.careInformation.area.region,
+        subRegion: requestData.post.careInformation.area.subRegion,
+        careTarget: requestData.post.careInformation.careTarget,
+        preferredmateAge: requestData.post.careInformation.preferredmateAge,
+        preferredmateGender: requestData.post.careInformation.preferredmateGender,
+        hourlyRate: requestData.post.reservation.hourlyRate,
+        negotiableRate: requestData.post.negotiableRate,
+        targetFeatures: requestData.post.careInformation.targetFeatures,
+        cautionNotes: requestData.post.careInformation.cautionNotes,
+        isLongTerm: requestData.post.reservation.isLongTerm,
+        longTerm: requestData.post.reservation.longTerm,
+        shortTerm:
+          requestData.post.reservation.shortTerm &&
+          requestData.post.reservation.shortTerm
+            .filter((obj, index) => index !== 0)
+            .sort((a, b) => new Date(a.careDate) - new Date(b.careDate)),
+        status: requestData.post.reservation.status,
         userRole: userData.role.role,
-        userName: userData.name,
+        userId: userData._id,
+        authorName: requestData.authorProfile.name,
+        authorId: requestData.post.author,
       });
     }
-  }, [requestData, userData]);
+  }, [requestData]);
 
+  function handleDeletePost() {
+    if (window.confirm('게시물을 삭제하시겠습니까?')) {
+      mutate();
+    }
+    return;
+  }
+
+  function isSomeWordsInArray(array) {
+    return array.some((item) => item.includes('이상'));
+  }
+  function sortAgeList(array) {
+    return array.map((age) => parseInt(age[0])).sort();
+  }
+  function formmatAgeListToTrimPretty(array) {
+    let sortedArray = [];
+    if (array.length > 1 && !isSomeWordsInArray(array)) {
+      sortedArray = sortAgeList(array);
+      return sortedArray.map((item, index, arr) => {
+        if (index < arr.length - 1) {
+          return `${item}0, `;
+        } else if (index === arr.length - 1) return `${item}0대`;
+        return item;
+      });
+    } else if (array.length > 1 && isSomeWordsInArray(array)) {
+      sortedArray = sortAgeList(array);
+      return sortedArray.map((item, index, arr) => {
+        if (index < arr.length - 1) {
+          return `${item}0, `;
+        } else if (index === arr.length - 1) return `${item}0대 이상`;
+        return item;
+      });
+    }
+    return array;
+  }
   if (isRequestLoading) return <div>로딩중</div>;
 
   return (
     <div className={cx('wrapper')}>
+      <span className={cx('role-bookmark', displayData.isLongTerm ? 'long-term-background' : 'short-term-background')}>
+        {displayData.isLongTerm ? '정기' : '단기'}
+      </span>
+      <button onClick={() => console.log(requestData.post.author)}>조회</button>
       <div
         className={cx(
           'title-wrapper',
@@ -58,7 +102,7 @@ export default function PostDetail() {
         <div className={cx('even-columns')}>
           <div className={cx('writer-image-wrapper')}>
             <span className={cx('writer-image')}>{<IoMdPerson />}</span>
-            <span>{displayData.userName}</span>
+            <span>{displayData.authorName}</span>
           </div>
         </div>
         <div className={cx('even-columns')}>
@@ -90,17 +134,21 @@ export default function PostDetail() {
                 <AiFillCalendar />
               </span>
               {displayData.isLongTerm ? (
-                <span className={cx('text-information')}>{`${
-                  displayData.longTerm.startDate?.getMonth() + 1
-                }/20~    ${displayData.longTerm.schedule.map((obj) => obj.careDay)}`}</span>
-              ) : (
                 <span className={cx('text-information')}>
-                  {/* {`${date.changeDateToMonthAndDate(
-                    displayData?.shortTerm[0].careDate
-                  )} ~ ${date.changeDateToMonthAndDate(
-                    displayData?.shortTerm[displayData.shortTerm.length - 1].careDate
-                  )} (총 ${displayData.shortTerm.length}일)`} */}
+                  {`${date.changeDateToMonthAndDate(
+                    displayData.longTerm.startDate
+                  )} ~ ${displayData.longTerm.schedule.map((obj) => obj.careDay)}`}
                 </span>
+              ) : (
+                displayData.shortTerm && (
+                  <span className={cx('text-information')}>
+                    {`${date.changeDateToMonthAndDate(
+                      displayData?.shortTerm[0].careDate
+                    )} ~ ${date.changeDateToMonthAndDate(
+                      displayData?.shortTerm[displayData.shortTerm.length - 1].careDate
+                    )} (총 ${displayData.shortTerm.length}일)`}
+                  </span>
+                )
               )}
             </div>
             <div className={cx('icon-text-wrapper')}>
@@ -108,11 +156,19 @@ export default function PostDetail() {
                 <MdWatchLater />
               </span>
               {displayData.isLongTerm ? (
-                <span
-                  className={cx('text-information')}
-                >{`${displayData.longTerm.schedule[0].startTime} ~ ${displayData.longTerm.schedule[0].endTime}`}</span>
+                <span className={cx('text-information')}>
+                  {displayData.longTerm &&
+                    `${date.changeDateToAmPmAndHour(
+                      displayData.longTerm.schedule[0]?.startTime
+                    )} ~ ${date.changeDateToAmPmAndHour(displayData.longTerm.schedule[0]?.endTime)}`}
+                </span>
               ) : (
-                <span>{`${date.changeDateToMonthAndDate(displayData?.shortTerm?.careDate)}`}</span>
+                <span className={cx('text-information')}>
+                  {displayData.shortTerm &&
+                    `${date.changeDateToAmPmAndHour(
+                      displayData.shortTerm[0].startTime
+                    )} ~ ${date.changeDateToAmPmAndHour(displayData.shortTerm[0].endTime)}`}
+                </span>
               )}
             </div>
             <div className={cx('icon-text-wrapper')}>
@@ -120,17 +176,18 @@ export default function PostDetail() {
                 <IoMdPerson />
               </span>
               <span className={cx('text-information')}>
-                {displayData.preferredMateAge?.map((item, index) => (
-                  <span key={index}>{item} </span>
-                ))}
+                {displayData.preferredmateAge &&
+                  formmatAgeListToTrimPretty(displayData.preferredmateAge).map((item, index) => (
+                    <span key={index}>{item} </span>
+                  ))}
               </span>
-              <span className={cx('text-information')}>{displayData.preferredMateGender}</span>
+              <span className={cx('text-information', 'gender-span')}>{displayData.preferredmateGender}</span>
             </div>
             <div className={cx('icon-text-wrapper')}>
               <span className={cx('information-icons')}>
                 <PiMoneyFill />
               </span>
-              <span className={cx('text-information')}>{`${displayData.hourlyRate}원 ${
+              <span className={cx('text-information')}>{`${data.addCommas(displayData.hourlyRate)}원 ${
                 displayData.negotiableRate ? '(협의가능)' : ''
               }`}</span>
             </div>
@@ -149,17 +206,21 @@ export default function PostDetail() {
               </button>
             </div>
           ) : (
-            <div className={cx('button-wrapper', 'post-control-icon')}>
-              <span className={cx('post-edit-icons')}>
-                <BiSolidPencil />
-              </span>
-              <span className={cx('post-edit-icons')}>
-                <PiTrashFill />
-              </span>
-              <button>
-                <Link to="/posts/new">글 작성(임시)</Link>
-              </button>
-            </div>
+            displayData.userId === displayData.authorId && (
+              <div className={cx('button-wrapper', 'post-control-icon')}>
+                <span className={cx('post-edit-icons')}>
+                  <Link to={`/posts/${postId}/edit`}>
+                    <BiSolidPencil />
+                  </Link>
+                </span>
+                <span className={cx('post-edit-icons')} onClick={handleDeletePost}>
+                  <PiTrashFill />
+                </span>
+                <button>
+                  <Link to="/posts/new">글 작성(임시)</Link>
+                </button>
+              </div>
+            )
           )}
         </div>
       </div>

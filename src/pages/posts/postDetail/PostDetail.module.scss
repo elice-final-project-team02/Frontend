@@ -1,5 +1,7 @@
 .wrapper {
+  padding-inline: 50px;
   // 유저 role에 따른 class
+  position: relative;
   .user-role-background {
     background-color: var(--crl-blue-100);
   }
@@ -12,6 +14,43 @@
   .care-user-background-accent {
     background-color: var(--crl-red-800);
   }
+  .short-term-background {
+    color: var(--crl-neutral-100);
+    background: var(--crl-blue-900);
+    &::after {
+      border-right: 20px solid var(--crl-neutral-400);
+    }
+  }
+  .long-term-background {
+    color: var(--crl-blue-900);
+    background: var(--crl-blue-700);
+    &::after {
+      border-right: 20px solid var(--crl-blue-900);
+    }
+  }
+  .role-bookmark {
+    position: absolute;
+    top: 5%;
+    left: 2.6%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 18px;
+    width: 76px;
+    height: 30px;
+    &::after {
+      content: '';
+      position: absolute;
+      bottom: -33%;
+      left: 13%;
+      translate: -50%;
+      width: 0px;
+      height: 0px;
+      z-index: -1;
+      border-top: 10px solid transparent;
+      border-bottom: 10px solid transparent;
+    }
+  }
 
   .title-wrapper {
     min-height: 200px;
@@ -19,6 +58,7 @@
   .body-wrapper {
     padding: 50px 100px;
     min-height: 350px;
+    font-size: 20px;
   }
   .description-wrapper {
     min-height: 200px;
@@ -35,11 +75,15 @@
     display: flex;
     flex-direction: column;
     justify-content: center;
-    gap: 50px;
+    gap: 36px;
     .post-title {
-      font-size: 22px;
+      font-size: 25px;
       font-weight: var(--fw-bold);
     }
+  }
+
+  .information-icons {
+    font-size: 20px;
   }
 
   .writer-image-wrapper {
@@ -77,10 +121,10 @@
     flex-direction: column;
     height: 100%;
     justify-content: center;
-    gap: 5px;
+    gap: 10px;
     margin-top: -5px;
     .text-information {
-      font-size: 13px;
+      font-size: 15px;
     }
   }
   .post-edit-icons {
@@ -142,6 +186,9 @@
         margin-right: 60px;
       }
     }
+  }
+  .gender-span {
+    margin-left: -10px;
   }
   .target-image-wrapper {
     img {
