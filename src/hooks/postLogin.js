@@ -6,7 +6,7 @@ import { useRecoilState } from 'recoil';
 
 const postLogin = async (email, password) => {
   const response = await axios.post(
-    'http://localhost:5001/api/user/login',
+    '/api/user/login',
     {
       email: email,
       password: password,

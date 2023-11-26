@@ -6,23 +6,26 @@ import cs from'classnames/bind';
 const cx = cs.bind(styles); 
 
 
-// 메시지함 전체 감싸기 용도 컴포넌트
-export default function MessageBox () {
+// 메시지함 전체 감싸기 용도 컴포넌트(부모 컴포넌트)
+export default function MessageBox (props) {
 
-  //  채팅창 UI 작업을 위해서 우선 상태를 true로 해두었습니다.
-  let [chatroom, setChatRoom] = useState(true);
+  const [selectedChatId ,setSelectedChatId] = useState("");
+
+  // 채팅 리스트에서 선택한 채팅방의 id값을 채팅방으로 전달하는 함수
+  const chatInfoSelect = (chatId) => {
+    setSelectedChatId(chatId);
+
+  }
 
   return (
-    <>
-      <div className={cx('wrapper')}>
-        <MessageList onClick={() => { setChatRoom(!chatroom) }} />
+      <div className={cx('wrapper', {open: props.showmessagebox} )}>
+      <MessageList chatInfoSelect={ chatInfoSelect }/>
 
         {
-          chatroom === true ? <ChattingRoom/> : null
+        selectedChatId !== "" ? <ChattingRoom chatInfoSelect={ chatInfoSelect } selectedChatId={selectedChatId} /> : null
         }
 
       </div>
-    </>
   );
 }
 

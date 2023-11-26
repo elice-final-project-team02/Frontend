@@ -1,6 +1,21 @@
 // 채팅 창 스타일
 .wrapper {
-  position: relative;
+  position: absolute;
+  top: 0;
+  left: 0;
+  z-index: 10;
+  width: 100%;
+  height: 100%;
+  background-color: var(--crl-neutral-100);
+  border-radius: 10px;
+  transform: translateX(100%);
+  opacity: 0;
+  transition: all 0.2s ease-in-out;
+  
+  &.on {
+    transform: translateX(0%);
+    opacity: 1;
+  }
 
   button {
     cursor: pointer;
@@ -8,28 +23,21 @@
     background: none;
   }
   .chat-roombox {
-    position: fixed;
-    right: 700px;
-    bottom: 140px;
-    width: 450px;
-    height: 620px;
-    background-color: var(--crl-neutral-100);
-    box-shadow: 1px 1px 12px #777;
-    box-shadow: 0 0 0 555;
-    border-radius: 10px;
-    z-index: 9;
+    
+    width: 100%;
 
     .chat-room-header {
       position: relative;
       display: flex;
-      height: 130px;
-      margin: 25px 5px;
-      padding-top: 10px;
+      align-items: center;
+      width: calc(100% - 10px);
+      height: 110px;
+      margin: 10px 5px;
       
 
       .backbtn {
         position: absolute;
-        top: -20px;
+        top: -5px;
         right: 0;
         border: 0;
         background: none;
@@ -37,8 +45,7 @@
     
 
       .mate-photobox { // 돌봄메이트 프로필 사진 자동으로 들어가는곳
-        flex: 0 0 65px;
-        padding-top: 10px;
+        flex: 0 0 50px;
 
         .profile-photo {
           display: block;
@@ -49,8 +56,24 @@
     
 
     .mateinfo-leftbox {
-      flex: 1 1 auto;
-      padding: 0 15px;
+      flex: 0 0 calc(100% - 50px);
+      max-width:calc(100% - 50px);
+      padding-left: 10px;
+      box-sizing: border-box;
+
+      .post-title {
+        display: block;
+        width: calc(100% - 50px);
+        margin-bottom: 10px;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+        word-wrap: normal;
+       
+        &:hover {
+          text-decoration: underline;
+        }
+      }
       
       .matename {
         font-size: 20px;
@@ -68,40 +91,21 @@
         line-height: 1.6;
       }
 
-      .certificate {
-        font-weight: 600;
-        line-height: 2.8;
-
-      }
-
       .icons-box {
         display: flex;
+        align-items: center;
+        margin-bottom: 10px;
 
         span {
           margin: 0 8px;
-          font-size: 14px;
+          font-size: 13px;
 
 
           &:last-child {
             margin-right: 0;
           }
         }
-        
-      } // react-icons box End
 
-    } // leftbox End
-
-      .mateinfo-rightbox {
-        line-height: 1.8;
-        
-        span {
-          font-weight: 600;
-        }
-
-        .mate-phonenum {
-          font-size: 14px;
-          padding-bottom: 6px;
-        }
 
         button {
           height: 35px;
@@ -111,7 +115,7 @@
           font-size: 12px;
           font-weight: 500;
         }
-
+  
         .mate-confirmed {
           background-color: var(--crl-blue-900);
           color: var(--crl-neutral-100);
@@ -121,11 +125,18 @@
           margin-left: 10px;
           background-color: var(--crl-red-800);
         }
+        
+      } // react-icons box End
 
-      }
+      
+
+    } // leftbox End
+
     } // chat-room-header End
 
     .chat-room-contents {
+
+      height: 410px;
 
       .chat-date {
         max-width: 100px;
@@ -133,7 +144,6 @@
       }
 
       .chat-textsbox {
-        height: 300px; // 임시 높이값
         padding: 0 10px;
         margin-top: 40px;
 
@@ -174,7 +184,7 @@
 
           }
           .chat-time,
-          .chat-read {
+          .chat-releftboxchat-roomboxad {
             padding-top: 30px;
             font-size: 14px;
             
@@ -190,13 +200,15 @@
     } // chat-room-contents End
 
     .chat-room-footer {
+      display: flex;
+      align-items: center;
       width: 100%;
       height: 80px;
-      max-width: 400px;
+      padding: 0 15px;
       text-align: center;
      
       >input {
-        width: 280px;
+        flex: 1 1 auto;
         height: 35px;
         padding: 8px 8px;
         background-color: var(--crl-blue-700);
@@ -204,8 +216,12 @@
         border-radius: 10px;
       }
       .send-message {
-        margin-left: 20px;
-        transform: rotate(45deg);
+        flex: 0 0 50px;
+        margin-left: 10px;
+
+        &>svg {
+          transform: rotate(45deg);
+        }
       }
     }
 
