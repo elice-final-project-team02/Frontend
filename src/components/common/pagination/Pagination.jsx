@@ -35,17 +35,16 @@ export default function Pagination({ currPage, pageCount, onClickPage }) {
         이전
       </button>
       {React.Children.toArray(
-        getPaginationArray(currPage, pageCount).map((page) => {
-          return (
-            <button
-              onClick={() => onClickPage(page)}
-              data-active={page === currPage ? 'true' : 'false'}
-              className={cx('page-button', { active: page === currPage })}
-            >
-              {page + 1}
-            </button>
-          );
-        })
+        getPaginationArray(currPage, pageCount).map((page) => (
+          <button
+            key={page}
+            onClick={() => onClickPage(page)}
+            data-active={page === currPage ? 'true' : 'false'}
+            className={cx('page-button', { active: page === currPage })}
+          >
+            {page + 1}
+          </button>
+        ))
       )}
       <button
         className={cx('next-button')}

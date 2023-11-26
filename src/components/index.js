@@ -21,7 +21,6 @@ export * from './posts/filterCareTarget';
 export * from './posts/postList';
 export * from './myPage/mySideBar';
 export * from './myPage/myTitle';
-export * from './myPage/mySearch';
 export * from './myPage/myList';
 export * from './common/pagination';
 export * from './user/authInput';

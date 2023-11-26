@@ -9,15 +9,15 @@ import { usePutUser } from '../../../hooks/putUser';
 const cx = cs.bind(styles);
 
 export default function MyPage() {
-  const { data, isLoading } = useGetUser(); // 추후 로딩처리
+  const { data, isLoading } = useGetUser();
+  const { mutate } = usePutUser();
 
   const [userInfo, setUserInfo] = useState({});
 
   useEffect(() => {
     if (data) {
-      const displayedRole = data.role.careUser === 'user' ? '일반유저' : '돌봄유저';
       setUserInfo({
-        profile_url: '',
+        profileUrl: data.profileUrl,
         email: data.email,
         currentPassword: '',
         password: '',
@@ -28,14 +28,13 @@ export default function MyPage() {
         gender: data.gender,
         region: data.area.region,
         subRegion: data.area.subRegion,
-        role: displayedRole,
-        introduction: data.introduction || '',
+        introduction: data.introduction,
       });
     }
   }, [data]);
 
   const updatedUserInfo = {
-    profile_url: userInfo.profile_url,
+    profileUrl: userInfo.profileUrl,
     name: userInfo.name,
     phoneNumber: userInfo.phoneNumber,
     age: userInfo.age,
@@ -52,12 +51,8 @@ export default function MyPage() {
     updatedUserInfo.newPassword = userInfo.password;
   }
 
-  const { mutate } = usePutUser();
-
-  const formattedPhone = userInfo.phoneNumber && userInfo.phoneNumber.replace(/(\d{3})(\d{3,4})(\d{4})/, '$1-$2-$3');
-
   const [inputErrors, setInputErrors] = useState({
-    profile_url: false,
+    profileUrl: false,
     name: false,
     phoneNumber: false,
     password: false,
@@ -67,7 +62,7 @@ export default function MyPage() {
   const [edit, setEdit] = useState(false);
   const [editPwd, setEditPwd] = useState(false);
   const imgRef = useRef(null);
-  const [selectedImage, setSelectedImage] = useState(userInfo.profile_url || ProfileImage);
+  const [selectedImage, setSelectedImage] = useState(userInfo.profileUrl || ProfileImage);
   const MaxImageSize = 5 * 1024 * 1024; // 최대 용량 5MB
 
   // img 수정
@@ -75,17 +70,19 @@ export default function MyPage() {
     if (e.target.files && e.target.files[0]) {
       // 용량 체크
       if (e.target.files[0].size > MaxImageSize) {
-        setInputErrors({ ...inputErrors, profile_url: true });
+        setInputErrors({ ...inputErrors, profileUrl: true });
         return; // 용량 초과 시 처리 중단
       }
 
+      // 미리보기
       const reader = new FileReader();
       reader.onload = (e) => {
         setSelectedImage(e.target.result);
-        setUserInfo({ ...userInfo, profile_url: e.target.result });
-        setInputErrors({ ...inputErrors, profile_url: false });
       };
       reader.readAsDataURL(e.target.files[0]);
+
+      setUserInfo({ ...userInfo, profileUrl: e.target.files[0] });
+      setInputErrors({ ...inputErrors, profileUrl: false });
     }
   };
 
@@ -106,8 +103,8 @@ export default function MyPage() {
     setInputErrors(newInputErrors);
   };
 
-  const handleRegionChange = (region1, region2) => {
-    setUserInfo({ ...userInfo, region: region1, subRegion: region2 });
+  const handleRegionChange = (region, subRegion) => {
+    setUserInfo({ ...userInfo, region: region, subRegion: subRegion });
   };
 
   // 모든 필드가 유효하고 값이 존재하는지 확인
@@ -125,7 +122,12 @@ export default function MyPage() {
 
     // 각 필드 값을 FormData에 추가
     Object.keys(updatedUserInfo).forEach((key) => {
-      formData.append(key, updatedUserInfo[key]);
+      if (key === 'profileUrl' && userInfo.profileUrl instanceof File) {
+        // 파일이 있다면 추가
+        formData.append(key, userInfo.profileUrl);
+      } else {
+        formData.append(key, updatedUserInfo[key]);
+      }
     });
 
     mutate(formData, {
@@ -153,17 +155,11 @@ export default function MyPage() {
                   {edit ? (
                     <>
                       <img src={selectedImage} alt="이미지 미리보기" />
-                      <input
-                        type="file"
-                        accept="image/*"
-                        name="profile_url"
-                        ref={imgRef}
-                        onChange={handleUploadImage}
-                      />
+                      <input type="file" accept="image/*" name="profileUrl" ref={imgRef} onChange={handleUploadImage} />
                       <button type="button" onClick={handleUploadImageButtonClick} className={cx('edit-image')}>
                         변경하기
                       </button>
-                      {inputErrors.profile_url && (
+                      {inputErrors.profileUrl && (
                         <p className={cx('error-text')}>
                           이미지 용량은 최대
                           <br /> 5MB 입니다.
@@ -171,24 +167,24 @@ export default function MyPage() {
                       )}
                     </>
                   ) : (
-                    <img src={ProfileImage} alt="프로필사진" />
+                    <img src={data.profileUrl || ProfileImage} alt="프로필사진" />
                   )}
                 </div>
                 <div className={cx('info')}>
                   <div className={cx('left')}>
                     <div className={cx('email')}>
                       <h1>이메일</h1>
-                      <p>{userInfo.email}</p>
+                      <p>{data.email}</p>
                     </div>
                     <div className={cx('name')}>
                       <h1>이름</h1>
                       {edit ? (
                         <>
-                          <input type="text" name="name" value={userInfo.name} onChange={handleInputChange} />
+                          <input type="text" name="name" value={data.name} onChange={handleInputChange} />
                           {inputErrors.name && <p className={cx('error-text')}>이름은 2글자 이상 작성해주세요.</p>}
                         </>
                       ) : (
-                        <p>{userInfo.name}</p>
+                        <p>{data.name}</p>
                       )}
                     </div>
                     {edit && (
@@ -216,7 +212,7 @@ export default function MyPage() {
                           <input
                             type="password"
                             name="passwordConfirm"
-                            onChange={(e) => handleInputChange(e, userInfo.password)}
+                            onChange={(e) => handleInputChange(e, data.password)}
                           />
                           {inputErrors.passwordConfirm && (
                             <p className={cx('error-text')}>비밀번호가 일치하지 않습니다.</p>
@@ -236,20 +232,20 @@ export default function MyPage() {
                           <input
                             type="text"
                             name="phone"
-                            value={userInfo.phoneNumber}
+                            value={data.phoneNumber}
                             onChange={handleInputChange}
                             placeholder="-을 제외하고 입력해주세요."
                           />
                           {inputErrors.phoneNumber && <p className={cx('error-text')}>올바른 형식이 아닙니다.</p>}
                         </>
                       ) : (
-                        <p>{formattedPhone}</p>
+                        <p>{data.phoneNumber.replace(/(\d{3})(\d{3,4})(\d{4})/, '$1-$2-$3')}</p>
                       )}
                     </div>
                     <div className={cx('age')}>
                       <h1>나이</h1>
                       {edit ? (
-                        <select name="age" value={userInfo.age} onChange={handleInputChange}>
+                        <select name="age" value={data.age} onChange={handleInputChange}>
                           <option value="20대">20대</option>
                           <option value="30대">30대</option>
                           <option value="40대">40대</option>
@@ -257,31 +253,31 @@ export default function MyPage() {
                           <option value="60대 이상">60대 이상</option>
                         </select>
                       ) : (
-                        <p>{userInfo.age}</p>
+                        <p>{data.age}</p>
                       )}
                     </div>
                     <div className={cx('gender')}>
                       <h1>성별</h1>
                       {edit ? (
-                        <select name="gender" value={userInfo.gender} onChange={handleInputChange}>
+                        <select name="gender" value={data.gender} onChange={handleInputChange}>
                           <option value="남자">남자</option>
                           <option value="여자">여자</option>
                         </select>
                       ) : (
-                        <p>{userInfo.gender}</p>
+                        <p>{data.gender}</p>
                       )}
                     </div>
                     <div className={cx('region')}>
                       <h1>지역</h1>
                       {edit ? (
                         <Region
-                          region1={userInfo.region}
-                          region2={userInfo.subRegion}
+                          region={data.area.region}
+                          subRegion={data.area.subRegion}
                           onRegionChange={handleRegionChange}
                         />
                       ) : (
                         <p>
-                          {userInfo.region}/{userInfo.subRegion}
+                          {data.area.region}/{data.area.subRegion}
                         </p>
                       )}
                     </div>
@@ -290,16 +286,16 @@ export default function MyPage() {
               </div>
               <div className={cx('introduce')}>
                 <h1>INTRODUCE</h1>
-                <span>{userInfo.role}</span>
+                <span>{data.role.role === 'user' ? '일반유저' : '돌봄유저'}</span>
                 {edit ? (
                   <textarea
                     name="introduction"
-                    value={userInfo.introduction}
+                    value={data.introduction}
                     onChange={handleInputChange}
                     placeholder="안녕하세요. 저는 사회복지사 자격증 2급을 가지고 있습니다."
                   />
                 ) : (
-                  <p>{userInfo.introduction}</p>
+                  <p>{data.introduction}</p>
                 )}
               </div>
               {edit ? (
@@ -320,7 +316,7 @@ export default function MyPage() {
                     onClick={() => {
                       setEdit(false);
                       setEditPwd(false);
-                      setSelectedImage(userInfo.profile_url || ProfileImage);
+                      setSelectedImage(data.profileUrl || ProfileImage);
                     }}
                   >
                     취소
