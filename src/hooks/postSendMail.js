@@ -2,7 +2,7 @@ import axios from 'axios';
 import { useMutation } from 'react-query';
 
 const postSendMail = async (email) => {
-  const response = await axios.post('http://localhost:5001/api/user/register/send-mail', { email: email });
+  const response = await axios.post('/api/user/register/send-mail', { email: email });
   return response.data;
 };
 

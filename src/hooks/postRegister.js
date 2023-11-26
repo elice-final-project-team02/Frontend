@@ -3,7 +3,7 @@ import { useMutation } from 'react-query';
 import { useNavigate } from 'react-router-dom';
 
 const postRegister = async (userInfo) => {
-  const response = await axios.post('http://localhost:5001/api/user/register', userInfo, { withCredentials: true });
+  const response = await axios.post('/api/user/register', userInfo, { withCredentials: true });
   return response.data;
 };
 

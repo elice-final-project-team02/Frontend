@@ -3,7 +3,7 @@ import { useMutation } from 'react-query';
 import { useNavigate } from 'react-router-dom';
 
 const deleteUser = async (postId) => {
-  const response = await axios.delete(`http://localhost:5001/api/post/${postId}`, {
+  const response = await axios.delete(`/api/post/${postId}`, {
     withCredentials: true,
   });
   return response.data;

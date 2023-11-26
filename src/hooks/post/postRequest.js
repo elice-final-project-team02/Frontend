@@ -2,7 +2,7 @@ import axios from 'axios';
 import { useMutation } from 'react-query';
 import { useNavigate } from 'react-router';
 
-const apiUrl = 'http://localhost:5001/api/post';
+const apiUrl = '/api/post';
 
 const postRequest = async (body) => {
   const response = await axios.post(apiUrl, body, {

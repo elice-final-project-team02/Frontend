@@ -16,19 +16,18 @@ import MessageForm from 'components/common/message/MessageForm';
 const cx = cs.bind(styles);
 
 export default function PostDetail() {
-  const postId = '65620600d69d9b209f5444c2';
+  const postId = '6562692d32ba0d0a88ea977f';
   const [displayData, setDisplayData] = React.useState({});
   const { data: requestData, isLoading: isRequestLoading } = useGetRequest(postId);
   const { data: userData } = useGetUser();
   const { mutate } = useDeletePost(postId);
 
-
   // 신청 form 양식 모달창 state
   const [requestForm, setRequestForm] = useState(false);
   // 돌봄메이트 신청하기 버튼 함수
   const requestButton = () => {
-    setRequestForm(!requestForm)
-  }
+    setRequestForm(!requestForm);
+  };
 
   React.useEffect(() => {
     if (requestData) {
@@ -206,7 +205,9 @@ export default function PostDetail() {
           {displayData.userRole === 'careUser' ? (
             <div className={cx('button-wrapper')}>
               <button
-                onClick={() => {requestButton()}}
+                onClick={() => {
+                  requestButton();
+                }}
                 className={cx(
                   'post-badge',
                   displayData.userRole === 'user' ? 'user-background-accent' : 'care-user-background-accent'
@@ -263,11 +264,8 @@ export default function PostDetail() {
       </div>
 
       {/* 신청하기 모달창 */}
-      
-      {
-        requestForm === true ? <MessageForm /> : null
-      }
 
+      {requestForm === true ? <MessageForm /> : null}
     </div>
   );
 }

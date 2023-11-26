@@ -2,7 +2,7 @@ import axios from 'axios';
 import { useMutation, useQueryClient } from 'react-query';
 
 const putUser = async (userInfo) => {
-  const response = await axios.put('http://localhost:5001/api/user', userInfo, { withCredentials: true });
+  const response = await axios.put('/api/user', userInfo, { withCredentials: true });
   return response.data;
 };
 
