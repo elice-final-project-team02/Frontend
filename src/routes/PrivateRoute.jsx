@@ -11,5 +11,6 @@ export const PrivateRoute = ({ children }) => {
       alert('로그인된 유저만 이용 가능한 서비스입니다.');
     }
   }, [isLoggedIn]);
+
   return isLoggedIn ? children : <Navigate to="/login" />;
 };
