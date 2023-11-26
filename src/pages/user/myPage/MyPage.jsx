@@ -13,6 +13,7 @@ export default function MyPage() {
   const { mutate } = usePutUser();
 
   const [userInfo, setUserInfo] = useState({});
+  const [selectedImage, setSelectedImage] = useState(ProfileImage);
 
   useEffect(() => {
     if (data) {
@@ -30,6 +31,7 @@ export default function MyPage() {
         subRegion: data.area.subRegion,
         introduction: data.introduction,
       });
+      setSelectedImage(data.profileUrl || ProfileImage);
     }
   }, [data]);
 
@@ -62,7 +64,6 @@ export default function MyPage() {
   const [edit, setEdit] = useState(false);
   const [editPwd, setEditPwd] = useState(false);
   const imgRef = useRef(null);
-  const [selectedImage, setSelectedImage] = useState(userInfo.profileUrl || ProfileImage);
   const MaxImageSize = 5 * 1024 * 1024; // 최대 용량 5MB
 
   // img 수정
@@ -180,7 +181,7 @@ export default function MyPage() {
                       <h1>이름</h1>
                       {edit ? (
                         <>
-                          <input type="text" name="name" value={data.name} onChange={handleInputChange} />
+                          <input type="text" name="name" value={userInfo.name} onChange={handleInputChange} />
                           {inputErrors.name && <p className={cx('error-text')}>이름은 2글자 이상 작성해주세요.</p>}
                         </>
                       ) : (
@@ -212,7 +213,7 @@ export default function MyPage() {
                           <input
                             type="password"
                             name="passwordConfirm"
-                            onChange={(e) => handleInputChange(e, data.password)}
+                            onChange={(e) => handleInputChange(e, userInfo.password)}
                           />
                           {inputErrors.passwordConfirm && (
                             <p className={cx('error-text')}>비밀번호가 일치하지 않습니다.</p>
@@ -231,8 +232,8 @@ export default function MyPage() {
                         <>
                           <input
                             type="text"
-                            name="phone"
-                            value={data.phoneNumber}
+                            name="phoneNumber"
+                            value={userInfo.phoneNumber}
                             onChange={handleInputChange}
                             placeholder="-을 제외하고 입력해주세요."
                           />
@@ -245,7 +246,7 @@ export default function MyPage() {
                     <div className={cx('age')}>
                       <h1>나이</h1>
                       {edit ? (
-                        <select name="age" value={data.age} onChange={handleInputChange}>
+                        <select name="age" value={userInfo.age} onChange={handleInputChange}>
                           <option value="20대">20대</option>
                           <option value="30대">30대</option>
                           <option value="40대">40대</option>
@@ -259,7 +260,7 @@ export default function MyPage() {
                     <div className={cx('gender')}>
                       <h1>성별</h1>
                       {edit ? (
-                        <select name="gender" value={data.gender} onChange={handleInputChange}>
+                        <select name="gender" value={userInfo.gender} onChange={handleInputChange}>
                           <option value="남자">남자</option>
                           <option value="여자">여자</option>
                         </select>
@@ -271,8 +272,8 @@ export default function MyPage() {
                       <h1>지역</h1>
                       {edit ? (
                         <Region
-                          region={data.area.region}
-                          subRegion={data.area.subRegion}
+                          region={userInfo.region}
+                          subRegion={userInfo.subRegion}
                           onRegionChange={handleRegionChange}
                         />
                       ) : (
@@ -290,7 +291,7 @@ export default function MyPage() {
                 {edit ? (
                   <textarea
                     name="introduction"
-                    value={data.introduction}
+                    value={userInfo.introduction}
                     onChange={handleInputChange}
                     placeholder="안녕하세요. 저는 사회복지사 자격증 2급을 가지고 있습니다."
                   />
