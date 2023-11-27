@@ -4,6 +4,7 @@ import { BsPersonFill } from 'react-icons/bs';
 import { FaMapMarkerAlt, FaCalendar, FaClock } from 'react-icons/fa';
 import { PiMoneyFill } from 'react-icons/pi';
 import { WishButton } from 'components';
+import { changeDateToMonthAndDate } from 'lib';
 import { LongTerm, ShortTerm, Child, Senior1, Challenged } from 'assets/images';
 
 import cs from 'classnames/bind';
@@ -45,8 +46,8 @@ export default function Card({ data }) {
             </div>
           </div>
           <div className={cx('main-bottom')}>
-            <span className={cx('card-status')}>{status}</span>
-            <span className={cx('time-stamp')}>등록일 {createdAt}</span>
+            <span className={cx('card-status')}>모집 중</span>
+            <span className={cx('time-stamp')}>등록일 {changeDateToMonthAndDate(createdAt)}</span>
             <WishButton />
           </div>
         </div>
