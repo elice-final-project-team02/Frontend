@@ -7,7 +7,7 @@ import InfantImage from 'assets/images/infant.png';
 import SeniorOneImage from 'assets/images/senior1.png';
 import Challenged from 'assets/images/challenged.png';
 import { useNavigate } from 'react-router';
-import { usePostRequest } from '../../../hooks/post/postRequest';
+import { usePostRequest } from 'hooks';
 const cx = cs.bind(styles);
 
 export default function WritePost({ params, beforeData }) {
