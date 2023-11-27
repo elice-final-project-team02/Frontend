@@ -23,7 +23,7 @@ export default function Home() {
       <div className={cx('cardContainer')}>
         <HomeCard
           onClick={() => {
-            naviagate('/posts/new');
+            naviagate('/posts/new?careTarget=아동');
           }}
           className={'infant'}
           name={'아동'}
@@ -31,7 +31,7 @@ export default function Home() {
         />
         <HomeCard
           onClick={() => {
-            naviagate('/posts/new');
+            naviagate('/posts/new?careTarget=노인');
           }}
           className={'seniorOne'}
           name={'노인'}
@@ -39,7 +39,7 @@ export default function Home() {
         />
         <HomeCard
           onClick={() => {
-            naviagate('/posts/new');
+            naviagate('/posts/new?careTarget=장애인');
           }}
           className={'disabled'}
           name={'장애인'}

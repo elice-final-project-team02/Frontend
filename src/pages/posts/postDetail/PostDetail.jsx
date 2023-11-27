@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import styles from './PostDetail.module.scss';
 import cs from 'classnames/bind';
 import { FiTrash } from 'react-icons/fi';
@@ -10,26 +11,27 @@ import { BiSolidPencil } from 'react-icons/bi';
 import { Child } from 'assets/images';
 import { Link } from 'react-router-dom';
 import * as date from 'lib';
-import { useGetRequest, useGetUser, useDeletePost } from 'hooks';
+import { useGetUser, useDeletePostAndGoHome, useGetRequestGoHome } from 'hooks';
 import * as data from 'lib';
 import MessageForm from 'components/common/message/MessageForm';
 const cx = cs.bind(styles);
 
 export default function PostDetail() {
-  const postId = '6562692d32ba0d0a88ea977f';
+  const postId = '65644e7f164e5ba71654b75b';
   const [displayData, setDisplayData] = React.useState({});
-  const { data: requestData, isLoading: isRequestLoading } = useGetRequest(postId);
+  const { data: requestData, isLoading: isRequestLoading } = useGetRequestGoHome(postId);
   const { data: userData } = useGetUser();
-  const { mutate } = useDeletePost(postId);
-
+  const { mutate } = useDeletePostAndGoHome(postId);
   // 신청 form 양식 모달창 state
   const [requestForm, setRequestForm] = useState(false);
   // 돌봄메이트 신청하기 버튼 함수
+
   const requestButton = () => {
     setRequestForm(!requestForm);
   };
 
   React.useEffect(() => {
+    console.log(requestData);
     if (requestData) {
       setDisplayData({
         title: requestData.post.title,
@@ -55,6 +57,7 @@ export default function PostDetail() {
         userId: userData._id,
         authorName: requestData.authorProfile.name,
         authorId: requestData.post.author,
+        authorImageUrl: requestData.authorProfile.profileUrl,
       });
     }
   }, [requestData]);
@@ -100,7 +103,7 @@ export default function PostDetail() {
       <span className={cx('role-bookmark', displayData.isLongTerm ? 'long-term-background' : 'short-term-background')}>
         {displayData.isLongTerm ? '정기' : '단기'}
       </span>
-      <button onClick={() => console.log(requestData.post.author)}>조회</button>
+      <button onClick={() => console.log(requestData)}>조회</button>
       <div
         className={cx(
           'title-wrapper',
@@ -109,7 +112,14 @@ export default function PostDetail() {
       >
         <div className={cx('even-columns')}>
           <div className={cx('writer-image-wrapper')}>
-            <span className={cx('writer-image')}>{<IoMdPerson />}</span>
+            {displayData.authorImageUrl ? (
+              <span className={cx('writer-image')}>
+                <img src={displayData.authorImageUrl} alt="작성자 프로필사진" />
+              </span>
+            ) : (
+              <span className={cx('writer-image')}>{<IoMdPerson />}</span>
+            )}
+
             <span>{displayData.authorName}</span>
           </div>
         </div>
@@ -125,7 +135,6 @@ export default function PostDetail() {
               >
                 {displayData.status}
               </span>
-              <span>지원자 수 {displayData.applicantsCount ?? 0}/5</span>
             </div>
           </div>
         </div>

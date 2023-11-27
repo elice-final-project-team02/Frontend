@@ -4,13 +4,13 @@ import cs from 'classnames/bind';
 import DatePicker from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css';
 import { ko } from 'date-fns/esm/locale';
+import { addMonths } from 'date-fns';
 const cx = cs.bind(styles);
 
 export default function SeparateDatesPicker({ postContent, setPostContent, mainTime }) {
   const today = new Date();
-  const oneMonthLater = new Date();
-  oneMonthLater.setMonth(today.getMonth() + 1);
-  function handleDateChange(date) {
+  const oneMonthLater = addMonths(today, 1);
+  const handleDateChange = (date) => {
     const isDateSelected = postContent.shortTerm.some(
       (selectedDateObj) => selectedDateObj.careDate.getTime() === date.getTime()
     );
@@ -31,7 +31,7 @@ export default function SeparateDatesPicker({ postContent, setPostContent, mainT
         ],
       });
     }
-  }
+  };
   return (
     <DatePicker
       highlightDates={[...postContent.shortTerm.map((obj) => obj.careDate)]}

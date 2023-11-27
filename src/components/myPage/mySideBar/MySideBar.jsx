@@ -2,9 +2,13 @@ import React from 'react';
 import styles from './MySideBar.module.scss';
 import cs from 'classnames/bind';
 import { Link } from 'react-router-dom';
+import { useRecoilValue } from 'recoil';
+import { roleState } from 'recoil/roleState';
 const cx = cs.bind(styles);
 
-export default function MySideBar({ role }) {
+export default function MySideBar() {
+  const role = useRecoilValue(roleState);
+
   return (
     <div className={cx('wrapper')}>
       <div className={cx('sidebar')}>
@@ -23,13 +27,7 @@ export default function MySideBar({ role }) {
           <li className={cx('post')}>
             게시글 리스트
             <ul>
-              <li>
-                <Link to="/mypage/posts">MY 등록게시물</Link>
-              </li>
-              <li>
-                <Link to="/mypage/wishlist">찜한 돌봄 서비스</Link>
-              </li>
-              {/* {role === '일반' ? (
+              {role === 'user' ? (
                 <li>
                   <Link to="/mypage/posts">MY 등록게시물</Link>
                 </li>
@@ -37,7 +35,7 @@ export default function MySideBar({ role }) {
                 <li>
                   <Link to="/mypage/wishlist">찜한 돌봄 서비스</Link>
                 </li>
-              )} */}
+              )}
               <li>
                 <Link to="/mypage/matching">매칭 완료된 리스트</Link>
               </li>

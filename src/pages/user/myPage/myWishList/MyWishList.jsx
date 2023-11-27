@@ -1,39 +1,10 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import styles from './MyWishList.module.scss';
 import cs from 'classnames/bind';
 import { MyTitle, MySideBar, SearchBar, MyList, Pagination } from 'components';
-const cx = cs.bind(styles);
+import { useGetSavedPostList, usePutCancelBookMarks } from 'hooks';
 
-const postList = [
-  {
-    _id: '1234',
-    title: '8시부터 10시까지 돌봄 서비스 요청합니다.',
-  },
-  {
-    _id: '12345',
-    title: '등하원 시터 구합니다.',
-  },
-  {
-    _id: '12346',
-    title: '8시부터 10시까지 돌봄 서비스 요청합니다.',
-  },
-  {
-    _id: '12347',
-    title: '등하원 시터 구합니다.',
-  },
-  {
-    _id: '12348',
-    title: '8시부터 10시까지 돌봄 서비스 요청합니다.',
-  },
-  {
-    _id: '12349',
-    title: '등하원 시터 구합니다.',
-  },
-  {
-    _id: '123410',
-    title: '8시부터 10시까지 돌봄 서비스 요청합니다.',
-  },
-];
+const cx = cs.bind(styles);
 
 export default function MyWishList() {
   const [edit, setEdit] = useState(false);
@@ -42,8 +13,19 @@ export default function MyWishList() {
   const role = '돌봄';
   const [searchText, setSearchText] = useState('');
   const [currPage, setCurrPage] = useState(0);
-  // const [postData, setPostData] = useState([]);  // 추후에 get 요청으로 받아올 리스트
-  // const [totalPostCount, setTotalPostCount] = useState(0); // 총 리스트 개수
+  const { data, isLoading } = useGetSavedPostList(currPage + 1);
+  const [postList, setPostList] = useState([]);
+  const { mutate } = usePutCancelBookMarks();
+
+  useEffect(() => {
+    if (data) {
+      const mapPostList = data.posts.map((post) => ({
+        _id: post._id,
+        title: post.title,
+      }));
+      setPostList(mapPostList);
+    }
+  }, [data]);
 
   const handleSearchChange = (text) => {
     setSearchText(text);
@@ -62,13 +44,15 @@ export default function MyWishList() {
     setCheckedId(newCheckedId);
   };
 
-  const handleDeleteList = () => {
+  const handleDeleteList = (pageNumber) => {
     if (window.confirm(`선택한 ${checkedId.length}가지의 돌봄 서비스들을 목록에서 삭제하시겠습니까?`)) {
-      const updatedList = postList.filter((post) => !checkedId.includes(post._id));
-
-      alert('삭제가 완료되었습니다.');
-      setCheckedId([]);
-      setEdit(false);
+      mutate(checkedId, {
+        pageNumber,
+        onSuccess: () => {
+          setCheckedId([]);
+          setEdit(false);
+        },
+      });
     }
   };
 
@@ -90,42 +74,49 @@ export default function MyWishList() {
         <main>
           <MyTitle text="찜한 돌봄서비스" />
           <SearchBar className={cx('my-page-style')} searchInput={searchText} onSearchChange={handleSearchChange} />
-          {edit ? (
-            <>
-              <button
-                onClick={() => {
-                  setEdit(false);
-                  setCheckedId([]);
-                }}
-                className={cx('cancel')}
-              >
-                취소
-              </button>
-              <button onClick={handleDeleteList} className={cx('delete')}>
-                삭제
-              </button>
-            </>
+          {isLoading ? (
+            <div className={cx('loading')}>로딩중...</div>
           ) : (
-            <button onClick={() => setEdit(true)} className={cx('edit')}>
-              편집
-            </button>
+            <>
+              {postList.length > 0 &&
+                (edit ? (
+                  <>
+                    <button
+                      onClick={() => {
+                        setEdit(false);
+                        setCheckedId([]);
+                      }}
+                      className={cx('cancel')}
+                    >
+                      취소
+                    </button>
+                    <button onClick={() => handleDeleteList(currPage + 1)} className={cx('delete')}>
+                      삭제
+                    </button>
+                  </>
+                ) : (
+                  <button onClick={() => setEdit(true)} className={cx('edit')}>
+                    편집
+                  </button>
+                ))}
+              <div className={cx('content')}>
+                {postList.length === 0 ? (
+                  <div>찜한 목록이 없습니다.</div>
+                ) : (
+                  <MyList
+                    postList={postList}
+                    searchText={searchText}
+                    role={role}
+                    edit={edit}
+                    checkedId={checkedId}
+                    onAllCheck={handleAllCheck}
+                    onChangeCheckbox={handleChangeCheckbox}
+                  />
+                )}
+                <Pagination currPage={currPage} onClickPage={setCurrPage} pageCount={Math.ceil(data.totalCount / 7)} />
+              </div>
+            </>
           )}
-          <div className={cx('content')}>
-            {postList[0].length === 0 ? (
-              <div>찜한 목록이 없습니다.</div>
-            ) : (
-              <MyList
-                postList={postList}
-                searchText={searchText}
-                role={role}
-                edit={edit}
-                checkedId={checkedId}
-                onAllCheck={handleAllCheck}
-                onChangeCheckbox={handleChangeCheckbox}
-              />
-            )}
-            <Pagination currPage={currPage} onClickPage={setCurrPage} pageCount={10} />
-          </div>
         </main>
       </div>
     </div>

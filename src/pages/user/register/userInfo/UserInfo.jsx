@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import styles from 'pages/user/register/Register.module.scss';
 import cs from 'classnames/bind';
-import { useLocation } from 'react-router-dom';
+import { useLocation, Link } from 'react-router-dom';
 import { AuthInput, AuthSelect, Region } from 'components';
 import { InputStatus, validateInput } from 'lib';
 import { usePostRegister } from '../../../../hooks/postRegister';
@@ -22,7 +22,7 @@ const ageOptions = [
 
 export default function UserInfo() {
   const location = useLocation();
-  const { role, email, password } = location.state;
+  const { role, email, password } = location.state || '';
 
   const [name, setName] = useState('');
   const [phoneNumber, setPhoneNumber] = useState('');
@@ -63,8 +63,11 @@ export default function UserInfo() {
     gender !== '',
     region !== '',
     subRegion !== '',
+    role !== undefined,
+    email !== undefined,
+    password !== undefined,
   ].some((field) => !field);
-
+  console.log(role, email, password);
   const handleSubmit = async (e) => {
     e.preventDefault();
     mutate();
@@ -123,6 +126,14 @@ export default function UserInfo() {
           </button>
         </div>
       </div>
+      {(!role || !email || !password) && (
+        <>
+          <p>회원가입을 다시 진행해주세요.</p>
+          <Link to="/register" className={cx('go-register')}>
+            회원가입 하러가기
+          </Link>
+        </>
+      )}
     </div>
   );
 }
