@@ -8,3 +8,4 @@ export * from './postLogin';
 export * from './post/postRequest';
 export * from './post/getRequest';
 export * from './post/deletePost';
+export * from './post/getPostList';
