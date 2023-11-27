@@ -10,7 +10,7 @@ const cx = cs.bind(styles);
 export default function SeparateDatesPicker({ postContent, setPostContent, mainTime }) {
   const today = new Date();
   const oneMonthLater = addMonths(today, 1);
-  function handleDateChange(date) {
+  const handleDateChange = (date) => {
     const isDateSelected = postContent.shortTerm.some(
       (selectedDateObj) => selectedDateObj.careDate.getTime() === date.getTime()
     );
@@ -31,7 +31,7 @@ export default function SeparateDatesPicker({ postContent, setPostContent, mainT
         ],
       });
     }
-  }
+  };
   return (
     <DatePicker
       highlightDates={[...postContent.shortTerm.map((obj) => obj.careDate)]}

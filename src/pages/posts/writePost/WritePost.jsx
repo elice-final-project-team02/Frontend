@@ -8,6 +8,7 @@ import SeniorOneImage from 'assets/images/senior1.png';
 import Challenged from 'assets/images/challenged.png';
 import { useNavigate } from 'react-router';
 import { usePostRequest } from 'hooks';
+import { useSearchParams } from 'react-router-dom';
 const cx = cs.bind(styles);
 
 export default function WritePost({ params, beforeData }) {
@@ -86,6 +87,7 @@ export default function WritePost({ params, beforeData }) {
     e.preventDefault();
     checkEmptyValue();
     checkEmptyValueOfDate();
+    console.log(isEmptyValueInputNames);
     if (isEmptyValueInputNames.length > 0) {
       alert('작성을 모두 완료해주시기 바랍니다');
       return;
@@ -120,7 +122,7 @@ export default function WritePost({ params, beforeData }) {
   function checkEmptyValue() {
     setIsEmptyValueInputNames([]);
     for (let key in postContent) {
-      if (postContent.length && !postContent[key].length && key !== 'longTerm' && key !== 'negotiableRate') {
+      if (!postContent[key] && key !== 'longTerm' && key !== 'negotiableRate') {
         setIsEmptyValueInputNames((prev) => [...prev, key]);
       }
     }
@@ -295,12 +297,12 @@ export default function WritePost({ params, beforeData }) {
       </button>
       <button
         onClick={() => {
-          console.log(beforeData);
+          console.log(isEmptyValueInputNames);
         }}
       >
         beforeData
       </button>
-      <form>
+      <form onSubmit={handleSubmit}>
         <div className={cx('title-wrapper')}>
           <label className={cx('title-level')}>제목</label>
           <input
@@ -308,6 +310,7 @@ export default function WritePost({ params, beforeData }) {
             onChange={handleChange}
             value={postContent.title}
             name="title"
+            required
             onBlur={checkEmptyValue}
             placeholder="ex) 5세 남아 등하원 도우미 구합니다."
             maxLength={35}
@@ -319,6 +322,7 @@ export default function WritePost({ params, beforeData }) {
             onChange={handleChange}
             placeholder="ex) 유치원 등하원 시 케어해주시면 됩니다."
             name="content"
+            required
             onBlur={checkEmptyValue}
             maxLength={200}
             rows="6"
@@ -328,7 +332,7 @@ export default function WritePost({ params, beforeData }) {
           <span className={cx('title-level')} v>
             지역
           </span>
-          <select value={postContent.region} name="region" onChange={handleChange}>
+          <select value={postContent.region} required name="region" onChange={handleChange}>
             <option value="">시</option>
             {regions[0].map((area, index) => (
               <option key={index} value={area}>
@@ -336,7 +340,7 @@ export default function WritePost({ params, beforeData }) {
               </option>
             ))}
           </select>
-          <select value={postContent.subRegion} name="subRegion" onChange={handleChange}>
+          <select value={postContent.subRegion} required name="subRegion" onChange={handleChange}>
             <option value="">구</option>
             {postContent.region &&
               regions[regions[0].indexOf(postContent.region) + 1]?.map((area, index) => (
@@ -558,6 +562,7 @@ export default function WritePost({ params, beforeData }) {
           <input
             type="text"
             name="hourlyRate"
+            required
             onInput={formatNumber}
             onChange={handleChange}
             placeholder="숫자만 입력"
@@ -578,6 +583,7 @@ export default function WritePost({ params, beforeData }) {
           <span className={cx('title-level')}>돌봄 대상 특징</span>
           <textarea
             name="targetFeatures"
+            required
             onChange={handleChange}
             value={postContent.targetFeatures}
             placeholder="ex) 나이, 성격, 좋아하는 것, 싫어하는 것 등"
@@ -587,6 +593,7 @@ export default function WritePost({ params, beforeData }) {
           <span className={cx('title-level')}>돌봄 대상 유의사항</span>
           <textarea
             name="cautionNotes"
+            required
             onChange={handleChange}
             value={postContent.cautionNotes}
             onBlur={checkEmptyValue}
@@ -598,7 +605,7 @@ export default function WritePost({ params, beforeData }) {
           <button type="button" className={cx('cancel')} onClick={handleCancel}>
             취소
           </button>
-          <button type="submit" onClick={handleSubmit} className={cx('primary')}>
+          <button type="submit" className={cx('primary')}>
             작성하기
           </button>
         </div>
