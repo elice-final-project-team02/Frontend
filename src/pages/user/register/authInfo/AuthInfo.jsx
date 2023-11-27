@@ -11,7 +11,7 @@ const cx = cs.bind(styles);
 export default function AuthInfo() {
   const nav = useNavigate();
   const location = useLocation();
-  const { role } = location.state;
+  const { role } = location.state || '';
 
   const [email, setEmail] = useState('');
   const [emailCode, setEmailCode] = useState('');
@@ -52,6 +52,7 @@ export default function AuthInfo() {
     !hasError[1] && emailCode !== '' && isVerifyButtonDisabled,
     !hasError[2] && password !== '',
     !hasError[3] && passwordConfirm !== '',
+    role !== undefined,
   ].some((field) => !field);
 
   return (
@@ -117,6 +118,7 @@ export default function AuthInfo() {
           </button>
         </div>
       </div>
+      {!role && <p>이전 페이지에서 유저 역할을 선택해주세요.</p>}
     </div>
   );
 }

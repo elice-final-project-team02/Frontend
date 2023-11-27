@@ -7,20 +7,24 @@ import MessageButton from './common/message/MessageButton';
 import '../styles/index.scss';
 import { Outlet } from 'react-router-dom';
 import { isLoggedInState } from 'recoil/isLoggedInState';
+import { roleState } from 'recoil/roleState';
 import { useSetRecoilState } from 'recoil';
 import { useGetUser } from '../hooks/getUser';
 
 export default function UserVerifiedApp() {
   const setIsLoggedIn = useSetRecoilState(isLoggedInState);
+  const setRole = useSetRecoilState(roleState);
   const { data, error } = useGetUser();
 
   useEffect(() => {
     if (data) {
       setIsLoggedIn(true);
-    } else if (error && error.response && error.response.status === 403) {
+      setRole(data.role.role);
+    } else if (error && error.response && (error.response.status === 401 || error.response.status === 403)) {
       setIsLoggedIn(false);
+      setRole('');
     }
-  }, [data, error, setIsLoggedIn]);
+  }, [data, error, setIsLoggedIn, setRole]);
 
   return (
     <div className="entireWrapper">
