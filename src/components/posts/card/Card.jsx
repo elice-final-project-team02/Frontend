@@ -5,7 +5,7 @@ import { FaMapMarkerAlt, FaCalendar, FaClock } from 'react-icons/fa';
 import { PiMoneyFill } from 'react-icons/pi';
 import targetImg from './draftImage.png';
 import { WishButton } from 'components';
-import { LongTerm, ShortTerm, Child, Senior1, Disabled } from 'assets/images';
+import { LongTerm, ShortTerm, Child, Senior1, Challenged } from 'assets/images';
 import axios from 'axios';
 import { useGetRequest } from 'hooks';
 
@@ -49,7 +49,7 @@ export default function Card({
           <div className={cx('main-upper')}>
             <div className={cx('target-image-container')}>
               <img
-                src={careTarget === '아동' ? Child : careTarget === '노인' ? Senior1 : Disabled}
+                src={careTarget === '아동' ? Child : careTarget === '노인' ? Senior1 : Challenged}
                 alt="targetImage"
                 className={cx('target-image')}
               />

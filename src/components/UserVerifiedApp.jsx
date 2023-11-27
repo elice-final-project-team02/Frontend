@@ -17,8 +17,7 @@ export default function UserVerifiedApp() {
   useEffect(() => {
     if (data) {
       setIsLoggedIn(true);
-    } else if (error && error.response && error.response.status === 403) {
-      alert(error.response.data.message);
+    } else if (error && error.response && (error.response.status === 401 || error.response.status === 403)) {
       setIsLoggedIn(false);
     }
   }, [data, error, setIsLoggedIn]);

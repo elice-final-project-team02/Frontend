@@ -1,11 +1,11 @@
 import React from 'react';
-import styles from './Card.module.scss';
+import styles from './HomeCard.module.scss';
 import cs from 'classnames/bind';
 import { useNavigate } from 'react-router-dom';
 
 const cx = cs.bind(styles);
 
-export default function Card({ onClick, name, src, className }) {
+export default function HomeCard({ onClick, name, src, className }) {
   const navigate = useNavigate();
 
   return (

@@ -4,12 +4,13 @@ import styles from './Home.module.scss';
 import cs from 'classnames/bind';
 import InfantImage from '../../assets/images/infant.png';
 import SeniorOneImage from '../../assets/images/SeniorOne.png';
-// import DisabledImage from '../../assets/images/disabled.png';
+import Challanged from '../../assets/images/challenged.png';
 import MainLogo from '../../assets/images/logo.png';
 import InfantItem from '../../assets/images/infant-item.png';
 import SeniorItem from '../../assets/images/senior-item.png';
 import DisabledItem from '../../assets/images/disabled-item.png';
-import Card from '../../components/home/Card';
+import HomeCard from 'components/home/HomeCard';
+
 const cx = cs.bind(styles);
 
 export default function Home() {
@@ -20,7 +21,7 @@ export default function Home() {
         <img src={MainLogo} alt="메인로고" />
       </div>
       <div className={cx('cardContainer')}>
-        <Card
+        <HomeCard
           onClick={() => {
             naviagate('/posts/new');
           }}
@@ -28,7 +29,7 @@ export default function Home() {
           name={'아동'}
           src={InfantImage}
         />
-        <Card
+        <HomeCard
           onClick={() => {
             naviagate('/posts/new');
           }}
@@ -36,13 +37,13 @@ export default function Home() {
           name={'노인'}
           src={SeniorOneImage}
         />
-        <Card
+        <HomeCard
           onClick={() => {
             naviagate('/posts/new');
           }}
           className={'disabled'}
           name={'장애인'}
-          src={DisabledImage}
+          src={Challanged}
         />
       </div>
 

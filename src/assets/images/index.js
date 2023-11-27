@@ -8,7 +8,6 @@ export const BlueClam = require('./clam-blue.png');
 export const PinkClam3D = require('./clam-red-3d.png');
 export const BlueClam3D = require('./clam-blue-3d.png');
 export const Infant = require('./infant.png');
-export const Disabled = require('./disabled.png');
 export const Logo = require('./logo.png');
 export const LogoClam = require('./logo-clam.png');
 export const ProfileImage = require('./user.png');
