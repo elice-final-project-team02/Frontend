@@ -7,6 +7,7 @@ export * from './posts/datePicker/datesPicker';
 export * from './posts/datePicker/separateDatesPicker';
 export * from './posts/datePicker/showSelectedDateList';
 export * from './posts/datePicker/newTimesPicker';
+export * from './posts/datePicker/newTwoTimesPicker';
 export * from './posts/messageButton';
 export * from './posts/wishButton';
 export * from './posts/searchBar';

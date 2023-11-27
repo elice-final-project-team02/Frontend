@@ -10,11 +10,18 @@ import {
   changeKoreaDayOfWeekToNumber,
   changeNumberToKoreaDayOfWeek,
 } from 'lib';
+import { getHours } from 'date-fns';
 const cx = cs.bind(styles);
 
 export default function ShowSelectedDateList({ postContent, setPostContent, array, type }) {
+  const [isIndivisualTimeControll, setIsIndivisualTimeControll] = React.useState(
+    new Array((array.length || 1) - 1).fill(false)
+  );
+  React.useEffect(() => {
+    setIsIndivisualTimeControll(new Array((array.length || 1) - 1).fill(false));
+  }, [postContent.careTerm]);
   /** 정해진 시간을 정보에 업데이트  */
-  function patchDateToPostContentState(type, date, property, scheduleArray, selectedTimeIndex) {
+  const patchDateToPostContentState = (type, date, property, scheduleArray, selectedTimeIndex) => {
     if (type === 'longTerm') {
       setPostContent({
         ...postContent,
@@ -29,10 +36,10 @@ export default function ShowSelectedDateList({ postContent, setPostContent, arra
         shortTerm: inputDateToObjectInArray(date, property, scheduleArray, selectedTimeIndex),
       });
     }
-  }
+  };
 
   /** 배열객체에 날짜를 주입함 */
-  function inputDateToObjectInArray(date, property, scheduleArray, selectedTimeIndex) {
+  const inputDateToObjectInArray = (date, property, scheduleArray, selectedTimeIndex) => {
     return scheduleArray.map((obj, index) => {
       if (index === selectedTimeIndex && property === 'startTime') {
         return { ...obj, startTime: date };
@@ -41,21 +48,13 @@ export default function ShowSelectedDateList({ postContent, setPostContent, arra
       }
       return obj;
     });
-  }
+  };
 
-  const [isIndivisualTimeControll, setIsIndivisualTimeControll] = React.useState(
-    new Array((array.length || 1) - 1).fill(false)
-  );
-
-  React.useEffect(() => {
-    setIsIndivisualTimeControll(new Array((array.length || 1) - 1).fill(false));
-  }, [postContent.careTerm]);
-
-  function handleItemClick(index) {
+  const handleItemClick = (index) => {
     const newStates = [...isIndivisualTimeControll];
     newStates[index] = !newStates[index];
     setIsIndivisualTimeControll(newStates);
-  }
+  };
   return (
     <ul className={cx('wrapper')}>
       {type === 'short'
@@ -102,9 +101,9 @@ export default function ShowSelectedDateList({ postContent, setPostContent, arra
               <li key={uuidv4()}>
                 <div className={cx('selected-time-wrapper')}>
                   <span>
-                    {`${item}요일 ${postContent.longTerm.schedule[
-                      index
-                    ].startTime.getHours()}:00-${postContent.longTerm.schedule[index].endTime.getHours()}:00`}
+                    {`${item}요일 ${getHours(postContent.longTerm.schedule[index].startTime)}:00-${getHours(
+                      postContent.longTerm.schedule[index].endTime
+                    )}:00`}
                   </span>
                   <button className={cx('hover-icon')} onClick={() => handleItemClick(index)}>
                     <BiSolidPencil />

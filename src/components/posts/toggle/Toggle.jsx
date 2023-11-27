@@ -4,9 +4,9 @@ import cs from 'classnames/bind';
 const cx = cs.bind(styles);
 
 export default function Toggle({ onChange }) {
-  function handleChange(e) {
+  const handleChange = (e) => {
     onChange(e);
-  }
+  };
   return (
     <span className={cx('wrapper')}>
       <label className={cx('switch')}>

@@ -1,9 +1,9 @@
 import axios from 'axios';
+import { errorHandler } from 'lib';
 import { useQuery } from 'react-query';
-
+import { useNavigate } from 'react-router';
 const apiUrl = '/api/post';
-
-const getRequest = async (postId) => {
+export const getRequest = async (postId) => {
   const response = await axios.get(`${apiUrl}/${postId}`, {
     withCredentials: true,
   });
@@ -11,5 +11,15 @@ const getRequest = async (postId) => {
 };
 
 export function useGetRequest(postId) {
-  return useQuery(['getRequest'], () => getRequest(postId), { cacheTime: 10 * 60 * 1000 });
+  return useQuery(['getRequest'], () => getRequest(postId));
+}
+
+export function useGetRequestGoHome(postId) {
+  const navigate = useNavigate();
+  return useQuery(['getRequest'], () => getRequest(postId), {
+    onError: (error) => {
+      errorHandler(error);
+      navigate(-1);
+    },
+  });
 }

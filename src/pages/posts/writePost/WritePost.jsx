@@ -8,9 +8,12 @@ import SeniorOneImage from 'assets/images/senior1.png';
 import Challenged from 'assets/images/challenged.png';
 import { useNavigate } from 'react-router';
 import { usePostRequest } from 'hooks';
+import { useSearchParams } from 'react-router-dom';
 const cx = cs.bind(styles);
 
 export default function WritePost({ params, beforeData }) {
+  const [searchParams, setSearchParams] = useSearchParams('');
+  const predeterminedCareTarget = searchParams.get('careTarget');
   const [mainTime, setMainTime] = React.useState({
     mainStartTime: new Date(2020, 0, 0, 8),
     mainEndTime: new Date(2020, 0, 0, 20),
@@ -21,7 +24,7 @@ export default function WritePost({ params, beforeData }) {
     content: beforeData ? beforeData.post.content : '',
     region: beforeData ? beforeData.post.careInformation.area.region : '',
     subRegion: beforeData ? beforeData.post.careInformation.area.subRegion : '',
-    careTarget: beforeData ? beforeData.post.careInformation.careTarget : '',
+    careTarget: beforeData ? beforeData.post.careInformation.careTarget : predeterminedCareTarget,
     longTerm: {
       startDate: new Date(),
       schedule: [
@@ -32,17 +35,19 @@ export default function WritePost({ params, beforeData }) {
         },
       ],
     },
-    shortTerm: [
-      {
-        careDate: new Date(99, 1),
-        startTime: mainTime.mainStartTime,
-        endTime: mainTime.mainEndTime,
-      },
-    ],
+    shortTerm: beforeData
+      ? [...beforeData.post.reservation.shortTerm]
+      : [
+          {
+            careDate: new Date(99, 1),
+            startTime: mainTime.mainStartTime,
+            endTime: mainTime.mainEndTime,
+          },
+        ],
     preferredMateAge: beforeData ? beforeData.post.careInformation.preferredmateAge : [],
     preferredMateGender: beforeData ? beforeData.post.careInformation.preferredmateGender : '',
     hourlyRate: beforeData ? beforeData.post.reservation.hourlyRate : 9620,
-    negotiableRate: beforeData ? beforeData.post.negotiableRate : false,
+    negotiableRate: beforeData ? Boolean(beforeData.post.negotiableRate) : false,
     targetFeatures: beforeData ? beforeData.post.careInformation.targetFeatures : '',
     cautionNotes: beforeData ? beforeData.post.careInformation.cautionNotes : '',
     careTerm: beforeData ? (beforeData.post.reservation.isLongTerm ? 'long' : 'short') : 'short',
@@ -82,6 +87,7 @@ export default function WritePost({ params, beforeData }) {
     e.preventDefault();
     checkEmptyValue();
     checkEmptyValueOfDate();
+    console.log(isEmptyValueInputNames);
     if (isEmptyValueInputNames.length > 0) {
       alert('작성을 모두 완료해주시기 바랍니다');
       return;
@@ -92,6 +98,10 @@ export default function WritePost({ params, beforeData }) {
 
   function handleChange(e) {
     if (e.target.name === 'hourlyRate') formatHourlyRate(e, e.target.value);
+    if (e.target.name === 'title' && e.target.value.length > 35) {
+      alert('제목은 35자 이하로 작성바랍니다');
+      return;
+    }
     setPostContent((prev) => ({
       ...prev,
       [e.target.name]: e.target.value,
@@ -112,7 +122,7 @@ export default function WritePost({ params, beforeData }) {
   function checkEmptyValue() {
     setIsEmptyValueInputNames([]);
     for (let key in postContent) {
-      if (!postContent[key].length && key !== 'longTerm' && key !== 'negotiableRate') {
+      if (!postContent[key] && key !== 'longTerm' && key !== 'negotiableRate') {
         setIsEmptyValueInputNames((prev) => [...prev, key]);
       }
     }
@@ -182,7 +192,9 @@ export default function WritePost({ params, beforeData }) {
     return checkHandler;
   }
   const ageList = ['20대', '30대', '40대', '50대', '60대 이상'];
-  const [checkedAgeList, setCheckedAgeList] = React.useState([]);
+  const [checkedAgeList, setCheckedAgeList] = React.useState(
+    beforeData ? beforeData.post.careInformation.preferredmateAge : []
+  );
   const [isAgeChecked, setIsAgeChecked] = React.useState(false);
   const checkAgeHandler = makeCheckHandler(checkedAgeList, setCheckedAgeList, isAgeChecked, setIsAgeChecked);
 
@@ -276,6 +288,20 @@ export default function WritePost({ params, beforeData }) {
 
   return (
     <div className={cx('wrapper')}>
+      <button
+        onClick={() => {
+          console.log(postContent);
+        }}
+      >
+        postContent
+      </button>
+      <button
+        onClick={() => {
+          console.log(isEmptyValueInputNames);
+        }}
+      >
+        beforeData
+      </button>
       <form onSubmit={handleSubmit}>
         <div className={cx('title-wrapper')}>
           <label className={cx('title-level')}>제목</label>
@@ -284,9 +310,10 @@ export default function WritePost({ params, beforeData }) {
             onChange={handleChange}
             value={postContent.title}
             name="title"
+            required
             onBlur={checkEmptyValue}
             placeholder="ex) 5세 남아 등하원 도우미 구합니다."
-            maxLength={200}
+            maxLength={35}
           />
         </div>
         <div className={cx('content')}>
@@ -295,6 +322,7 @@ export default function WritePost({ params, beforeData }) {
             onChange={handleChange}
             placeholder="ex) 유치원 등하원 시 케어해주시면 됩니다."
             name="content"
+            required
             onBlur={checkEmptyValue}
             maxLength={200}
             rows="6"
@@ -304,7 +332,7 @@ export default function WritePost({ params, beforeData }) {
           <span className={cx('title-level')} v>
             지역
           </span>
-          <select value={postContent.region} name="region" onChange={handleChange}>
+          <select value={postContent.region} required name="region" onChange={handleChange}>
             <option value="">시</option>
             {regions[0].map((area, index) => (
               <option key={index} value={area}>
@@ -312,7 +340,7 @@ export default function WritePost({ params, beforeData }) {
               </option>
             ))}
           </select>
-          <select value={postContent.subRegion} name="subRegion" onChange={handleChange}>
+          <select value={postContent.subRegion} required name="subRegion" onChange={handleChange}>
             <option value="">구</option>
             {postContent.region &&
               regions[regions[0].indexOf(postContent.region) + 1]?.map((area, index) => (
@@ -326,7 +354,14 @@ export default function WritePost({ params, beforeData }) {
           <span className={cx('title-level')}>돌봄 대상</span>
           <div className={cx('targets-wrapper')}>
             <div className={cx('target-wrapper')}>
-              <input type="radio" onChange={handleChange} name="careTarget" value="아동" id="target-infant" />
+              <input
+                type="radio"
+                onChange={handleChange}
+                name="careTarget"
+                value="아동"
+                checked={postContent.careTarget === '아동'}
+                id="target-infant"
+              />
               <label htmlFor="target-infant">
                 <span className={cx('target-image-wrapper')}>
                   <img src={InfantImage} alt="아동" />
@@ -335,7 +370,14 @@ export default function WritePost({ params, beforeData }) {
               <span>아동</span>
             </div>
             <div className={cx('target-wrapper')}>
-              <input type="radio" onChange={handleChange} name="careTarget" value="노인" id="target-senior" />
+              <input
+                type="radio"
+                onChange={handleChange}
+                checked={postContent.careTarget === '노인'}
+                name="careTarget"
+                value="노인"
+                id="target-senior"
+              />
               <label htmlFor="target-senior">
                 <span className={cx('target-image-wrapper')}>
                   <img src={SeniorOneImage} alt="노인" />
@@ -344,7 +386,14 @@ export default function WritePost({ params, beforeData }) {
               <span>노인</span>
             </div>
             <div className={cx('target-wrapper')}>
-              <input type="radio" onChange={handleChange} name="careTarget" value="장애인" id="target-disabled" />
+              <input
+                type="radio"
+                onChange={handleChange}
+                checked={postContent.careTarget === '장애인'}
+                name="careTarget"
+                value="장애인"
+                id="target-disabled"
+              />
               <label htmlFor="target-disabled">
                 <span className={cx('target-image-wrapper')}>
                   <img src={Challenged} alt="장애인" />
@@ -401,7 +450,9 @@ export default function WritePost({ params, beforeData }) {
           {postContent.careTerm === 'short' && (
             <SeparateDatesPicker postContent={postContent} setPostContent={setPostContent} mainTime={mainTime} />
           )}
-
+          {/* <div>
+            <NewTwoTimesPicker times={mainTime} setTimes={setMainTime} />
+          </div> */}
           <div className={cx('main-time-wrapper')}>
             <label className={cx('title-level')}>시작 시간</label>
             <div className={cx('time-wrapper')}>
@@ -419,6 +470,7 @@ export default function WritePost({ params, beforeData }) {
                 setTime={(date) => {
                   setMainTime({ ...mainTime, mainEndTime: new Date(date) });
                 }}
+                minzTime={mainTime.mainStartTime}
               />
             </div>
           </div>
@@ -447,9 +499,23 @@ export default function WritePost({ params, beforeData }) {
         <div className={cx('preferred-mate-wrapper')}>
           <p className={cx('title-level')}>선호 돌봄유저</p>
           <div className={cx('preferred-mate-gender-wrapper')}>
-            <input type="radio" onChange={handleChange} name="preferredMateGender" id="mateWoman" value="여성" />
+            <input
+              type="radio"
+              onChange={handleChange}
+              name="preferredMateGender"
+              id="mateWoman"
+              value="여성"
+              checked={postContent.preferredMateGender === '여성'}
+            />
             <label htmlFor="mateWoman">여성</label>
-            <input type="radio" onChange={handleChange} name="preferredMateGender" id="mateMan" value="남성" />
+            <input
+              type="radio"
+              onChange={handleChange}
+              name="preferredMateGender"
+              id="mateMan"
+              value="남성"
+              checked={postContent.preferredMateGender === '남성'}
+            />
             <label htmlFor="mateMan">남성</label>
             <input
               type="radio"
@@ -457,6 +523,7 @@ export default function WritePost({ params, beforeData }) {
               name="preferredMateGender"
               id="mateGenderFree"
               value="성별 무관"
+              checked={postContent.preferredMateGender === '성별 무관'}
             />
             <label htmlFor="mateGenderFree">성별 무관</label>
           </div>
@@ -495,6 +562,7 @@ export default function WritePost({ params, beforeData }) {
           <input
             type="text"
             name="hourlyRate"
+            required
             onInput={formatNumber}
             onChange={handleChange}
             placeholder="숫자만 입력"
@@ -515,6 +583,7 @@ export default function WritePost({ params, beforeData }) {
           <span className={cx('title-level')}>돌봄 대상 특징</span>
           <textarea
             name="targetFeatures"
+            required
             onChange={handleChange}
             value={postContent.targetFeatures}
             placeholder="ex) 나이, 성격, 좋아하는 것, 싫어하는 것 등"
@@ -524,6 +593,7 @@ export default function WritePost({ params, beforeData }) {
           <span className={cx('title-level')}>돌봄 대상 유의사항</span>
           <textarea
             name="cautionNotes"
+            required
             onChange={handleChange}
             value={postContent.cautionNotes}
             onBlur={checkEmptyValue}
