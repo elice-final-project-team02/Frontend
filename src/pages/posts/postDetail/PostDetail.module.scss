@@ -83,7 +83,7 @@
   }
 
   .information-icons {
-    font-size: 20px;
+    font-size: 24px;
   }
 
   .writer-image-wrapper {
@@ -115,6 +115,7 @@
     padding-block: 5px;
     border: 0;
     border-radius: 100vmax;
+    color: var(--crl-neutral-100);
   }
   .post-badge-wrapper {
     display: flex;
@@ -126,7 +127,7 @@
     flex-direction: column;
     height: 100%;
     justify-content: center;
-    gap: 10px;
+    gap: 4px;
     margin-top: -5px;
     .text-information {
       font-size: 15px;
@@ -139,6 +140,7 @@
   }
   .icon-text-wrapper {
     display: flex;
+    align-items: center;
     gap: 20px;
     .information-icons {
       color: var(--crl-neutral-400);

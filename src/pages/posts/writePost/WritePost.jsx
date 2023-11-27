@@ -1,14 +1,7 @@
 import React from 'react';
 import styles from './WritePost.module.scss';
 import cs from 'classnames/bind';
-import {
-  DatesPicker,
-  SeparateDatesPicker,
-  ShowSelectedDateList,
-  NewTimesPicker,
-  Toggle,
-  NewTwoTimesPicker,
-} from 'components';
+import { DatesPicker, SeparateDatesPicker, ShowSelectedDateList, NewTimesPicker, Toggle } from 'components';
 import { regions } from 'lib';
 import InfantImage from 'assets/images/infant.png';
 import SeniorOneImage from 'assets/images/senior1.png';
@@ -42,17 +35,19 @@ export default function WritePost({ params, beforeData }) {
         },
       ],
     },
-    shortTerm: [
-      {
-        careDate: new Date(99, 1),
-        startTime: mainTime.mainStartTime,
-        endTime: mainTime.mainEndTime,
-      },
-    ],
+    shortTerm: beforeData
+      ? [...beforeData.post.reservation.shortTerm]
+      : [
+          {
+            careDate: new Date(99, 1),
+            startTime: mainTime.mainStartTime,
+            endTime: mainTime.mainEndTime,
+          },
+        ],
     preferredMateAge: beforeData ? beforeData.post.careInformation.preferredmateAge : [],
     preferredMateGender: beforeData ? beforeData.post.careInformation.preferredmateGender : '',
     hourlyRate: beforeData ? beforeData.post.reservation.hourlyRate : 9620,
-    negotiableRate: beforeData ? beforeData.post.negotiableRate : false,
+    negotiableRate: beforeData ? Boolean(beforeData.post.negotiableRate) : false,
     targetFeatures: beforeData ? beforeData.post.careInformation.targetFeatures : '',
     cautionNotes: beforeData ? beforeData.post.careInformation.cautionNotes : '',
     careTerm: beforeData ? (beforeData.post.reservation.isLongTerm ? 'long' : 'short') : 'short',
@@ -102,6 +97,10 @@ export default function WritePost({ params, beforeData }) {
 
   function handleChange(e) {
     if (e.target.name === 'hourlyRate') formatHourlyRate(e, e.target.value);
+    if (e.target.name === 'title' && e.target.value.length > 35) {
+      alert('제목은 35자 이하로 작성바랍니다');
+      return;
+    }
     setPostContent((prev) => ({
       ...prev,
       [e.target.name]: e.target.value,
@@ -122,7 +121,7 @@ export default function WritePost({ params, beforeData }) {
   function checkEmptyValue() {
     setIsEmptyValueInputNames([]);
     for (let key in postContent) {
-      if (!postContent[key].length && key !== 'longTerm' && key !== 'negotiableRate') {
+      if (postContent.length && !postContent[key].length && key !== 'longTerm' && key !== 'negotiableRate') {
         setIsEmptyValueInputNames((prev) => [...prev, key]);
       }
     }
@@ -192,7 +191,9 @@ export default function WritePost({ params, beforeData }) {
     return checkHandler;
   }
   const ageList = ['20대', '30대', '40대', '50대', '60대 이상'];
-  const [checkedAgeList, setCheckedAgeList] = React.useState([]);
+  const [checkedAgeList, setCheckedAgeList] = React.useState(
+    beforeData ? beforeData.post.careInformation.preferredmateAge : []
+  );
   const [isAgeChecked, setIsAgeChecked] = React.useState(false);
   const checkAgeHandler = makeCheckHandler(checkedAgeList, setCheckedAgeList, isAgeChecked, setIsAgeChecked);
 
@@ -286,7 +287,21 @@ export default function WritePost({ params, beforeData }) {
 
   return (
     <div className={cx('wrapper')}>
-      <form onSubmit={handleSubmit}>
+      <button
+        onClick={() => {
+          console.log(postContent);
+        }}
+      >
+        postContent
+      </button>
+      <button
+        onClick={() => {
+          console.log(beforeData);
+        }}
+      >
+        beforeData
+      </button>
+      <form>
         <div className={cx('title-wrapper')}>
           <label className={cx('title-level')}>제목</label>
           <input
@@ -296,7 +311,7 @@ export default function WritePost({ params, beforeData }) {
             name="title"
             onBlur={checkEmptyValue}
             placeholder="ex) 5세 남아 등하원 도우미 구합니다."
-            maxLength={200}
+            maxLength={35}
           />
         </div>
         <div className={cx('content')}>
@@ -481,9 +496,23 @@ export default function WritePost({ params, beforeData }) {
         <div className={cx('preferred-mate-wrapper')}>
           <p className={cx('title-level')}>선호 돌봄유저</p>
           <div className={cx('preferred-mate-gender-wrapper')}>
-            <input type="radio" onChange={handleChange} name="preferredMateGender" id="mateWoman" value="여성" />
+            <input
+              type="radio"
+              onChange={handleChange}
+              name="preferredMateGender"
+              id="mateWoman"
+              value="여성"
+              checked={postContent.preferredMateGender === '여성'}
+            />
             <label htmlFor="mateWoman">여성</label>
-            <input type="radio" onChange={handleChange} name="preferredMateGender" id="mateMan" value="남성" />
+            <input
+              type="radio"
+              onChange={handleChange}
+              name="preferredMateGender"
+              id="mateMan"
+              value="남성"
+              checked={postContent.preferredMateGender === '남성'}
+            />
             <label htmlFor="mateMan">남성</label>
             <input
               type="radio"
@@ -491,6 +520,7 @@ export default function WritePost({ params, beforeData }) {
               name="preferredMateGender"
               id="mateGenderFree"
               value="성별 무관"
+              checked={postContent.preferredMateGender === '성별 무관'}
             />
             <label htmlFor="mateGenderFree">성별 무관</label>
           </div>
@@ -569,7 +599,7 @@ export default function WritePost({ params, beforeData }) {
           <button type="button" className={cx('cancel')} onClick={handleCancel}>
             취소
           </button>
-          <button type="submit" className={cx('primary')}>
+          <button type="submit" onClick={handleSubmit} className={cx('primary')}>
             작성하기
           </button>
         </div>
