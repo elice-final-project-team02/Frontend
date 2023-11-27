@@ -3,16 +3,14 @@ import React from 'react';
 import styles from './MessageList.module.scss';
 import { ChildHat, DesabledBathchair, NewMessageImage, ProfileImage, SeniorYarn } from 'assets/images';
 import cs from 'classnames/bind';
-// import ChattingRoom from './ChattingRoom';
 const cx = cs.bind(styles);
 
 
 
 // 메시지함 리스트 컴포넌트 (채팅형식 UI - 레이어 팝업 형태)
-export default function MessageList() {
+export default function MessageList(props) {
 
   return (
-    <>
       <div className={cx('wrapper')}>
         {/* 메시지함 전체 영역 */}
         <div className={cx('message-box')}>
@@ -33,9 +31,10 @@ export default function MessageList() {
             <ul className={cx('message-items')}>
 
               {/* 대화 상대별 채팅방(list item) */}
-              <li className={cx('message-item')}>
+            <li className={cx('message-item')} onClick={() => {
+              props.chatInfoSelect("a123")
+              }}>
                 
-
                 {/* 프로필사진, n이미지 영역 */}
                 <div className={cx('user-profilebox')}>
                   <img className={cx('img-profile')} src={ProfileImage} alt="상대유저 프로필이미지" />
@@ -43,7 +42,12 @@ export default function MessageList() {
                 </div>
 
                 {/* 이름, 키워드, 메시지 내용 영역 */}
-                <div className={cx('user-itembox')}>
+              <div className={cx('user-itembox')}>
+                  
+                <p className={cx('post-title')}>
+                  <span className={cx('post-num')}>#1 </span>
+                  병원 동행해주실 메이트분 구합니다.</p>
+                 
                   <span className={cx('username')}>홍길동</span>
                   <span className={cx('keyword')}>노인</span>
                   <p className={cx('message-text')}>가지고 계신 지병이 있나요?</p>
@@ -157,9 +161,6 @@ export default function MessageList() {
           </div>
         </div>
      </div>
-
-
-    </>
     
   )
 }

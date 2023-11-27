@@ -34,7 +34,7 @@ export default function UserInfo() {
   // error 존재 여부 (name, phone)
   const [hasError, setHasError] = useState([false, false]);
 
-  const userInfo = {
+  const { mutate } = usePostRegister({
     role: role,
     email: email,
     password: password,
@@ -44,9 +44,7 @@ export default function UserInfo() {
     gender: gender,
     region: region,
     subRegion: subRegion,
-  };
-
-  const { mutate } = usePostRegister(userInfo);
+  });
 
   // 입력 값 변경 시 유효성 검사 수행
   const handleInputChange = (inputValue, inputName, index, setState) => {
@@ -58,14 +56,14 @@ export default function UserInfo() {
   };
 
   // 모든 필드가 유효하고 값이 존재하는지 확인
-  const isValid =
-    !hasError.includes(true) &&
-    name !== '' &&
-    phoneNumber !== '' &&
-    age !== '' &&
-    gender !== '' &&
-    region !== '' &&
-    subRegion !== '';
+  const isValid = [
+    !hasError[0] && name !== '',
+    !hasError[1] && phoneNumber !== '',
+    age !== '',
+    gender !== '',
+    region !== '',
+    subRegion !== '',
+  ].some((field) => !field);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -106,11 +104,11 @@ export default function UserInfo() {
           <label htmlFor="">지역</label>
           <div className={cx('region')}>
             <Region
-              region1={region}
-              region2={subRegion}
-              onRegionChange={(reg1, reg2) => {
-                setRegion(reg1);
-                setSubRegion(reg2);
+              region={region}
+              subRegion={subRegion}
+              onRegionChange={(reg, subReg) => {
+                setRegion(reg);
+                setSubRegion(subReg);
               }}
             />
           </div>
@@ -119,7 +117,7 @@ export default function UserInfo() {
           <button
             className={cx('submit-button', { 'care-button': role === 'careUser', 'general-button': role === 'user' })}
             onClick={handleSubmit}
-            disabled={!isValid}
+            disabled={isValid}
           >
             가입하기
           </button>

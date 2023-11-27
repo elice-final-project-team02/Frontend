@@ -2,7 +2,7 @@ import React from 'react';
 import styles from './WritePost.module.scss';
 import cs from 'classnames/bind';
 import { DatesPicker, SeparateDatesPicker, ShowSelectedDateList, NewTimesPicker, Toggle } from 'components';
-import { region } from 'lib';
+import { regions } from 'lib';
 import InfantImage from 'assets/images/infant.png';
 import SeniorOneImage from 'assets/images/senior1.png';
 import Challenged from 'assets/images/challenged.png';
@@ -306,7 +306,7 @@ export default function WritePost({ params, beforeData }) {
           </span>
           <select value={postContent.region} name="region" onChange={handleChange}>
             <option value="">시</option>
-            {region[0].map((area, index) => (
+            {regions[0].map((area, index) => (
               <option key={index} value={area}>
                 {area}
               </option>
@@ -315,7 +315,7 @@ export default function WritePost({ params, beforeData }) {
           <select value={postContent.subRegion} name="subRegion" onChange={handleChange}>
             <option value="">구</option>
             {postContent.region &&
-              region[region[0].indexOf(postContent.region) + 1]?.map((area, index) => (
+              regions[regions[0].indexOf(postContent.region) + 1]?.map((area, index) => (
                 <option key={index} value={area}>
                   {area}
                 </option>

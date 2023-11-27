@@ -1,6 +1,9 @@
 .wrapper {
   padding-bottom: 100px;
-
+  .cardContainer {
+    display: flex;
+    justify-content: center;
+  }
   .mainImage {
     margin: 100px 0 100px 0;
     display: flex;
@@ -12,27 +15,50 @@
     }
   }
 
-  .cardContainer {
-    display: flex;
-    justify-content: center;
+  .commentBox {
+    position: relative;
 
-    .card {
-      margin: 0 50px 0 50px;
-      width: 200px;
-      height: 300px;
-      border: 1px solid black;
-      border-radius: 20px;
+    .infantItem {
+      position: absolute;
+      top: -40px;
+      left: 420px;
+      width: 50px;
+      height: 50px;
+    }
 
-      img {
-        margin: 150px 100px 100px 100px;
-        width: 150px;
-        height: 210px;
-      }
+    .seniorItem {
+      position: absolute;
+      top: 30px;
+      left: 380px;
+      width: 75px;
+      height: 50px;
+    }
 
-      span {
-        margin: 30px;
-        font-size: 20px;
-      }
+    .disabledItem {
+      position: absolute;
+      top: -10px;
+      right: 380px;
+      width: 100px;
+      height: 100px;
+      rotate: 15deg;
+    }
+
+    .comment {
+      margin: 100px 0 50px 0;
+      display: flex;
+      justify-content: center;
+      text-align: center;
     }
   }
+
+  // .message {
+  //   position: fixed;
+  //   bottom: 30px;
+  //   right: 30px;
+  //   width: 50px;
+  //   height: 50px;
+  //   border: 1px solid red;
+  //   background-color: red;
+  //   border-radius: 50%;
+  // }
 }
