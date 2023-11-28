@@ -26,21 +26,21 @@ export default function WritePost({ params, beforeData }) {
     subRegion: beforeData ? beforeData.post.careInformation.area.subRegion : '',
     careTarget: beforeData ? beforeData.post.careInformation.careTarget : predeterminedCareTarget,
     longTerm:
-      // beforeData && beforeData.post.reservation.isLongTerm
-      //   ? {
-      //       ...beforeData.post.reservation.longTerm,
-      //       startDate: new Date(beforeData.post.reservation.longTerm.startDate.slice(0, 10)),
-      //     }:
-      {
-        startDate: new Date(),
-        schedule: [
-          {
-            careDay: '',
-            startTime: mainTime.mainStartTime,
-            endTime: mainTime.mainEndTime,
+      beforeData && beforeData.post.reservation.isLongTerm
+        ? {
+            ...beforeData.post.reservation.longTerm,
+            startDate: new Date(beforeData.post.reservation.longTerm.startDate.slice(0, 10)),
+          }
+        : {
+            startDate: new Date(),
+            schedule: [
+              {
+                careDay: '',
+                startTime: mainTime.mainStartTime,
+                endTime: mainTime.mainEndTime,
+              },
+            ],
           },
-        ],
-      },
     shortTerm:
       beforeData && !beforeData.post.reservation.isLongTerm
         ? [...beforeData.post.reservation.shortTerm]
@@ -228,9 +228,15 @@ export default function WritePost({ params, beforeData }) {
   }, [checkedAgeList]);
 
   const careDaysList = ['월', '화', '수', '목', '금', '토', '일'];
-  const [checkedDaysList, setCheckedDaysList] = React.useState([]);
+  const [checkedDaysList, setCheckedDaysList] = React.useState(['월', '화']);
   const [isDayChecked, setIsDayChecked] = React.useState(false);
   const checkDayHandler = makeCheckHandler(checkedDaysList, setCheckedDaysList, isDayChecked, setIsDayChecked);
+
+  React.useEffect(() => {
+    if (beforeData && beforeData.post.reservation.isLongTerm) {
+      setCheckedDaysList([...beforeData.post.reservation.longTerm.schedule.map((obj) => obj.careDay)]);
+    }
+  }, []);
 
   /** 정기일정 요일 체크박스 실시간 반영 */
   React.useEffect(() => {
@@ -310,11 +316,19 @@ export default function WritePost({ params, beforeData }) {
       </button>
       <button
         onClick={() => {
+          console.log([...beforeData.post.reservation.longTerm.schedule.map((obj) => obj.careDay)]);
+        }}
+      >
+        [...beforeData.post.reservation.longTerm.schedule]
+      </button>
+      <button
+        onClick={() => {
           console.log(checkedDaysList);
         }}
       >
         checkedDaysList
       </button>
+
       <form onSubmit={handleSubmit}>
         <div className={cx('title-wrapper')}>
           <label className={cx('title-level')}>제목</label>
