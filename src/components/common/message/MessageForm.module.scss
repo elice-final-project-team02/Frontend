@@ -1,4 +1,168 @@
 // 신청하기 form 모달 창 스타일
 .wrapper {
-  
+  position: absolute;
+  top: 10%;
+  left: 20%;
+  width: 100%;
+  z-index: 10;
+
+  // 신청 form 모달 창 스타일
+  .request-form-box {
+    max-width: 40rem; // 기본 폰트사이즈 16px * 40 = 640
+    background-color: var(--crl-neutral-100);
+    border-radius: 20px;;
+    box-shadow: 0 0 7px rgba(0,0, 0, .2);
+    padding: 30px;
+    box-sizing: border-box;
+
+    // 돌봄메이트 정보 영역 스타일
+    .request-mate-infos {
+      position: relative;
+      display: flex;
+      align-items: center;
+      padding: 0px 15px 50px;
+      box-sizing: border-box;
+
+      .btn-close {
+        position: absolute;
+        top: 5px;
+        right: 10px;
+        border: 0;
+        border-radius: 10px;
+      }
+
+      .mate-imgbox {
+        flex: 0 0 70px;
+
+        .profile-photo {
+          display: block;
+          width: 100%;
+          object-fit: cover;
+        }
+      }
+      .mateinfo-leftbox {
+        padding-left: 25px;
+        box-sizing: border-box;
+
+        .matename {
+          font-size: 18px;
+          font-weight: 700;
+          margin-right: 10px;
+          line-height: 1.7;
+        }
+        .keyword {
+          display: inline-block;
+          width: 60px;
+          height: 22px;
+          border-radius: 10px;
+          background-color: var(--crl-green-800);
+          text-align: center;
+          font-size: 13px;
+          line-height: 1.5;
+        }
+      }
+
+      //icons box 영역 스타일
+      .icons-box {
+        display: flex;
+        width: 200px;
+        align-items: center;
+        justify-content: space-between;
+
+        .box1 {
+          display: flex;
+          flex-direction: row;
+          flex-wrap:wrap;
+          width: 150px;
+          margin-top: 10px;
+          padding: 5px 0;
+
+          span {
+            flex: 0 0 15px;
+            font-size: 14px;
+          }
+
+          .genderinfo {
+            flex: 0 0 calc(100% - 15px);
+            padding: 0 10px 8px;
+          }
+          .areainfo {
+            flex: 0 0 calc(100% - 15px);
+            display: block;
+            padding: 0 8px;
+
+          }
+          
+        }
+      } // icons box End
+
+      .phonebox {
+        line-height: 1.7;
+        
+        span {
+          display: flex;
+
+          &>svg {
+            color: #888;
+            margin-top: 5px;
+            margin-right: 10px;
+          }
+        }
+        .phonenum {
+          padding-left: 25px;
+        }
+      }
+
+    } // mateinfos End
+
+    .mate-descript {
+      margin-bottom: 30px;
+      text-align: center;
+
+      textarea {
+        padding: 10px 5px;
+        box-sizing: border-box;
+        border: 2px solid var(--crl-neutral-600);
+        border-radius: 10px;
+        outline-color: var(--crl-blue-800);
+        overflow: hidden;
+        resize: none;
+      }
+      p {
+        font-size: 13px;
+        line-height: 1.7;
+        float: right;
+      }
+    }
+
+    // 버튼 스타일
+
+    .request-buttons {
+      text-align: center;
+
+      button {
+        width: 100px;
+        padding: 5px 10px;
+        margin: 0 25px;
+        border: 2px solid var(--crl-blue-800);
+        border-radius: 10px;
+        box-sizing: border-box;
+        font-size: 16px;
+        cursor: pointer;
+
+        &:hover {
+          background-color: var(--crl-red-600);
+        }
+      }
+      .btn-request {
+        background-color: var(--crl-blue-900);
+        color: var(--crl-neutral-100)
+
+        
+      }
+      .btn-request:hover {
+        color: #000;
+      }
+    }
+  }
 }

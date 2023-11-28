@@ -13,7 +13,7 @@ import { Link } from 'react-router-dom';
 import * as date from 'lib';
 import { useGetUser, useDeletePostAndGoHome, useGetRequestGoHome } from 'hooks';
 import * as data from 'lib';
-import MessageForm from 'components/common/message/MessageForm';
+import MessageForm from 'components/common/message/MessageForm.jsx';
 const cx = cs.bind(styles);
 
 export default function PostDetail() {
@@ -23,13 +23,10 @@ export default function PostDetail() {
   const { data: requestData, isLoading: isRequestLoading } = useGetRequestGoHome(postId);
   const { data: userData } = useGetUser();
   const { mutate } = useDeletePostAndGoHome(postId);
+
   // 신청 form 양식 모달창 state
   const [requestForm, setRequestForm] = useState(false);
-  // 돌봄메이트 신청하기 버튼 함수
 
-  const requestButton = () => {
-    setRequestForm(!requestForm);
-  };
 
   React.useEffect(() => {
     if (requestData) {
@@ -212,20 +209,15 @@ export default function PostDetail() {
           <div className={cx('even-columns')}>
             {displayData.userRole === 'careUser' ? (
               <div className={cx('button-wrapper')}>
-                <button
-                  onClick={() => {
-                    requestButton();
-                  }}
-                  className={cx(
-                    'post-badge',
-                    displayData.userRole === 'user' ? 'user-background-accent' : 'care-user-background-accent'
-                  )}
-                >
-                  신청하기
-                </button>
+                {/* 게시글 상세 - 신청하기 버튼 */}
+              <button
+                onClick={() => { setRequestForm(!requestForm) }}
+                className={cx('post-badge', displayData.userRole === 'user' ? 'user-background-accent' : 'care-user-background-accent')}>
+                신청하기
+              </button>
               </div>
             ) : (
-              displayData.userId === displayData.authorId && (
+              displayData.userId !== displayData.authorId && (
                 <div className={cx('button-wrapper', 'post-control-icon')}>
                   <span className={cx('post-edit-icons')}>
                     <Link to={`/posts/${postId}/edit`}>
@@ -269,9 +261,10 @@ export default function PostDetail() {
         </div>
       </div>
 
-      {/* 신청하기 모달창 */}
-
-      {requestForm === true ? <MessageForm /> : null}
+      {/* 신청하기 모달창 띄움 */} 
+      {
+        requestForm === true ? <MessageForm /> : null
+      }
     </div>
   );
 }

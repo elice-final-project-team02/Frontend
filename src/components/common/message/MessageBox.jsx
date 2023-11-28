@@ -22,7 +22,7 @@ export default function MessageBox (props) {
       <MessageList chatInfoSelect={ chatInfoSelect }/>
 
         {
-        selectedChatId !== "" ? <ChattingRoom chatInfoSelect={ chatInfoSelect } selectedChatId={selectedChatId} /> : null
+        selectedChatId !== "" ? <ChattingRoom selectedChatId={selectedChatId} chatInfoSelect={ chatInfoSelect } /> : null
         }
 
       </div>

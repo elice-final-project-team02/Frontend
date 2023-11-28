@@ -25,25 +25,32 @@ export default function WritePost({ params, beforeData }) {
     region: beforeData ? beforeData.post.careInformation.area.region : '',
     subRegion: beforeData ? beforeData.post.careInformation.area.subRegion : '',
     careTarget: beforeData ? beforeData.post.careInformation.careTarget : predeterminedCareTarget,
-    longTerm: {
-      startDate: new Date(),
-      schedule: [
-        {
-          careDay: '',
-          startTime: mainTime.mainStartTime,
-          endTime: mainTime.mainEndTime,
-        },
-      ],
-    },
-    shortTerm: beforeData
-      ? [...beforeData.post.reservation.shortTerm]
-      : [
+    longTerm:
+      // beforeData && beforeData.post.reservation.isLongTerm
+      //   ? {
+      //       ...beforeData.post.reservation.longTerm,
+      //       startDate: new Date(beforeData.post.reservation.longTerm.startDate.slice(0, 10)),
+      //     }:
+      {
+        startDate: new Date(),
+        schedule: [
           {
-            careDate: new Date(99, 1),
+            careDay: '',
             startTime: mainTime.mainStartTime,
             endTime: mainTime.mainEndTime,
           },
         ],
+      },
+    shortTerm:
+      beforeData && !beforeData.post.reservation.isLongTerm
+        ? [...beforeData.post.reservation.shortTerm]
+        : [
+            {
+              careDate: new Date(99, 1),
+              startTime: mainTime.mainStartTime,
+              endTime: mainTime.mainEndTime,
+            },
+          ],
     preferredMateAge: beforeData ? beforeData.post.careInformation.preferredmateAge : [],
     preferredMateGender: beforeData ? beforeData.post.careInformation.preferredmateGender : '',
     hourlyRate: beforeData ? beforeData.post.reservation.hourlyRate : 9620,
@@ -296,10 +303,17 @@ export default function WritePost({ params, beforeData }) {
       </button>
       <button
         onClick={() => {
-          console.log(isEmptyValueInputNames);
+          console.log(beforeData);
         }}
       >
         beforeData
+      </button>
+      <button
+        onClick={() => {
+          console.log(checkedDaysList);
+        }}
+      >
+        checkedDaysList
       </button>
       <form onSubmit={handleSubmit}>
         <div className={cx('title-wrapper')}>
@@ -409,6 +423,7 @@ export default function WritePost({ params, beforeData }) {
             <span className={cx('short-term-tooltip')}>한달 내 선택가능</span>
           </span>
           <Toggle
+            initValue={postContent.careTerm}
             onChange={(e) => {
               if (e.target.checked) {
                 setPostContent({ ...postContent, careTerm: 'long' });
@@ -449,9 +464,7 @@ export default function WritePost({ params, beforeData }) {
           {postContent.careTerm === 'short' && (
             <SeparateDatesPicker postContent={postContent} setPostContent={setPostContent} mainTime={mainTime} />
           )}
-          {/* <div>
-            <NewTwoTimesPicker times={mainTime} setTimes={setMainTime} />
-          </div> */}
+
           <div className={cx('main-time-wrapper')}>
             <label className={cx('title-level')}>시작 시간</label>
             <div className={cx('time-wrapper')}>

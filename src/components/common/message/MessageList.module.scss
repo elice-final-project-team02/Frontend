@@ -61,8 +61,13 @@
     .message-item {
       display: flex;
       justify-content: space-between;
-      align-items: flex-start;
+      align-items: center;
       padding: 0 0 20px;
+
+      // &:hover { 상의 후 적용예정.
+      //   border-radius: 10px;
+      //   background-color: var(--crl-neutral-200);
+      // }
 
       .user-profilebox { // 감싸는 div
         position: relative; 
@@ -88,6 +93,11 @@
       .user-itembox {
         flex: 1 1 auto;
         padding: 0 25px;
+
+        .post-title {
+          font-size: 13px;
+          color: #777;
+        }
 
         .username {
           font-size: 18px;

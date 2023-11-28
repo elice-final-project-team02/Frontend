@@ -2,14 +2,13 @@
 .wrapper {
   overflow: hidden;
   position: fixed;
-  right: 267px;
-  bottom: 140px;
+  right: 107px;
+  bottom: 116px;
   width: 420px;
-  height: 620px;
+  height: 610px;
   background-color: var(--crl-neutral-100);
   box-shadow: 1px 1px 12px #777;
   border-radius: 10px;
-
   opacity: 0;
   transform: scale(0);
   transform-origin: 100% 100%;
@@ -17,6 +16,6 @@
 
   &.open {
     opacity: 1;
-  transform: scale(1);
+    transform: scale(1);
   }
 }

@@ -8,6 +8,7 @@ const cx = cs.bind(styles);
 export default function PostList({ postsData, searchInput, currentPage, onPageChange }) {
   const postsList = postsData.posts;
   const [searchedPostsList, setSearchedPostsList] = useState([]);
+
   useEffect(() => {
     if (!searchInput) {
       setSearchedPostsList(postsList);
@@ -17,12 +18,25 @@ export default function PostList({ postsData, searchInput, currentPage, onPageCh
     }
   }, [searchInput, postsList]);
 
+
+  // const filteredPosts = searchInput
+  //     ? postsList.filter((card) => card.title && card.title.includes(searchInput))
+  //     : postsList;
+
+  //   const startIndex = currentPage * 6;
+  //   const endIndex = startIndex + 6;
+  //   const paginatedPosts = filteredPosts.slice(startIndex, endIndex);
+
+  //   setSearchedPostsList(paginatedPosts);
+  // }, [searchInput, postsList, currentPage]);
+
   return (
     <div className={cx('wrapper')}>
       {searchedPostsList.length > 0 ? (
         <div className={cx('card-list-container')}>
-          {searchedPostsList.map((data, index) => (
-            <Link to={`/posts/${data._id}`} key={index}>
+          {/* {searchedPostsList.map((data, index) => ( */}
+            {searchedPostsList.slice(currentPage * 6, (currentPage + 1) * 6).map((data, index) => (
+            <Link to={`./${data._id}`} key={index}>
               {console.log(`data ${index}:`, data)}
               <Card data={data} />
             </Link>

@@ -1,12 +1,14 @@
 import React from 'react';
 import styles from './FilterCareTarget.module.scss';
 import cs from 'classnames/bind';
+import { useLocation, useSearchParams } from "react-router-dom"
 
 const cx = cs.bind(styles);
 const careTargets = ['아동', '노인', '장애인'];
 
-const FilterCareTarget = () => {
-  // const recruitingPost = [];
+export default function FilterCareTarget(){
+  const [serchParams, setSearchParams] = useSearchParams();
+
   return (
     <div className={cx('wrapper')}>
       <div className={cx('filter-container')}>
@@ -29,4 +31,4 @@ const FilterCareTarget = () => {
   );
 };
 
-export default FilterCareTarget;
+
