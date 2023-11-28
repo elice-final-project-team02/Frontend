@@ -13,14 +13,12 @@ export default function MyMatching() {
   const [searchText, setSearchText] = useState('');
   const [currPage, setCurrPage] = useState(0);
 
-  // get 요청
   const { data, isLoading } = useGetCompletedPostList(role, currPage + 1);
 
   const [postList, setPostList] = useState([]);
 
   useEffect(() => {
     if (data) {
-      console.log(data);
       const mapPostList = data.posts.map((post) => ({
         _id: post._id,
         title: post.title,
@@ -28,7 +26,7 @@ export default function MyMatching() {
       }));
       setPostList(mapPostList);
     }
-  }, [data]);
+  }, [data, role]);
 
   const handleSearchChange = (text) => {
     setSearchText(text);

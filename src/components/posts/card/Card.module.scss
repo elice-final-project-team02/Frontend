@@ -1,4 +1,4 @@
-$base-color-child: #e5ee7b; // 아동
+$base-color-child: #fff0b9; // 아동
 $base-color-senior: #fac7c7; // 노인
 $base-color-disabled: #9cb4fa; // 장애인
 
@@ -60,12 +60,14 @@ $base-color-disabled: #9cb4fa; // 장애인
 
       .time-stamp {
         font-size: 13px;
+        padding: 15px 20px 0 0;
         color: #575757;
       }
 
       .card-status {
-        color: white;
-        font-size: 23px;
+        color: #575757;
+        font-size: 25px;
+        padding: 5px 0 0 5px;
         font-family: var(--ff-accent) !important;
         font-weight: var(--fw-bold);
       }
@@ -94,7 +96,6 @@ $base-color-disabled: #9cb4fa; // 장애인
   }
 
   .upper-info {
-    // display: flex;
     width: 200px;
     flex-wrap: wrap;
 
@@ -109,20 +110,6 @@ $base-color-disabled: #9cb4fa; // 장애인
     display: flex;
     justify-content: space-between;
     align-self: center;
-  }
-
-  .time-stamp {
-    font-size: 13px;
-    padding: 15px 20px 0 0;
-    color: #575757;
-  }
-
-  .card-status {
-    color: white;
-    font-size: 25px;
-    font-family: var(--font-soyoMapleBold) !important;
-    padding: 5px 0 0 5px;
-    text-shadow: 1px 1px 2px #575757;
   }
 
   .extra-info {

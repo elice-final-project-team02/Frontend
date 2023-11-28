@@ -13,3 +13,4 @@ export * from './getSavedPostList';
 export * from './deletePosts';
 export * from './getCompletedPostList';
 export * from './putCancelBookmarks';
+export * from './getPostList';
