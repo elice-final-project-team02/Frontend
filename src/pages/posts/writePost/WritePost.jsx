@@ -287,20 +287,6 @@ export default function WritePost({ params, beforeData }) {
 
   return (
     <div className={cx('wrapper')}>
-      <button
-        onClick={() => {
-          console.log(postContent);
-        }}
-      >
-        postContent
-      </button>
-      <button
-        onClick={() => {
-          console.log(isEmptyValueInputNames);
-        }}
-      >
-        beforeData
-      </button>
       <form onSubmit={handleSubmit}>
         <div className={cx('title-wrapper')}>
           <label className={cx('title-level')}>제목</label>
@@ -449,9 +435,7 @@ export default function WritePost({ params, beforeData }) {
           {postContent.careTerm === 'short' && (
             <SeparateDatesPicker postContent={postContent} setPostContent={setPostContent} mainTime={mainTime} />
           )}
-          {/* <div>
-            <NewTwoTimesPicker times={mainTime} setTimes={setMainTime} />
-          </div> */}
+
           <div className={cx('main-time-wrapper')}>
             <label className={cx('title-level')}>시작 시간</label>
             <div className={cx('time-wrapper')}>
