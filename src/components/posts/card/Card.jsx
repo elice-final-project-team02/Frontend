@@ -3,38 +3,24 @@ import styles from './Card.module.scss';
 import { BsPersonFill } from 'react-icons/bs';
 import { FaMapMarkerAlt, FaCalendar, FaClock } from 'react-icons/fa';
 import { PiMoneyFill } from 'react-icons/pi';
-import targetImg from './draftImage.png';
 import { WishButton } from 'components';
+import { changeDateToMonthAndDate } from 'lib';
 import { LongTerm, ShortTerm, Child, Senior1, Challenged } from 'assets/images';
-import axios from 'axios';
-import { useGetRequest } from 'hooks';
 
 import cs from 'classnames/bind';
 const cx = cs.bind(styles);
 
-export default function Card({
-  post_id,
-  region,
-  subRegion,
-  careTarget,
-  isLongTerm,
-  preferredMateAge,
-  preferredMateGender,
-  author,
-  timestamp,
-  title,
-  care_days,
-  start_time,
-  end_time,
-  hourlyRate,
-  negotiableRate,
-  status,
-  startDate,
-  endDate,
-}) {
+export default function Card({ data }) {
+  const {
+    careInformation: { area, careTarget, preferredmateAge, preferredmateGender },
+    createdAt,
+    reservation: { hourlyRate, isLongTerm, negotiableRate, status },
+    title,
+  } = data;
+
   const titleContainer = cx('title', { 'centered-title': title.length < 10 });
   const formattedHourlyRate = hourlyRate.toLocaleString();
-  const formattedMateAge = preferredMateAge.join(' ');
+  const formattedMateAge = preferredmateAge.join(' ');
 
   const currentCareTarget = cx('main-info', {
     child: careTarget === '아동',
@@ -60,8 +46,8 @@ export default function Card({
             </div>
           </div>
           <div className={cx('main-bottom')}>
-            <span className={cx('card-status')}>{status}</span>
-            <span className={cx('time-stamp')}>등록일 {timestamp}</span>
+            <span className={cx('card-status')}>모집 중</span>
+            <span className={cx('time-stamp')}>등록일 {changeDateToMonthAndDate(createdAt)}</span>
             <WishButton />
           </div>
         </div>
@@ -69,21 +55,21 @@ export default function Card({
           <ul>
             <li className={cx('location')}>
               <FaMapMarkerAlt color="#d3d3d3" className={cx('extra-info-icon')} />
-              {region} {subRegion}
+              {area.region} {area.subRegion}
             </li>
             <li className={cx('date')}>
               <FaCalendar color="#d3d3d3" className={cx('extra-info-icon')} />
-              {startDate}~ ({care_days})
+              {/* {startDate}~ ({care_days}) */}
             </li>
             <li className={cx('time')}>
               <FaClock color="#d3d3d3" className={cx('extra-info-icon')} />
-              {start_time}, {end_time}
+              {/* {start_time}, {end_time} */}
             </li>
             <li className={cx('prefer-mate')}>
               <BsPersonFill color="#d3d3d3" className={cx('extra-info-icon')} />
               {formattedMateAge}
               <br />
-              {preferredMateGender}
+              {preferredmateGender}
             </li>
             <li className={cx('wage')}>
               <PiMoneyFill color="#d3d3d3" className={cx('extra-info-icon')} />
