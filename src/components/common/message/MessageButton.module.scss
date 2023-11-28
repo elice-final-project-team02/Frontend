@@ -1,9 +1,10 @@
 .wrapper {
+  width: 100%;
   .message-box-btn {
     position: fixed;
+    width: 65px;
     right: 100px;
-    bottom: 60px;
-    width: 75px;
+    bottom: 35px;
     background: inherit;
     border-radius:0;
     border:none; 
@@ -11,6 +12,8 @@
     padding:0; 
     overflow: visible; 
     cursor: pointer;
+
+    
   }
 }
 
