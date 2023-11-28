@@ -22,7 +22,7 @@ export const PrivateRoute = ({ children }) => {
   const isLoggedIn = useRecoilValue(isLoggedInState);
   const role = useRecoilValue(roleState);
 
-  console.log(isLoggedIn, role);
+  // console.log(isLoggedIn, role);
 
   return data ? children : null;
 };

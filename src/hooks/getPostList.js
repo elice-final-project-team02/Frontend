@@ -22,9 +22,7 @@ import { errorHandler } from 'lib';
 //     staleTime: Infinity,
 //   });
 
-
 // }
-
 
 const getPostList = async (pageNumber) => {
   const response = await axios.get(`/api/post?page=${pageNumber}&limit=6`, {
