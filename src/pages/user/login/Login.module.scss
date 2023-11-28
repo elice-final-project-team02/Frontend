@@ -1,2 +1,74 @@
 .wrapper {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+
+  .logo {
+    width: 350px;
+    margin: 50px 0 50px 0;
+  }
+
+  .loginContainer {
+    display: flex;
+    flex-direction: column;
+    input {
+      padding-left: 10px;
+      font-size: 18px;
+      border: 1px solid var(--crl-blue-800);
+      margin-bottom: 30px;
+      width: 400px;
+      height: 50px;
+    }
+
+    input::placeholder {
+      font-size: 18px;
+    }
+
+    button {
+      background-color: var(--crl-blue-800);
+      border: 1px solid var(--crl-blue-800);
+      color: #fff;
+      cursor: pointer;
+      font-size: 18px;
+      width: 400px;
+      height: 50px;
+    }
+
+    .register {
+      span {
+        cursor: pointer;
+      }
+      font-size: 16px;
+      margin: 20px;
+      display: flex;
+      justify-content: flex-end;
+    }
+  }
+  .imageBox {
+    .infantItem {
+      position: relative;
+      left: -130px;
+      top: 20px;
+      width: 60px;
+      height: 60px;
+    }
+
+    .seniorItem {
+      position: relative;
+      left: -170px;
+      top: 40px;
+      width: 75px;
+      height: 50px;
+    }
+
+    .disabledItem {
+      position: relative;
+      left: 170px;
+      top: -60px;
+      width: 100px;
+      height: 100px;
+      rotate: 15deg;
+    }
+  }
 } //wrapper close (이 안에서 작업하기)
