@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useParams } from 'react-router-dom';
 import styles from './PostDetail.module.scss';
 import cs from 'classnames/bind';
 import { FiTrash } from 'react-icons/fi';
@@ -17,7 +17,8 @@ import MessageForm from 'components/common/message/MessageForm';
 const cx = cs.bind(styles);
 
 export default function PostDetail() {
-  const postId = '65644e7f164e5ba71654b75b';
+  const { id } = useParams();
+  const postId = id;
   const [displayData, setDisplayData] = React.useState({});
   const { data: requestData, isLoading: isRequestLoading } = useGetRequestGoHome(postId);
   const { data: userData } = useGetUser();
@@ -31,7 +32,6 @@ export default function PostDetail() {
   };
 
   React.useEffect(() => {
-    console.log(requestData);
     if (requestData) {
       setDisplayData({
         title: requestData.post.title,
@@ -103,172 +103,169 @@ export default function PostDetail() {
       <span className={cx('role-bookmark', displayData.isLongTerm ? 'long-term-background' : 'short-term-background')}>
         {displayData.isLongTerm ? '정기' : '단기'}
       </span>
-      <button onClick={() => console.log(requestData)}>조회</button>
-      <div
-        className={cx(
-          'title-wrapper',
-          displayData.userRole === 'user' ? 'user-role-background' : 'care-user-role-background'
-        )}
-      >
-        <div className={cx('even-columns')}>
-          <div className={cx('writer-image-wrapper')}>
-            {displayData.authorImageUrl ? (
-              <span className={cx('writer-image')}>
-                <img src={displayData.authorImageUrl} alt="작성자 프로필사진" />
-              </span>
-            ) : (
-              <span className={cx('writer-image')}>{<IoMdPerson />}</span>
-            )}
-
-            <span>{displayData.authorName}</span>
-          </div>
-        </div>
-        <div className={cx('even-columns')}>
-          <div className={cx('post-title-wrapper')}>
-            <p className={cx('post-title')}>{displayData.title}</p>
-            <div className={cx('post-badge-wrapper')}>
-              <span
-                className={cx(
-                  'post-badge',
-                  displayData.userRole === 'user' ? 'user-background-accent' : 'care-user-background-accent'
-                )}
-              >
-                {displayData.status}
-              </span>
-            </div>
-          </div>
-        </div>
-        <div className={cx('even-columns')}>
-          <div className={cx('post-information-wrapper')}>
-            <div className={cx('icon-text-wrapper')}>
-              <span className={cx('information-icons')}>
-                <MdLocationOn />
-              </span>
-              <span className={cx('text-information')}>{`${displayData.region} ${displayData.subRegion}`}</span>
-            </div>
-            <div className={cx('icon-text-wrapper')}>
-              <span className={cx('information-icons')}>
-                <AiFillCalendar />
-              </span>
-              {displayData.isLongTerm ? (
-                <span className={cx('text-information')}>
-                  {`${date.changeDateToMonthAndDate(
-                    displayData.longTerm.startDate
-                  )} ~ ${displayData.longTerm.schedule.map((obj) => obj.careDay)}`}
+      <div className={cx('inside-wrapper')}>
+        <div
+          className={cx(
+            'title-wrapper',
+            displayData.userRole === 'user' ? 'user-role-background' : 'care-user-role-background'
+          )}
+        >
+          <div className={cx('even-columns')}>
+            <div className={cx('writer-image-wrapper')}>
+              {displayData.authorImageUrl ? (
+                <span className={cx('writer-image')}>
+                  <img src={displayData.authorImageUrl} alt="작성자 프로필사진" />
                 </span>
               ) : (
-                displayData.shortTerm && (
+                <span className={cx('writer-image')}>{<IoMdPerson />}</span>
+              )}
+              <span>{displayData.authorName}</span>
+            </div>
+          </div>
+          <div className={cx('even-columns')}>
+            <div className={cx('post-title-wrapper')}>
+              <p className={cx('post-title')}>{displayData.title}</p>
+              <div className={cx('post-badge-wrapper')}>
+                <span
+                  className={cx(
+                    'post-badge',
+                    displayData.userRole === 'user' ? 'user-background-accent' : 'care-user-background-accent'
+                  )}
+                >
+                  {displayData.status}
+                </span>
+              </div>
+            </div>
+          </div>
+          <div className={cx('even-columns')}>
+            <div className={cx('post-information-wrapper')}>
+              <div className={cx('icon-text-wrapper')}>
+                <span className={cx('information-icons')}>
+                  <MdLocationOn />
+                </span>
+                <span className={cx('text-information')}>{`${displayData.region} ${displayData.subRegion}`}</span>
+              </div>
+              <div className={cx('icon-text-wrapper')}>
+                <span className={cx('information-icons')}>
+                  <AiFillCalendar />
+                </span>
+                {displayData.isLongTerm ? (
                   <span className={cx('text-information')}>
                     {`${date.changeDateToMonthAndDate(
-                      displayData?.shortTerm[0].careDate
-                    )} ~ ${date.changeDateToMonthAndDate(
-                      displayData?.shortTerm[displayData.shortTerm.length - 1].careDate
-                    )} (총 ${displayData.shortTerm.length}일)`}
+                      displayData.longTerm.startDate
+                    )} ~ ${displayData.longTerm.schedule.map((obj) => obj.careDay)}`}
                   </span>
-                )
-              )}
-            </div>
-            <div className={cx('icon-text-wrapper')}>
-              <span className={cx('information-icons', 'watch-icon')}>
-                <MdWatchLater />
-              </span>
-              {displayData.isLongTerm ? (
-                <span className={cx('text-information')}>
-                  {displayData.longTerm &&
-                    `${date.changeDateToAmPmAndHour(
-                      displayData.longTerm.schedule[0]?.startTime
-                    )} ~ ${date.changeDateToAmPmAndHour(displayData.longTerm.schedule[0]?.endTime)}`}
+                ) : (
+                  displayData.shortTerm && (
+                    <span className={cx('text-information')}>
+                      {`${date.changeDateToMonthAndDate(
+                        displayData?.shortTerm[0].careDate
+                      )} ~ ${date.changeDateToMonthAndDate(
+                        displayData?.shortTerm[displayData.shortTerm.length - 1].careDate
+                      )} (총 ${displayData.shortTerm.length}일)`}
+                    </span>
+                  )
+                )}
+              </div>
+              <div className={cx('icon-text-wrapper')}>
+                <span className={cx('information-icons', 'watch-icon')}>
+                  <MdWatchLater />
                 </span>
-              ) : (
-                <span className={cx('text-information')}>
-                  {displayData.shortTerm &&
-                    `${date.changeDateToAmPmAndHour(
-                      displayData.shortTerm[0].startTime
-                    )} ~ ${date.changeDateToAmPmAndHour(displayData.shortTerm[0].endTime)}`}
+                {displayData.isLongTerm ? (
+                  <span className={cx('text-information')}>
+                    {displayData.longTerm &&
+                      `${date.changeDateToAmPmAndHour(
+                        displayData.longTerm.schedule[0]?.startTime
+                      )} ~ ${date.changeDateToAmPmAndHour(displayData.longTerm.schedule[0]?.endTime)}`}
+                  </span>
+                ) : (
+                  <span className={cx('text-information')}>
+                    {displayData.shortTerm &&
+                      `${date.changeDateToAmPmAndHour(
+                        displayData.shortTerm[0].startTime
+                      )} ~ ${date.changeDateToAmPmAndHour(displayData.shortTerm[0].endTime)}`}
+                  </span>
+                )}
+              </div>
+              <div className={cx('icon-text-wrapper')}>
+                <span className={cx('information-icons')}>
+                  <IoMdPerson />
                 </span>
-              )}
-            </div>
-            <div className={cx('icon-text-wrapper')}>
-              <span className={cx('information-icons')}>
-                <IoMdPerson />
-              </span>
-              <span className={cx('text-information')}>
-                {displayData.preferredmateAge &&
-                  formmatAgeListToTrimPretty(displayData.preferredmateAge).map((item, index) => (
-                    <span key={index}>{item} </span>
-                  ))}
-              </span>
-              <span className={cx('text-information', 'gender-span')}>{displayData.preferredmateGender}</span>
-            </div>
-            <div className={cx('icon-text-wrapper')}>
-              <span className={cx('information-icons')}>
-                <PiMoneyFill />
-              </span>
-              <span className={cx('text-information')}>{`${data.addCommas(displayData.hourlyRate)}원 ${
-                displayData.negotiableRate ? '(협의가능)' : ''
-              }`}</span>
+                <span className={cx('text-information')}>
+                  {displayData.preferredmateAge &&
+                    formmatAgeListToTrimPretty(displayData.preferredmateAge).map((item, index) => (
+                      <span key={index}>{item} </span>
+                    ))}
+                </span>
+                <span className={cx('text-information', 'gender-span')}>{displayData.preferredmateGender}</span>
+              </div>
+              <div className={cx('icon-text-wrapper')}>
+                <span className={cx('information-icons')}>
+                  <PiMoneyFill />
+                </span>
+                <span className={cx('text-information')}>{`${data.addCommas(displayData.hourlyRate)}원 ${
+                  displayData.negotiableRate ? '(협의가능)' : ''
+                }`}</span>
+              </div>
             </div>
           </div>
-        </div>
-        <div className={cx('even-columns')}>
-          {displayData.userRole === 'careUser' ? (
-            <div className={cx('button-wrapper')}>
-              <button
-                onClick={() => {
-                  requestButton();
-                }}
-                className={cx(
-                  'post-badge',
-                  displayData.userRole === 'user' ? 'user-background-accent' : 'care-user-background-accent'
-                )}
-              >
-                신청하기
-              </button>
-            </div>
-          ) : (
-            displayData.userId === displayData.authorId && (
-              <div className={cx('button-wrapper', 'post-control-icon')}>
-                <span className={cx('post-edit-icons')}>
-                  <Link to={`/posts/${postId}/edit`}>
-                    <BiSolidPencil />
-                  </Link>
-                </span>
-                <span className={cx('post-edit-icons')} onClick={handleDeletePost}>
-                  <PiTrashFill />
-                </span>
-                <button>
-                  <Link to="/posts/new">글 작성(임시)</Link>
+          <div className={cx('even-columns')}>
+            {displayData.userRole === 'careUser' ? (
+              <div className={cx('button-wrapper')}>
+                <button
+                  onClick={() => {
+                    requestButton();
+                  }}
+                  className={cx(
+                    'post-badge',
+                    displayData.userRole === 'user' ? 'user-background-accent' : 'care-user-background-accent'
+                  )}
+                >
+                  신청하기
                 </button>
               </div>
-            )
-          )}
-        </div>
-      </div>
-      <div className={cx('body-wrapper')}>
-        <pre>{displayData.content}</pre>
-      </div>
-      <div
-        className={cx(
-          'description-wrapper',
-          displayData.userRole === 'user' ? 'user-role-background' : 'care-user-role-background'
-        )}
-      >
-        <div className={cx('even-columns')}>
-          <div className={cx('features-wrapper')}>
-            <p>
-              <span>돌봄 대상 특징</span>
-              <span>{displayData.targetFeatures}</span>
-            </p>
-            <p>
-              <span>돌봄 대상 유의사항</span>
-              <span>{displayData.cautionNotes}</span>
-            </p>
+            ) : (
+              displayData.userId === displayData.authorId && (
+                <div className={cx('button-wrapper', 'post-control-icon')}>
+                  <span className={cx('post-edit-icons')}>
+                    <Link to={`/posts/${postId}/edit`}>
+                      <BiSolidPencil />
+                    </Link>
+                  </span>
+                  <span className={cx('post-edit-icons')} onClick={handleDeletePost}>
+                    <PiTrashFill />
+                  </span>
+                </div>
+              )
+            )}
           </div>
         </div>
-        <div className={cx('even-columns')}>
-          <span className={cx('target-image-wrapper')}>
-            <img src={Child} alt="" />
-          </span>
+        <div className={cx('body-wrapper')}>
+          <pre>{displayData.content}</pre>
+        </div>
+        <div
+          className={cx(
+            'description-wrapper',
+            displayData.userRole === 'user' ? 'user-role-background' : 'care-user-role-background'
+          )}
+        >
+          <div className={cx('even-columns')}>
+            <div className={cx('features-wrapper')}>
+              <p>
+                <span>돌봄 대상 특징</span>
+                <span>{displayData.targetFeatures}</span>
+              </p>
+              <p>
+                <span>돌봄 대상 유의사항</span>
+                <span>{displayData.cautionNotes}</span>
+              </p>
+            </div>
+          </div>
+          <div className={cx('even-columns')}>
+            <span className={cx('target-image-wrapper')}>
+              <img src={Child} alt="" />
+            </span>
+          </div>
         </div>
       </div>
 

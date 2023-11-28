@@ -1,7 +1,6 @@
 import axios from 'axios';
-import { QueryClient, useMutation } from 'react-query';
+import { useMutation, useQueryClient } from 'react-query';
 import { errorHandler } from 'lib';
-import { useGetRequestGoHome } from './getRequest';
 import { useNavigate } from 'react-router';
 
 const deletePost = async (postId) => {
@@ -26,13 +25,12 @@ export function useDeletePost() {
 }
 
 export function useDeletePostAndGoHome(postId) {
-  const { data: post } = useGetRequestGoHome();
   const navigate = useNavigate();
-  const queryClient = new QueryClient();
+  const queryClient = useQueryClient();
 
   return useMutation(() => deletePost(postId), {
     onSuccess: (response) => {
-      queryClient.invalidateQueries(post);
+      queryClient.invalidateQueries('getPostList');
       alert(response.message);
       navigate('/posts');
     },

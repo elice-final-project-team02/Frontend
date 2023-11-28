@@ -1,3 +1,4 @@
+@import 'styles/_mixin';
 .wrapper {
   padding: 80px 80px;
   position: relative;
@@ -301,33 +302,16 @@
       margin-right: 16px;
     }
   }
-
   .button-wrapper {
     button {
-      width: 110px;
-      padding-block: 6px;
-      border-radius: 4px;
-      border-width: 1px;
-      border-style: solid;
-      cursor: pointer;
+      @include button;
     }
   }
   .primary {
-    background-color: var(--crl-blue-800);
-    border-color: var(--crl-blue-800);
-    color: var(--crl-neutral-100);
-    &:hover {
-      background-color: var(--crl-neutral-100);
-      color: var(--crl-blue-800);
-    }
+    @include button-primary;
   }
 
   .cancel {
-    background-color: var(--crl-red-100);
-    border-color: var(--crl-blue-800);
-    &:hover {
-      background-color: var(--crl-neutral-100);
-      color: var(--crl-blue-800);
-    }
+    @include button-cancel;
   }
 } // wrapper close

@@ -22,7 +22,7 @@ export default function PostList({ postsData, searchInput, currentPage, onPageCh
       {searchedPostsList.length > 0 ? (
         <div className={cx('card-list-container')}>
           {searchedPostsList.map((data, index) => (
-            <Link to={`./post/${data._id}`} key={index}>
+            <Link to={`/posts/${data._id}`} key={index}>
               {console.log(`data ${index}:`, data)}
               <Card data={data} />
             </Link>

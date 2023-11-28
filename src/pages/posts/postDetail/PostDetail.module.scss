@@ -2,6 +2,13 @@
   padding-inline: 50px;
   // 유저 role에 따른 class
   position: relative;
+
+  .inside-wrapper {
+    box-shadow:
+      rgba(50, 50, 93, 0.25) 0px 6px 12px -2px,
+      rgba(0, 0, 0, 0.3) 0px 3px 7px -3px;
+  }
+
   .user-role-background {
     background-color: var(--crl-blue-100);
   }
@@ -54,15 +61,15 @@
 
   .title-wrapper {
     min-height: 200px;
+    padding-block: 50px;
   }
   .body-wrapper {
     padding: 50px 100px;
-    min-height: 350px;
+    min-height: 400px;
     font-size: 20px;
   }
   .description-wrapper {
     min-height: 200px;
-    border-radius: 50px;
   }
 
   .title-wrapper {
@@ -76,9 +83,12 @@
     flex-direction: column;
     justify-content: center;
     gap: 36px;
+    padding-inline: 10px;
+    word-break: keep-all;
     .post-title {
       font-size: 25px;
       font-weight: var(--fw-bold);
+      line-height: 1.3;
     }
   }
 
