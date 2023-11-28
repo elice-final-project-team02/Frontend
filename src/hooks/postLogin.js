@@ -19,7 +19,7 @@ const postLogin = async (email, password) => {
 };
 
 export function usePostLogin(email, password) {
-  const nav = useNavigate();
+  const navigate = useNavigate();
   const setLoggedIn = useSetRecoilState(isLoggedInState);
   const setRole = useSetRecoilState(roleState);
 
@@ -28,10 +28,11 @@ export function usePostLogin(email, password) {
       alert(response.message);
       setLoggedIn(true);
       setRole(response.data.role.role);
-      nav('/');
+      navigate('/');
     },
     onError: (error) => {
-      errorHandler(error);
+      errorHandler(error, navigate);
     },
+    retry: 0,
   });
 }

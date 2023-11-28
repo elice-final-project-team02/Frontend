@@ -1,5 +1,5 @@
 // App.js 에서 로그인상태 확인을 위해 get 요청을 보내는 컴포넌트
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Footer } from './common/footer';
 import { Header } from './common/header';
 import { MaxWidth } from './common/maxWidth';
@@ -16,19 +16,19 @@ export default function UserVerifiedApp() {
   const setIsLoggedIn = useSetRecoilState(isLoggedInState);
   const setIsLoading = useSetRecoilState(isLoadingState);
   const setRole = useSetRecoilState(roleState);
-  const { data, error } = useGetUser();
+  // const { data, error } = useGetUser();
 
-  useEffect(() => {
-    if (data) {
-      setIsLoggedIn(true);
-      setRole(data.role.role);
-      setIsLoading(false);
-    } else if (error && error.response && (error.response.status === 401 || error.response.status === 403)) {
-      setIsLoggedIn(false);
-      setRole('');
-      setIsLoading(false);
-    }
-  }, [data, error, setIsLoggedIn, setRole, setIsLoading]);
+  // useEffect(() => {
+  //   if (data) {
+  //     setIsLoggedIn(true);
+  //     setRole(data.role.role);
+  //     setIsLoading(false);
+  //   } else if (error && error.response && (error.response.status === 401 || error.response.status === 403)) {
+  //     setIsLoggedIn(false);
+  //     setRole('');
+  //     setIsLoading(false);
+  //   }
+  // }, [data, error, setIsLoggedIn, setRole, setIsLoading]);
 
   return (
     <div className="entireWrapper">
