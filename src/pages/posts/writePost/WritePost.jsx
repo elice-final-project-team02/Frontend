@@ -87,7 +87,6 @@ export default function WritePost({ params, beforeData }) {
     e.preventDefault();
     checkEmptyValue();
     checkEmptyValueOfDate();
-    console.log(isEmptyValueInputNames);
     if (isEmptyValueInputNames.length > 0) {
       alert('작성을 모두 완료해주시기 바랍니다');
       return;

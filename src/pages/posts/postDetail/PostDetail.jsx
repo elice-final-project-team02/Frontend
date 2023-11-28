@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useParams } from 'react-router-dom';
 import styles from './PostDetail.module.scss';
 import cs from 'classnames/bind';
 import { FiTrash } from 'react-icons/fi';
@@ -17,7 +17,8 @@ import MessageForm from 'components/common/message/MessageForm';
 const cx = cs.bind(styles);
 
 export default function PostDetail() {
-  const postId = '65644e7f164e5ba71654b75b';
+  const { id } = useParams();
+  const postId = id;
   const [displayData, setDisplayData] = React.useState({});
   const { data: requestData, isLoading: isRequestLoading } = useGetRequestGoHome(postId);
   const { data: userData } = useGetUser();
@@ -31,7 +32,6 @@ export default function PostDetail() {
   };
 
   React.useEffect(() => {
-    console.log(requestData);
     if (requestData) {
       setDisplayData({
         title: requestData.post.title,
@@ -103,7 +103,6 @@ export default function PostDetail() {
       <span className={cx('role-bookmark', displayData.isLongTerm ? 'long-term-background' : 'short-term-background')}>
         {displayData.isLongTerm ? '정기' : '단기'}
       </span>
-      <button onClick={() => console.log(requestData)}>조회</button>
       <div
         className={cx(
           'title-wrapper',
