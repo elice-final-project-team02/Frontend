@@ -5,8 +5,8 @@ import cs from 'classnames/bind';
 
 const cx = cs.bind(styles);
 
-const WishButton = () => {
-  const [isWish, setIsWish] = useState(false);
+export default function WishButton(isBookmarked) {
+  const [isWish, setIsWish] = useState(isBookmarked);
 
   const handleClick = () => {
     setIsWish(!isWish);
@@ -33,5 +33,3 @@ const WishButton = () => {
     </div>
   );
 };
-
-export default WishButton;

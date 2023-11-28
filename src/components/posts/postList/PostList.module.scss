@@ -3,10 +3,11 @@
     display: flex;
     justify-content: center;
     flex-wrap: wrap;
-    gap: 50px;
+    margin: 40px 0;
+    gap: 40px 80px;
   }
 
-  .card-list-container > * {
-    margin: 20px 35px 10px 35px;
-  }
+  // .card-list-container > * {
+  //   margin: 10px 10px;
+  // }
 }

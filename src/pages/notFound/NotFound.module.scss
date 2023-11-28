@@ -1,15 +1,41 @@
 .wrapper {
   display: flex;
-  flex-direction: column;
-  text-align: center;
   justify-content: center;
   align-items: center;
-  gap: 20px;
-  padding-block: 3rem;
-  h2 {
-    font-size: 30px;
-  }
-  button {
-    width: 100px;
+  height: 100vh;
+
+  .errorContainer {
+    display: flex;
+    flex-direction: column;
+    text-align: center;
+    justify-content: center;
+    align-items: center;
+    gap: 20px;
+    padding-block: 3rem;
+
+    img {
+      margin: 20px;
+      width: 400px;
+      height: 100px;
+    }
+
+    h2 {
+      font-size: 30px;
+    }
+
+    button {
+      width: 100px;
+      height: 40px;
+      background-color: var(--crl-blue-700);
+      border: 1px solid var(--crl-blue-700);
+      border-radius: 5px;
+      cursor: pointer;
+      transition: 0.3s ease-in-out;
+    }
+
+    button:hover {
+      background-color: var(--crl-blue-800);
+      border: 1px solid var(--crl-blue-800);
+    }
   }
 } // wrapper close
