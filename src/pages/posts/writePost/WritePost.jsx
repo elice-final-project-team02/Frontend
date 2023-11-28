@@ -36,7 +36,7 @@ export default function WritePost({ params, beforeData }) {
       ],
     },
     shortTerm: beforeData
-      ? [...beforeData.post.reservation.shortTerm]
+      ? null
       : [
           {
             careDate: new Date(99, 1),
@@ -221,7 +221,11 @@ export default function WritePost({ params, beforeData }) {
   }, [checkedAgeList]);
 
   const careDaysList = ['월', '화', '수', '목', '금', '토', '일'];
-  const [checkedDaysList, setCheckedDaysList] = React.useState([]);
+  const [checkedDaysList, setCheckedDaysList] = React.useState(
+    beforeData.post.reservation.isLongTerm
+      ? [...beforeData.post.reservation.longTerm.schedule.map((obj) => obj.careDay)]
+      : ['월', '화']
+  );
   const [isDayChecked, setIsDayChecked] = React.useState(false);
   const checkDayHandler = makeCheckHandler(checkedDaysList, setCheckedDaysList, isDayChecked, setIsDayChecked);
 
@@ -287,6 +291,27 @@ export default function WritePost({ params, beforeData }) {
 
   return (
     <div className={cx('wrapper')}>
+      <button
+        onClick={() => {
+          console.log(postContent);
+        }}
+      >
+        postContent
+      </button>
+      <button
+        onClick={() => {
+          console.log(beforeData);
+        }}
+      >
+        beforeData
+      </button>
+      <button
+        onClick={() => {
+          console.log(checkedDaysList);
+        }}
+      >
+        checkedDaysList
+      </button>
       <form onSubmit={handleSubmit}>
         <div className={cx('title-wrapper')}>
           <label className={cx('title-level')}>제목</label>
@@ -395,6 +420,7 @@ export default function WritePost({ params, beforeData }) {
             <span className={cx('short-term-tooltip')}>한달 내 선택가능</span>
           </span>
           <Toggle
+            initValue={postContent.careTerm}
             onChange={(e) => {
               if (e.target.checked) {
                 setPostContent({ ...postContent, careTerm: 'long' });

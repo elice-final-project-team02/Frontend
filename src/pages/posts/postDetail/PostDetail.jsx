@@ -225,7 +225,7 @@ export default function PostDetail() {
                 </button>
               </div>
             ) : (
-              displayData.userId === displayData.authorId && (
+              displayData.userId !== displayData.authorId && (
                 <div className={cx('button-wrapper', 'post-control-icon')}>
                   <span className={cx('post-edit-icons')}>
                     <Link to={`/posts/${postId}/edit`}>
