@@ -13,10 +13,11 @@ export function usePutUser() {
   const queryClient = useQueryClient();
   return useMutation((userInfo) => putUser(userInfo), {
     onSettled: () => {
-      queryClient.invalidateQueries('get-user');
+      // queryClient.invalidateQueries('get-user');
     },
     onSuccess: (response) => {
       alert(response.message);
+      queryClient.invalidateQueries('get-user');
     },
     onError: (error) => {
       errorHandler(error, navigate);
