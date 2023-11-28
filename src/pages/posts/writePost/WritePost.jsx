@@ -25,25 +25,32 @@ export default function WritePost({ params, beforeData }) {
     region: beforeData ? beforeData.post.careInformation.area.region : '',
     subRegion: beforeData ? beforeData.post.careInformation.area.subRegion : '',
     careTarget: beforeData ? beforeData.post.careInformation.careTarget : predeterminedCareTarget,
-    longTerm: {
-      startDate: new Date(),
-      schedule: [
-        {
-          careDay: '',
-          startTime: mainTime.mainStartTime,
-          endTime: mainTime.mainEndTime,
-        },
-      ],
-    },
-    shortTerm: beforeData
-      ? null
-      : [
+    longTerm:
+      // beforeData && beforeData.post.reservation.isLongTerm
+      //   ? {
+      //       ...beforeData.post.reservation.longTerm,
+      //       startDate: new Date(beforeData.post.reservation.longTerm.startDate.slice(0, 10)),
+      //     }:
+      {
+        startDate: new Date(),
+        schedule: [
           {
-            careDate: new Date(99, 1),
+            careDay: '',
             startTime: mainTime.mainStartTime,
             endTime: mainTime.mainEndTime,
           },
         ],
+      },
+    shortTerm:
+      beforeData && !beforeData.post.reservation.isLongTerm
+        ? [...beforeData.post.reservation.shortTerm]
+        : [
+            {
+              careDate: new Date(99, 1),
+              startTime: mainTime.mainStartTime,
+              endTime: mainTime.mainEndTime,
+            },
+          ],
     preferredMateAge: beforeData ? beforeData.post.careInformation.preferredmateAge : [],
     preferredMateGender: beforeData ? beforeData.post.careInformation.preferredmateGender : '',
     hourlyRate: beforeData ? beforeData.post.reservation.hourlyRate : 9620,
@@ -221,11 +228,7 @@ export default function WritePost({ params, beforeData }) {
   }, [checkedAgeList]);
 
   const careDaysList = ['월', '화', '수', '목', '금', '토', '일'];
-  const [checkedDaysList, setCheckedDaysList] = React.useState(
-    beforeData.post.reservation.isLongTerm
-      ? [...beforeData.post.reservation.longTerm.schedule.map((obj) => obj.careDay)]
-      : ['월', '화']
-  );
+  const [checkedDaysList, setCheckedDaysList] = React.useState([]);
   const [isDayChecked, setIsDayChecked] = React.useState(false);
   const checkDayHandler = makeCheckHandler(checkedDaysList, setCheckedDaysList, isDayChecked, setIsDayChecked);
 

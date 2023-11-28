@@ -83,8 +83,7 @@
     flex-direction: column;
     justify-content: center;
     gap: 36px;
-    padding-inline: 10px;
-    word-break: keep-all;
+    word-wrap: normal;
     .post-title {
       font-size: 25px;
       font-weight: var(--fw-bold);
@@ -138,6 +137,7 @@
     height: 100%;
     justify-content: center;
     gap: 4px;
+    padding-inline: 30px;
     margin-top: -5px;
     .text-information {
       font-size: 15px;
