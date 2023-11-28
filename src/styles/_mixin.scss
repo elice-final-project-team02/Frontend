@@ -1,0 +1,26 @@
+@mixin button {
+  width: 110px;
+  height: 40px;
+  padding-block: 6px;
+  border-radius: 10px;
+  border-width: 1px;
+  border-style: solid;
+  border-color: var(--crl-blue-800);
+  transition: 0.2s;
+  cursor: pointer;
+}
+
+@mixin button-primary {
+  background: var(--crl-blue-900);
+  color: var(--crl-neutral-100);
+  &:hover {
+    color: var(--crl-neutral-900);
+  }
+}
+@mixin button-cancel {
+  background: var(--crl-neutral-100);
+  color: var(--crl-neutral-900);
+  &:hover {
+    background: var(--crl-blue-700);
+  }
+}
