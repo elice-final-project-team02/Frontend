@@ -4,7 +4,7 @@ import { BsPersonFill } from 'react-icons/bs';
 import { FaMapMarkerAlt, FaCalendar, FaClock } from 'react-icons/fa';
 import { PiMoneyFill } from 'react-icons/pi';
 import { WishButton } from 'components';
-import { changeDateToMonthAndDate } from 'lib';
+import * as date from 'lib';
 import { LongTerm, ShortTerm, Child, Senior1, Challenged } from 'assets/images';
 
 import cs from 'classnames/bind';
@@ -12,9 +12,10 @@ const cx = cs.bind(styles);
 
 export default function Card({ data }) {
   const {
-    careInformation: { area, careTarget, preferredmateAge, preferredmateGender },
+    careInformation: { area, careTarget, preferredmateAge, preferredmateGender, isBookmarked
+    },
     createdAt,
-    reservation: { hourlyRate, isLongTerm, negotiableRate, status },
+    reservation: { hourlyRate, isLongTerm, negotiableRate, status, longTerm, shortTerm },
     title,
   } = data;
 
@@ -47,7 +48,7 @@ export default function Card({ data }) {
           </div>
           <div className={cx('main-bottom')}>
             <span className={cx('card-status')}>모집 중</span>
-            <span className={cx('time-stamp')}>등록일 {changeDateToMonthAndDate(createdAt)}</span>
+            <span className={cx('time-stamp')}>등록일 {date.changeDateToMonthAndDate(createdAt)}</span>
             <WishButton />
           </div>
         </div>
@@ -59,7 +60,23 @@ export default function Card({ data }) {
             </li>
             <li className={cx('date')}>
               <FaCalendar color="#d3d3d3" className={cx('extra-info-icon')} />
-              {/* {startDate}~ ({care_days}) */}
+              {isLongTerm ? (
+                <span className={cx('text-information')}>
+                  {`${date.changeDateToMonthAndDate(
+                    longTerm.startDate
+                  )}~ ${longTerm.schedule.map((obj) => obj.careDay).join(' ')}`}
+                </span>
+              ) : (
+                shortTerm && (
+                  <span className={cx('text-information')}>
+                    {`${date.changeDateToMonthAndDate(
+                      shortTerm[0].careDate
+                    )} ~ ${date.changeDateToMonthAndDate(
+                      shortTerm[shortTerm.length - 1].careDate
+                    )} (총 ${shortTerm.length}일)`}
+                  </span>
+                )
+              )}
             </li>
             <li className={cx('time')}>
               <FaClock color="#d3d3d3" className={cx('extra-info-icon')} />
