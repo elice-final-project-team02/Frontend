@@ -12,14 +12,15 @@ const deleteUser = async (password) => {
 };
 
 export function useDeleteUser(password) {
-  const nav = useNavigate();
+  const navigate = useNavigate();
   return useMutation(() => deleteUser(password), {
     onSuccess: (response) => {
       alert(response.message);
-      nav('/');
+      navigate('/');
     },
     onError: (error) => {
-      errorHandler(error);
+      errorHandler(error, navigate);
     },
+    retry: 0,
   });
 }

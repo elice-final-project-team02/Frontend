@@ -13,14 +13,15 @@ const postRequest = async (body) => {
 };
 
 export function usePostRequest(body) {
-  const nav = useNavigate();
+  const navigate = useNavigate();
   return useMutation(() => postRequest(body), {
     onSuccess: (response) => {
       alert(response.message);
-      nav('/posts');
+      navigate('/posts');
     },
     onError: (error) => {
-      errorHandler(error);
+      errorHandler(error, navigate);
     },
+    retry: 0,
   });
 }

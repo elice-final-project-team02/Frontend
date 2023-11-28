@@ -9,14 +9,15 @@ const postRegister = async (userInfo) => {
 };
 
 export function usePostRegister(userInfo) {
-  const nav = useNavigate();
+  const navigate = useNavigate();
   return useMutation(() => postRegister(userInfo), {
     onSuccess: (response) => {
       alert(response.message);
-      nav('/login');
+      navigate('/login');
     },
     onError: (error) => {
-      errorHandler(error);
+      errorHandler(error, navigate);
     },
+    retry: 0,
   });
 }
