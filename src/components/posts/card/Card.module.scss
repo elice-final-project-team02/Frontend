@@ -19,12 +19,12 @@ $base-color-disabled: #9cb4fa; // 장애인
   .main-info {
     border-radius: 10px 10px 0 0;
     height: 170px;
-    padding: 20px 10px 0 20px;
+    padding: 15px 15px 0 20px;
 
     @function generate-gradient($base-color) {
       $gradient: ();
 
-      @for $i from 3 through 10 {
+      @for $i from 3 through 9 {
         $color: mix($base-color, white, percentage($i / 10));
         $gradient: append($gradient, $color, comma);
       }
@@ -78,19 +78,17 @@ $base-color-disabled: #9cb4fa; // 장애인
     padding: 10px 20px;
     background-color: white;
     border-radius: 50%;
-    margin-right: 20px;
+    margin-right: 10px;
 
     .target-image {
-      width: 70px;
-      height: 60px;
+      max-width: 70px;
+      max-height: 60px;
       margin-top: 5px;
     }
   }
 
   .main-upper {
     display: flex;
-    // box-sizing: content-box;
-
     width: 230px; // 타이틀 길이
     margin-bottom: 20px;
   }
@@ -109,7 +107,7 @@ $base-color-disabled: #9cb4fa; // 장애인
   .main-bottom {
     display: flex;
     justify-content: space-between;
-    align-self: center;
+    align-items: center;
   }
 
   .extra-info {

@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import styles from './Header.module.scss';
 import cs from 'classnames/bind';
 import { Link } from 'react-router-dom';
@@ -14,6 +14,11 @@ export default function Header() {
   const role = useRecoilValue(roleState);
 
   const setIsLoggedIn = useSetRecoilState(isLoggedInState);
+  const [dropdownOpen, setDropdownOpen] = useState(false);
+
+  const handleDropdown = () => {
+    setDropdownOpen((prevState) => !prevState);
+  };
 
   const handleLogout = () => {
     if (window.confirm('로그아웃 하시겠습니까?')) {
@@ -36,7 +41,20 @@ export default function Header() {
               <li>
                 <Link to="about-us">서비스 소개</Link>
               </li>
-              <li>{role === 'user' ? <Link to="/posts/new">돌봄서비스</Link> : <Link to="/posts">돌봄서비스</Link>}</li>
+              <li onMouseEnter={handleDropdown} onMouseLeave={handleDropdown}>
+                <Link to={role === 'user' ? '/posts/new' : '/posts'}>돌봄서비스</Link>
+                <ul className={cx('dropdown', { open: dropdownOpen })}>
+                  <li>
+                    <Link to="/posts?careTarget=아동">아동</Link>
+                  </li>
+                  <li>
+                    <Link to="/posts?careTarget=노인">노인</Link>
+                  </li>
+                  <li>
+                    <Link to="/posts?careTarget=장애인">장애인</Link>
+                  </li>
+                </ul>
+              </li>
               <li>
                 <Link to="/mypage">마이페이지</Link>
               </li>
