@@ -16,7 +16,7 @@ export function usePostRegister(userInfo) {
       navigate('/login');
     },
     onError: (error) => {
-      errorHandler(error, navigate);
+      errorHandler(error);
     },
     retry: 0,
   });

@@ -6,28 +6,21 @@ import { isLoggedInState } from 'recoil/isLoggedInState';
 import { roleState } from 'recoil/roleState';
 import { useSetRecoilState } from 'recoil';
 
-const postLogin = async (email, password) => {
-  const response = await axios.post(
-    '/api/user/login',
-    {
-      email: email,
-      password: password,
-    },
-    { withCredentials: true }
-  );
+const postLogout = async () => {
+  const response = await axios.post('/api/user/logout', { withCredentials: true });
   return response.data;
 };
 
-export function usePostLogin(email, password) {
+export function usePostLogout() {
   const navigate = useNavigate();
   const setLoggedIn = useSetRecoilState(isLoggedInState);
   const setRole = useSetRecoilState(roleState);
 
-  return useMutation(() => postLogin(email, password), {
+  return useMutation(() => postLogout(), {
     onSuccess: (response) => {
       alert(response.message);
-      setLoggedIn('LOGGED_IN');
-      setRole(response.data.role.role);
+      setLoggedIn('LOGGED_OUT');
+      setRole('');
       navigate('/');
     },
     onError: (error) => {

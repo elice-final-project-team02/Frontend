@@ -11,14 +11,12 @@ const deletePost = async (postId) => {
 };
 
 export function useDeletePost() {
-  const navigate = useNavigate();
-
   return useMutation((postId) => deletePost(postId), {
     onSuccess: (response) => {
       alert(response.message);
     },
     onError: (error) => {
-      errorHandler(error, navigate);
+      errorHandler(error);
     },
     retry: 0,
   });
@@ -35,7 +33,7 @@ export function useDeletePostAndGoHome(postId) {
       navigate('/posts');
     },
     onError: (error) => {
-      errorHandler(error, navigate);
+      errorHandler(error);
     },
     retry: 0,
   });

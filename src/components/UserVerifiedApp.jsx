@@ -1,5 +1,6 @@
 // App.js 에서 로그인상태 확인을 위해 get 요청을 보내는 컴포넌트
-import React, { useEffect, useState } from 'react';
+import React, { useEffect } from 'react';
+import { useLocation } from 'react-router-dom';
 import { Footer } from './common/footer';
 import { Header } from './common/header';
 import { MaxWidth } from './common/maxWidth';
@@ -7,28 +8,27 @@ import MessageButton from './common/message/MessageButton';
 import '../styles/index.scss';
 import { Outlet } from 'react-router-dom';
 import { isLoggedInState } from 'recoil/isLoggedInState';
-import { isLoadingState } from 'recoil/isLoadingState';
-import { roleState } from 'recoil/roleState';
-import { useSetRecoilState } from 'recoil';
-import { useGetUser } from '../hooks/getUser';
+import { useRecoilState } from 'recoil';
+import { getUser } from '../hooks/getUser';
 
 export default function UserVerifiedApp() {
-  const setIsLoggedIn = useSetRecoilState(isLoggedInState);
-  const setIsLoading = useSetRecoilState(isLoadingState);
-  const setRole = useSetRecoilState(roleState);
-  // const { data, error } = useGetUser();
+  const location = useLocation();
+  const [loginStatus, setLoginStatus] = useRecoilState(isLoggedInState);
 
-  // useEffect(() => {
-  //   if (data) {
-  //     setIsLoggedIn(true);
-  //     setRole(data.role.role);
-  //     setIsLoading(false);
-  //   } else if (error && error.response && (error.response.status === 401 || error.response.status === 403)) {
-  //     setIsLoggedIn(false);
-  //     setRole('');
-  //     setIsLoading(false);
-  //   }
-  // }, [data, error, setIsLoggedIn, setRole, setIsLoading]);
+  useEffect(() => {
+    getUser()
+      .then(() => setLoginStatus('LOGGED_IN'))
+      .catch(() => setLoginStatus('LOGGED_OUT'));
+  }, []);
+
+  useEffect(() => {
+    const privateRoutes = location.pathname.startsWith('/mypage') || location.pathname.startsWith('/posts');
+    if (privateRoutes) {
+      getUser()
+        .then(() => setLoginStatus('LOGGED_IN'))
+        .catch(() => setLoginStatus('LOGGED_OUT'));
+    }
+  }, [location]);
 
   return (
     <div className="entireWrapper">

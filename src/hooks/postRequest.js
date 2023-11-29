@@ -22,7 +22,7 @@ export function usePostRequest(body) {
       navigate('/posts');
     },
     onError: (error) => {
-      errorHandler(error, navigate);
+      errorHandler(error);
     },
     retry: 0,
   });

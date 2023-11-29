@@ -1,7 +1,8 @@
 import axios from 'axios';
 import { useQuery } from 'react-query';
 import { errorHandler } from 'lib';
-import { useNavigate } from 'react-router-dom';
+import { useRecoilValue } from 'recoil';
+import { isLoggedInState } from 'recoil/isLoggedInState';
 
 const getUserPostList = async (pageNumber) => {
   const response = await axios.get(`/api/post/posts/user?page=${pageNumber}`, { withCredentials: true });
@@ -9,11 +10,13 @@ const getUserPostList = async (pageNumber) => {
 };
 
 export function useGetUserPostList(pageNumber) {
-  const navigate = useNavigate();
+  const loginStatus = useRecoilValue(isLoggedInState);
+
   return useQuery(['get-user-post-list', pageNumber], () => getUserPostList(pageNumber), {
     onError: (error) => {
-      errorHandler(error, navigate);
+      errorHandler(error);
     },
     retry: 0,
+    enabled: loginStatus !== 'LOADING',
   });
 }

@@ -10,7 +10,7 @@ export default function MyPosts() {
   const role = '일반';
   const [searchText, setSearchText] = useState('');
   const [currPage, setCurrPage] = useState(0);
-  const { data, isLoading } = useGetUserPostList(currPage + 1);
+  const { data, isLoading, error } = useGetUserPostList(currPage + 1);
   const [postList, setPostList] = useState([]);
 
   useEffect(() => {
@@ -26,6 +26,8 @@ export default function MyPosts() {
   const handleSearchChange = (text) => {
     setSearchText(text);
   };
+
+  if (error) return;
 
   return (
     <div className={cx('wrapper')}>

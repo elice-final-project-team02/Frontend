@@ -10,7 +10,7 @@ export * from './getRequest';
 export * from './deletePost';
 export * from './getUserPostList';
 export * from './getSavedPostList';
-export * from './deletePosts';
 export * from './getCompletedPostList';
 export * from './putCancelBookmarks';
 export * from './getPostList';
+export * from './postLogout';

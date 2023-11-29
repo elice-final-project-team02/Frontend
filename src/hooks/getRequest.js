@@ -18,7 +18,7 @@ export function useGetRequestGoHome(postId) {
   const navigate = useNavigate();
   return useQuery(['getRequest'], () => getRequest(postId), {
     onError: (error) => {
-      errorHandler(error, navigate);
+      errorHandler(error);
       navigate('/posts');
     },
     retry: 0,

@@ -9,7 +9,7 @@ import { usePutUser } from '../../../hooks/putUser';
 const cx = cs.bind(styles);
 
 export default function MyPage() {
-  const { data, isLoading } = useGetUser();
+  const { data, isLoading, error } = useGetUser();
   const { mutate } = usePutUser();
 
   const [userInfo, setUserInfo] = useState({});
@@ -65,6 +65,8 @@ export default function MyPage() {
   const [editPwd, setEditPwd] = useState(false);
   const imgRef = useRef(null);
   const MaxImageSize = 5 * 1024 * 1024; // 최대 용량 5MB
+
+  if (error) return;
 
   // img 수정
   const handleUploadImage = (e) => {
