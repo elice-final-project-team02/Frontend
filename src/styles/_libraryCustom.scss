@@ -41,9 +41,11 @@
 .react-datepicker__day:hover {
   border-radius: 100%;
 }
-
 // timepicker
 .react-datepicker__input-container {
+  & > button {
+    cursor: pointer;
+  }
   & > input {
     cursor: pointer;
   }
