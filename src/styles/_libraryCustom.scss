@@ -43,6 +43,10 @@
 }
 // timepicker
 .react-datepicker__input-container {
+  input {
+    width: 60px;
+    background: var(--crl-blue-700);
+  }
   & > button {
     cursor: pointer;
   }
@@ -53,4 +57,5 @@
 .react-datepicker-ignore-onclickoutside {
   cursor: pointer;
 }
+
 //

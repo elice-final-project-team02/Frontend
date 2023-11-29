@@ -64,7 +64,7 @@ export default function ShowSelectedDateList({ postContent, setPostContent, arra
             .map((item, index) => (
               <li key={uuidv4()}>
                 <div className={cx('selected-time-wrapper')}>
-                  <span>
+                  <span className={cx('selected-time')}>
                     {`${changeDateToMonthAndDateAndDayOfTheWeek(item)} ${changeDateToHHMM(
                       postContent.shortTerm[index].startTime
                     )}-${changeDateToHHMM(postContent.shortTerm[index].endTime)}`}
@@ -100,7 +100,7 @@ export default function ShowSelectedDateList({ postContent, setPostContent, arra
             .map((item, index) => (
               <li key={uuidv4()}>
                 <div className={cx('selected-time-wrapper')}>
-                  <span>
+                  <span className={cx('selected-time')}>
                     {`${item}요일 ${getHours(postContent.longTerm.schedule[index].startTime)}:00-${getHours(
                       postContent.longTerm.schedule[index].endTime
                     )}:00`}

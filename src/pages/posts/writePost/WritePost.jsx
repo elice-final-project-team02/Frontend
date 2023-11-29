@@ -1,18 +1,29 @@
 import React from 'react';
 import styles from './WritePost.module.scss';
 import cs from 'classnames/bind';
-import { DatesPicker, SeparateDatesPicker, ShowSelectedDateList, NewTimesPicker, Toggle } from 'components';
+import {
+  DatesPicker,
+  SeparateDatesPicker,
+  ShowSelectedDateList,
+  NewTimesPicker,
+  Toggle,
+  LoadingModal,
+} from 'components';
 import { regions } from 'lib';
 import InfantImage from 'assets/images/infant.png';
 import SeniorOneImage from 'assets/images/senior1.png';
 import Challenged from 'assets/images/challenged.png';
 import { useNavigate } from 'react-router';
-import { usePostRequest } from 'hooks';
+import { usePostRequest, usePatchRequest } from 'hooks';
 import { useSearchParams } from 'react-router-dom';
+import { YellowClam3D } from 'assets/images';
 const cx = cs.bind(styles);
 
 export default function WritePost({ params, beforeData }) {
   const [searchParams, setSearchParams] = useSearchParams('');
+  const [isChangedHourlyRateOfBeforeData, setIsChangedHourlyRateOfBeforeData] = React.useState(false);
+  const [isChangedTimeSchdule, setIsChangedTimeSchdule] = React.useState(false);
+
   const predeterminedCareTarget = searchParams.get('careTarget');
   const [mainTime, setMainTime] = React.useState({
     mainStartTime: new Date(2020, 0, 0, 8),
@@ -25,36 +36,27 @@ export default function WritePost({ params, beforeData }) {
     region: beforeData ? beforeData.post.careInformation.area.region : '',
     subRegion: beforeData ? beforeData.post.careInformation.area.subRegion : '',
     careTarget: beforeData ? beforeData.post.careInformation.careTarget : predeterminedCareTarget,
-    longTerm:
-      beforeData && beforeData.post.reservation.isLongTerm
-        ? {
-            ...beforeData.post.reservation.longTerm,
-            startDate: new Date(beforeData.post.reservation.longTerm.startDate.slice(0, 10)),
-          }
-        : {
-            startDate: new Date(),
-            schedule: [
-              {
-                careDay: '',
-                startTime: mainTime.mainStartTime,
-                endTime: mainTime.mainEndTime,
-              },
-            ],
-          },
-    shortTerm:
-      beforeData && !beforeData.post.reservation.isLongTerm
-        ? [...beforeData.post.reservation.shortTerm]
-        : [
-            {
-              careDate: new Date(99, 1),
-              startTime: mainTime.mainStartTime,
-              endTime: mainTime.mainEndTime,
-            },
-          ],
+    longTerm: {
+      startDate: new Date(),
+      schedule: [
+        {
+          careDay: '',
+          startTime: mainTime.mainStartTime,
+          endTime: mainTime.mainEndTime,
+        },
+      ],
+    },
+    shortTerm: [
+      {
+        careDate: new Date(99, 1),
+        startTime: mainTime.mainStartTime,
+        endTime: mainTime.mainEndTime,
+      },
+    ],
     preferredMateAge: beforeData ? beforeData.post.careInformation.preferredmateAge : [],
     preferredMateGender: beforeData ? beforeData.post.careInformation.preferredmateGender : '',
     hourlyRate: beforeData ? beforeData.post.reservation.hourlyRate : 9620,
-    negotiableRate: beforeData ? Boolean(beforeData.post.negotiableRate) : false,
+    negotiableRate: beforeData ? Boolean(beforeData.post.reservation.negotiableRate) : false,
     targetFeatures: beforeData ? beforeData.post.careInformation.targetFeatures : '',
     cautionNotes: beforeData ? beforeData.post.careInformation.cautionNotes : '',
     careTerm: beforeData ? (beforeData.post.reservation.isLongTerm ? 'long' : 'short') : 'short',
@@ -67,9 +69,10 @@ export default function WritePost({ params, beforeData }) {
       return postContent.hourlyRate;
     }
   }
+  let body = null;
 
   function formatDataToSendToApi() {
-    return {
+    body = {
       title: postContent.title,
       content: postContent.content,
       region: postContent.region,
@@ -85,21 +88,34 @@ export default function WritePost({ params, beforeData }) {
       targetFeatures: postContent.targetFeatures,
       cautionNotes: postContent.cautionNotes,
     };
+    if (beforeData && !isChangedTimeSchdule) {
+      delete body.longTerm;
+      delete body.shortTerm;
+    }
+    return body;
   }
-  const body = formatDataToSendToApi(postContent);
-
-  const { mutate, isLoading } = usePostRequest(body);
+  formatDataToSendToApi(postContent);
+  const postId = params;
+  const { mutate: postMutate, isLoading: isPostLoading } = usePostRequest(body);
+  const { mutate: patchMutate, isLoading: isPatchLoading } = usePatchRequest(postId, body);
 
   async function handleSubmit(e) {
     e.preventDefault();
     checkEmptyValue();
-    checkEmptyValueOfDate();
+    if (checkEmptyValueOfDate()) return;
+
     if (isEmptyValueInputNames.length > 0) {
       alert('작성을 모두 완료해주시기 바랍니다');
       return;
     }
 
-    mutate();
+    if (!beforeData) {
+      postMutate();
+      return;
+    } else if (beforeData) {
+      patchMutate();
+      return;
+    }
   }
 
   function handleChange(e) {
@@ -136,14 +152,17 @@ export default function WritePost({ params, beforeData }) {
   }
 
   function checkEmptyValueOfDate() {
-    if (postContent.careTerm === 'long' && !postContent.longTerm.schedule.length) {
-      alert('돌봄 요일을 선택해주세요');
-      return;
-    } else if (postContent.careTerm === 'short' && postContent.shortTerm.length < 2) {
-      alert('돌봄 날짜를 선택해주세요');
+    if (beforeData && !isChangedTimeSchdule) {
       return;
     }
-    return;
+    if (postContent.careTerm === 'long' && !postContent.longTerm.schedule.length) {
+      alert('돌봄 요일을 선택해주세요');
+      return true;
+    } else if (postContent.careTerm === 'short' && postContent.shortTerm.length < 2) {
+      alert('돌봄 날짜를 선택해주세요');
+      return true;
+    }
+    return false;
   }
 
   function formatHourlyRate(e, StringOfMoney) {
@@ -232,12 +251,6 @@ export default function WritePost({ params, beforeData }) {
   const [isDayChecked, setIsDayChecked] = React.useState(false);
   const checkDayHandler = makeCheckHandler(checkedDaysList, setCheckedDaysList, isDayChecked, setIsDayChecked);
 
-  React.useEffect(() => {
-    if (beforeData && beforeData.post.reservation.isLongTerm) {
-      setCheckedDaysList([...beforeData.post.reservation.longTerm.schedule.map((obj) => obj.careDay)]);
-    }
-  }, []);
-
   /** 정기일정 요일 체크박스 실시간 반영 */
   React.useEffect(() => {
     return setPostContent({
@@ -282,7 +295,7 @@ export default function WritePost({ params, beforeData }) {
 
   /** 시급 입력창 3글자마다 쉼표 */
   function formatNumber(e) {
-    const inputValue = removeCommaInString(e.target.value);
+    let inputValue = removeCommaInString(e.target.value);
     const formattedValue = addCommas(inputValue);
     e.target.value = formattedValue;
   }
@@ -328,6 +341,13 @@ export default function WritePost({ params, beforeData }) {
       >
         checkedDaysList
       </button>
+      <button
+        onClick={() => {
+          console.log(isChangedTimeSchdule);
+        }}
+      >
+        isChangedTimeSchdule
+      </button>
 
       <form onSubmit={handleSubmit}>
         <div className={cx('title-wrapper')}>
@@ -342,18 +362,6 @@ export default function WritePost({ params, beforeData }) {
             placeholder="ex) 5세 남아 등하원 도우미 구합니다."
             maxLength={35}
           />
-        </div>
-        <div className={cx('content')}>
-          <textarea
-            value={postContent.content}
-            onChange={handleChange}
-            placeholder="ex) 유치원 등하원 시 케어해주시면 됩니다."
-            name="content"
-            required
-            onBlur={checkEmptyValue}
-            maxLength={200}
-            rows="6"
-          ></textarea>
         </div>
         <div className={cx('region-wrapper')}>
           <span className={cx('title-level')} v>
@@ -430,96 +438,118 @@ export default function WritePost({ params, beforeData }) {
             </div>
           </div>
         </div>
-        <div className={cx('care-term-wrapper')}>
-          <span className={cx('title-level', 'term-wrapper')}>
-            돌봄 기간
-            <span className={cx('hover-space', postContent.careTerm === 'long' ? 'hide' : null)}></span>
-            <span className={cx('short-term-tooltip')}>한달 내 선택가능</span>
-          </span>
-          <Toggle
-            initValue={postContent.careTerm}
-            onChange={(e) => {
-              if (e.target.checked) {
-                setPostContent({ ...postContent, careTerm: 'long' });
-              } else {
-                setPostContent({ ...postContent, careTerm: 'short' });
-              }
+        {beforeData && !isChangedTimeSchdule && (
+          <button
+            className={cx('change-schedule')}
+            type="button"
+            onClick={() => {
+              if (!window.confirm('일정이 초기화됩니다. 계속 진행하시겠습니까?')) return;
+              setIsChangedTimeSchdule((prev) => !prev);
             }}
-          ></Toggle>
-        </div>
-        {postContent.careTerm === 'long' && (
-          <div className={cx('care-days-wrapper')}>
-            <span className={cx('title-level')}>돌봄 시작일</span>
-            <span className={cx('calendar-wrapper')}>
-              <DatesPicker postContent={postContent} setPostContent={setPostContent} />
+          >
+            일정 변경하기
+            <img src={YellowClam3D} alt="" />
+          </button>
+        )}
+        <div className={cx(!beforeData || isChangedTimeSchdule ? '' : 'hidden')}>
+          <div className={cx('care-term-wrapper')}>
+            <span className={cx('title-level', 'term-wrapper')}>
+              돌봄 기간
+              <span className={cx('hover-space', postContent.careTerm === 'long' ? 'hide' : null)}></span>
+              <span className={cx('short-term-tooltip')}>한달 내 선택가능</span>
             </span>
-            <div className={cx('days-title-wrapper')}>
-              <span className={cx('title-level')}>돌봄 요일</span>
-              <div className={cx('days-wrapper')}>
-                {careDaysList.map((day, index) => (
-                  <span key={index}>
-                    <input
-                      type="checkbox"
-                      name="careDays"
-                      checked={checkedDaysList.includes(day)}
-                      onChange={(e) => {
-                        checkDayHandler(e, day);
-                      }}
-                      id={`day${index}`}
-                    />
-                    <label htmlFor={`day${index}`}>{day}</label>
-                  </span>
-                ))}
+            <Toggle
+              initValue={postContent.careTerm}
+              onChange={(e) => {
+                if (e.target.checked) {
+                  setPostContent({ ...postContent, careTerm: 'long' });
+                } else {
+                  setPostContent({ ...postContent, careTerm: 'short' });
+                }
+              }}
+            ></Toggle>
+          </div>
+
+          {postContent.careTerm === 'long' && (
+            <div className={cx('care-days-wrapper', 'add-margin-top')}>
+              <span className={cx('title-level')}>돌봄 시작일</span>
+              <span className={cx('calendar-wrapper')}>
+                <DatesPicker postContent={postContent} setPostContent={setPostContent} />
+              </span>
+              <div className={cx('days-title-wrapper')}>
+                <span className={cx('title-level')}>돌봄 요일</span>
+                <div className={cx('days-wrapper')}>
+                  {careDaysList.map((day, index) => (
+                    <span key={index}>
+                      <input
+                        type="checkbox"
+                        name="careDays"
+                        checked={checkedDaysList.includes(day)}
+                        onChange={(e) => {
+                          checkDayHandler(e, day);
+                        }}
+                        id={`day${index}`}
+                      />
+                      <label htmlFor={`day${index}`}>{day}</label>
+                    </span>
+                  ))}
+                </div>
               </div>
             </div>
-          </div>
-        )}
-        <div className={cx('care-dates-wrapper')}>
-          {postContent.careTerm === 'short' && (
-            <SeparateDatesPicker postContent={postContent} setPostContent={setPostContent} mainTime={mainTime} />
           )}
 
-          <div className={cx('main-time-wrapper')}>
-            <label className={cx('title-level')}>시작 시간</label>
-            <div className={cx('time-wrapper')}>
-              <NewTimesPicker
-                time={mainTime.mainStartTime}
-                setTime={(date) => {
-                  setMainTime({ ...mainTime, mainStartTime: new Date(date) });
-                }}
-              />
-            </div>
-            <label className={cx('title-level')}>종료 시간</label>
-            <div className={cx('time-wrapper')}>
-              <NewTimesPicker
-                time={mainTime.mainEndTime}
-                setTime={(date) => {
-                  setMainTime({ ...mainTime, mainEndTime: new Date(date) });
-                }}
-                minzTime={mainTime.mainStartTime}
-              />
-            </div>
-          </div>
-          <div className={cx('selected-time-wrapper')}>
-            {postContent.careTerm === 'short' ? (
-              <ShowSelectedDateList
-                type="short"
-                mainTime={mainTime}
-                array={postContent.shortTerm.map((obj) => obj.careDate)}
-                setPostContent={setPostContent}
-                postContent={postContent}
-              />
-            ) : (
-              !!checkedDaysList.length && (
-                <ShowSelectedDateList
-                  type="long"
-                  mainTime={mainTime}
-                  array={postContent.longTerm.schedule.map((item) => item.careDay)}
-                  postContent={postContent}
-                  setPostContent={setPostContent}
-                />
-              )
+          <div className={cx('care-dates-wrapper')}>
+            {postContent.careTerm === 'short' && (
+              <SeparateDatesPicker postContent={postContent} setPostContent={setPostContent} mainTime={mainTime} />
             )}
+
+            <div className={cx('main-time-wrapper')}>
+              <div className={cx('time-indivisual-wrapper')}>
+                <label className={cx('title-level')}>시작 시간</label>
+                <div className={cx('time-wrapper')}>
+                  <NewTimesPicker
+                    time={mainTime.mainStartTime}
+                    setTime={(date) => {
+                      setMainTime({ ...mainTime, mainStartTime: new Date(date) });
+                    }}
+                  />
+                </div>
+              </div>
+              <div className={cx('time-indivisual-wrapper')}>
+                <label className={cx('title-level')}>종료 시간</label>
+                <div className={cx('time-wrapper')}>
+                  <NewTimesPicker
+                    time={mainTime.mainEndTime}
+                    setTime={(date) => {
+                      setMainTime({ ...mainTime, mainEndTime: new Date(date) });
+                    }}
+                    minzTime={mainTime.mainStartTime}
+                  />
+                </div>
+              </div>
+            </div>
+
+            <div className={cx('selected-time-wrapper')}>
+              {postContent.careTerm === 'short' ? (
+                <ShowSelectedDateList
+                  type="short"
+                  mainTime={mainTime}
+                  array={postContent.shortTerm.map((obj) => obj.careDate)}
+                  setPostContent={setPostContent}
+                  postContent={postContent}
+                />
+              ) : (
+                !!checkedDaysList.length && (
+                  <ShowSelectedDateList
+                    type="long"
+                    mainTime={mainTime}
+                    array={postContent.longTerm.schedule.map((item) => item.careDay)}
+                    postContent={postContent}
+                    setPostContent={setPostContent}
+                  />
+                )
+              )}
+            </div>
           </div>
         </div>
         <div className={cx('preferred-mate-wrapper')}>
@@ -582,28 +612,60 @@ export default function WritePost({ params, beforeData }) {
           </div>
         </div>
         <div className={cx('hourly-rate-wrapper')}>
-          <label className={cx('title-level')} htmlFor="">
-            시급
+          <div>
+            <label className={cx('title-level')} htmlFor="">
+              시급
+            </label>
+            {beforeData && !isChangedHourlyRateOfBeforeData ? (
+              <input
+                type="text"
+                name="hourlyRate"
+                required
+                value={addCommas(beforeData.post.reservation.hourlyRate)}
+                onInput={formatNumber}
+                onClick={() => setIsChangedHourlyRateOfBeforeData((prev) => !prev)}
+                placeholder="숫자만 입력"
+                onBlur={checkEmptyValue}
+              />
+            ) : (
+              <input
+                type="text"
+                name="hourlyRate"
+                required
+                onInput={formatNumber}
+                onChange={handleChange}
+                placeholder="숫자만 입력"
+                onBlur={checkEmptyValue}
+              />
+            )}
+          </div>
+          <label htmlFor="negotiableRate" className={cx('negotiable-box-wrapper')}>
+            <input
+              type="checkbox"
+              name="negotiableRate"
+              checked={postContent.negotiableRate}
+              value={postContent.negotiableRate}
+              id="negotiableRate"
+              onChange={() => {
+                setPostContent({ ...postContent, negotiableRate: !postContent.negotiableRate });
+              }}
+            />
+            <span></span>
+            시급 협의 가능
           </label>
-          <input
-            type="text"
-            name="hourlyRate"
-            required
-            onInput={formatNumber}
+        </div>
+        <div className={cx('content')}>
+          <span className={cx('title-level')}>본문</span>
+          <textarea
+            value={postContent.content}
             onChange={handleChange}
-            placeholder="숫자만 입력"
+            placeholder="ex) 유치원 등하원 시 케어해주시면 됩니다."
+            name="content"
+            required
             onBlur={checkEmptyValue}
-          />
-          <input
-            type="checkbox"
-            name="negotiableRate"
-            id="negotiableRate"
-            value={postContent.negotiableRate}
-            onChange={() => {
-              setPostContent({ ...postContent, negotiableRate: !postContent.negotiableRate });
-            }}
-          />
-          <label htmlFor="negotiableRate">시급 협의 가능</label>
+            maxLength={200}
+            rows="6"
+          ></textarea>
         </div>
         <div className={cx('caution-note-wrapper')}>
           <span className={cx('title-level')}>돌봄 대상 특징</span>
@@ -636,7 +698,7 @@ export default function WritePost({ params, beforeData }) {
           </button>
         </div>
       </form>
-      {isLoading && <span style={{ marginRight: 'auto' }}>게시글 업로드중(임시)</span>}
+      {(isPostLoading || isPatchLoading) && <LoadingModal message="게시글을 등록 중 입니다..." />}
     </div>
   );
 }

@@ -38,6 +38,11 @@
     }
   }
   .content {
+    display: flex;
+    gap: 190px;
+    span {
+      width: 50px;
+    }
     textarea {
       margin-top: -40px;
     }
@@ -68,7 +73,7 @@
   }
 
   .care-days-wrapper {
-    margin-top: -10px;
+    margin-top: 10px;
     input {
       display: none;
     }
@@ -187,45 +192,53 @@
 
   .main-time-wrapper {
     display: flex;
+    width: 250px;
+  }
+  .time-indivisual-wrapper {
+    background-color: var(--crl-blue-700);
+    border-radius: 6px;
+    padding: 20px 20px;
+    display: flex;
     flex-direction: column;
-    padding-block: 30px;
-    align-items: flex-end;
-    width: 200px;
-    label {
-      align-self: flex-start;
-    }
   }
   .time-wrapper {
+    margin-left: auto;
     background: black;
     overflow: hidden;
     width: 60px;
     cursor: pointer;
+    input {
+      font-size: 20px;
+      width: 80px;
+    }
   }
   .care-dates-wrapper {
     display: flex;
-    justify-content: space-between;
+    justify-content: center;
     gap: 40px;
-    margin-top: -20px;
+    margin-top: 40px;
     & > div {
       display: flex;
       flex-direction: column;
-      gap: 20px;
+      gap: 11px;
     }
   }
   .selected-time-wrapper {
-    flex-grow: 1;
+    width: 430px;
   }
   .hourly-rate-wrapper {
     display: flex;
     align-items: center;
+
+    justify-content: space-between;
     padding-right: 180px;
     input {
       background-color: var(--crl-blue-100);
     }
     input[type='text'] {
-      margin-left: 180px;
+      margin-left: 190px;
       width: 130px;
-      padding-block: 8px;
+      padding: 8px 10px;
     }
     input + label {
       margin-left: 6px;
@@ -234,6 +247,25 @@
     input[type='checkbox'] {
       margin-left: auto;
       cursor: pointer;
+    }
+  }
+
+  .negotiable-box-wrapper {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    input {
+      display: none;
+      & + span {
+        width: 16px;
+        aspect-ratio: 1;
+        display: inline-block;
+        border-radius: 50%;
+        border: 2px solid var(--crl-blue-800);
+      }
+      &:checked + span {
+        background: var(--crl-blue-800);
+      }
     }
   }
 
@@ -310,8 +342,44 @@
   .primary {
     @include button-primary;
   }
-
+  .add-margin-top {
+    margin-top: 40px;
+  }
   .cancel {
     @include button-cancel;
+  }
+  .hidden {
+    display: none !important;
+  }
+  .change-schedule {
+    cursor: pointer;
+    width: 30%;
+    padding-block: 18px;
+    border-radius: 100vmax;
+    border: 0;
+    background: var(--crl-blue-800);
+    font-size: 22px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 20px;
+    transition: 0.2s;
+    img {
+      width: 20px;
+    }
+    &:hover {
+      color: var(--crl-neutral-100);
+    }
+    &:hover img {
+      animation: rotation 2s infinite ease-in-out;
+    }
+  }
+  @keyframes rotation {
+    from {
+      rotate: 0deg;
+    }
+    to {
+      rotate: 360deg;
+    }
   }
 } // wrapper close

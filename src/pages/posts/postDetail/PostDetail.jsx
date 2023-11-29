@@ -27,7 +27,6 @@ export default function PostDetail() {
   // 신청 form 양식 모달창 state
   const [requestForm, setRequestForm] = useState(false);
 
-
   React.useEffect(() => {
     if (requestData) {
       setDisplayData({
@@ -39,7 +38,7 @@ export default function PostDetail() {
         preferredmateAge: requestData.post.careInformation.preferredmateAge,
         preferredmateGender: requestData.post.careInformation.preferredmateGender,
         hourlyRate: requestData.post.reservation.hourlyRate,
-        negotiableRate: requestData.post.negotiableRate,
+        negotiableRate: requestData.post.reservation.negotiableRate,
         targetFeatures: requestData.post.careInformation.targetFeatures,
         cautionNotes: requestData.post.careInformation.cautionNotes,
         isLongTerm: requestData.post.reservation.isLongTerm,
@@ -50,8 +49,8 @@ export default function PostDetail() {
             .filter((obj, index) => index !== 0)
             .sort((a, b) => new Date(a.careDate) - new Date(b.careDate)),
         status: requestData.post.reservation.status,
-        userRole: userData.role.role,
-        userId: userData._id,
+        userRole: userData && userData.role.role,
+        userId: userData && userData._id,
         authorName: requestData.authorProfile.name,
         authorId: requestData.post.author,
         authorImageUrl: requestData.authorProfile.profileUrl,
@@ -153,6 +152,7 @@ export default function PostDetail() {
                     )} ~ ${displayData.longTerm.schedule.map((obj) => obj.careDay)}`}
                   </span>
                 ) : (
+                  displayData &&
                   displayData.shortTerm && (
                     <span className={cx('text-information')}>
                       {`${date.changeDateToMonthAndDate(
@@ -210,14 +210,20 @@ export default function PostDetail() {
             {displayData.userRole === 'careUser' ? (
               <div className={cx('button-wrapper')}>
                 {/* 게시글 상세 - 신청하기 버튼 */}
-              <button
-                onClick={() => { setRequestForm(!requestForm) }}
-                className={cx('post-badge', displayData.userRole === 'user' ? 'user-background-accent' : 'care-user-background-accent')}>
-                신청하기
-              </button>
+                <button
+                  onClick={() => {
+                    setRequestForm(!requestForm);
+                  }}
+                  className={cx(
+                    'post-badge',
+                    displayData.userRole === 'user' ? 'user-background-accent' : 'care-user-background-accent'
+                  )}
+                >
+                  신청하기
+                </button>
               </div>
             ) : (
-              displayData.userId !== displayData.authorId && (
+              displayData.userId === displayData.authorId && (
                 <div className={cx('button-wrapper', 'post-control-icon')}>
                   <span className={cx('post-edit-icons')}>
                     <Link to={`/posts/${postId}/edit`}>
@@ -261,10 +267,8 @@ export default function PostDetail() {
         </div>
       </div>
 
-      {/* 신청하기 모달창 띄움 */} 
-      {
-        requestForm === true ? <MessageForm /> : null
-      }
+      {/* 신청하기 모달창 띄움 */}
+      {requestForm === true ? <MessageForm /> : null}
     </div>
   );
 }

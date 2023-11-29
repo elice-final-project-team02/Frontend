@@ -6,6 +6,7 @@ export * from './postSendMail';
 export * from './postVerifyCode';
 export * from './postLogin';
 export * from './postRequest';
+export * from './patchRequest';
 export * from './getRequest';
 export * from './deletePost';
 export * from './getUserPostList';
