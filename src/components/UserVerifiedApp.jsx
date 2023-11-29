@@ -8,25 +8,39 @@ import MessageButton from './common/message/MessageButton';
 import '../styles/index.scss';
 import { Outlet } from 'react-router-dom';
 import { isLoggedInState } from 'recoil/isLoggedInState';
+import { roleState } from 'recoil/roleState';
 import { useRecoilState } from 'recoil';
 import { getUser } from '../hooks/getUser';
 
 export default function UserVerifiedApp() {
   const location = useLocation();
   const [loginStatus, setLoginStatus] = useRecoilState(isLoggedInState);
+  const [userRole, setUserRole] = useRecoilState(roleState);
 
   useEffect(() => {
     getUser()
-      .then(() => setLoginStatus('LOGGED_IN'))
-      .catch(() => setLoginStatus('LOGGED_OUT'));
+      .then((response) => {
+        setLoginStatus('LOGGED_IN');
+        setUserRole(response.role.role);
+      })
+      .catch(() => {
+        setLoginStatus('LOGGED_OUT');
+        setUserRole('');
+      });
   }, []);
 
   useEffect(() => {
     const privateRoutes = location.pathname.startsWith('/mypage') || location.pathname.startsWith('/posts');
     if (privateRoutes) {
       getUser()
-        .then(() => setLoginStatus('LOGGED_IN'))
-        .catch(() => setLoginStatus('LOGGED_OUT'));
+        .then((response) => {
+          setLoginStatus('LOGGED_IN');
+          setUserRole(response.role.role);
+        })
+        .catch(() => {
+          setLoginStatus('LOGGED_OUT');
+          setUserRole('');
+        });
     }
   }, [location]);
 
