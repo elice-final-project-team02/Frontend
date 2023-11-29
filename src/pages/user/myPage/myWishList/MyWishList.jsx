@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import styles from './MyWishList.module.scss';
 import cs from 'classnames/bind';
-import { MyTitle, MySideBar, SearchBar, MyList, Pagination } from 'components';
+import { MyTitle, MySideBar, SearchBar, MyList, Pagination, LoadingModal } from 'components';
 import { useGetSavedPostList, usePutCancelBookMarks } from 'hooks';
 
 const cx = cs.bind(styles);
@@ -77,7 +77,7 @@ export default function MyWishList() {
           <MyTitle text="찜한 돌봄서비스" />
           <SearchBar className={cx('my-page-style')} searchInput={searchText} onSearchChange={handleSearchChange} />
           {isLoading ? (
-            <div className={cx('loading')}>로딩중...</div>
+            <LoadingModal message="로딩중..." />
           ) : (
             <>
               {postList.length > 0 &&

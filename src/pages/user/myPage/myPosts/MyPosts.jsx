@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import styles from './MyPosts.module.scss';
 import cs from 'classnames/bind';
-import { MyTitle, MySideBar, SearchBar, MyList, Pagination } from 'components';
+import { MyTitle, MySideBar, SearchBar, MyList, Pagination, LoadingModal } from 'components';
 import { useGetUserPostList } from 'hooks';
 
 const cx = cs.bind(styles);
@@ -39,7 +39,7 @@ export default function MyPosts() {
           <MyTitle text="MY 등록 게시물" />
           <SearchBar className={cx('my-page-style')} searchInput={searchText} onSearchChange={handleSearchChange} />
           {isLoading ? (
-            <div className={cx('loading')}>로딩중...</div>
+            <LoadingModal message="로딩중..." />
           ) : (
             <div className={cx('content')}>
               {postList.length === 0 ? (
