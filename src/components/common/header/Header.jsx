@@ -45,13 +45,15 @@ export default function Header() {
                 <Link to={role === 'user' ? '/posts/new' : '/posts'}>돌봄서비스</Link>
                 <ul className={cx('dropdown', { open: dropdownOpen })}>
                   <li>
-                    <Link to="/posts?careTarget=아동">아동</Link>
+                    <Link to={role === 'user' ? '/posts/new?careTarget=아동' : '/posts?careTarget=아동'}>아동</Link>
                   </li>
                   <li>
-                    <Link to="/posts?careTarget=노인">노인</Link>
+                    <Link to={role === 'user' ? '/posts/new?careTarget=노인' : '/posts?careTarget=노인'}>노인</Link>
                   </li>
                   <li>
-                    <Link to="/posts?careTarget=장애인">장애인</Link>
+                    <Link to={role === 'user' ? '/posts/new?careTarget=장애인' : '/posts?careTarget=장애인'}>
+                      장애인
+                    </Link>
                   </li>
                 </ul>
               </li>
