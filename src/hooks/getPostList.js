@@ -4,10 +4,10 @@ import { errorHandler } from 'lib';
 import { useRecoilValue } from 'recoil';
 import { isLoggedInState } from 'recoil/isLoggedInState';
 
-const getPostList = async (pageNumber, careTarget, term) => {
-  console.log(pageNumber, careTarget, term);
+const getPostList = async (pageNumber, careTarget, isLongTerm) => {
+  console.log(pageNumber, careTarget, isLongTerm);
   const response = await axios.get(
-    `/api/post?page=${pageNumber}&limit=6&careTargets=${careTarget}&isLongTerm=${term}`,
+    `/api/post?page=${pageNumber}&limit=6&careTarget=${careTarget}&isLongTerm=${isLongTerm}`,
     {
       withCredentials: true,
     }
@@ -15,10 +15,10 @@ const getPostList = async (pageNumber, careTarget, term) => {
   return response.data.data;
 };
 
-export function useGetPostList(pageNumber, careTarget, term) {
+export function useGetPostList(pageNumber, careTarget, isLongTerm) {
   const loginStatus = useRecoilValue(isLoggedInState);
 
-  return useQuery(['getPostList'], () => getPostList(pageNumber, careTarget, term), {
+  return useQuery(['getPostList'], () => getPostList(pageNumber, careTarget, isLongTerm), {
     cacheTime: 10 * 60 * 1000,
     onError: (error) => {
       errorHandler(error);
