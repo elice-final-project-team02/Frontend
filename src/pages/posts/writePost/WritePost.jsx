@@ -343,18 +343,7 @@ export default function WritePost({ params, beforeData }) {
             maxLength={35}
           />
         </div>
-        <div className={cx('content')}>
-          <textarea
-            value={postContent.content}
-            onChange={handleChange}
-            placeholder="ex) 유치원 등하원 시 케어해주시면 됩니다."
-            name="content"
-            required
-            onBlur={checkEmptyValue}
-            maxLength={200}
-            rows="6"
-          ></textarea>
-        </div>
+
         <div className={cx('region-wrapper')}>
           <span className={cx('title-level')} v>
             지역
@@ -614,6 +603,19 @@ export default function WritePost({ params, beforeData }) {
             <span></span>
             시급 협의 가능
           </label>
+        </div>
+        <div className={cx('content')}>
+          <span className={cx('title-level')}>본문</span>
+          <textarea
+            value={postContent.content}
+            onChange={handleChange}
+            placeholder="ex) 유치원 등하원 시 케어해주시면 됩니다."
+            name="content"
+            required
+            onBlur={checkEmptyValue}
+            maxLength={200}
+            rows="6"
+          ></textarea>
         </div>
         <div className={cx('caution-note-wrapper')}>
           <span className={cx('title-level')}>돌봄 대상 특징</span>

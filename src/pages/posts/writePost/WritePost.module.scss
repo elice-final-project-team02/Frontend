@@ -38,6 +38,11 @@
     }
   }
   .content {
+    display: flex;
+    gap: 190px;
+    span {
+      width: 50px;
+    }
     textarea {
       margin-top: -40px;
     }
@@ -209,7 +214,7 @@
   }
   .care-dates-wrapper {
     display: flex;
-    justify-content: space-between;
+    justify-content: center;
     gap: 40px;
     margin-top: -20px;
     & > div {
@@ -224,13 +229,14 @@
   .hourly-rate-wrapper {
     display: flex;
     align-items: center;
+
     justify-content: space-between;
     padding-right: 180px;
     input {
       background-color: var(--crl-blue-100);
     }
     input[type='text'] {
-      margin-left: 180px;
+      margin-left: 190px;
       width: 130px;
       padding: 8px 10px;
     }
