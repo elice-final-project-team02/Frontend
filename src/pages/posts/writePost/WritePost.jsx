@@ -480,24 +480,28 @@ export default function WritePost({ params, beforeData }) {
           )}
 
           <div className={cx('main-time-wrapper')}>
-            <label className={cx('title-level')}>시작 시간</label>
-            <div className={cx('time-wrapper')}>
-              <NewTimesPicker
-                time={mainTime.mainStartTime}
-                setTime={(date) => {
-                  setMainTime({ ...mainTime, mainStartTime: new Date(date) });
-                }}
-              />
+            <div className={cx('time-indivisual-wrapper')}>
+              <label className={cx('title-level')}>시작 시간</label>
+              <div className={cx('time-wrapper')}>
+                <NewTimesPicker
+                  time={mainTime.mainStartTime}
+                  setTime={(date) => {
+                    setMainTime({ ...mainTime, mainStartTime: new Date(date) });
+                  }}
+                />
+              </div>
             </div>
-            <label className={cx('title-level')}>종료 시간</label>
-            <div className={cx('time-wrapper')}>
-              <NewTimesPicker
-                time={mainTime.mainEndTime}
-                setTime={(date) => {
-                  setMainTime({ ...mainTime, mainEndTime: new Date(date) });
-                }}
-                minzTime={mainTime.mainStartTime}
-              />
+            <div className={cx('time-indivisual-wrapper')}>
+              <label className={cx('title-level')}>종료 시간</label>
+              <div className={cx('time-wrapper')}>
+                <NewTimesPicker
+                  time={mainTime.mainEndTime}
+                  setTime={(date) => {
+                    setMainTime({ ...mainTime, mainEndTime: new Date(date) });
+                  }}
+                  minzTime={mainTime.mainStartTime}
+                />
+              </div>
             </div>
           </div>
           <div className={cx('selected-time-wrapper')}>
@@ -582,28 +586,34 @@ export default function WritePost({ params, beforeData }) {
           </div>
         </div>
         <div className={cx('hourly-rate-wrapper')}>
-          <label className={cx('title-level')} htmlFor="">
-            시급
+          <div>
+            <label className={cx('title-level')} htmlFor="">
+              시급
+            </label>
+            <input
+              type="text"
+              name="hourlyRate"
+              required
+              onInput={formatNumber}
+              onChange={handleChange}
+              placeholder="숫자만 입력"
+              onBlur={checkEmptyValue}
+            />
+          </div>
+          <label htmlFor="negotiableRate" className={cx('negotiable-box-wrapper')}>
+            <input
+              type="checkbox"
+              name="negotiableRate"
+              checked={postContent.negotiableRate}
+              value={postContent.negotiableRate}
+              id="negotiableRate"
+              onChange={() => {
+                setPostContent({ ...postContent, negotiableRate: !postContent.negotiableRate });
+              }}
+            />
+            <span></span>
+            시급 협의 가능
           </label>
-          <input
-            type="text"
-            name="hourlyRate"
-            required
-            onInput={formatNumber}
-            onChange={handleChange}
-            placeholder="숫자만 입력"
-            onBlur={checkEmptyValue}
-          />
-          <input
-            type="checkbox"
-            name="negotiableRate"
-            id="negotiableRate"
-            value={postContent.negotiableRate}
-            onChange={() => {
-              setPostContent({ ...postContent, negotiableRate: !postContent.negotiableRate });
-            }}
-          />
-          <label htmlFor="negotiableRate">시급 협의 가능</label>
         </div>
         <div className={cx('caution-note-wrapper')}>
           <span className={cx('title-level')}>돌봄 대상 특징</span>

@@ -3,6 +3,9 @@
   flex-direction: column;
   gap: 5px;
   li {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
     background-color: var(--crl-blue-700);
     padding: 20px;
     border-radius: 10px;
@@ -10,9 +13,10 @@
   }
   .indivisual-time-controll-wrapper {
     display: grid;
-    grid-template-columns: 200px 100px;
-    row-gap: 20px;
-    place-items: center;
+    padding-inline: 10px;
+    grid-template-columns: repeat(4, 106px);
+    row-gap: 10px;
+    place-items: start;
     span {
       margin-right: 50px;
     }
@@ -21,11 +25,15 @@
     display: flex;
     align-items: center;
     gap: 50px;
+    padding-inline: 20px;
     justify-content: space-between;
     button {
       background-color: transparent;
       color: var(--crl-blue-900);
       border: 0;
+    }
+    .selected-time {
+      margin-left: -10px;
     }
   }
   .hover-icon {

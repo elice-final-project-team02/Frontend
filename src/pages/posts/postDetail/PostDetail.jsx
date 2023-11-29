@@ -27,7 +27,6 @@ export default function PostDetail() {
   // 신청 form 양식 모달창 state
   const [requestForm, setRequestForm] = useState(false);
 
-
   React.useEffect(() => {
     if (requestData) {
       setDisplayData({
@@ -210,11 +209,17 @@ export default function PostDetail() {
             {displayData.userRole === 'careUser' ? (
               <div className={cx('button-wrapper')}>
                 {/* 게시글 상세 - 신청하기 버튼 */}
-              <button
-                onClick={() => { setRequestForm(!requestForm) }}
-                className={cx('post-badge', displayData.userRole === 'user' ? 'user-background-accent' : 'care-user-background-accent')}>
-                신청하기
-              </button>
+                <button
+                  onClick={() => {
+                    setRequestForm(!requestForm);
+                  }}
+                  className={cx(
+                    'post-badge',
+                    displayData.userRole === 'user' ? 'user-background-accent' : 'care-user-background-accent'
+                  )}
+                >
+                  신청하기
+                </button>
               </div>
             ) : (
               displayData.userId !== displayData.authorId && (
@@ -261,10 +266,8 @@ export default function PostDetail() {
         </div>
       </div>
 
-      {/* 신청하기 모달창 띄움 */} 
-      {
-        requestForm === true ? <MessageForm /> : null
-      }
+      {/* 신청하기 모달창 띄움 */}
+      {requestForm === true ? <MessageForm /> : null}
     </div>
   );
 }
