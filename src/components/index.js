@@ -26,4 +26,3 @@ export * from './common/pagination';
 export * from './user/authInput';
 export * from './user/authSelect';
 export { default as UserVerifiedApp } from './UserVerifiedApp';
-export { default as AuthProvider } from './AuthProvider';
