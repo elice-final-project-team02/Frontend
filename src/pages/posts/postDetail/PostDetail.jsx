@@ -50,7 +50,7 @@ export default function PostDetail() {
             .sort((a, b) => new Date(a.careDate) - new Date(b.careDate)),
         status: requestData.post.reservation.status,
         userRole: userData && userData.role.role,
-        userId: userData._id,
+        userId: userData && userData._id,
         authorName: requestData.authorProfile.name,
         authorId: requestData.post.author,
         authorImageUrl: requestData.authorProfile.profileUrl,

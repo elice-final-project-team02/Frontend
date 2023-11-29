@@ -17,7 +17,6 @@ export function usePostRequest(body) {
   const navigate = useNavigate();
   return useMutation(() => postRequest(body), {
     onSuccess: (response) => {
-      console.log(response.data.data);
       queryClient.invalidateQueries('getPostList');
       alert(response.message);
       navigate('/mypage/posts');

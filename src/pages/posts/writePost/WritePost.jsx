@@ -1,7 +1,14 @@
 import React from 'react';
 import styles from './WritePost.module.scss';
 import cs from 'classnames/bind';
-import { DatesPicker, SeparateDatesPicker, ShowSelectedDateList, NewTimesPicker, Toggle } from 'components';
+import {
+  DatesPicker,
+  SeparateDatesPicker,
+  ShowSelectedDateList,
+  NewTimesPicker,
+  Toggle,
+  LoadingModal,
+} from 'components';
 import { regions } from 'lib';
 import InfantImage from 'assets/images/infant.png';
 import SeniorOneImage from 'assets/images/senior1.png';
@@ -90,7 +97,7 @@ export default function WritePost({ params, beforeData }) {
   formatDataToSendToApi(postContent);
   const postId = params;
   const { mutate: postMutate, isLoading: isPostLoading } = usePostRequest(body);
-  const { mutate: putMutate, isLoading: isPutLoading } = usePatchRequest(postId, body);
+  const { mutate: patchMutate, isLoading: isPatchLoading } = usePatchRequest(postId, body);
 
   async function handleSubmit(e) {
     e.preventDefault();
@@ -101,13 +108,12 @@ export default function WritePost({ params, beforeData }) {
       alert('작성을 모두 완료해주시기 바랍니다');
       return;
     }
-    console.log(body);
 
     if (!beforeData) {
       postMutate();
       return;
     } else if (beforeData) {
-      putMutate();
+      patchMutate();
       return;
     }
   }
@@ -692,7 +698,7 @@ export default function WritePost({ params, beforeData }) {
           </button>
         </div>
       </form>
-      {(isPostLoading || isPutLoading) && <span style={{ marginRight: 'auto' }}>게시글 업로드중(임시)</span>}
+      {(isPostLoading || isPatchLoading) && <LoadingModal message="게시글을 등록 중 입니다..." />}
     </div>
   );
 }
