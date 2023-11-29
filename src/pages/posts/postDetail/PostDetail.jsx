@@ -38,7 +38,7 @@ export default function PostDetail() {
         preferredmateAge: requestData.post.careInformation.preferredmateAge,
         preferredmateGender: requestData.post.careInformation.preferredmateGender,
         hourlyRate: requestData.post.reservation.hourlyRate,
-        negotiableRate: requestData.post.negotiableRate,
+        negotiableRate: requestData.post.reservation.negotiableRate,
         targetFeatures: requestData.post.careInformation.targetFeatures,
         cautionNotes: requestData.post.careInformation.cautionNotes,
         isLongTerm: requestData.post.reservation.isLongTerm,
@@ -49,7 +49,7 @@ export default function PostDetail() {
             .filter((obj, index) => index !== 0)
             .sort((a, b) => new Date(a.careDate) - new Date(b.careDate)),
         status: requestData.post.reservation.status,
-        userRole: userData.role.role,
+        userRole: userData && userData.role.role,
         userId: userData._id,
         authorName: requestData.authorProfile.name,
         authorId: requestData.post.author,
@@ -152,6 +152,7 @@ export default function PostDetail() {
                     )} ~ ${displayData.longTerm.schedule.map((obj) => obj.careDay)}`}
                   </span>
                 ) : (
+                  displayData &&
                   displayData.shortTerm && (
                     <span className={cx('text-information')}>
                       {`${date.changeDateToMonthAndDate(
@@ -222,7 +223,7 @@ export default function PostDetail() {
                 </button>
               </div>
             ) : (
-              displayData.userId !== displayData.authorId && (
+              displayData.userId === displayData.authorId && (
                 <div className={cx('button-wrapper', 'post-control-icon')}>
                   <span className={cx('post-edit-icons')}>
                     <Link to={`/posts/${postId}/edit`}>

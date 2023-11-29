@@ -73,7 +73,7 @@
   }
 
   .care-days-wrapper {
-    margin-top: -10px;
+    margin-top: 10px;
     input {
       display: none;
     }
@@ -216,11 +216,11 @@
     display: flex;
     justify-content: center;
     gap: 40px;
-    margin-top: -20px;
+    margin-top: 40px;
     & > div {
       display: flex;
       flex-direction: column;
-      gap: 20px;
+      gap: 11px;
     }
   }
   .selected-time-wrapper {
@@ -342,8 +342,44 @@
   .primary {
     @include button-primary;
   }
-
+  .add-margin-top {
+    margin-top: 40px;
+  }
   .cancel {
     @include button-cancel;
+  }
+  .hidden {
+    display: none !important;
+  }
+  .change-schedule {
+    cursor: pointer;
+    width: 30%;
+    padding-block: 18px;
+    border-radius: 100vmax;
+    border: 0;
+    background: var(--crl-blue-800);
+    font-size: 22px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 20px;
+    transition: 0.2s;
+    img {
+      width: 20px;
+    }
+    &:hover {
+      color: var(--crl-neutral-100);
+    }
+    &:hover img {
+      animation: rotation 2s infinite ease-in-out;
+    }
+  }
+  @keyframes rotation {
+    from {
+      rotate: 0deg;
+    }
+    to {
+      rotate: 360deg;
+    }
   }
 } // wrapper close

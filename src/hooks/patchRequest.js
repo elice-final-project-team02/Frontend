@@ -6,18 +6,17 @@ import { queryClient } from 'App';
 
 const apiUrl = '/api/post';
 
-const postRequest = async (body) => {
-  const response = await axios.post(apiUrl, body, {
+const patchRequest = async (postId, body) => {
+  const response = await axios.patch(`${apiUrl}/${postId}`, body, {
     withCredentials: true,
   });
   return response.data;
 };
 
-export function usePostRequest(body) {
+export function usePatchRequest(postId, body) {
   const navigate = useNavigate();
-  return useMutation(() => postRequest(body), {
+  return useMutation(() => patchRequest(postId, body), {
     onSuccess: (response) => {
-      console.log(response.data.data);
       queryClient.invalidateQueries('getPostList');
       alert(response.message);
       navigate('/mypage/posts');
