@@ -1,7 +1,6 @@
 import axios from 'axios';
 import { useMutation, useQueryClient } from 'react-query';
 import { errorHandler } from 'lib';
-import { useNavigate } from 'react-router-dom';
 
 const putUser = async (userInfo) => {
   const response = await axios.put('/api/user', userInfo, { withCredentials: true });
@@ -9,7 +8,6 @@ const putUser = async (userInfo) => {
 };
 
 export function usePutUser() {
-  const navigate = useNavigate();
   const queryClient = useQueryClient();
   return useMutation((userInfo) => putUser(userInfo), {
     onSettled: () => {
@@ -20,7 +18,7 @@ export function usePutUser() {
       queryClient.invalidateQueries('get-user');
     },
     onError: (error) => {
-      errorHandler(error, navigate);
+      errorHandler(error);
     },
     retry: 0,
   });

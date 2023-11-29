@@ -19,7 +19,7 @@ export function useDeleteUser(password) {
       navigate('/');
     },
     onError: (error) => {
-      errorHandler(error, navigate);
+      errorHandler(error);
     },
     retry: 0,
   });

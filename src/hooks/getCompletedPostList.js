@@ -1,7 +1,8 @@
 import axios from 'axios';
 import { useQuery } from 'react-query';
-import { useNavigate } from 'react-router-dom';
 import { errorHandler } from 'lib';
+import { useRecoilValue } from 'recoil';
+import { isLoggedInState } from 'recoil/isLoggedInState';
 
 const getCompletedPostListUser = async (pageNumber) => {
   const response = await axios.get(`/api/post/posts/completed-user?page=${pageNumber}`, { withCredentials: true });
@@ -14,11 +15,12 @@ const getCompletedPostListCareUser = async (pageNumber) => {
 };
 
 export function useGetCompletedPostList(role, pageNumber) {
-  const navigate = useNavigate();
+  const loginStatus = useRecoilValue(isLoggedInState);
+
   const userQuery = useQuery(['get-completed-post-list-user', pageNumber], () => getCompletedPostListUser(pageNumber), {
-    enabled: role === 'user',
+    enabled: role === 'user' && loginStatus !== 'LOADING',
     onError: (error) => {
-      errorHandler(error, navigate);
+      errorHandler(error);
     },
     retry: 0,
   });
@@ -27,9 +29,9 @@ export function useGetCompletedPostList(role, pageNumber) {
     ['get-completed-post-list-care-user', pageNumber],
     () => getCompletedPostListCareUser(pageNumber),
     {
-      enabled: role !== 'user',
+      enabled: role !== 'user' && loginStatus !== 'LOADING',
       onError: (error) => {
-        errorHandler(error, navigate);
+        errorHandler(error);
       },
       retry: 0,
     }

@@ -13,7 +13,7 @@ export default function MyWishList() {
   const role = '돌봄';
   const [searchText, setSearchText] = useState('');
   const [currPage, setCurrPage] = useState(0);
-  const { data, isLoading } = useGetSavedPostList(currPage + 1);
+  const { data, isLoading, error } = useGetSavedPostList(currPage + 1);
   const [postList, setPostList] = useState([]);
   const { mutate } = usePutCancelBookMarks();
 
@@ -26,6 +26,8 @@ export default function MyWishList() {
       setPostList(mapPostList);
     }
   }, [data]);
+
+  if (error) return;
 
   const handleSearchChange = (text) => {
     setSearchText(text);

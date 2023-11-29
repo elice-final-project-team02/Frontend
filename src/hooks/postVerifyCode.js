@@ -1,7 +1,6 @@
 import axios from 'axios';
 import { useMutation } from 'react-query';
 import { errorHandler } from 'lib';
-import { useNavigate } from 'react-router-dom';
 
 const postVerifyCode = async (email, code) => {
   const response = await axios.post('/api/user/register/verify-email-code', {
@@ -12,7 +11,6 @@ const postVerifyCode = async (email, code) => {
 };
 
 export function usePostVerifyCode(email, code, setVerifyButtonDisabled) {
-  const navigate = useNavigate();
   return useMutation(() => postVerifyCode(email, code), {
     onSuccess: (response) => {
       alert(response.message);
@@ -20,7 +18,7 @@ export function usePostVerifyCode(email, code, setVerifyButtonDisabled) {
     },
     onError: (error) => {
       setVerifyButtonDisabled(false);
-      errorHandler(error, navigate);
+      errorHandler(error);
     },
     retry: 0,
   });

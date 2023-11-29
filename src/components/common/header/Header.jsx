@@ -6,14 +6,15 @@ import { LogoClam } from 'assets/images';
 import { useRecoilValue, useSetRecoilState } from 'recoil';
 import { isLoggedInState } from 'recoil/isLoggedInState';
 import { roleState } from 'recoil/roleState';
+import { usePostLogout } from 'hooks';
 
 const cx = cs.bind(styles);
 
 export default function Header() {
   const isLoggedIn = useRecoilValue(isLoggedInState);
   const role = useRecoilValue(roleState);
+  const { mutate } = usePostLogout();
 
-  const setIsLoggedIn = useSetRecoilState(isLoggedInState);
   const [dropdownOpen, setDropdownOpen] = useState(false);
 
   const handleDropdown = () => {
@@ -22,8 +23,7 @@ export default function Header() {
 
   const handleLogout = () => {
     if (window.confirm('로그아웃 하시겠습니까?')) {
-      // logout api 호출
-      setIsLoggedIn(false);
+      mutate();
     }
   };
 
@@ -61,16 +61,18 @@ export default function Header() {
             </ul>
           </nav>
           <ul>
-            {isLoggedIn ? (
+            {isLoggedIn === 'LOGGED_IN' ? (
               <li onClick={handleLogout}>로그아웃</li>
             ) : (
-              <li>
-                <Link to="/login">로그인</Link>
-              </li>
+              <>
+                <li>
+                  <Link to="/login">로그인</Link>
+                </li>
+                <li>
+                  <Link to="/register">회원가입</Link>
+                </li>
+              </>
             )}
-            <li>
-              <Link to="/register">회원가입</Link>
-            </li>
           </ul>
         </div>
       </div>
