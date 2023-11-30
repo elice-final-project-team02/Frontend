@@ -3,6 +3,10 @@
     display: grid;
     grid-template-columns: 1fr 1fr 1fr;
     grid-auto-rows: 400px;
+    margin-left: 50px;
+  }
+  .card-list-container a {
+    max-width: 260px;
   }
   .none {
     font-size: large;

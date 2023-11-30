@@ -55,11 +55,9 @@ export default function AllPosts() {
           <div className={cx('none')}>검색결과가 없습니다.</div>
         ) : (
           filteredPostList.map((data, index) => (
-            <span key={index}>
-              <Link to={`/posts/${data._id}`}>
-                <Card data={data} />
-              </Link>
-            </span>
+            <Link to={`/posts/${data._id}`} key={index}>
+              <Card data={data} />
+            </Link>
           ))
         )}
       </div>
