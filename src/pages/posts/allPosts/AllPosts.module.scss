@@ -5,7 +5,9 @@
     grid-auto-rows: 400px;
     //폭 제한을 주고 카드 갭 줄이기
   }
-
+  .modal-wrapper {
+    min-height: 100vh;
+  }
   .card-list-container > * {
     margin-bottom: 60px;
   }

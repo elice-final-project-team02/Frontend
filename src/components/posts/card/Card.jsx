@@ -69,9 +69,9 @@ export default function Card({ data }) {
               ) : (
                 shortTerm && (
                   <span className={cx('text-information')}>
-                    {`${date.changeDateToMonthAndDate(shortTerm[0].careDate)} ~ ${date.changeDateToMonthAndDate(
+                    {`${date.changeDateToMonthAndDate(shortTerm[1].careDate)} ~ ${date.changeDateToMonthAndDate(
                       shortTerm[shortTerm.length - 1].careDate
-                    )} (총 ${shortTerm.length}일)`}
+                    )} (총 ${shortTerm.length - 1}일)`}
                   </span>
                 )
               )}
@@ -88,8 +88,8 @@ export default function Card({ data }) {
               ) : (
                 <span className={cx('text-information')}>
                   {shortTerm &&
-                    `${date.changeDateToAmPmAndHour(shortTerm[0].startTime)} ~ ${date.changeDateToAmPmAndHour(
-                      shortTerm[0].endTime
+                    `${date.changeDateToAmPmAndHour(shortTerm[1].startTime)} ~ ${date.changeDateToAmPmAndHour(
+                      shortTerm[1].endTime
                     )}`}
                 </span>
               )}
