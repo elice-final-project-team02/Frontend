@@ -3,18 +3,21 @@
     display: grid;
     grid-template-columns: 1fr 1fr 1fr;
     grid-auto-rows: 400px;
-    //폭 제한을 주고 카드 갭 줄이기
+    margin-left: 50px;
+  }
+  .card-list-container a {
+    max-width: 260px;
+  }
+  .none {
+    font-size: large;
+    grid-column: 2;
+    padding: 100px;
+    text-align: center;
   }
   .modal-wrapper {
     min-height: 100vh;
   }
   .card-list-container > * {
     margin-bottom: 60px;
-  }
-
-  .loading {
-    display: flex;
-    justify-content: center;
-    margin: 100px;
   }
 }

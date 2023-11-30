@@ -1,3 +1,7 @@
+$base-color-child: #fff0b9; // 아동
+$base-color-senior: #fac7c7; // 노인
+$base-color-disabled: #9cb4fa; // 장애인
+
 .wrapper {
   width: 100%;
   height: 100%;
@@ -58,16 +62,19 @@
       align-items: center;
       padding: 0 0 25px;
 
-      // &:hover { 상의 후 적용예정.
-      //   border-radius: 10px;
-      //   background-color: var(--crl-neutral-200);
-      // }
+      &:hover {
+        width: 100%;
+        border-radius: 10px;
+        background-color: #8aa1dd17;
+      }
 
       .user-profilebox {
         // 감싸는 div
         position: relative;
         flex: 0 0 60px;
         align-self: center;
+        max-width: 50px;
+        max-height: 50px;
 
         .img-profile {
           display: block; // 이미지태그 여백 버그 해결을 위한 display 속성 추가.
@@ -104,30 +111,43 @@
           line-height: 1.8;
         }
 
-        .careTarget {
+        .care-target-icon {
           display: inline-block;
           width: 50px;
           height: 22px;
           margin-left: 10px;
-          padding-top: 4px;
+          padding-top: 5px;
           border-radius: 10px;
-          background-color: var(--crl-green-800);
           font-size: 13px;
           text-align: center;
           vertical-align: middle;
-        }
 
-        .message-text {
-          // 임시. 글자수 줄임은 나중에 js로 해결예정.
-          display: -webkit-box;
-          overflow: hidden;
-          height: 2em;
-          margin-top: 8px;
-          font-size: 15px;
-          text-overflow: ellipsis;
-          word-wrap: break-word;
-          -webkit-line-clamp: 2;
-          -webkit-box-orient: vertical;
+          &.child {
+            background-color: $base-color-child;
+          }
+
+          &.senior {
+            background-color: $base-color-senior;
+          }
+
+          &.disabled {
+            background-color: $base-color-disabled;
+          }
+        }
+        .message-container {
+          width: 180px;
+          white-space: nowrap;
+          .message-text {
+            overflow: hidden;
+            display: block;
+            height: 2em;
+            margin-top: 8px;
+            font-size: 15px;
+            text-overflow: ellipsis;
+            word-wrap: break-word;
+            -webkit-line-clamp: 2;
+            -webkit-box-orient: vertical;
+          }
         }
       }
 

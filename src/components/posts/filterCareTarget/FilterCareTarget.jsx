@@ -41,17 +41,36 @@ export default function FilterCareTarget({}) {
     }
   };
 
+  const handleAllCheckboxChange = () => {
+    setSelectedTarget('');
+    setSelectedTerm(null);
+  };
+
   useEffect(() => {
     if (currentTarget && selectedTerm === null) {
       setSelectedTarget(`?careTarget=${currentTarget}`);
+    } else if (currentTarget === null && selectedTerm === null) {
+      window.history.pushState(null, null, '/posts');
     }
   }, [currentTarget, selectedTerm]);
+
+  console.log(currentTarget);
 
   return (
     <div className={cx('wrapper')}>
       <div className={cx('filter-container')}>
+        <label className={cx('filter-target')} key="all">
+          <input
+            type="checkbox"
+            value="All"
+            checked={!currentTarget && selectedTerm === null}
+            onChange={handleAllCheckboxChange}
+          />
+          <span className={cx('checkmark')}></span>
+          전체 보기
+        </label>
         {careTargets.map((target, index) => (
-          <label className={cx('filter-target')} key={index}>
+          <label className={cx('filter-target')} key={index + 1}>
             <input
               type="checkbox"
               value={target}
@@ -62,7 +81,7 @@ export default function FilterCareTarget({}) {
             {target}
           </label>
         ))}
-        <label className={cx('filter-target')} key={3}>
+        <label className={cx('filter-target')} key={4}>
           <input
             type="checkbox"
             value="단기"
@@ -74,7 +93,7 @@ export default function FilterCareTarget({}) {
           <span className={cx('term', 'checkmark')}></span>
           단기
         </label>
-        <label className={cx('filter-target')} key={4}>
+        <label className={cx('filter-target')} key={5}>
           <input
             type="checkbox"
             value="정기"

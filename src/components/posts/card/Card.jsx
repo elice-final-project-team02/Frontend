@@ -1,23 +1,29 @@
-import React from 'react';
+import React, { useState } from 'react';
 import styles from './Card.module.scss';
 import { BsPersonFill } from 'react-icons/bs';
 import { FaMapMarkerAlt, FaCalendar, FaClock } from 'react-icons/fa';
 import { PiMoneyFill } from 'react-icons/pi';
-import { WishButton } from 'components';
+import { FaRegHeart, FaHeart } from 'react-icons/fa';
 import * as date from 'lib';
 import { LongTerm, ShortTerm, Child, Senior1, Challenged } from 'assets/images';
+import { usePutSavePost, usePutCancelPost } from 'hooks';
 
 import cs from 'classnames/bind';
 const cx = cs.bind(styles);
 
 export default function Card({ data }) {
   const {
+    _id,
     careInformation: { area, careTarget, preferredmateAge, preferredmateGender },
     createdAt,
     isBookmarked,
     reservation: { hourlyRate, isLongTerm, negotiableRate, status, longTerm, shortTerm },
     title,
   } = data;
+
+  const [isWished, setIsWished] = useState(isBookmarked);
+  const { mutate: saveMutate } = usePutSavePost();
+  const { mutate: cancelMutate } = usePutCancelPost();
 
   const titleContainer = cx('title', { 'centered-title': title.length < 10 });
   const formattedHourlyRate = hourlyRate.toLocaleString();
@@ -28,6 +34,22 @@ export default function Card({ data }) {
     senior: careTarget === '노인',
     disabled: careTarget === '장애인',
   });
+
+  const HeartIcon = isWished ? FaHeart : FaRegHeart;
+
+  const handleToggleFavorite = async () => {
+    try {
+      if (isWished) {
+        setIsWished(false);
+        await cancelMutate(_id);
+      } else {
+        setIsWished(true);
+        await saveMutate(_id);
+      }
+    } catch (error) {
+      console.error('Error toggling wishButton:', error);
+    }
+  };
 
   return (
     <div className={cx('wrapper')}>
@@ -49,7 +71,14 @@ export default function Card({ data }) {
           <div className={cx('main-bottom')}>
             <span className={cx('card-status')}>모집 중</span>
             <span className={cx('time-stamp')}>등록일 {date.changeDateToMonthAndDate(createdAt)}</span>
-            <WishButton isBookmarked={isBookmarked} />
+            <div className={cx('heartIcons')}>
+              <HeartIcon
+                onClick={(e) => {
+                  e.preventDefault();
+                  handleToggleFavorite();
+                }}
+              />
+            </div>
           </div>
         </div>
         <div className={cx('extra-info')}>

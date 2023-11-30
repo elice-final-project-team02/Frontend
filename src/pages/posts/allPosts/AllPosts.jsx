@@ -17,14 +17,14 @@ export default function AllPosts() {
   const [postList, setPostList] = useState([]);
   const [filteredPostList, setFilteredPostList] = useState([]);
 
-  React.useEffect(() => {
+  useEffect(() => {
     setPostList([]);
     if (data) {
       setPostList([...data.posts]);
     }
   }, [data, currPage]);
 
-  React.useEffect(() => {
+  useEffect(() => {
     if (searchInput.length === 0) {
       setFilteredPostList([...postList]);
       return;
@@ -37,7 +37,7 @@ export default function AllPosts() {
     }
   }, [searchInput, postList, careTarget, isLongTerm]);
 
-  React.useEffect(() => {
+  useEffect(() => {
     setCurrPage(0);
   }, [searchInput, careTarget, isLongTerm]);
 
@@ -52,14 +52,12 @@ export default function AllPosts() {
       <div className={cx('card-list-container')}>
         {isLoading && <LoadingModal message="게시글 목록을 불러오는 중입니다" />}
         {!isLoading && filteredPostList.length === 0 ? (
-          <div>검색결과가 없습니다.</div>
+          <div className={cx('none')}>검색결과가 없습니다.</div>
         ) : (
           filteredPostList.map((data, index) => (
-            <span key={index}>
-              <Link to={`/posts/${data._id}`}>
-                <Card data={data} />
-              </Link>
-            </span>
+            <Link to={`/posts/${data._id}`} key={index}>
+              <Card data={data} />
+            </Link>
           ))
         )}
       </div>

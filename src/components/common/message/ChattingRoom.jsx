@@ -29,10 +29,7 @@ export default function ChattingRoom({ selectedChatId, chatInfoSelect }) {
   const [inputmessage, setInputMessage] = useState('');
   const unreadMessageRef = useRef(null);
   const scrollRef = useRef(null);
-<<<<<<< HEAD
   const queryClient = useQueryClient();
-=======
->>>>>>> dev
 
   const role = useRecoilValue(roleState);
 
@@ -46,11 +43,7 @@ export default function ChattingRoom({ selectedChatId, chatInfoSelect }) {
       unreadMessageRef.current.scrollIntoView({
         behavior: 'smooth',
       });
-<<<<<<< HEAD
     } else if (scrollRef.current) {
-=======
-    } else {
->>>>>>> dev
       scrollRef.current.scrollIntoView({ behavior: 'smooth' });
     }
 
@@ -69,10 +62,6 @@ export default function ChattingRoom({ selectedChatId, chatInfoSelect }) {
   // 채팅 메시지 전송(send) 메서드
   const useSendMessageRequest = () => {
     mutate({ chatId: selectedChatId, content: inputmessage });
-<<<<<<< HEAD
-=======
-    console.log(selectedChatId);
->>>>>>> dev
   };
 
   useEffect(() => {
