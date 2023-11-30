@@ -26,6 +26,7 @@ export default function ChattingRoom({ selectedChatId, chatInfoSelect }) {
   // 채팅창 입력 시 저장될 state
   const [inputmessage, setInputMessage] = useState('');
   const unreadMessageRef = useRef(null);
+  const scrollRef = useRef(null);
 
   const role = useRecoilValue(roleState);
 
@@ -39,14 +40,15 @@ export default function ChattingRoom({ selectedChatId, chatInfoSelect }) {
       unreadMessageRef.current.scrollIntoView({
         behavior: 'smooth',
       });
+    } else {
+      scrollRef.current.scrollIntoView({ behavior: 'smooth' });
     }
 
     if (data) {
-      console.log(data.chat);
       setPostUrl('/posts/' + data.chat.post._id);
       setCareTarget(data.chat.post.careInformation.careTarget);
     }
-  }, [data]);
+  }, [data, data.chat.message]);
 
   // 채팅 입력(textarea) 메서드
   const handleInputChange = (e) => {
@@ -68,7 +70,6 @@ export default function ChattingRoom({ selectedChatId, chatInfoSelect }) {
     }
 
     if (data) {
-      console.log(data.chat);
       setPostUrl('/posts/' + data.chat.post._id);
       setCareTarget(data.chat.post.careInformation.careTarget);
     }
@@ -253,6 +254,7 @@ export default function ChattingRoom({ selectedChatId, chatInfoSelect }) {
                   </>
                 );
               })}
+              <div ref={scrollRef}></div>
             </ul>
 
             <img className={cx('backimg-hat')} src={ChatBackHat} alt="채팅창 배경 모자이미지" />
