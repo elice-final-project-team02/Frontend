@@ -26,13 +26,24 @@ export default function MessageList(props) {
         careTarget: room.post.careInformation.careTarget,
         postTitle: room.post.title,
         messagetext: room.message.content,
-        updateDate: room.message.updatedAt,
+        updateDate: room.message.createdAt,
+        isRead: room.message.isRead,
         careUserProfileImage: room.applicant.profileUrl,
         userProfileImage: room.author.profileUrl,
       }));
       setChatList(mapRoomsList);
     }
   }, [roomData]);
+
+  function handleNewSignImage(chatItem) {
+    const updatedChatList = chatList.map((item) => {
+      if (item.chatId === chatItem.chatId) {
+        return { ...item, isRead: true };
+      }
+      return item;
+    });
+    setChatList(updatedChatList);
+  }
 
   return (
     <div className={cx('wrapper')}>
@@ -51,13 +62,15 @@ export default function MessageList(props) {
           {/* 메시지 리스트 */}
           <ul className={cx('message-items')}>
             {/* 채팅 리스트 동적 생성 */}
-            {chatList.map((chatItem) => {
+            {chatList.map((chatItem, index) => {
               return (
                 <li
                   className={cx('message-item')}
                   onClick={() => {
                     props.chatInfoSelect(chatItem.chatId);
+                    handleNewSignImage(chatItem);
                   }}
+                  key={index}
                 >
                   {/* 프로필사진, n이미지 영역 */}
                   <div className={cx('user-profilebox')}>
@@ -70,8 +83,11 @@ export default function MessageList(props) {
                       }
                       alt="상대유저 프로필이미지"
                     />
-
-                    <img className={cx('img-newmessage')} src={NewMessageImage} alt="새메시지이미지" />
+                    <div>
+                      {chatItem.isRead ? null : (
+                        <img className={cx('img-newmessage')} src={NewMessageImage} alt="새메시지이미지" />
+                      )}
+                    </div>
                   </div>
 
                   {/* 이름, 키워드, 메시지 내용 영역 */}
@@ -84,8 +100,18 @@ export default function MessageList(props) {
                     <span className={cx('username')}>
                       {role === 'user' ? chatItem.careUsername : chatItem.username}
                     </span>
-                    <span className={cx('careTarget')}>{chatItem.careTarget}</span>
-                    <p className={cx('message-text')}>{chatItem.messagetext}</p>
+                    <span
+                      className={cx('care-target-icon', {
+                        child: chatItem.careTarget === '아동',
+                        senior: chatItem.careTarget === '노인',
+                        disabled: chatItem.careTarget === '장애인',
+                      })}
+                    >
+                      {chatItem.careTarget}
+                    </span>
+                    <div className={cx('message-container')}>
+                      <p className={cx('message-text')}>{chatItem.messagetext}</p>
+                    </div>
                   </div>
 
                   {/* 1차 기능 구현 목표 - 날짜/시분 모두 표시예정.
