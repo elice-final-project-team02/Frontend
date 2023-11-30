@@ -22,6 +22,12 @@ export function changeDateToMonth(date) {
 export function changeDateToAmPmAndHour(date) {
   return dayjs(date).format('a h시');
 }
+export function changeDateToYearAndMonthAndDate(date) {
+  return dayjs(date).format('YYYY-MM-DD');
+}
+export function changeDateToAmPmAndHHMM(date) {
+  return dayjs(date).format('a HH:mm');
+}
 
 /** 월 => 0 */
 export function changeKoreaDayOfWeekToNumber(day) {

@@ -1,34 +1,14 @@
-import React, { useState } from 'react';
+import React from 'react';
 import styles from './Footer.module.scss';
 import cs from 'classnames/bind';
 import Logo from '../../../assets/images/logo-clam.png';
 const cx = cs.bind(styles);
 
 export default function Footer() {
-  const [isClicked, setIsClicked] = useState(false);
-
-  const handleLogoClick = () => {
-    setIsClicked(!isClicked);
-  };
-
   return (
     <footer className={cx('wrapper')}>
       <div>
-        <img
-          className={cx('logo')}
-          src={Logo}
-          alt=""
-          onClick={handleLogoClick}
-          style={
-            isClicked
-              ? {
-                  transform: 'scale(3) translate(250px, 30px) rotate(360deg)',
-                  transition: '1s ease-in-out',
-                  cursor: 'pointer',
-                }
-              : { transition: '1s ease-in-out', cursor: 'pointer' }
-          }
-        />
+        <img className={cx('logo')} src={Logo} alt="" />
         <p>상호: 쓰담쓰담 | 대표자명: 엘리스 2팀</p>
         <p>사업자 등록번호: 123-45-67890 | 통신판매업신고번호: 제1234-서울강남-5678호</p>
       </div>

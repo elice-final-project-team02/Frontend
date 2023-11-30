@@ -3,6 +3,7 @@
     display: flex;
     flex-wrap: wrap;
     justify-content: space-between;
+    //폭 제한을 주고 카드 갭 줄이기
   }
 
   .card-list-container > * {

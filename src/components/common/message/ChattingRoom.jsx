@@ -7,7 +7,7 @@ import cs from 'classnames/bind';
 import { FiSend } from 'react-icons/fi';
 import { useRecoilValue } from 'recoil';
 import { roleState } from 'recoil/roleState';
-import { useGetRoom } from 'hooks';
+import { useGetRoom, useLeaveRoom } from 'hooks';
 
 const cx = cs.bind(styles);
 
@@ -22,7 +22,9 @@ export default function ChattingRoom({ selectedChatId, chatInfoSelect }) {
   const [showFlag, setShowFlag] = useState(false);
   const [postUrl, setPostUrl] = useState(''); // 채팅방 내 게시글 주소
   const [careTarget, setCareTarget] = useState('');
+
   const [chatRoomInfo, setChatRoomInfo] = useState({});
+  const { mutateAsync } = useLeaveRoom();
 
   const role = useRecoilValue(roleState);
 
@@ -84,10 +86,12 @@ export default function ChattingRoom({ selectedChatId, chatInfoSelect }) {
   };
 
   // 대화 종료하기 메서드
-  const chatRoomOut = () => {
+  const chatRoomOut = async () => {
     // 검증 로직은 추후에..
     if (window.confirm(`대화를 종료하면 채팅방 및 모든 채팅내용이 사라집니다.\n 그래도 대화를 종료하시겠습니까?`)) {
-      return showChatRoom(false);
+      const result = mutateAsync(selectedChatId);
+      console.log('###', result);
+      return;
     }
     return;
   };
