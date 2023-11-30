@@ -47,7 +47,7 @@ export default function MessageButton() {
           <img src={MessageBtn} alt="메시지함 버튼 이미지" />
         </button>
 
-        {popup === true ? <MessageBox showmessagebox={showmessagebox} /> : null}
+        {popup === true ? <MessageBox showmessagebox={showmessagebox} toggleMessageBox={toggleMessageBox} /> : null}
       </div>
     </>
   );
