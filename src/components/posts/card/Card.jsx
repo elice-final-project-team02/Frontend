@@ -4,7 +4,6 @@ import { BsPersonFill } from 'react-icons/bs';
 import { FaMapMarkerAlt, FaCalendar, FaClock } from 'react-icons/fa';
 import { PiMoneyFill } from 'react-icons/pi';
 import { FaRegHeart, FaHeart } from 'react-icons/fa';
-import { WishButton } from 'components';
 import * as date from 'lib';
 import { LongTerm, ShortTerm, Child, Senior1, Challenged } from 'assets/images';
 import { usePutSavePost, usePutCancelPost } from 'hooks';
@@ -37,16 +36,8 @@ export default function Card({ data }) {
   });
 
   const HeartIcon = isWished ? FaHeart : FaRegHeart;
-  // const handleBookmark = () => {
-  //   if (isBookmarked) {
-  //     setIsWished(false);
-  //     cancelMutate(_id);
-  //   } else {
-  //     setIsWished(true);
-  //     saveMutate(_id);
-  //   }
-  // };
-  const handleToggleFavorite = async (_id) => {
+
+  const handleToggleFavorite = async () => {
     try {
       if (isWished) {
         setIsWished(false);
@@ -56,7 +47,7 @@ export default function Card({ data }) {
         await saveMutate(_id);
       }
     } catch (error) {
-      console.error('Error toggling favorite:', error);
+      console.error('Error toggling wishButton:', error);
     }
   };
 
@@ -84,7 +75,6 @@ export default function Card({ data }) {
               <HeartIcon
                 onClick={(e) => {
                   e.preventDefault();
-                  // handleBookmark();
                   handleToggleFavorite();
                 }}
               />
