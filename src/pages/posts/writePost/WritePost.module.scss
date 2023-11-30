@@ -64,8 +64,8 @@
     }
     select {
       width: 134px;
-      padding: 4px 10px;
-      border-radius: 100vmax;
+      padding: 9px 10px;
+      box-sizing: content-box;
       appearance: none;
       background: url('/assets/images/icon-arrow-down.png') var(--crl-blue-100) no-repeat right 10px center;
       margin-right: 40px;
@@ -381,5 +381,9 @@
     to {
       rotate: 360deg;
     }
+  }
+  :focus {
+    border: 3px solid var(--crl-blue-900) !important;
+    border-radius: 10px;
   }
 } // wrapper close

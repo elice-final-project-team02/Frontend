@@ -45,5 +45,5 @@
     "eslint-plugin-prettier": "^5.0.1",
     "prettier": "^3.0.3"
   },
-  "proxy": "http://localhost:5001"
+  "proxy": "http://kdt-sw-6-team02.elicecoding.com"
 }

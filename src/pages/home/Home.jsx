@@ -63,9 +63,15 @@ export default function Home() {
       </div>
 
       <div className={cx('commentBox')}>
-        <img className={cx('infantItem')} src={InfantItem} alt="아동이미지" />
-        <img className={cx('seniorItem')} src={SeniorItem} alt="노인이미지" />
-        <img className={cx('disabledItem')} src={DisabledItem} alt="장애인이미지" />
+        <span className={cx('infantItem')}>
+          <img src={InfantItem} alt="아동이미지" />
+        </span>
+        <span className={cx('seniorItem')}>
+          <img src={SeniorItem} alt="노인이미지" />
+        </span>
+        <span className={cx('disabledItem')}>
+          <img src={DisabledItem} alt="장애인이미지" />
+        </span>
         <div className={cx('comment')}>
           우리는 일함으로 생계를 유지하지만,
           <br />
