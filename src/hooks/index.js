@@ -17,3 +17,5 @@ export * from './getPostList';
 export * from './postLogout';
 export * from './getRoom';
 export * from './getRooms';
+export * from './putSavePost';
+export * from './putCancelPost';
