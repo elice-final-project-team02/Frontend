@@ -8,19 +8,21 @@ const cx = cs.bind(styles);
 
 export default function AllPosts() {
   const [currPage, setCurrPage] = useState(0);
-  const { data, isLoading } = useGetPostList(currPage + 1, '노인', 'true');
+  const { data, isLoading } = useGetPostList(currPage + 1, '노인', 'false');
   const [postList, setPostList] = useState([]);
 
   React.useEffect(() => {
+    setPostList([]);
     if (data) {
+      setPostList([...data.posts]);
     }
-    console.log(data);
   }, [data, currPage]);
 
   return (
     <div className={cx('wrapper')}>
       <button onClick={() => console.log(postList)}>postList</button>
       <button onClick={() => console.log(currPage)}>currPage</button>
+      <button onClick={() => console.log(data)}>data</button>
       <div className={cx('card-list-container')}>
         {postList &&
           postList.map((data, index) => (
@@ -29,7 +31,7 @@ export default function AllPosts() {
             </span>
           ))}
       </div>
-      <Pagination currPage={currPage} onClickPage={setCurrPage} pageCount={Math.ceil(data.totalCount / 6)} />
+      <Pagination currPage={currPage} onClickPage={setCurrPage} pageCount={data && Math.ceil(data.totalCount / 6)} />
     </div>
   );
 }
