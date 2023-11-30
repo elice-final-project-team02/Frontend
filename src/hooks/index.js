@@ -15,4 +15,5 @@ export * from './getCompletedPostList';
 export * from './putCancelBookmarks';
 export * from './getPostList';
 export * from './postLogout';
+export * from './getRoom';
 export * from './getRooms';

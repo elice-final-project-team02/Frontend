@@ -36,6 +36,11 @@
     .title {
       font-size: 16px;
       margin-left: 16px;
+      display: block;
+      width: 440px;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
       &:hover {
         color: var(--crl-blue-900);
       }

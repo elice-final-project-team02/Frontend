@@ -313,42 +313,6 @@ export default function WritePost({ params, beforeData }) {
 
   return (
     <div className={cx('wrapper')}>
-      <button
-        onClick={() => {
-          console.log(postContent);
-        }}
-      >
-        postContent
-      </button>
-      <button
-        onClick={() => {
-          console.log(beforeData);
-        }}
-      >
-        beforeData
-      </button>
-      <button
-        onClick={() => {
-          console.log([...beforeData.post.reservation.longTerm.schedule.map((obj) => obj.careDay)]);
-        }}
-      >
-        [...beforeData.post.reservation.longTerm.schedule]
-      </button>
-      <button
-        onClick={() => {
-          console.log(checkedDaysList);
-        }}
-      >
-        checkedDaysList
-      </button>
-      <button
-        onClick={() => {
-          console.log(isChangedTimeSchdule);
-        }}
-      >
-        isChangedTimeSchdule
-      </button>
-
       <form onSubmit={handleSubmit}>
         <div className={cx('title-wrapper')}>
           <label className={cx('title-level')}>제목</label>

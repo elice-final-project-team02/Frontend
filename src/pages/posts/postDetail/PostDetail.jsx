@@ -14,6 +14,7 @@ import * as date from 'lib';
 import { useGetUser, useDeletePostAndGoHome, useGetRequestGoHome } from 'hooks';
 import * as data from 'lib';
 import MessageForm from 'components/common/message/MessageForm.jsx';
+import { LoadingModal } from 'components';
 const cx = cs.bind(styles);
 
 export default function PostDetail() {
@@ -21,7 +22,7 @@ export default function PostDetail() {
   const postId = id;
   const [displayData, setDisplayData] = React.useState({});
   const { data: requestData, isLoading: isRequestLoading } = useGetRequestGoHome(postId);
-  const { data: userData } = useGetUser();
+  const { data: userData, isLoading: isUserLoading } = useGetUser();
   const { mutate } = useDeletePostAndGoHome(postId);
 
   // 신청 form 양식 모달창 state
@@ -49,8 +50,8 @@ export default function PostDetail() {
             .filter((obj, index) => index !== 0)
             .sort((a, b) => new Date(a.careDate) - new Date(b.careDate)),
         status: requestData.post.reservation.status,
-        userRole: userData && userData.role.role,
-        userId: userData && userData._id,
+        userRole: userData.role.role,
+        userId: userData._id,
         authorName: requestData.authorProfile.name,
         authorId: requestData.post.author,
         authorImageUrl: requestData.authorProfile.profileUrl,
@@ -92,7 +93,7 @@ export default function PostDetail() {
     }
     return array;
   }
-  if (isRequestLoading) return <div>로딩중</div>;
+  if (isRequestLoading && isUserLoading) return <LoadingModal message="게시글을 불러오는 중입니다" />;
 
   return (
     <div className={cx('wrapper')}>
