@@ -7,7 +7,7 @@ import cs from 'classnames/bind';
 import { FiSend } from 'react-icons/fi';
 import { useRecoilValue } from 'recoil';
 import { roleState } from 'recoil/roleState';
-import { useGetRoom } from 'hooks';
+import { useGetRoom, usePostSendMessage } from 'hooks';
 import { useLeaveRoom } from 'hooks/leaveRoom';
 
 const cx = cs.bind(styles);
@@ -23,12 +23,41 @@ export default function ChattingRoom({ selectedChatId, chatInfoSelect }) {
   const [showFlag, setShowFlag] = useState(false);
   const [postUrl, setPostUrl] = useState(''); // 채팅방 내 게시글 주소
   const [careTarget, setCareTarget] = useState('');
+  // 채팅창 입력 시 저장될 state
+  const [inputmessage, setInputMessage] = useState('');
   const unreadMessageRef = useRef(null);
 
   const role = useRecoilValue(roleState);
 
   const { data, isLoading } = useGetRoom(selectedChatId);
   const { mutateAsync } = useLeaveRoom();
+  const { mutate } = usePostSendMessage();
+
+  useEffect(() => {
+    // 채팅방에 진입하면 안읽은 메시지로 스크롤이 내려감
+    if (unreadMessageRef.current) {
+      unreadMessageRef.current.scrollIntoView({
+        behavior: 'smooth',
+      });
+    }
+
+    if (data) {
+      console.log(data.chat);
+      setPostUrl('/posts/' + data.chat.post._id);
+      setCareTarget(data.chat.post.careInformation.careTarget);
+    }
+  }, [data]);
+
+  // 채팅 입력(textarea) 메서드
+  const handleInputChange = (e) => {
+    setInputMessage(e.target.value);
+  };
+
+  // 채팅 메시지 전송(send) 메서드
+  const useSendMessageRequest = () => {
+    mutate({ chatId: selectedChatId, content: inputmessage });
+    console.log(selectedChatId);
+  };
 
   useEffect(() => {
     // 채팅방에 진입하면 안읽은 메시지로 스크롤이 내려감
@@ -219,7 +248,7 @@ export default function ChattingRoom({ selectedChatId, chatInfoSelect }) {
                           timeZone: 'UTC',
                         })}
                       </p>
-                      <p className={cx('chat-read')}>{message.isRead ? '읽음' : '안읽음'}</p>
+                      <p className={cx('chat-read')}>{message.isRead ? '읽음' : ''}</p>
                     </li>
                   </>
                 );
@@ -233,9 +262,14 @@ export default function ChattingRoom({ selectedChatId, chatInfoSelect }) {
 
           {/* 푸터 영역 */}
           <div className={cx('chat-room-footer')}>
-            {/* <input type="text" placeholder="메시지를 입력해주세요." /> */}
-            <textarea className={cx('inputbox')} placeholder="메시지를 입력해주세요." maxlength="100"></textarea>
-            <button className={cx('send-message')}>
+            <textarea
+              className={cx('inputbox')}
+              placeholder="메시지를 입력해주세요."
+              value={inputmessage}
+              onChange={handleInputChange}
+              maxlength="100"
+            ></textarea>
+            <button onClick={useSendMessageRequest} className={cx('send-message')}>
               <FiSend size="30" color="var(--crl-blue-900) " />
             </button>
           </div>

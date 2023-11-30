@@ -88,10 +88,14 @@
       .user-itembox {
         flex: 1 1 auto;
         padding: 0 25px;
+        overflow: hidden;
 
         .post-title {
           font-size: 13px;
           color: #777;
+          overflow: hidden;
+          text-overflow: ellipsis;
+          white-space: nowrap;
         }
 
         .username {

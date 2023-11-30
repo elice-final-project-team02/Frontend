@@ -15,5 +15,8 @@ export * from './getCompletedPostList';
 export * from './putCancelBookmarks';
 export * from './getPostList';
 export * from './postLogout';
+export * from './getFormMateInfo';
+export * from './postSendModalForm';
+export * from './postMessage';
 export * from './getRoom';
 export * from './getRooms';
