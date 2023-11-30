@@ -10,11 +10,12 @@ const postVerifyCode = async (email, code) => {
   return response.data;
 };
 
-export function usePostVerifyCode(email, code, setVerifyButtonDisabled) {
+export function usePostVerifyCode(email, code, setVerifyButtonDisabled, setEmailButtonDisabled) {
   return useMutation(() => postVerifyCode(email, code), {
     onSuccess: (response) => {
       alert(response.message);
       setVerifyButtonDisabled(true);
+      setEmailButtonDisabled(true);
     },
     onError: (error) => {
       setVerifyButtonDisabled(false);

@@ -2,8 +2,15 @@
   .auth-wrapper {
     display: flex;
     padding: 0 40px;
-    input:disabled {
-      cursor: not-allowed;
+    input {
+      &:disabled {
+        cursor: not-allowed;
+      }
+      &:focus {
+        outline: none;
+        border: 1.3px solid var(--crl-neutral-900);
+        box-shadow: 0 0 4px var(--crl-neutral-600);
+      }
     }
     .inputWithButton {
       width: 47%;

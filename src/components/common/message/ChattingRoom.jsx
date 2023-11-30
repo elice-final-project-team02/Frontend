@@ -23,27 +23,44 @@ export default function ChattingRoom({ selectedChatId, chatInfoSelect }) {
   const [showFlag, setShowFlag] = useState(false);
   const [postUrl, setPostUrl] = useState(''); // 채팅방 내 게시글 주소
   const [careTarget, setCareTarget] = useState('');
+  const [message, setMessage] = useState([]);
   // 채팅창 입력 시 저장될 state
   const [inputmessage, setInputMessage] = useState('');
   const unreadMessageRef = useRef(null);
+  const scrollRef = useRef(null);
 
   const role = useRecoilValue(roleState);
 
   const { data, isLoading } = useGetRoom(selectedChatId);
   const { mutateAsync } = useLeaveRoom();
-
   const { mutate } = usePostSendMessage();
 
+  useEffect(() => {
+    // 채팅방에 진입하면 안읽은 메시지로 스크롤이 내려감
+    if (unreadMessageRef.current) {
+      unreadMessageRef.current.scrollIntoView({
+        behavior: 'smooth',
+      });
+    } else {
+      scrollRef.current.scrollIntoView({ behavior: 'smooth' });
+    }
+
+    if (data) {
+      setPostUrl('/posts/' + data.chat.post._id);
+      setCareTarget(data.chat.post.careInformation.careTarget);
+      setMessage(data.chat.message);
+    }
+  }, [data, message]);
 
   // 채팅 입력(textarea) 메서드
   const handleInputChange = (e) => {
     setInputMessage(e.target.value);
   };
 
-   // 채팅 메시지 전송(send) 메서드
-   const useSendMessageRequest = () => {
-     mutate({ chatId: selectedChatId, content: inputmessage });
-     console.log(selectedChatId)
+  // 채팅 메시지 전송(send) 메서드
+  const useSendMessageRequest = () => {
+    mutate({ chatId: selectedChatId, content: inputmessage });
+    console.log(selectedChatId);
   };
 
   useEffect(() => {
@@ -55,7 +72,6 @@ export default function ChattingRoom({ selectedChatId, chatInfoSelect }) {
     }
 
     if (data) {
-      console.log(data.chat);
       setPostUrl('/posts/' + data.chat.post._id);
       setCareTarget(data.chat.post.careInformation.careTarget);
     }
@@ -240,6 +256,7 @@ export default function ChattingRoom({ selectedChatId, chatInfoSelect }) {
                   </>
                 );
               })}
+              <div ref={scrollRef}></div>
             </ul>
 
             <img className={cx('backimg-hat')} src={ChatBackHat} alt="채팅창 배경 모자이미지" />
@@ -249,16 +266,16 @@ export default function ChattingRoom({ selectedChatId, chatInfoSelect }) {
 
           {/* 푸터 영역 */}
           <div className={cx('chat-room-footer')}>
-          <textarea className={cx('inputbox')}
-            placeholder="메시지를 입력해주세요."
-            value={inputmessage}
-            onChange={handleInputChange}
-            maxlength="100"></textarea>
-          <button onClick={useSendMessageRequest} className={cx('send-message')}>
-              <FiSend size="30" color="var(--crl-blue-900) "/>
-          </button>
-          
-          
+            <textarea
+              className={cx('inputbox')}
+              placeholder="메시지를 입력해주세요."
+              value={inputmessage}
+              onChange={handleInputChange}
+              maxlength="100"
+            ></textarea>
+            <button onClick={useSendMessageRequest} className={cx('send-message')}>
+              <FiSend size="30" color="var(--crl-blue-900) " />
+            </button>
           </div>
         </div>
       )}

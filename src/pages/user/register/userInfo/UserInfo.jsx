@@ -67,7 +67,7 @@ export default function UserInfo() {
     email !== undefined,
     password !== undefined,
   ].some((field) => !field);
-  console.log(role, email, password);
+
   const handleSubmit = async (e) => {
     e.preventDefault();
     mutate();
