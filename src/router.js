@@ -116,25 +116,25 @@ export const router = createBrowserRouter([
       {
         path: '/posts/new',
         element: (
-          // <PrivateRoute role="user">
-          <WritePost />
-          // </PrivateRoute>
+          <PrivateRoute role="user">
+            <WritePost />
+          </PrivateRoute>
         ),
       },
       {
         path: '/posts/:id',
         element: (
-          // <PrivateRoute role="user">
-          <PostDetail />
-          // </PrivateRoute>
+          <PrivateRoute>
+            <PostDetail />
+          </PrivateRoute>
         ),
       },
       {
         path: '/posts/:id/edit',
         element: (
-          // <PrivateRoute role="user">
-          <EditPost />
-          // </PrivateRoute>
+          <PrivateRoute role="user">
+            <EditPost />
+          </PrivateRoute>
         ),
       },
     ],

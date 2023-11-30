@@ -12,11 +12,11 @@
     align-items: center;
     gap: 20px;
     padding-block: 3rem;
-
-    img {
-      margin: 20px;
-      width: 400px;
-      height: 100px;
+    span {
+      width: 200px;
+      img {
+        object-fit: cover;
+      }
     }
 
     h2 {
