@@ -3,7 +3,7 @@ import styles from './Header.module.scss';
 import cs from 'classnames/bind';
 import { Link, useNavigate } from 'react-router-dom';
 import { LogoClam } from 'assets/images';
-import { useRecoilValue, useSetRecoilState } from 'recoil';
+import { useRecoilValue } from 'recoil';
 import { isLoggedInState } from 'recoil/isLoggedInState';
 import { roleState } from 'recoil/roleState';
 import { usePostLogout } from 'hooks';
