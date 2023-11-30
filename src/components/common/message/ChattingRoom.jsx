@@ -23,6 +23,7 @@ export default function ChattingRoom({ selectedChatId, chatInfoSelect }) {
   const [showFlag, setShowFlag] = useState(false);
   const [postUrl, setPostUrl] = useState(''); // 채팅방 내 게시글 주소
   const [careTarget, setCareTarget] = useState('');
+  const [message, setMessage] = useState([]);
   // 채팅창 입력 시 저장될 state
   const [inputmessage, setInputMessage] = useState('');
   const unreadMessageRef = useRef(null);
@@ -47,8 +48,9 @@ export default function ChattingRoom({ selectedChatId, chatInfoSelect }) {
     if (data) {
       setPostUrl('/posts/' + data.chat.post._id);
       setCareTarget(data.chat.post.careInformation.careTarget);
+      setMessage(data.chat.message);
     }
-  }, [data, data.chat.message]);
+  }, [data, message]);
 
   // 채팅 입력(textarea) 메서드
   const handleInputChange = (e) => {
