@@ -46,7 +46,7 @@
     }
 
     .message-items {
-      padding: 15px 10px 0;
+      padding: 20px 20px 0;
       background: var(--crl-neutral-100);
       box-sizing: border-box;
     }
@@ -56,7 +56,7 @@
       display: flex;
       justify-content: space-between;
       align-items: center;
-      padding: 0 0 20px;
+      padding: 0 0 25px;
 
       // &:hover { 상의 후 적용예정.
       //   border-radius: 10px;
@@ -100,7 +100,7 @@
           line-height: 1.8;
         }
 
-        .keyword {
+        .careTarget {
           display: inline-block;
           width: 50px;
           height: 22px;
