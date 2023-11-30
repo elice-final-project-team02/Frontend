@@ -13,8 +13,7 @@ export function useGetRoom(chatId) {
   const loginStatus = useRecoilValue(isLoggedInState);
   return useQuery('get-room', () => getRoom(chatId), {
     onError: (error) => {
-      // errorHandler(error);
-      return;
+      errorHandler(error);
     },
     retry: 0,
     enabled: loginStatus !== 'LOADING',
