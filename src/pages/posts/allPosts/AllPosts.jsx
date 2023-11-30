@@ -20,7 +20,6 @@ export default function AllPosts() {
   React.useEffect(() => {
     setPostList([]);
     if (data) {
-      console.log(data);
       setPostList([...data.posts]);
     }
   }, [data, currPage]);
