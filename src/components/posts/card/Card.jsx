@@ -12,8 +12,7 @@ const cx = cs.bind(styles);
 
 export default function Card({ data }) {
   const {
-    careInformation: { area, careTarget, preferredmateAge, preferredmateGender
-    },
+    careInformation: { area, careTarget, preferredmateAge, preferredmateGender },
     createdAt,
     isBookmarked,
     reservation: { hourlyRate, isLongTerm, negotiableRate, status, longTerm, shortTerm },
@@ -50,7 +49,7 @@ export default function Card({ data }) {
           <div className={cx('main-bottom')}>
             <span className={cx('card-status')}>모집 중</span>
             <span className={cx('time-stamp')}>등록일 {date.changeDateToMonthAndDate(createdAt)}</span>
-            <WishButton isBookmarked={isBookmarked}/>
+            <WishButton isBookmarked={isBookmarked} />
           </div>
         </div>
         <div className={cx('extra-info')}>
@@ -63,18 +62,16 @@ export default function Card({ data }) {
               <FaCalendar color="#d3d3d3" className={cx('extra-info-icon')} />
               {isLongTerm ? (
                 <span className={cx('text-information')}>
-                  {`${date.changeDateToMonthAndDate(
-                    longTerm.startDate
-                  )}~ ${longTerm.schedule.map((obj) => obj.careDay).join(' ')}`}
+                  {`${date.changeDateToMonthAndDate(longTerm.startDate)}~ ${longTerm.schedule
+                    .map((obj) => obj.careDay)
+                    .join(' ')}`}
                 </span>
               ) : (
                 shortTerm && (
                   <span className={cx('text-information')}>
-                    {`${date.changeDateToMonthAndDate(
-                      shortTerm[0].careDate
-                    )} ~ ${date.changeDateToMonthAndDate(
+                    {`${date.changeDateToMonthAndDate(shortTerm[1].careDate)} ~ ${date.changeDateToMonthAndDate(
                       shortTerm[shortTerm.length - 1].careDate
-                    )} (총 ${shortTerm.length}일)`}
+                    )} (총 ${shortTerm.length - 1}일)`}
                   </span>
                 )
               )}
@@ -82,20 +79,20 @@ export default function Card({ data }) {
             <li className={cx('time')}>
               <FaClock color="#d3d3d3" className={cx('extra-info-icon')} />
               {isLongTerm ? (
-                  <span className={cx('text-information')}>
-                    {longTerm &&
-                      `${date.changeDateToAmPmAndHour(
-                        longTerm.schedule[0]?.startTime
-                      )} ~ ${date.changeDateToAmPmAndHour(longTerm.schedule[0]?.endTime)}`}
-                  </span>
-                ) : (
-                  <span className={cx('text-information')}>
-                    {shortTerm &&
-                      `${date.changeDateToAmPmAndHour(
-                        shortTerm[0].startTime
-                      )} ~ ${date.changeDateToAmPmAndHour(shortTerm[0].endTime)}`}
-                  </span>
-                )}
+                <span className={cx('text-information')}>
+                  {longTerm &&
+                    `${date.changeDateToAmPmAndHour(longTerm.schedule[0]?.startTime)} ~ ${date.changeDateToAmPmAndHour(
+                      longTerm.schedule[0]?.endTime
+                    )}`}
+                </span>
+              ) : (
+                <span className={cx('text-information')}>
+                  {shortTerm &&
+                    `${date.changeDateToAmPmAndHour(shortTerm[1].startTime)} ~ ${date.changeDateToAmPmAndHour(
+                      shortTerm[1].endTime
+                    )}`}
+                </span>
+              )}
             </li>
             <li className={cx('prefer-mate')}>
               <BsPersonFill color="#d3d3d3" className={cx('extra-info-icon')} />
