@@ -124,7 +124,7 @@ export const router = createBrowserRouter([
       {
         path: '/posts/:id',
         element: (
-          <PrivateRoute role="user">
+          <PrivateRoute>
             <PostDetail />
           </PrivateRoute>
         ),

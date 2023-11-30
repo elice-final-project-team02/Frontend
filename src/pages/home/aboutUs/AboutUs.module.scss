@@ -6,6 +6,7 @@
 
   .flexMainItem {
     flex: 0 0 calc(50% - 8px);
+    padding-bottom: 100px;
   }
 
   .flexImage {
@@ -13,10 +14,20 @@
     display: flex;
     align-items: center;
     justify-content: center;
+    padding-bottom: 100px;
 
     img {
       width: 500px;
       height: 250px;
     }
+  }
+  .cardContainer {
+    padding: 30px;
+  }
+
+  .cardWrapper {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 22px;
   }
 }

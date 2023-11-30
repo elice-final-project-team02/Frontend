@@ -325,13 +325,14 @@ export default function WritePost({ params, beforeData }) {
             onBlur={checkEmptyValue}
             placeholder="ex) 5세 남아 등하원 도우미 구합니다."
             maxLength={35}
+            tabIndex="1"
           />
         </div>
         <div className={cx('region-wrapper')}>
           <span className={cx('title-level')} v>
             지역
           </span>
-          <select value={postContent.region} required name="region" onChange={handleChange}>
+          <select value={postContent.region} tabIndex="2" required name="region" onChange={handleChange}>
             <option value="">시</option>
             {regions[0].map((area, index) => (
               <option key={index} value={area}>
@@ -339,7 +340,7 @@ export default function WritePost({ params, beforeData }) {
               </option>
             ))}
           </select>
-          <select value={postContent.subRegion} required name="subRegion" onChange={handleChange}>
+          <select tabIndex="3" value={postContent.subRegion} required name="subRegion" onChange={handleChange}>
             <option value="">구</option>
             {postContent.region &&
               regions[regions[0].indexOf(postContent.region) + 1]?.map((area, index) => (
@@ -361,7 +362,7 @@ export default function WritePost({ params, beforeData }) {
                 checked={postContent.careTarget === '아동'}
                 id="target-infant"
               />
-              <label htmlFor="target-infant">
+              <label htmlFor="target-infant" tabIndex="4">
                 <span className={cx('target-image-wrapper')}>
                   <img src={InfantImage} alt="아동" />
                 </span>
@@ -375,9 +376,10 @@ export default function WritePost({ params, beforeData }) {
                 checked={postContent.careTarget === '노인'}
                 name="careTarget"
                 value="노인"
+                tabIndex="5"
                 id="target-senior"
               />
-              <label htmlFor="target-senior">
+              <label htmlFor="target-senior" tabIndex="5">
                 <span className={cx('target-image-wrapper')}>
                   <img src={SeniorOneImage} alt="노인" />
                 </span>
@@ -391,9 +393,10 @@ export default function WritePost({ params, beforeData }) {
                 checked={postContent.careTarget === '장애인'}
                 name="careTarget"
                 value="장애인"
+                tabIndex="6"
                 id="target-disabled"
               />
-              <label htmlFor="target-disabled">
+              <label htmlFor="target-disabled" tabIndex="6">
                 <span className={cx('target-image-wrapper')}>
                   <img src={Challenged} alt="장애인" />
                 </span>
@@ -417,7 +420,7 @@ export default function WritePost({ params, beforeData }) {
         )}
         <div className={cx(!beforeData || isChangedTimeSchdule ? '' : 'hidden')}>
           <div className={cx('care-term-wrapper')}>
-            <span className={cx('title-level', 'term-wrapper')}>
+            <span className={cx('title-level', 'term-wrapper')} tabIndex="7">
               돌봄 기간
               <span className={cx('hover-space', postContent.careTerm === 'long' ? 'hide' : null)}></span>
               <span className={cx('short-term-tooltip')}>한달 내 선택가능</span>
@@ -517,7 +520,9 @@ export default function WritePost({ params, beforeData }) {
           </div>
         </div>
         <div className={cx('preferred-mate-wrapper')}>
-          <p className={cx('title-level')}>선호 돌봄유저</p>
+          <p className={cx('title-level')} tabIndex="7">
+            선호 돌봄유저
+          </p>
           <div className={cx('preferred-mate-gender-wrapper')}>
             <input
               type="radio"
@@ -584,6 +589,7 @@ export default function WritePost({ params, beforeData }) {
               <input
                 type="text"
                 name="hourlyRate"
+                tabIndex="8"
                 required
                 value={addCommas(beforeData.post.reservation.hourlyRate)}
                 onInput={formatNumber}
@@ -595,6 +601,7 @@ export default function WritePost({ params, beforeData }) {
               <input
                 type="text"
                 name="hourlyRate"
+                tabIndex="8"
                 required
                 onInput={formatNumber}
                 onChange={handleChange}
@@ -603,7 +610,7 @@ export default function WritePost({ params, beforeData }) {
               />
             )}
           </div>
-          <label htmlFor="negotiableRate" className={cx('negotiable-box-wrapper')}>
+          <label htmlFor="negotiableRate" tabIndex="9" className={cx('negotiable-box-wrapper')}>
             <input
               type="checkbox"
               name="negotiableRate"
@@ -625,6 +632,7 @@ export default function WritePost({ params, beforeData }) {
             onChange={handleChange}
             placeholder="ex) 유치원 등하원 시 케어해주시면 됩니다."
             name="content"
+            tabIndex="10"
             required
             onBlur={checkEmptyValue}
             maxLength={200}
@@ -641,6 +649,7 @@ export default function WritePost({ params, beforeData }) {
             placeholder="ex) 나이, 성격, 좋아하는 것, 싫어하는 것 등"
             onBlur={checkEmptyValue}
             maxLength={200}
+            tabIndex="11"
           ></textarea>
           <span className={cx('title-level')}>돌봄 대상 유의사항</span>
           <textarea
@@ -650,14 +659,15 @@ export default function WritePost({ params, beforeData }) {
             value={postContent.cautionNotes}
             onBlur={checkEmptyValue}
             placeholder="ex) 나이, 성격, 좋아하는 것, 싫어하는 것 등"
+            tabIndex="12"
             maxLength={200}
           ></textarea>
         </div>
         <div className={cx('button-wrapper')}>
-          <button type="button" className={cx('cancel')} onClick={handleCancel}>
+          <button type="button" tabIndex="13" className={cx('cancel')} onClick={handleCancel}>
             취소
           </button>
-          <button type="submit" className={cx('primary')}>
+          <button tabIndex="13" type="submit" className={cx('primary')}>
             작성하기
           </button>
         </div>
