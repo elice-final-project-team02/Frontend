@@ -1,5 +1,5 @@
 import axios from 'axios';
-import { QueryClient, useMutation } from 'react-query';
+import { useMutation } from 'react-query';
 import { useNavigate } from 'react-router';
 import { errorHandler } from 'lib';
 import { queryClient } from 'App';

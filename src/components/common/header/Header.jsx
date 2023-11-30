@@ -1,9 +1,9 @@
 import React, { useState } from 'react';
 import styles from './Header.module.scss';
 import cs from 'classnames/bind';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { LogoClam } from 'assets/images';
-import { useRecoilValue, useSetRecoilState } from 'recoil';
+import { useRecoilValue } from 'recoil';
 import { isLoggedInState } from 'recoil/isLoggedInState';
 import { roleState } from 'recoil/roleState';
 import { usePostLogout } from 'hooks';
@@ -11,6 +11,7 @@ import { usePostLogout } from 'hooks';
 const cx = cs.bind(styles);
 
 export default function Header() {
+  const navigate = useNavigate();
   const isLoggedIn = useRecoilValue(isLoggedInState);
   const role = useRecoilValue(roleState);
   const { mutate } = usePostLogout();
@@ -24,6 +25,7 @@ export default function Header() {
   const handleLogout = () => {
     if (window.confirm('로그아웃 하시겠습니까?')) {
       mutate();
+      navigate('/');
     }
   };
 
