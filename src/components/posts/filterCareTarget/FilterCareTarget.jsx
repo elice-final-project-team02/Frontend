@@ -9,98 +9,42 @@ const careTargets = ['아동', '노인', '장애인'];
 export default function FilterCareTarget({}) {
   const [selectedTarget, setSelectedTarget] = useSearchParams('careTarget');
   const [selectedTerm, setSelectedTerm] = useState(null);
-
+  const [isLongTerm, setIsLongTerm] = useState('');
   const currentTarget = selectedTarget.get('careTarget');
 
-  const handleTargetCheckboxChange = (target) => {
-    let newTerm = selectedTerm;
-
-    if (currentTarget === target) {
-      setSelectedTarget('');
-    } else {
-      if (selectedTerm !== null) {
-        setSelectedTarget(`?careTarget=${target}&isLongTerm=${selectedTerm}`);
-      } else {
-        setSelectedTarget(`?careTarget=${target}`);
-      }
-    }
-
-    if (currentTarget === target) {
-      if (newTerm !== null) {
-        setSelectedTarget(`?careTarget=${target}&isLongTerm=${newTerm}`);
-      } else {
-        setSelectedTarget(`?careTarget=${target}`);
-      }
-    }
-  };
-
-  const handleTermCheckboxChange = (term) => {
-    setSelectedTerm((prevTerm) => (prevTerm === term ? null : term));
-    if (currentTarget) {
-      setSelectedTarget(`?careTarget=${currentTarget}&isLongTerm=${term}`);
-    }
-  };
-
-  const handleAllCheckboxChange = () => {
-    setSelectedTarget('');
-    setSelectedTerm(null);
-  };
-
-  useEffect(() => {
-    if (currentTarget && selectedTerm === null) {
-      setSelectedTarget(`?careTarget=${currentTarget}`);
-    } else if (currentTarget === null && selectedTerm === null) {
-      window.history.pushState(null, null, '/posts');
-    }
-  }, [currentTarget, selectedTerm]);
+  const handleChange = (e) => {};
 
   return (
     <div className={cx('wrapper')}>
       <div className={cx('filter-container')}>
-        <label className={cx('filter-target')} key="all">
-          <input
-            type="checkbox"
-            value="All"
-            checked={!currentTarget && selectedTerm === null}
-            onChange={handleAllCheckboxChange}
-          />
+        <label className={cx('filter-target')} htmlFor="all-select" key="all">
+          <input id="all-select" type="radio" value="All" name="target" />
           <span className={cx('checkmark')}></span>
           전체 보기
         </label>
         {careTargets.map((target, index) => (
-          <label className={cx('filter-target')} key={index + 1}>
-            <input
-              type="checkbox"
-              value={target}
-              checked={currentTarget === target}
-              onChange={() => handleTargetCheckboxChange(target)}
-            />
+          <label htmlFor={`select${index}`} className={cx('filter-target')} key={index}>
+            <input type="radio" id={`select${index}`} name="target" />
             <span className={cx('checkmark')}></span>
             {target}
           </label>
         ))}
-        <label className={cx('filter-target')} key={4}>
-          <input
-            type="checkbox"
-            value="단기"
-            checked={selectedTerm === false}
-            onChange={() => {
-              handleTermCheckboxChange(false);
-            }}
-          />
-          <span className={cx('term', 'checkmark')}></span>
+        <label className={cx('filter-target')}>
+          <input type="checkbox" value="단기" />
+          <span
+            className={cx('term', 'checkmark')}
+            onChange={handleChange}
+            checked={isLongTerm !== 'true' && isLongTerm !== 'all'}
+          ></span>
           단기
         </label>
-        <label className={cx('filter-target')} key={5}>
-          <input
-            type="checkbox"
-            value="정기"
-            checked={selectedTerm === true}
-            onChange={() => {
-              handleTermCheckboxChange(true);
-            }}
-          />
-          <span className={cx('term', 'checkmark')}></span>
+        <label className={cx('filter-target')}>
+          <input type="checkbox" value="정기" />
+          <span
+            className={cx('term', 'checkmark')}
+            onChange={handleChange}
+            checked={isLongTerm !== 'false' && isLongTerm !== 'all'}
+          ></span>
           정기
         </label>
       </div>

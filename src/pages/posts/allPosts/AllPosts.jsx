@@ -10,20 +10,20 @@ const cx = cs.bind(styles);
 export default function AllPosts() {
   const [searchInput, setSearchInput] = useState('');
   const [currPage, setCurrPage] = useState(0);
+  const nowPage = currPage + 1;
   const [searchParams] = useSearchParams();
-  const showPage = currPage + 1;
   const careTarget = searchParams.get('careTarget');
   const isLongTerm = searchParams.get('isLongTerm');
-  const { data, isLoading } = useGetPostList({ showPage, careTarget, isLongTerm });
+  const { data, isLoading } = useGetPostList({ careTarget, isLongTerm });
   const [postList, setPostList] = useState([]);
   const [filteredPostList, setFilteredPostList] = useState([]);
-
+  const PAGE_LIMIT = 6;
   useEffect(() => {
     setPostList([]);
     if (data) {
       setPostList([...data.posts]);
     }
-  }, [data, currPage]);
+  }, [data]);
 
   useEffect(() => {
     if (searchInput.length === 0) {
@@ -48,7 +48,27 @@ export default function AllPosts() {
 
   return (
     <div className={cx('wrapper')}>
-      <button onClick={()=>{console.log(data)}}>data</button>
+      <button
+        onClick={() => {
+          console.log(data);
+        }}
+      >
+        data
+      </button>
+      <button
+        onClick={() => {
+          console.log(postList);
+        }}
+      >
+        postList
+      </button>
+      <button
+        onClick={() => {
+          console.log(filteredPostList);
+        }}
+      >
+        filteredPostList
+      </button>
       <SearchBar className={cx('all-posts-style')} searchInput={searchInput} onSearchChange={handleSearchChange} />{' '}
       <FilterCareTarget />
       <div className={cx('card-list-container')}>
@@ -61,14 +81,18 @@ export default function AllPosts() {
             검색결과가 없습니다.
           </div>
         ) : (
-          filteredPostList.map((data, index) => (
+          filteredPostList.slice(PAGE_LIMIT * (nowPage - 1), PAGE_LIMIT * nowPage).map((data, index) => (
             <Link to={`/posts/${data._id}`} key={index}>
               <Card data={data} />
             </Link>
           ))
         )}
       </div>
-      <Pagination currPage={currPage} onClickPage={setCurrPage} pageCount={data && Math.ceil(data.totalCount / 6)} />
+      <Pagination
+        currPage={currPage}
+        onClickPage={setCurrPage}
+        pageCount={filteredPostList && Math.ceil(filteredPostList.length / 6)}
+      />
     </div>
   );
 }
