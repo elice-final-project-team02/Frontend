@@ -18,6 +18,11 @@ const getPostList = async ({ showPage, careTarget, isLongTerm }) => {
       withCredentials: true,
     });
     return response.data.data;
+  } else if (!careTarget && isLongTerm) {
+    const response = await axios.get(`/api/post?page=${showPage}&limit=6&isLongTerm=${isLongTerm}`, {
+      withCredentials: true,
+    });
+    return response.data.data;
   } else {
     const response = await axios.get(`/api/post?page=${showPage}&limit=6&careTarget=${careTarget}`, {
       withCredentials: true,
