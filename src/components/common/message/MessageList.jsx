@@ -8,6 +8,7 @@ import { roleState } from 'recoil/roleState';
 import * as date from 'lib';
 import { ChatLoadingModal } from 'components';
 const cx = cs.bind(styles);
+
 // 메시지함 리스트 컴포넌트 (채팅형식 UI - 레이어 팝업 형태)
 export default function MessageList({ chatInfoSelect }) {
   const role = useRecoilValue(roleState);
@@ -15,7 +16,7 @@ export default function MessageList({ chatInfoSelect }) {
   const { data: roomData, isLoading } = useGetChatRooms();
 
   useEffect(() => {
-    if (!isLoading & roomData) {
+    if (!isLoading && roomData) {
       const mapRoomsList = roomData.chats
         .filter((room) => room.deletedAt === null)
         .map((room) => ({
@@ -60,7 +61,7 @@ export default function MessageList({ chatInfoSelect }) {
             {/* 메시지 리스트 */}
             <ul className={cx('message-items')}>
               {/* 채팅 리스트 동적 생성 */}
-              {chatList.map((chatItem, index) => {
+              {chatList.map((chatItem) => {
                 const messageItem = cx('message-item', {
                   confirmed: chatItem.currentStatus === '매칭완료',
                 });
@@ -70,7 +71,7 @@ export default function MessageList({ chatInfoSelect }) {
                     onClick={() => {
                       chatInfoSelect(chatItem.chatId);
                     }}
-                    key={chatItem._id}
+                    key={chatItem.chatId}
                   >
                     {/* 프로필사진, n이미지 영역 */}
                     <div className={cx('user-profilebox')}>
@@ -109,9 +110,11 @@ export default function MessageList({ chatInfoSelect }) {
                         >
                           {chatItem.careTarget}
                         </span>
+                        {chatItem.currentStatus === '매칭완료' ? (
+                          <span className={cx('matching')}>매칭완료</span>
+                        ) : null}
                       </div>
 
-                      {chatItem.currentStatus === '매칭완료' ? <span className={cx('matching')}>매칭완료</span> : null}
                       <div className={cx('message-container')}>
                         <p className={cx('message-text')}>{chatItem.messagetext}</p>
                       </div>

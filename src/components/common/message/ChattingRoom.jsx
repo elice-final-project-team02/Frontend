@@ -49,7 +49,7 @@ export default function ChattingRoom({ selectedChatId, chatInfoSelect }) {
   };
   // 채팅 keyup 이벤트 (엔터만 구분)
   const handleInputSend = (e) => {
-    if (e.key === 'Enter' && !e.shiftKey) {
+    if (e.key === 'Enter' && !e.shiftKey && inputmessage !== '') {
       postSendMutate.mutate({ chatId: selectedChatId, content: inputmessage });
       setInputMessage('');
     }
@@ -73,7 +73,7 @@ export default function ChattingRoom({ selectedChatId, chatInfoSelect }) {
       setCareTarget(data.chat.post.careInformation.careTarget);
       setMessage(data.chat.message);
 
-      // TODO. 채팅방 상태가 매칭완료 일 때, setDisable(true) 해줘야 함. 완료된 채팅방 입장시 disable 처리.
+      if (data.chat.status === '매칭완료') setDisable(true);
     }
   }, [data, message]);
 
@@ -129,6 +129,11 @@ export default function ChattingRoom({ selectedChatId, chatInfoSelect }) {
       return;
     }
     return;
+  };
+
+  // 채팅 줄바꿈 치환
+  const exchangeHtml = (content) => {
+    return content.replace(/(?:\r\n|\r|\n)/g, '<br>');
   };
   return (
     <div className={cx('wrapper', { on: showFlag })}>
@@ -249,7 +254,10 @@ export default function ChattingRoom({ selectedChatId, chatInfoSelect }) {
                       </div>
                       <div>
                         <p className={cx(isMe ? 'username2' : 'username1')}>{isMe ? '나' : name}</p>
-                        <p className={cx('chat-text')}>{message.content}</p>
+                        <p
+                          className={cx('chat-text')}
+                          dangerouslySetInnerHTML={{ __html: exchangeHtml(message.content) }}
+                        ></p>
                       </div>
                       <p className={cx('chat-time')}>
                         {new Date(message.createdAt).toLocaleTimeString('en-US', {

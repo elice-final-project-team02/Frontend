@@ -11,24 +11,14 @@ import { useGetCheckUpdateMessage } from 'hooks';
 const cx = cs.bind(styles);
 
 // 메시지함(채팅하기) 버튼 (회원만 해당 서비스 이용 가능)
-export default function MessageButton() {
+export default function MessageButton({ checkUpdate }) {
   const isLoggedIn = useRecoilValue(isLoggedInState);
 
   // 팝업 애니메이션 효과 클래스를 붙이기위한 state
   const [showmessagebox, setShowMessageBox] = useState(false);
   const [popup, setPopup] = useState(false);
-  const [hasUnreadMessage, setHasUnreadMessage] = useState(true);
 
   const navigate = useNavigate();
-  const location = useLocation();
-
-  const checkUpdateMessage = useGetCheckUpdateMessage(); // 메시지 N 표시
-
-  useEffect(() => {
-    if (!checkUpdateMessage.isLoading && checkUpdateMessage.data) {
-      setHasUnreadMessage(checkUpdateMessage.data.isUpdated);
-    }
-  }, [location.pathname, checkUpdateMessage.isLoading, checkUpdateMessage.data]);
 
   const toggleMessageBox = (flag) => {
     if (isLoggedIn === 'LOGGED_IN') {
@@ -59,7 +49,7 @@ export default function MessageButton() {
           className={cx('message-box-btn')}
         >
           <img className={cx('img-message')} src={MessageBtn} alt="메시지함 버튼 이미지" />
-          {!hasUnreadMessage && <img className={cx('img-newmessage')} src={NewMessageImage} alt="새메시지이미지" />}
+          {checkUpdate && <img className={cx('img-newmessage')} src={NewMessageImage} alt="새메시지이미지" />}
         </button>
 
         {popup === true ? <MessageBox showmessagebox={showmessagebox} toggleMessageBox={toggleMessageBox} /> : null}

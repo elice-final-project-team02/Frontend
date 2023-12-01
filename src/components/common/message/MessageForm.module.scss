@@ -162,6 +162,13 @@
         color: #000;
         background-color: var(--crl-blue-800);
       }
+      // 신청하기 빈 값일때 버튼 비활성화 스타일
+      .btn-request:disabled:hover,
+      .btn-request:disabled {
+        background-color:#888;
+        color: var(--crl-neutral-100); 
+        cursor: not-allowed;
+      }
     }
   }
 }
