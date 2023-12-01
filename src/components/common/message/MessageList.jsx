@@ -13,29 +13,35 @@ export default function MessageList({ chatInfoSelect }) {
   const role = useRecoilValue(roleState);
 
   const [chatList, setChatList] = useState([]);
-  const [currentPage, setCurrentPage] = useState(0);
-  const { data: roomData, isLoading } = useGetChatRooms(currentPage + 1);
+  const { data: roomData, isLoading } = useGetChatRooms();
 
   useEffect(() => {
     if (roomData) {
-      const mapRoomsList = roomData.chats.map((room) => ({
-        chatId: room._id,
-        postNumber: room.post.postNumber,
-        careUsername: room.applicant.name,
-        username: room.author.name,
-        careTarget: room.post.careInformation.careTarget,
-        postTitle: room.post.title,
-        messagetext: room.message.content,
-        updateDate: room.message.createdAt,
-        isRead: room.message.isRead,
-        careUserProfileImage: room.applicant.profileUrl,
-        userProfileImage: room.author.profileUrl,
-      }));
+      const mapRoomsList = roomData.chats
+        .filter((room) => room.deletedAt === null)
+        .map((room) => ({
+          chatId: room._id,
+          postNumber: room.post.postNumber,
+          careUsername: room.applicant.name,
+          username: room.author.name,
+          careTarget: room.post.careInformation.careTarget,
+          postTitle: room.post.title,
+          messagetext: room.message.content,
+          updateDate: room.message.createdAt,
+          isRead: room.message.isRead,
+          sender: room.message.sender,
+          receiver: room.message.receiver,
+          careUserProfileImage: room.applicant.profileUrl,
+          userProfileImage: room.author.profileUrl,
+          currentStatus: room.status,
+          deleted: room.deletedAt,
+          userId: room.userId,
+        }));
       setChatList(mapRoomsList);
     }
   }, [roomData]);
 
-  function handleNewSignImage(chatItem) {
+  function handleUpdateRoomStatus(chatItem) {
     const updatedChatList = chatList.map((item) => {
       if (item.chatId === chatItem.chatId) {
         return { ...item, isRead: true };
@@ -66,14 +72,18 @@ export default function MessageList({ chatInfoSelect }) {
             <ul className={cx('message-items')}>
               {/* 채팅 리스트 동적 생성 */}
               {chatList.map((chatItem, index) => {
+                const messageItem = cx('message-item', {
+                  confirmed: chatItem.currentStatus === '매칭완료',
+                });
                 return (
                   <li
-                    className={cx('message-item')}
+                    className={messageItem}
                     onClick={() => {
                       chatInfoSelect(chatItem.chatId);
-                      handleNewSignImage(chatItem);
+                      handleUpdateRoomStatus(chatItem);
                     }}
                     key={index}
+                    style={{}}
                   >
                     {/* 프로필사진, n이미지 영역 */}
                     <div className={cx('user-profilebox')}>
@@ -86,8 +96,8 @@ export default function MessageList({ chatInfoSelect }) {
                         }
                         alt="상대유저 프로필이미지"
                       />
-                      <div>
-                        {chatItem.isRead ? null : (
+                      <div className={cx('newSign-box')}>
+                        {chatItem.isRead && chatItem.sender === chatItem.userId ? null : (
                           <img className={cx('img-newmessage')} src={NewMessageImage} alt="새메시지이미지" />
                         )}
                       </div>
@@ -99,7 +109,6 @@ export default function MessageList({ chatInfoSelect }) {
                         <span className={cx('post-num')}>#{chatItem.postNumber} </span>
                         {chatItem.postTitle}
                       </p>
-
                       <span className={cx('username')}>
                         {role === 'user' ? chatItem.careUsername : chatItem.username}
                       </span>
@@ -112,14 +121,12 @@ export default function MessageList({ chatInfoSelect }) {
                       >
                         {chatItem.careTarget}
                       </span>
+
+                      {chatItem.currentStatus === '매칭완료' ? <span className={cx('matching')}>매칭완료</span> : null}
                       <div className={cx('message-container')}>
                         <p className={cx('message-text')}>{chatItem.messagetext}</p>
                       </div>
                     </div>
-
-                    {/* 1차 기능 구현 목표 - 날짜/시분 모두 표시예정.
-                      추가기능 - 오늘날짜가 아니면 날짜로 표시, 오늘 날짜로 받은 채팅이면 시간 표시 예정. */}
-
                     {/* 날짜, 시분표시 영역 */}
                     <div className={cx('date-box')}>
                       <p className={cx('last-date')}>{date.changeDateToYearAndMonthAndDate(chatItem.updateDate)}</p>
