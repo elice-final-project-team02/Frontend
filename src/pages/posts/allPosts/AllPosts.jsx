@@ -48,6 +48,7 @@ export default function AllPosts() {
 
   return (
     <div className={cx('wrapper')}>
+      <button onClick={()=>{console.log(data)}}>data</button>
       <SearchBar className={cx('all-posts-style')} searchInput={searchInput} onSearchChange={handleSearchChange} />{' '}
       <FilterCareTarget />
       <div className={cx('card-list-container')}>
