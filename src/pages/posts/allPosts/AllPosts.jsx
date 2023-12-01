@@ -40,7 +40,6 @@ export default function AllPosts() {
   useEffect(() => {
     setCurrPage(0);
   }, [searchInput, careTarget, isLongTerm]);
-  //
 
   const handleSearchChange = (text) => {
     setSearchInput(text);
