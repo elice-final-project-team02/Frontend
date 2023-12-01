@@ -18,7 +18,7 @@ export default function MessageList({ chatInfoSelect }) {
   useEffect(() => {
     if (!isLoading && roomData) {
       const mapRoomsList = roomData.chats
-        .filter((room) => room.deletedAt === null)
+        .filter((room) => !room.leaveRoom.includes(room.userId))
         .map((room) => ({
           chatId: room._id,
           postNumber: room.post.postNumber,
@@ -34,6 +34,7 @@ export default function MessageList({ chatInfoSelect }) {
           careUserProfileImage: room.applicant.profileUrl,
           userProfileImage: room.author.profileUrl,
           currentStatus: room.status,
+          leaveRoom: room?.leaveRoom,
           deleted: room.deletedAt,
           userId: room.userId,
         }));
@@ -64,6 +65,7 @@ export default function MessageList({ chatInfoSelect }) {
               {chatList.map((chatItem) => {
                 const messageItem = cx('message-item', {
                   confirmed: chatItem.currentStatus === '매칭완료',
+                  disabled: chatItem.leaveRoom.length,
                 });
                 return (
                   <li

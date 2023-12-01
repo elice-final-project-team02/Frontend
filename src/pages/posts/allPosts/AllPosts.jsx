@@ -10,39 +10,59 @@ const cx = cs.bind(styles);
 export default function AllPosts() {
   const [searchInput, setSearchInput] = useState('');
   const [currPage, setCurrPage] = useState(0);
+  const nowPage = currPage + 1;
   const [searchParams] = useSearchParams();
-  const showPage = currPage + 1;
   const careTarget = searchParams.get('careTarget');
   const isLongTerm = searchParams.get('isLongTerm');
-  const { data, isLoading } = useGetPostList({ showPage, careTarget, isLongTerm });
+  const [controlTarget, setControlTarget] = useState(careTarget);
+  const [controlTerm, setControlTerm] = useState(isLongTerm);
+  const { data, isLoading } = useGetPostList({ controlTarget, controlTerm });
   const [postList, setPostList] = useState([]);
   const [filteredPostList, setFilteredPostList] = useState([]);
-  const [ingpostList, setIngPostList] = useState([]);
+  const [recruitingPostList, setRecruitingPostList] = useState([]);
+  const PAGE_LIMIT = 6;
+  useEffect(() => {
+    if (careTarget) {
+      setControlTarget(careTarget);
+      return;
+    } else if (!careTarget) {
+      setControlTarget('전체');
+    }
+  }, [careTarget]);
+  useEffect(() => {
+    if (isLongTerm) {
+      setControlTerm(isLongTerm);
+      return;
+    } else if (!isLongTerm) {
+      setControlTerm('all');
+    }
+  }, [isLongTerm]);
 
   useEffect(() => {
+    setCurrPage(0);
     setPostList([]);
     if (data) {
-      setPostList([...data.posts]);
+      setPostList([...data?.posts]);
     }
-  }, [data, currPage]);
+  }, [data, controlTarget, controlTerm]);
 
   useEffect(() => {
-    const ingPost = postList.filter((post) => post.reservation.status === '모집중');
-    setIngPostList([...ingPost]);
+    const recruitingPost = postList.filter((post) => post.reservation.status === '모집중');
+    setRecruitingPostList([...recruitingPost]);
   }, [postList, data]);
 
   useEffect(() => {
     if (searchInput.length === 0) {
-      setFilteredPostList([...ingpostList]);
+      setFilteredPostList([...recruitingPostList]);
       return;
     } else {
-      const filteredList = ingpostList.filter((post) =>
+      const filteredList = recruitingPostList.filter((post) =>
         post.title.toLowerCase().replace(' ', '').includes(searchInput.toLowerCase().replace(' ', ''))
       );
       setFilteredPostList(filteredList);
       return;
     }
-  }, [searchInput, ingpostList, careTarget, isLongTerm]);
+  }, [searchInput, recruitingPostList, careTarget, isLongTerm]);
 
   useEffect(() => {
     setCurrPage(0);
@@ -55,7 +75,12 @@ export default function AllPosts() {
   return (
     <div className={cx('wrapper')}>
       <SearchBar className={cx('all-posts-style')} searchInput={searchInput} onSearchChange={handleSearchChange} />{' '}
-      <FilterCareTarget />
+      <FilterCareTarget
+        onChangeTarget={setControlTarget}
+        onChangeTerm={setControlTerm}
+        controlTarget={controlTarget}
+        controlTerm={controlTerm}
+      />
       <div className={cx('card-list-container')}>
         {isLoading && <LoadingModal message="게시글 목록을 불러오는 중입니다" />}
         {!isLoading && filteredPostList.length === 0 ? (
@@ -66,14 +91,18 @@ export default function AllPosts() {
             검색결과가 없습니다.
           </div>
         ) : (
-          filteredPostList.map((data, index) => (
+          filteredPostList.slice(PAGE_LIMIT * (nowPage - 1), PAGE_LIMIT * nowPage).map((data, index) => (
             <Link to={`/posts/${data._id}`} key={index}>
               <Card data={data} />
             </Link>
           ))
         )}
       </div>
-      <Pagination currPage={currPage} onClickPage={setCurrPage} pageCount={data && Math.ceil(data.totalCount / 6)} />
+      <Pagination
+        currPage={currPage}
+        onClickPage={setCurrPage}
+        pageCount={filteredPostList && Math.ceil(filteredPostList.length / 6)}
+      />
     </div>
   );
 }

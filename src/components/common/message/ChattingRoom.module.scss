@@ -178,7 +178,7 @@
     position: relative;
     height: 375px;
     max-height: calc(100% - 235px);
-    padding: 1px 14px;
+    padding: 1px 0;
     box-sizing: border-box;
 
     .chat-date {
@@ -289,6 +289,9 @@
   } // chat-room-contents End
 
   .chat-room-footer {
+    button:disabled {
+      cursor: not-allowed;
+    }
     position: relative;
     z-index: 2;
     display: flex;

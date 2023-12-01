@@ -1,4 +1,5 @@
 import React, { useState, useEffect, useRef } from 'react';
+import { useNavigate } from 'react-router-dom';
 import styles from './ChattingRoom.module.scss';
 import { ChatBackHat, ChatBackBath, ChatBackYarn, ProfileImage } from 'assets/images';
 import { FaUser, FaMapMarkerAlt } from 'react-icons/fa';
@@ -8,10 +9,10 @@ import { FiSend } from 'react-icons/fi';
 import { useRecoilValue } from 'recoil';
 import { roleState } from 'recoil/roleState';
 import { useGetRoom, usePostSendMessage, usePutConfirmMate } from 'hooks';
-import { useLeaveRoom } from 'hooks/leaveRoom';
 import { useQueryClient } from 'react-query';
 import ChatMateConfirmAlert from './ChatMateConfirmAlert';
 import { ChatLoadingModal } from 'components';
+import { useDeleteLeaveRoom } from 'hooks';
 
 const cx = cs.bind(styles);
 const keywordClass = {
@@ -20,7 +21,7 @@ const keywordClass = {
   장애인: 'disabled',
 };
 // 채팅(메시지)방 컴포넌트
-export default function ChattingRoom({ selectedChatId, chatInfoSelect }) {
+export default function ChattingRoom({ chatInfoSelect, selectedChatId }) {
   const [showFlag, setShowFlag] = useState(false);
   const [postUrl, setPostUrl] = useState(''); // 채팅방 내 게시글 주소
   const [careTarget, setCareTarget] = useState('');
@@ -34,16 +35,14 @@ export default function ChattingRoom({ selectedChatId, chatInfoSelect }) {
   const unreadMessageRef = useRef(null);
   const scrollRef = useRef(null);
   const queryClient = useQueryClient();
-
+  const navigate = useNavigate();
   const role = useRecoilValue(roleState);
   const { data, isLoading } = useGetRoom(selectedChatId);
-  const { mutateAsync } = useLeaveRoom();
+  const { mutate } = useDeleteLeaveRoom();
 
   // mutate 변수 담기
   const postSendMutate = usePostSendMessage();
   const confirmMate = usePutConfirmMate();
-
-
 
   // 채팅 입력(textarea) 메서드
   const handleInputChange = (e) => {
@@ -75,7 +74,7 @@ export default function ChattingRoom({ selectedChatId, chatInfoSelect }) {
       setCareTarget(data.chat.post.careInformation.careTarget);
       setMessage(data.chat.message);
 
-      // TODO. 채팅방 상태가 매칭완료 일 때, setDisable(true) 해줘야 함. 완료된 채팅방 입장시 disable 처리.  
+      if (data.chat.status === '매칭완료') setDisable(true);
     }
   }, [data, message]);
 
@@ -102,7 +101,6 @@ export default function ChattingRoom({ selectedChatId, chatInfoSelect }) {
     }
   }, [selectedChatId]);
 
-
   // 돌봄메이트 확정 메서드
   const careMateConfirm = () => {
     // 확정 로직
@@ -116,10 +114,7 @@ export default function ChattingRoom({ selectedChatId, chatInfoSelect }) {
         {
           onSuccess: (res) => {
             if (res.data) {
-              return (
-                setDisable(true)
-              )
-              
+              return setDisable(true);
             }
           },
         }
@@ -128,19 +123,23 @@ export default function ChattingRoom({ selectedChatId, chatInfoSelect }) {
     return;
   };
   // 대화 종료하기 메서드
-  const chatRoomOut = async () => {
+  const chatRoomOut = () => {
     // 검증 로직은 추후에..
     if (window.confirm(`대화를 종료하면 채팅방 및 모든 채팅내용이 사라집니다.\n 그래도 대화를 종료하시겠습니까?`)) {
-      const result = mutateAsync(selectedChatId);
-      return;
+      mutate(selectedChatId);
+      moveChatList();
     }
-    return;
+  };
+
+  const moveChatList = () => {
+    queryClient.invalidateQueries('getChatRooms', { refetchActive: true });
+    showChatRoom(false);
   };
 
   // 채팅 줄바꿈 치환
   const exchangeHtml = (content) => {
-    return content.replace(/(?:\r\n|\r|\n)/g, '<br>')
-  }
+    return content.replace(/(?:\r\n|\r|\n)/g, '<br>');
+  };
   return (
     <div className={cx('wrapper', { on: showFlag })}>
       {/* 채팅창 영역 */}
@@ -150,13 +149,7 @@ export default function ChattingRoom({ selectedChatId, chatInfoSelect }) {
         <div className={cx('chat-roombox')}>
           {/* 헤더 영역 */}
           <div className={cx('chat-room-header')}>
-            <button
-              onClick={() => {
-                queryClient.invalidateQueries('getChatRooms', { refetchActive: true });
-                showChatRoom(false);
-              }}
-              className={cx('backbtn')}
-            >
+            <button onClick={moveChatList} className={cx('backbtn')}>
               <IoReturnUpBackOutline size="30" color="var(--crl-blue-900)" />
             </button>
             <div className={cx('mate-photobox')}>
@@ -197,7 +190,11 @@ export default function ChattingRoom({ selectedChatId, chatInfoSelect }) {
                   </span>
                 </div>
                 {role === 'user' && (
-                    <button disabled={disable} onClick={careMateConfirm} className={cx('mate-confirmed', {btndisable: disable})}>
+                  <button
+                    disabled={disable}
+                    onClick={careMateConfirm}
+                    className={cx('mate-confirmed', { btndisable: disable })}
+                  >
                     돌봄메이트 확정
                   </button>
                 )}
@@ -256,28 +253,33 @@ export default function ChattingRoom({ selectedChatId, chatInfoSelect }) {
                       </div>
                       <div>
                         <p className={cx(isMe ? 'username2' : 'username1')}>{isMe ? '나' : name}</p>
-                        <p className={cx('chat-text')} dangerouslySetInnerHTML={{ __html: exchangeHtml(message.content) }}></p>
+                        <p
+                          className={cx('chat-text')}
+                          dangerouslySetInnerHTML={{ __html: exchangeHtml(message.content) }}
+                        ></p>
                       </div>
                       <p className={cx('chat-time')}>
-                        {new Date(message.createdAt).toLocaleTimeString('en-US', {
+                        {/* {new Date(message.createdAt).toLocaleTimeString('en-US', {
                           hour: '2-digit',
                           minute: '2-digit',
                           hour12: false,
                           timeZone: 'UTC',
-                        })}
+                        })} */}
                       </p>
                       <p className={cx('chat-read')}>{message.isRead ? '읽음' : ''}</p>
                     </li>
                   </div>
                 );
               })}
-                <div ref={scrollRef}></div>
+              {/* <li>{data.chat.leaveRoom.length ? data.chat.author.name + '님이 나갔습니다.' : ''}</li> */}
+              <div ref={scrollRef}></div>
 
               {/* 돌봄메이트 확정된 방 알림메시지 컴포넌트 */}
-              { disable && (
-                <li><ChatMateConfirmAlert /></li>
+              {disable && (
+                <li>
+                  <ChatMateConfirmAlert />
+                </li>
               )}
-                
             </ul>
             <img className={cx('backimg-hat')} src={ChatBackHat} alt="채팅창 배경 모자이미지" />
             <img className={cx('backimg-yarn')} src={ChatBackYarn} alt="채팅창 배경 털실이미지" />
@@ -286,14 +288,19 @@ export default function ChattingRoom({ selectedChatId, chatInfoSelect }) {
           {/* 푸터 영역 */}
           <div className={cx('chat-room-footer')}>
             <input
+              disabled={data.chat.leaveRoom.length}
               className={cx('inputbox')}
-              placeholder="메시지를 입력해주세요."
+              placeholder={data.chat.leaveRoom.length ? '상대방이 채팅을 종료했습니다.' : '메시지를 입력해주세요.'}
               value={inputmessage}
               onChange={handleInputChange}
               onKeyUp={handleInputSend}
               maxLength="100"
             ></input>
-            <button onClick={useSendMessageRequest} className={cx('send-message')}>
+            <button
+              disabled={data.chat.leaveRoom.length}
+              onClick={useSendMessageRequest}
+              className={cx('send-message')}
+            >
               <FiSend size="30" color="var(--crl-blue-900) " />
             </button>
           </div>

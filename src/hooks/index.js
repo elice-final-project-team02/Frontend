@@ -25,3 +25,4 @@ export * from './clickOutsideDetector';
 export * from './putSavePost';
 export * from './putCancelPost';
 export * from './getCheckUpdateMessage';
+export * from './deleteLeaveRoom';
