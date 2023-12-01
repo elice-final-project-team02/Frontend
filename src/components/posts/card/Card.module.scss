@@ -10,7 +10,6 @@ $base-color-disabled: #9cb4fa; // 장애인
     border-radius: 10px;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
     transition: box-shadow 0.3s ease-in-out;
-
     &:hover {
       box-shadow: 0 6px 10px rgba(0, 0, 0, 0.2);
     }
@@ -155,5 +154,11 @@ $base-color-disabled: #9cb4fa; // 장애인
 
   .centered-title {
     line-height: 50px;
+  }
+
+  .heartIcons {
+    font-size: 30px;
+    padding: 0 10px 0 0;
+    color: #ff8484;
   }
 } // wrapper close

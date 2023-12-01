@@ -6,7 +6,6 @@ import { errorHandler } from 'lib';
 
 // 신청 form 돌봄메이트 유저 정보 조회
 export const getMateUserInfo = async (param) => {
-  console.log(param)
   const res = await axios.get(`/api/chat/applicate-info/${param.postId}`);
 
   return res.data.data;
