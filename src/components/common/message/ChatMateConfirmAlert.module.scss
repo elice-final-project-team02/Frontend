@@ -1,0 +1,28 @@
+.wrapper {
+  width: 100%;
+  .mate-confirm-alertbox {
+    width: 60%;
+    height: 100px;
+    margin: 0 auto;
+
+    .confirm-box {
+      position: relative;
+
+      img {
+        border-radius: 10px;
+        height: 70px;
+      }
+
+      p {
+        position: absolute;
+        top: 16px;
+        left: 20px;
+        font-size: 14px;
+        text-align: center;
+        color: var(--crl-green-800);
+        line-height: 1.3;
+
+      }
+    }
+  }
+}

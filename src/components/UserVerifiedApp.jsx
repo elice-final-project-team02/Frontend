@@ -12,7 +12,7 @@ import { roleState } from 'recoil/roleState';
 import { useRecoilState } from 'recoil';
 import { getUser } from '../hooks/getUser';
 
-export default function UserVerifiedApp() {
+export default function UserVerifiedApp({ setMessageBoxState, setChatId }) {
   const location = useLocation();
   const [loginStatus, setLoginStatus] = useRecoilState(isLoggedInState);
   const [userRole, setUserRole] = useRecoilState(roleState);
@@ -49,10 +49,10 @@ export default function UserVerifiedApp() {
       <Header />
       <main>
         <MaxWidth>
-          <Outlet />
+          <Outlet setMessageBoxState={setMessageBoxState} setChatId={setChatId} />
         </MaxWidth>
         {/* 메시지함(채팅방) 버튼 컴포넌트 - 회원한정 모든 페이지에서 보임 */}
-        <MessageButton />
+        <MessageButton setMessageBoxState={setMessageBoxState} setChatId={setChatId} />
       </main>
       <Footer />
     </div>

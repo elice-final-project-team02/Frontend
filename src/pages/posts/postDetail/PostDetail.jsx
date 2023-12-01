@@ -17,7 +17,7 @@ import MessageForm from 'components/common/message/MessageForm.jsx';
 import { LoadingModal } from 'components';
 const cx = cs.bind(styles);
 
-export default function PostDetail() {
+export default function PostDetail({setMessageBoxState, setChatId}) {
   const { id } = useParams();
   const postId = id;
   const [displayData, setDisplayData] = React.useState({});
@@ -270,7 +270,7 @@ export default function PostDetail() {
       </div>
 
       {/* 신청하기 모달창 띄움 */}
-      {requestForm === true ? <MessageForm setRequestForm={setRequestForm} /> : null}
+      {requestForm === true ? <MessageForm setMessageBoxState={setMessageBoxState} setChatId={setChatId} setRequestForm={setRequestForm} /> : null}
     </div>
   );
 }

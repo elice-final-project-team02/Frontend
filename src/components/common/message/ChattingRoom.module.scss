@@ -158,6 +158,11 @@
         .mate-confirmed {
           background-color: var(--crl-blue-900);
           color: var(--crl-neutral-100);
+
+          &.btndisable {
+            background-color: var(--crl-neutral-600);
+            cursor: not-allowed;
+          }
         }
         .chatroom-out {
           margin-left: 10px;

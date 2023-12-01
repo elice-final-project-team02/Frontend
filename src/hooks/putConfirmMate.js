@@ -6,7 +6,7 @@ import { errorHandler } from 'lib';
 export const putConfirm = async ({chatId}) => {
 
   const res = await axios.put(`/api/chat/confirm/${chatId}`);
-  
+  console.log(res)
   return res.data;
 
 }

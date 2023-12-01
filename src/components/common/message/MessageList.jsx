@@ -8,16 +8,14 @@ import { roleState } from 'recoil/roleState';
 import * as date from 'lib';
 import { ChatLoadingModal } from 'components';
 const cx = cs.bind(styles);
-
 // 메시지함 리스트 컴포넌트 (채팅형식 UI - 레이어 팝업 형태)
 export default function MessageList({ chatInfoSelect }) {
   const role = useRecoilValue(roleState);
-
   const [chatList, setChatList] = useState([]);
   const { data: roomData, isLoading } = useGetChatRooms();
 
   useEffect(() => {
-    if (roomData) {
+    if (!isLoading & roomData) {
       const mapRoomsList = roomData.chats
         .filter((room) => room.deletedAt === null)
         .map((room) => ({
@@ -27,11 +25,11 @@ export default function MessageList({ chatInfoSelect }) {
           username: room.author.name,
           careTarget: room.post.careInformation.careTarget,
           postTitle: room.post.title,
-          messagetext: room.message.content,
-          updateDate: room.message.createdAt,
-          isRead: room.message.isRead,
-          sender: room.message.sender,
-          receiver: room.message.receiver,
+          messagetext: room.message?.content,
+          updateDate: room.message?.createdAt,
+          isRead: room.message?.isRead,
+          sender: room.message?.sender,
+          receiver: room.message?.receiver,
           careUserProfileImage: room.applicant.profileUrl,
           userProfileImage: room.author.profileUrl,
           currentStatus: room.status,
@@ -72,6 +70,7 @@ export default function MessageList({ chatInfoSelect }) {
                     onClick={() => {
                       chatInfoSelect(chatItem.chatId);
                     }}
+                    key={chatItem._id}
                   >
                     {/* 프로필사진, n이미지 영역 */}
                     <div className={cx('user-profilebox')}>

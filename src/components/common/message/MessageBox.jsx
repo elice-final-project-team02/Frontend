@@ -5,7 +5,6 @@ import ChattingRoom from './ChattingRoom';
 import cs from 'classnames/bind';
 import { useClickOutsideDetector } from 'hooks';
 const cx = cs.bind(styles);
-
 // 메시지함 전체 감싸기 용도 컴포넌트(부모 컴포넌트)
 export default function MessageBox({ showmessagebox, toggleMessageBox }) {
   const [selectedChatId, setSelectedChatId] = useState('');
@@ -30,3 +29,4 @@ export default function MessageBox({ showmessagebox, toggleMessageBox }) {
     </div>
   );
 }
+

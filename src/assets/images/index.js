@@ -29,5 +29,6 @@ export const Challenged = require('./challenged.png');
 export const ChatBackHat = require('./chat-background-hat.png');
 export const ChatBackBath = require('./chat-background-bathchair.png');
 export const ChatBackYarn = require('./chat-background-yarn.png');
+export const ChatBlackbox = require('./chat-blackbox.png');
 export const NotFoundCharacter = require('./not-found-character.png');
 export const Calendar = require('./icon-calendar.png');
