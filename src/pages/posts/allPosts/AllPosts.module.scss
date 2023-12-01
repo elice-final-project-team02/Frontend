@@ -1,4 +1,7 @@
 .wrapper {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
   .card-list-container {
     display: grid;
     grid-template-columns: 1fr 1fr 1fr;

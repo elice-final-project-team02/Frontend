@@ -6,7 +6,7 @@ $base-color-disabled: #9cb4fa; // 장애인
   .card {
     border: 1px solid #e0e0e0;
     width: 270px;
-    height: 360px;
+    height: 348px;
     border-radius: 10px;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
     transition: box-shadow 0.3s ease-in-out;
@@ -58,14 +58,15 @@ $base-color-disabled: #9cb4fa; // 장애인
       }
 
       .time-stamp {
-        font-size: 13px;
+        font-size: 11px;
         padding: 15px 20px 0 0;
         color: #575757;
+        margin-left: -23px;
       }
 
       .card-status {
-        color: #575757;
-        font-size: 25px;
+        color: var(--crl-neutral-100);
+        font-size: 21px;
         padding: 5px 0 0 5px;
         font-family: var(--ff-accent) !important;
         font-weight: var(--fw-bold);
@@ -78,11 +79,12 @@ $base-color-disabled: #9cb4fa; // 장애인
     background-color: white;
     border-radius: 50%;
     margin-right: 10px;
-
-    .target-image {
-      max-width: 70px;
-      max-height: 60px;
-      margin-top: 5px;
+    width: 100px;
+    img {
+      object-position: 0 5px;
+      object-fit: cover;
+      scale: 1.7;
+      left: -20px;
     }
   }
 
@@ -90,16 +92,19 @@ $base-color-disabled: #9cb4fa; // 장애인
     display: flex;
     width: 230px; // 타이틀 길이
     margin-bottom: 20px;
+    .target-image-container {
+      overflow: hidden;
+    }
   }
 
   .upper-info {
     width: 200px;
+    display: flex;
+    flex-direction: column;
     flex-wrap: wrap;
 
     img {
-      display: flex;
-      justify-content: space-evenly;
-      width: 50px;
+      width: 35px;
     }
   }
 
@@ -124,7 +129,7 @@ $base-color-disabled: #9cb4fa; // 장애인
       display: flex;
       align-items: center;
       box-sizing: content-box;
-      padding: 7px 40px;
+      padding: 7px 45px;
 
       &.location,
       &.date,
@@ -142,9 +147,8 @@ $base-color-disabled: #9cb4fa; // 장애인
   .title {
     font-size: 19px;
     line-height: normal;
+    margin-top: 10px;
     display: block;
-    height: 55px;
-    padding: 10px 0;
     overflow: hidden;
     text-overflow: ellipsis;
     display: -webkit-box;
@@ -152,13 +156,20 @@ $base-color-disabled: #9cb4fa; // 장애인
     -webkit-box-orient: vertical;
   }
 
-  .centered-title {
-    line-height: 50px;
-  }
+  // .centered-title {
+  //   line-height: 50px;
+  // }
 
   .heartIcons {
     font-size: 30px;
     padding: 0 10px 0 0;
-    color: #ff8484;
+    // color: #ff8484;
+    color: white;
+  }
+  .black {
+    color: #636363 !important;
+  }
+  .extra-info > ul > li {
+    display: flex;
   }
 } // wrapper close

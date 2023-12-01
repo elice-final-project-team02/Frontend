@@ -69,7 +69,7 @@ export default function Card({ data }) {
             </div>
           </div>
           <div className={cx('main-bottom')}>
-            <span className={cx('card-status')}>모집 중</span>
+            <span className={cx('card-status', careTarget === '아동' && 'black')}>모집중</span>
             <span className={cx('time-stamp')}>등록일 {date.changeDateToMonthAndDate(createdAt)}</span>
             <div className={cx('heartIcons')}>
               <HeartIcon
@@ -125,9 +125,7 @@ export default function Card({ data }) {
             </li>
             <li className={cx('prefer-mate')}>
               <BsPersonFill color="#d3d3d3" className={cx('extra-info-icon')} />
-              {formattedMateAge}
-              <br />
-              {preferredmateGender}
+              {formattedMateAge} {preferredmateGender}
             </li>
             <li className={cx('wage')}>
               <PiMoneyFill color="#d3d3d3" className={cx('extra-info-icon')} />

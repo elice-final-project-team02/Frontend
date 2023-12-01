@@ -126,6 +126,15 @@
     border-radius: 100vmax;
     color: var(--crl-neutral-100);
   }
+  .post-button.post-badge {
+    width: 116px;
+    padding-block: 5px;
+    border-radius: 10px;
+    font-size: 20px;
+    &:hover {
+      color: var(--crl-neutral-900);
+    }
+  }
   .post-badge-wrapper {
     display: flex;
     align-items: center;
@@ -187,6 +196,8 @@
 
   .description-wrapper {
     padding: 60px 100px;
+    border-top-right-radius: 64px;
+    border-top-left-radius: 64px;
     display: flex;
     justify-content: space-between;
   }
@@ -203,10 +214,6 @@
       }
       span {
         padding: 5px;
-        box-shadow:
-          rgba(0, 0, 0, 0.4) 0px 2px 4px,
-          rgba(0, 0, 0, 0.3) 0px 7px 13px -3px,
-          rgba(0, 0, 0, 0.2) 0px -3px 0px inset;
       }
     }
   }

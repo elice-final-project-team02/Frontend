@@ -19,6 +19,10 @@
   select {
     cursor: pointer;
   }
+  select,
+  .hourly-rate-font {
+    font-size: 16px;
+  }
   textarea {
     resize: none;
     background-color: var(--crl-blue-100);
@@ -229,7 +233,6 @@
   .hourly-rate-wrapper {
     display: flex;
     align-items: center;
-
     justify-content: space-between;
     padding-right: 180px;
     input {
@@ -247,6 +250,9 @@
     input[type='checkbox'] {
       margin-left: auto;
       cursor: pointer;
+    }
+    input[name='hourlyRate'] {
+      font-size: 17px;
     }
   }
 
@@ -353,25 +359,28 @@
   }
   .change-schedule {
     cursor: pointer;
-    width: 30%;
+    width: 200px;
     padding-block: 18px;
     border-radius: 100vmax;
     border: 0;
     background: var(--crl-blue-800);
-    font-size: 22px;
+    font-size: 18px;
     display: flex;
     justify-content: center;
     align-items: center;
     gap: 20px;
     transition: 0.2s;
+    color: var(--crl-neutral-100);
+
     img {
       width: 20px;
     }
     &:hover {
-      color: var(--crl-neutral-100);
+      color: var(--crl-neutral-900);
     }
     &:hover img {
       animation: rotation 2s infinite ease-in-out;
+      filter: grayscale(20%) brightness(0.3);
     }
   }
   @keyframes rotation {
@@ -382,8 +391,8 @@
       rotate: 360deg;
     }
   }
-  :focus {
-    border: 3px solid var(--crl-blue-900) !important;
-    border-radius: 10px;
+
+  ::placeholder {
+    font-size: 18px;
   }
 } // wrapper close

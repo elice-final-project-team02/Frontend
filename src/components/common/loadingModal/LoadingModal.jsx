@@ -16,7 +16,7 @@ export default function LoadingModal({ message }) {
           color={color}
           loading={loading}
           margin={10}
-          size={30}
+          size={20}
           aria-label="Loading Spinner"
           data-testid="loader"
         />

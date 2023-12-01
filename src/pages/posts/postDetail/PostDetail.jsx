@@ -216,6 +216,7 @@ export default function PostDetail() {
                     setRequestForm(!requestForm);
                   }}
                   className={cx(
+                    'post-button',
                     'post-badge',
                     displayData.userRole === 'user' ? 'user-background-accent' : 'care-user-background-accent'
                   )}

@@ -1,5 +1,6 @@
 import React from 'react';
 import styles from './WritePost.module.scss';
+import { Calendar } from 'assets/images';
 import cs from 'classnames/bind';
 import {
   DatesPicker,
@@ -414,8 +415,8 @@ export default function WritePost({ params, beforeData }) {
               setIsChangedTimeSchdule((prev) => !prev);
             }}
           >
+            <img src={Calendar} alt="" />
             일정 변경하기
-            <img src={YellowClam3D} alt="" />
           </button>
         )}
         <div className={cx(!beforeData || isChangedTimeSchdule ? '' : 'hidden')}>
@@ -582,7 +583,7 @@ export default function WritePost({ params, beforeData }) {
         </div>
         <div className={cx('hourly-rate-wrapper')}>
           <div>
-            <label className={cx('title-level')} htmlFor="">
+            <label className={cx('hourly-rate-font', 'title-level')} htmlFor="">
               시급
             </label>
             {beforeData && !isChangedHourlyRateOfBeforeData ? (
