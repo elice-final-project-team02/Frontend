@@ -14,6 +14,7 @@ $base-color-disabled: #9cb4fa; // 장애인
 
     .message-header {
       position: relative;
+      height: 87px;
 
       > img {
         position: absolute;
@@ -44,7 +45,7 @@ $base-color-disabled: #9cb4fa; // 장애인
     }
 
     .message-list {
-      max-height: 470px;
+      height: calc(100% - 87px);
       overflow-y: auto;
       cursor: pointer;
     }

@@ -136,6 +136,11 @@ export default function ChattingRoom({ selectedChatId, chatInfoSelect }) {
     }
     return;
   };
+
+  // 채팅 줄바꿈 치환
+  const exchangeHtml = (content) => {
+    return content.replace(/(?:\r\n|\r|\n)/g, '<br>')
+  }
   return (
     <div className={cx('wrapper', { on: showFlag })}>
       {/* 채팅창 영역 */}
@@ -251,7 +256,7 @@ export default function ChattingRoom({ selectedChatId, chatInfoSelect }) {
                       </div>
                       <div>
                         <p className={cx(isMe ? 'username2' : 'username1')}>{isMe ? '나' : name}</p>
-                        <p className={cx('chat-text')}>{message.content}</p>
+                        <p className={cx('chat-text')} dangerouslySetInnerHTML={{ __html: exchangeHtml(message.content) }}></p>
                       </div>
                       <p className={cx('chat-time')}>
                         {new Date(message.createdAt).toLocaleTimeString('en-US', {
