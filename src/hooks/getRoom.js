@@ -1,4 +1,5 @@
 import axios from 'axios';
+import { useEffect } from 'react';
 import { useQuery } from 'react-query';
 import { errorHandler } from 'lib';
 import { useRecoilValue } from 'recoil';
@@ -11,11 +12,24 @@ export const getRoom = async (chatId) => {
 
 export function useGetRoom(chatId) {
   const loginStatus = useRecoilValue(isLoggedInState);
-  return useQuery('get-room', () => getRoom(chatId), {
+  const queryInfo = useQuery('get-room', () => getRoom(chatId), {
     onError: (error) => {
       errorHandler(error);
     },
     retry: 0,
     enabled: loginStatus !== 'LOADING',
   });
+
+  useEffect(() => {
+    // Long polling 시작
+    if (queryInfo.isSuccess) {
+      const interval = setInterval(() => {
+        queryInfo.refetch();
+      }, 5000); // 5초마다 새로운 메시지를 확인
+
+      return () => clearInterval(interval);
+    }
+  }, [queryInfo]);
+
+  return queryInfo;
 }
