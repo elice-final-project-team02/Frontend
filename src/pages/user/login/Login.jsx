@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useRef } from 'react';
 import { useNavigate } from 'react-router-dom';
 import styles from './Login.module.scss';
 import cs from 'classnames/bind';
@@ -12,10 +12,27 @@ const cx = cs.bind(styles);
 export default function Login() {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const emailInputRef = useRef(null);
+  const passwordInputRef = useRef(null);
   const { mutate } = usePostLogin(email, password);
   const navigate = useNavigate();
+
   const handleSubmit = () => {
-    mutate();
+    if (email.trim() !== '' && password.trim() !== '') {
+      mutate();
+    } else {
+      if (email.trim() === '') {
+        emailInputRef.current.focus();
+      } else {
+        passwordInputRef.current.focus();
+      }
+    }
+  };
+
+  const handleKeyDown = (e) => {
+    if (e.key === 'Enter') {
+      handleSubmit();
+    }
   };
 
   return (
@@ -28,7 +45,9 @@ export default function Login() {
           onChange={(e) => {
             setEmail(e.target.value);
           }}
+          onKeyDown={handleKeyDown}
           value={email}
+          ref={emailInputRef}
         />
         <input
           type="password"
@@ -36,17 +55,21 @@ export default function Login() {
           onChange={(e) => {
             setPassword(e.target.value);
           }}
+          onKeyDown={handleKeyDown}
           value={password}
+          ref={passwordInputRef}
         />
         <button onClick={handleSubmit}>로그인</button>
         <div className={cx('register')}>
-          <span
+          아직 쓰담쓰담 회원이 아니신가요?
+          <br />
+          <p
             onClick={() => {
               navigate('/register');
             }}
           >
-            회원가입
-          </span>
+            회원가입 하기
+          </p>
         </div>
       </div>
       <div className={cx('imageBox')}>
