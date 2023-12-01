@@ -24,3 +24,4 @@ export * from './putConfirmMate';
 export * from './clickOutsideDetector';
 export * from './putSavePost';
 export * from './putCancelPost';
+export * from './getCheckUpdateMessage';
