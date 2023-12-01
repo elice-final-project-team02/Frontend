@@ -9,7 +9,7 @@ import * as date from 'lib';
 const cx = cs.bind(styles);
 
 // 메시지함 리스트 컴포넌트 (채팅형식 UI - 레이어 팝업 형태)
-export default function MessageList(props) {
+export default function MessageList({ chatInfoSelect }) {
   const role = useRecoilValue(roleState);
 
   const [chatList, setChatList] = useState([]);
@@ -70,7 +70,8 @@ export default function MessageList(props) {
                   <li
                     className={cx('message-item')}
                     onClick={() => {
-                      props.chatInfoSelect(chatItem.chatId);
+                      chatInfoSelect(chatItem.chatId);
+                      handleNewSignImage(chatItem);
                     }}
                   >
                     {/* 프로필사진, n이미지 영역 */}
