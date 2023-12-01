@@ -17,16 +17,7 @@ export default function AllPosts() {
   const { data, isLoading } = useGetPostList({ showPage, careTarget, isLongTerm });
   const [postList, setPostList] = useState([]);
   const [filteredPostList, setFilteredPostList] = useState([]);
-  const [recruitingPostList, setRecruitingPostList] = useState([]);
-
-  useEffect(() => {
-    setPostList([]);
-    setRecruitingPostList([]);
-    if (data) {
-      setRecruitingPostList(data.posts.filter((post) => post.reservation.status === '모집중'));
-    }
-  }, [data, currPage]);
-  console.log(recruitingPostList);
+  const [ingpostList, setIngPostList] = useState([]);
 
   useEffect(() => {
     setPostList([]);
@@ -36,17 +27,22 @@ export default function AllPosts() {
   }, [data, currPage]);
 
   useEffect(() => {
+    const ingPost = postList.filter((post) => post.reservation.status === '모집중');
+    setIngPostList([...ingPost]);
+  }, [postList, data]);
+
+  useEffect(() => {
     if (searchInput.length === 0) {
-      setFilteredPostList([...postList]);
+      setFilteredPostList([...ingpostList]);
       return;
     } else {
-      const filteredList = postList.filter((post) =>
+      const filteredList = ingpostList.filter((post) =>
         post.title.toLowerCase().replace(' ', '').includes(searchInput.toLowerCase().replace(' ', ''))
       );
       setFilteredPostList(filteredList);
       return;
     }
-  }, [searchInput, postList, careTarget, isLongTerm]);
+  }, [searchInput, ingpostList, careTarget, isLongTerm]);
 
   useEffect(() => {
     setCurrPage(0);
