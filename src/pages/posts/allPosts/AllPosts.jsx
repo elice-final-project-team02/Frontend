@@ -17,6 +17,16 @@ export default function AllPosts() {
   const { data, isLoading } = useGetPostList({ showPage, careTarget, isLongTerm });
   const [postList, setPostList] = useState([]);
   const [filteredPostList, setFilteredPostList] = useState([]);
+  const [recruitingPostList, setRecruitingPostList] = useState([]);
+
+  useEffect(() => {
+    setPostList([]);
+    setRecruitingPostList([]);
+    if (data) {
+      setRecruitingPostList(data.posts.filter((post) => post.reservation.status === '모집중'));
+    }
+  }, [data, currPage]);
+  console.log(recruitingPostList);
 
   useEffect(() => {
     setPostList([]);

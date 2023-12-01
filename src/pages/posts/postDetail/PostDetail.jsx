@@ -17,7 +17,7 @@ import MessageForm from 'components/common/message/MessageForm.jsx';
 import { LoadingModal } from 'components';
 const cx = cs.bind(styles);
 
-export default function PostDetail({setMessageBoxState, setChatId}) {
+export default function PostDetail({ setMessageBoxState, setChatId }) {
   const { id } = useParams();
   const postId = id;
   const [displayData, setDisplayData] = React.useState({});
@@ -71,6 +71,12 @@ export default function PostDetail({setMessageBoxState, setChatId}) {
   }
   function sortAgeList(array) {
     return array.map((age) => parseInt(age[0])).sort();
+  }
+  function sortCareDays(day) {
+    const dayToNumber = day.map((obj) => date.changeKoreaDayOfWeekToNumber(obj.careDay));
+    const sortedDays = dayToNumber.sort((a, b) => a - b);
+    const numberToDay = sortedDays.map((obj) => date.changeNumberToKoreaDayOfWeek(obj));
+    return numberToDay.join(' ');
   }
   function formmatAgeListToTrimPretty(array) {
     let sortedArray = [];
@@ -148,9 +154,8 @@ export default function PostDetail({setMessageBoxState, setChatId}) {
                 </span>
                 {displayData.isLongTerm ? (
                   <span className={cx('text-information')}>
-                    {`${date.changeDateToMonthAndDate(
-                      displayData.longTerm.startDate
-                    )} ~ ${displayData.longTerm.schedule.map((obj) => obj.careDay)}`}
+                    {`${date.changeDateToMonthAndDate(displayData.longTerm.startDate)}~ `}(
+                    {sortCareDays(displayData.longTerm.schedule)})
                   </span>
                 ) : (
                   displayData &&
@@ -241,7 +246,7 @@ export default function PostDetail({setMessageBoxState, setChatId}) {
           </div>
         </div>
         <div className={cx('body-wrapper')}>
-          <pre>{displayData.content}</pre>
+          <p>{displayData.content}</p>
         </div>
         <div
           className={cx(
@@ -270,7 +275,9 @@ export default function PostDetail({setMessageBoxState, setChatId}) {
       </div>
 
       {/* 신청하기 모달창 띄움 */}
-      {requestForm === true ? <MessageForm setMessageBoxState={setMessageBoxState} setChatId={setChatId} setRequestForm={setRequestForm} /> : null}
+      {requestForm === true ? (
+        <MessageForm setMessageBoxState={setMessageBoxState} setChatId={setChatId} setRequestForm={setRequestForm} />
+      ) : null}
     </div>
   );
 }

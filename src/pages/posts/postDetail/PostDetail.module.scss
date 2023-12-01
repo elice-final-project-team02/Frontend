@@ -64,9 +64,10 @@
     padding-block: 50px;
   }
   .body-wrapper {
-    padding: 50px 100px;
+    padding: 50px 120px;
     min-height: 400px;
     font-size: 20px;
+    line-height: 40px;
   }
   .description-wrapper {
     min-height: 200px;
@@ -145,8 +146,7 @@
     flex-direction: column;
     height: 100%;
     justify-content: center;
-    gap: 4px;
-    padding-inline: 30px;
+    gap: 8px;
     margin-top: -5px;
     .text-information {
       font-size: 15px;
@@ -214,6 +214,7 @@
       }
       span {
         padding: 5px;
+        line-height: 30px;
       }
     }
   }
