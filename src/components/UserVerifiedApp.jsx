@@ -11,7 +11,7 @@ import { isLoggedInState } from 'recoil/isLoggedInState';
 import { roleState } from 'recoil/roleState';
 import { useRecoilState } from 'recoil';
 import { getUser } from '../hooks/getUser';
-import { getCheckUpdateMessage } from '../hooks/getCheckUpdateMessage';
+import { getCheckUpdateUser, getCheckUpdateCareUser } from '../hooks/getCheckUpdateMessage';
 
 export default function UserVerifiedApp({ setMessageBoxState, setChatId }) {
   const location = useLocation();
@@ -48,16 +48,22 @@ export default function UserVerifiedApp({ setMessageBoxState, setChatId }) {
     }
   }, [location, loginStatus]);
 
-  // location 이동 시, message update 확인
+  // location 이동 시, message update 확인 (role에 따라 다르게 처리)
   useEffect(() => {
-    if (loginStatus === 'LOGGED_IN') {
-      getCheckUpdateMessage()
+    if (loginStatus === 'LOGGED_IN' && userRole === 'user') {
+      getCheckUpdateUser()
         .then((response) => {
           setCheckUpdate(response.isUpdated);
         })
-        .catch((e) => console.log(e)); // 임시로 콘솔에 찍음
+        .catch((e) => console.log(e));
+    } else if (loginStatus === 'LOGGED_IN' && userRole === 'careUser') {
+      getCheckUpdateCareUser()
+        .then((response) => {
+          setCheckUpdate(response.isUpdated);
+        })
+        .catch((e) => console.log(e));
     }
-  }, [location, loginStatus]);
+  }, [location, loginStatus, userRole]);
 
   return (
     <div className="entireWrapper">
