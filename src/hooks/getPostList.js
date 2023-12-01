@@ -5,7 +5,6 @@ import { useRecoilValue } from 'recoil';
 import { isLoggedInState } from 'recoil/isLoggedInState';
 
 const getPostList = async ({ controlTarget, controlTerm }) => {
-  console.log(controlTarget, controlTerm);
   if (controlTarget === '전체' && controlTerm === 'all') {
     const response = await axios.get(`/api/post?`, {
       withCredentials: true,

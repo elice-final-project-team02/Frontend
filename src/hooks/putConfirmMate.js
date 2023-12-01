@@ -6,7 +6,6 @@ import { errorHandler } from 'lib';
 export const putConfirm = async ({chatId}) => {
 
   const res = await axios.put(`/api/chat/confirm/${chatId}`);
-  console.log(res)
   return res.data;
 
 }
@@ -17,7 +16,6 @@ export function usePutConfirmMate() {
   return useMutation(putConfirm, {
     onSuccess: (response) => {
       queryClient.invalidateQueries('get-room');
-      console.log(response)
     },
     onError: (error) => {
       errorHandler(error);

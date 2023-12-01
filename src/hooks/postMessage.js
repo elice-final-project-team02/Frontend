@@ -19,7 +19,6 @@ export function usePostSendMessage() {
   return useMutation(postMessage, {
     onSuccess: (response) => {
       queryClient.invalidateQueries('get-room');
-      console.log(response)
     },
     onError: (error) => {
       errorHandler(error);

@@ -68,41 +68,6 @@ export default function AllPosts() {
 
   return (
     <div className={cx('wrapper')}>
-      <button
-        onClick={() => {
-          console.log(data);
-        }}
-      >
-        data
-      </button>
-      <button
-        onClick={() => {
-          console.log(postList);
-        }}
-      >
-        postList
-      </button>
-      <button
-        onClick={() => {
-          console.log(filteredPostList);
-        }}
-      >
-        filteredPostList
-      </button>
-      <button
-        onClick={() => {
-          console.log(controlTarget);
-        }}
-      >
-        controlTarget
-      </button>
-      <button
-        onClick={() => {
-          console.log(controlTerm);
-        }}
-      >
-        controlTerm
-      </button>
       <SearchBar className={cx('all-posts-style')} searchInput={searchInput} onSearchChange={handleSearchChange} />{' '}
       <FilterCareTarget
         onChangeTarget={setControlTarget}
