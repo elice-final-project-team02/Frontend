@@ -6,14 +6,21 @@
     right: 100px;
     bottom: 35px;
     background: inherit;
-    border-radius:0;
-    border:none; 
-    box-shadow:none; 
-    padding:0; 
-    overflow: visible; 
+    border-radius: 0;
+    border: none;
+    box-shadow: none;
+    padding: 0;
+    overflow: visible;
     cursor: pointer;
+  }
 
-    
+  .img-message {
+    position: relative;
+  }
+
+  .img-newmessage {
+    position: absolute;
+    top: 0;
+    right: 0;
   }
 }
-
