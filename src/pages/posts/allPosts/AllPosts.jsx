@@ -14,16 +14,36 @@ export default function AllPosts() {
   const [searchParams] = useSearchParams();
   const careTarget = searchParams.get('careTarget');
   const isLongTerm = searchParams.get('isLongTerm');
-  const { data, isLoading } = useGetPostList({ careTarget, isLongTerm });
+  const [controlTarget, setControlTarget] = useState(careTarget);
+  const [controlTerm, setControlTerm] = useState(isLongTerm);
+  const { data, isLoading } = useGetPostList({ controlTarget, controlTerm });
   const [postList, setPostList] = useState([]);
   const [filteredPostList, setFilteredPostList] = useState([]);
   const PAGE_LIMIT = 6;
   useEffect(() => {
+    if (careTarget) {
+      setControlTarget(careTarget);
+      return;
+    } else if (!careTarget) {
+      setControlTarget('전체');
+    }
+  }, [careTarget]);
+  useEffect(() => {
+    if (isLongTerm) {
+      setControlTerm(isLongTerm);
+      return;
+    } else if (!isLongTerm) {
+      setControlTerm('all');
+    }
+  }, [isLongTerm]);
+
+  useEffect(() => {
+    setCurrPage(0);
     setPostList([]);
     if (data) {
-      setPostList([...data.posts]);
+      setPostList([...data?.posts]);
     }
-  }, [data]);
+  }, [data, controlTarget, controlTerm]);
 
   useEffect(() => {
     if (searchInput.length === 0) {
@@ -69,8 +89,27 @@ export default function AllPosts() {
       >
         filteredPostList
       </button>
+      <button
+        onClick={() => {
+          console.log(controlTarget);
+        }}
+      >
+        controlTarget
+      </button>
+      <button
+        onClick={() => {
+          console.log(controlTerm);
+        }}
+      >
+        controlTerm
+      </button>
       <SearchBar className={cx('all-posts-style')} searchInput={searchInput} onSearchChange={handleSearchChange} />{' '}
-      <FilterCareTarget />
+      <FilterCareTarget
+        onChangeTarget={setControlTarget}
+        onChangeTerm={setControlTerm}
+        controlTarget={controlTarget}
+        controlTerm={controlTerm}
+      />
       <div className={cx('card-list-container')}>
         {isLoading && <LoadingModal message="게시글 목록을 불러오는 중입니다" />}
         {!isLoading && filteredPostList.length === 0 ? (
