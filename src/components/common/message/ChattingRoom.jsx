@@ -285,6 +285,7 @@ export default function ChattingRoom({ selectedChatId, chatInfoSelect }) {
               placeholder="메시지를 입력해주세요."
               value={inputmessage}
               onChange={handleInputChange}
+              onKeyUp={handleInputSend}
               maxlength="100"
             ></textarea>
             <button onClick={useSendMessageRequest} className={cx('send-message')}>

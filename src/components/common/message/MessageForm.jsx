@@ -44,7 +44,6 @@ export default function MessageForm({ setRequestForm }) {
       { postId: id, content: displayData.introduction },
       {
         onSuccess: (res) => {
-          console.log('useApplicateRequest: ', res);
           if (res.data.chat._id) {
             setRequestForm(false); // 모달창 닫기 state함수
           }
