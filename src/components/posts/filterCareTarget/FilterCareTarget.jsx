@@ -54,8 +54,6 @@ export default function FilterCareTarget({}) {
     }
   }, [currentTarget, selectedTerm]);
 
-  console.log(currentTarget);
-
   return (
     <div className={cx('wrapper')}>
       <div className={cx('filter-container')}>

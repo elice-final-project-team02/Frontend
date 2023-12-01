@@ -51,6 +51,13 @@ export default function Card({ data }) {
     }
   };
 
+  function sortCareDays(day) {
+    const dayToNumber = day.map((obj) => date.changeKoreaDayOfWeekToNumber(obj.careDay));
+    const sortedDays = dayToNumber.sort((a, b) => a - b);
+    const numberToDay = sortedDays.map((obj) => date.changeNumberToKoreaDayOfWeek(obj));
+    return numberToDay.join(' ');
+  }
+
   return (
     <div className={cx('wrapper')}>
       <div className={cx('card')}>
@@ -91,9 +98,7 @@ export default function Card({ data }) {
               <FaCalendar color="#d3d3d3" className={cx('extra-info-icon')} />
               {isLongTerm ? (
                 <span className={cx('text-information')}>
-                  {`${date.changeDateToMonthAndDate(longTerm.startDate)}~ ${longTerm.schedule
-                    .map((obj) => obj.careDay)
-                    .join(' ')}`}
+                  {`${date.changeDateToMonthAndDate(longTerm.startDate)}~ `}({sortCareDays(longTerm.schedule)})
                 </span>
               ) : (
                 shortTerm && (
