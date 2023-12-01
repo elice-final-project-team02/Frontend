@@ -2,12 +2,14 @@
   display: inline-block;
   justify-content: center;
   .description {
+    color: var(--crl-neutral-100);
     cursor: pointer;
     position: relative;
     width: 280px;
     height: 400px;
     border-radius: 10px;
-    transition: transform 0.1s ease;
+    transition: transform 0.4s ease;
+    padding: 25px 20px;
     img {
       position: absolute;
       top: 120px;
@@ -19,12 +21,23 @@
     span {
       display: inline-block;
       margin: 20px;
-      font-size: 26px;
+      font-size: 34px;
+      font-weight: var(--fw-bold);
+      position: relative;
+
+      span {
+        position: absolute;
+        scale: 1 1.8;
+        opacity: 0.5;
+        left: 170px;
+        top: -25px;
+        font-weight: var(--fw-regular);
+      }
     }
   }
 
   .description img {
-    transition: transform 0.1s ease;
+    transition: transform 0.4s ease;
   }
   .description:hover img {
     transform: rotate(15deg);
@@ -52,5 +65,6 @@
 
   .disabled {
     background: linear-gradient(var(--crl-blue-800), #fff);
+    letter-spacing: 1.1px;
   }
 }

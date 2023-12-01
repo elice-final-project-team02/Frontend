@@ -19,6 +19,7 @@
 
   ul {
     display: flex;
+    align-items: center;
     a {
       padding: 14px;
     }
@@ -64,5 +65,8 @@
   li:hover .dropdown {
     opacity: 1;
     visibility: visible;
+  }
+  .join-together {
+    font-size: 16px;
   }
 }

@@ -2,6 +2,15 @@ import React from 'react';
 import styles from './AboutUs.module.scss';
 import cs from 'classnames/bind';
 import { Title, Text, MainTitle, MainText, FlexItem } from 'components/typography';
+import {
+  PinkClam3DUp,
+  BlueClam3DUp,
+  YellowClam3DUp,
+  PinkPearlUp,
+  BluePearl,
+  YellowPearlUp,
+  InfantUp,
+} from 'assets/images';
 import AboutImage from 'assets/images/banner-3d.png';
 
 const cx = cs.bind(styles);
@@ -9,6 +18,29 @@ const cx = cs.bind(styles);
 export default function AboutUs() {
   return (
     <div className={cx('wrapper')}>
+      <div className={cx('image-wrapper')}>
+        <span className={cx('blue-clam')}>
+          <img src={BlueClam3DUp} alt="" />
+        </span>
+        <span className={cx('red-clam')}>
+          <img src={PinkClam3DUp} alt="" />
+        </span>
+        <span className={cx('yellow-clam')}>
+          <img src={YellowClam3DUp} alt="" />
+        </span>
+        <span className={cx('red-pearl')}>
+          <img src={PinkPearlUp} alt="" />
+        </span>
+        <span className={cx('blue-pearl')}>
+          <img src={BluePearl} alt="" />
+        </span>
+        <span className={cx('yellow-pearl')}>
+          <img src={YellowPearlUp} alt="" />
+        </span>
+        <span className={cx('infant')}>
+          <img src={InfantUp} alt="" />
+        </span>
+      </div>
       <div className={styles.flexContainer}>
         <div className={styles.flexMainItem}>
           <MainTitle>
@@ -69,8 +101,8 @@ export default function AboutUs() {
                 </div>
               </Title>
               <Text style={{ flex: 1 }}>
-                쓰담쓰담은 지역사회 내의 돌봄서비스 제공자를 연결하여, 돌봄 서비스를 제공합니다. 이를 통해 지역사회의
-                활성화와 돌봄 서비스의 질을 높이는 데 기여합니다.
+                지역사회 내의 돌봄서비스 제공자를 연결하여, 돌봄 서비스를 제공합니다. 이를 통해 지역사회의 활성화와 돌봄
+                서비스의 질을 높이는 데 기여합니다.
               </Text>
             </div>
           </FlexItem>
@@ -83,9 +115,8 @@ export default function AboutUs() {
                 </div>
               </Title>
               <Text style={{ flex: 1 }}>
-                쓰담쓰담은 단순히 돌봄 서비스를 제공하는 것을 넘어, 사회적 가치를 추구합니다. 우리는 서로 돕고, 함께
-                성장하는 사회를 만들기 위해 노력합니다. 이러한 목표를 향해, 쓰담쓰담은 계속해서 발전하고 성장할
-                것입니다.
+                단순히 돌봄 서비스를 제공하는 것을 넘어, 사회적 가치를 추구합니다. 우리는 서로 돕고, 함께 성장하는
+                사회를 만들기 위해 노력합니다. 이러한 목표를 향해, 쓰담쓰담은 계속해서 발전하고 성장할 것입니다.
               </Text>
             </div>
           </FlexItem>
