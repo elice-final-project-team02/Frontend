@@ -269,7 +269,7 @@ export default function PostDetail() {
       </div>
 
       {/* 신청하기 모달창 띄움 */}
-      {requestForm === true ? <MessageForm /> : null}
+      {requestForm === true ? <MessageForm setRequestForm={setRequestForm} /> : null}
     </div>
   );
 }
