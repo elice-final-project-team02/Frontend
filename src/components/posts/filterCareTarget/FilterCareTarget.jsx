@@ -1,7 +1,6 @@
-import React, { useState, useEffect } from 'react';
+import React from 'react';
 import styles from './FilterCareTarget.module.scss';
 import cs from 'classnames/bind';
-import { useSearchParams } from 'react-router-dom';
 
 const cx = cs.bind(styles);
 const careTargets = ['전체', '아동', '노인', '장애인'];

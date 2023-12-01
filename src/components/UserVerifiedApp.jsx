@@ -17,7 +17,8 @@ export default function UserVerifiedApp({ setMessageBoxState, setChatId }) {
   const location = useLocation();
   const [loginStatus, setLoginStatus] = useRecoilState(isLoggedInState);
   const [userRole, setUserRole] = useRecoilState(roleState);
-  const [checkUpdate, setCheckUpdate] = useState(false);
+  const [checkUpdateUser, setCheckUpdateUser] = useState(false);
+  const [checkUpdateCareUser, setCheckUpdateCareUser] = useState(false);
 
   // 최초 렌더링 시 호출
   useEffect(() => {
@@ -53,13 +54,13 @@ export default function UserVerifiedApp({ setMessageBoxState, setChatId }) {
     if (loginStatus === 'LOGGED_IN' && userRole === 'user') {
       getCheckUpdateUser()
         .then((response) => {
-          setCheckUpdate(response.isUpdated);
+          setCheckUpdateUser(response.isUpdated);
         })
         .catch((e) => console.log(e));
     } else if (loginStatus === 'LOGGED_IN' && userRole === 'careUser') {
       getCheckUpdateCareUser()
         .then((response) => {
-          setCheckUpdate(response.isUpdated);
+          setCheckUpdateCareUser(response.isUpdated);
         })
         .catch((e) => console.log(e));
     }
@@ -73,7 +74,12 @@ export default function UserVerifiedApp({ setMessageBoxState, setChatId }) {
           <Outlet setMessageBoxState={setMessageBoxState} setChatId={setChatId} />
         </MaxWidth>
         {/* 메시지함(채팅방) 버튼 컴포넌트 - 회원한정 모든 페이지에서 보임 */}
-        <MessageButton setMessageBoxState={setMessageBoxState} setChatId={setChatId} checkUpdate={checkUpdate} />
+        <MessageButton
+          setMessageBoxState={setMessageBoxState}
+          setChatId={setChatId}
+          checkUpdateUser={checkUpdateUser}
+          checkUpdateCareUser={checkUpdateCareUser}
+        />
       </main>
       <Footer />
     </div>

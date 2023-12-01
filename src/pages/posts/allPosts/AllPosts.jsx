@@ -19,6 +19,7 @@ export default function AllPosts() {
   const { data, isLoading } = useGetPostList({ controlTarget, controlTerm });
   const [postList, setPostList] = useState([]);
   const [filteredPostList, setFilteredPostList] = useState([]);
+  const [recruitingPostList, setRecruitingPostList] = useState([]);
   const PAGE_LIMIT = 6;
   useEffect(() => {
     if (careTarget) {
@@ -46,17 +47,22 @@ export default function AllPosts() {
   }, [data, controlTarget, controlTerm]);
 
   useEffect(() => {
+    const recruitingPost = postList.filter((post) => post.reservation.status === '모집중');
+    setRecruitingPostList([...recruitingPost]);
+  }, [postList, data]);
+
+  useEffect(() => {
     if (searchInput.length === 0) {
-      setFilteredPostList([...postList]);
+      setFilteredPostList([...recruitingPostList]);
       return;
     } else {
-      const filteredList = postList.filter((post) =>
+      const filteredList = recruitingPostList.filter((post) =>
         post.title.toLowerCase().replace(' ', '').includes(searchInput.toLowerCase().replace(' ', ''))
       );
       setFilteredPostList(filteredList);
       return;
     }
-  }, [searchInput, postList, careTarget, isLongTerm]);
+  }, [searchInput, recruitingPostList, careTarget, isLongTerm]);
 
   useEffect(() => {
     setCurrPage(0);

@@ -289,6 +289,9 @@
   } // chat-room-contents End
 
   .chat-room-footer {
+    button:disabled {
+      cursor: not-allowed;
+    }
     position: relative;
     z-index: 2;
     display: flex;
