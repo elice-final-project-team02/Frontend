@@ -5,15 +5,21 @@ import { errorHandler } from 'lib';
 import { useRecoilValue } from 'recoil';
 import { isLoggedInState } from 'recoil/isLoggedInState';
 
-const getChatRooms = async (pageNumber) => {
-  const response = await axios.get(`/api/chat/rooms?page=${pageNumber}&limit=10`, { withCredentials: true });
+const getChatRooms = async (pageNumber, userId) => {
+  const response = await axios.get(`/api/chat/rooms?page=${pageNumber}&limit=10&userId=${userId}`, {
+    withCredentials: true,
+  });
   return response.data.data;
 };
 
-export function useGetChatRooms(pageNumber) {
+export function useGetChatRooms(userId) {
   const loginStatus = useRecoilValue(isLoggedInState);
 
+<<<<<<< HEAD
   const queryInfo = useQuery(['getChatRooms', pageNumber], () => getChatRooms(pageNumber), {
+=======
+  return useQuery(['getChatRooms', userId], () => getChatRooms(userId), {
+>>>>>>> dev
     onError: (error) => {
       errorHandler(error);
     },
