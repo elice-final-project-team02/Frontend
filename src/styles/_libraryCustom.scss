@@ -57,5 +57,10 @@
 .react-datepicker-ignore-onclickoutside {
   cursor: pointer;
 }
-
+.react-datepicker__time-list-item {
+  background: white !important;
+}
+.react-datepicker__time-list-item.react-datepicker__time-list-item--selected {
+  color: var(--crl-blue-900) !important;
+}
 //
