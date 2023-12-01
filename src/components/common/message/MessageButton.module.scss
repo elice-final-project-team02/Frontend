@@ -10,8 +10,17 @@
     border: none;
     box-shadow: none;
     padding: 0;
-    scale: 1.4;
     overflow: visible;
     cursor: pointer;
+  }
+
+  .img-message {
+    position: relative;
+  }
+
+  .img-newmessage {
+    position: absolute;
+    top: 0;
+    right: 0;
   }
 }

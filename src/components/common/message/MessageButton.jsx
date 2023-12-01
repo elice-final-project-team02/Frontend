@@ -1,12 +1,12 @@
 import React, { useState, useEffect } from 'react';
 import styles from './MessageButton.module.scss';
-import { useNavigate } from 'react-router';
-import { MessageBtn } from 'assets/images';
+import { useNavigate, useLocation } from 'react-router';
+import { MessageBtn, NewMessageImage } from 'assets/images';
 import MessageBox from './MessageBox';
 import cs from 'classnames/bind';
 import { isLoggedInState } from 'recoil/isLoggedInState';
-import { messageBoxState, chatId } from 'recoil/storage';
-import { useRecoilValue, useSetRecoilState } from 'recoil';
+import { useRecoilValue } from 'recoil';
+import { useGetCheckUpdateMessage } from 'hooks';
 
 const cx = cs.bind(styles);
 
@@ -17,8 +17,18 @@ export default function MessageButton() {
   // 팝업 애니메이션 효과 클래스를 붙이기위한 state
   const [showmessagebox, setShowMessageBox] = useState(false);
   const [popup, setPopup] = useState(false);
+  const [hasUnreadMessage, setHasUnreadMessage] = useState(true);
 
   const navigate = useNavigate();
+  const location = useLocation();
+
+  const checkUpdateMessage = useGetCheckUpdateMessage(); // 메시지 N 표시
+
+  useEffect(() => {
+    if (!checkUpdateMessage.isLoading && checkUpdateMessage.data) {
+      setHasUnreadMessage(checkUpdateMessage.data.isUpdated);
+    }
+  }, [location.pathname, checkUpdateMessage.isLoading, checkUpdateMessage.data]);
 
   const toggleMessageBox = (flag) => {
     if (isLoggedIn === 'LOGGED_IN') {
@@ -48,7 +58,8 @@ export default function MessageButton() {
           }}
           className={cx('message-box-btn')}
         >
-          <img src={MessageBtn} alt="메시지함 버튼 이미지" />
+          <img className={cx('img-message')} src={MessageBtn} alt="메시지함 버튼 이미지" />
+          {!hasUnreadMessage && <img className={cx('img-newmessage')} src={NewMessageImage} alt="새메시지이미지" />}
         </button>
 
         {popup === true ? <MessageBox showmessagebox={showmessagebox} toggleMessageBox={toggleMessageBox} /> : null}

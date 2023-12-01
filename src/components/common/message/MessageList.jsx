@@ -42,16 +42,6 @@ export default function MessageList({ chatInfoSelect }) {
     }
   }, [roomData]);
 
-  function handleUpdateRoomStatus(chatItem) {
-    const updatedChatList = chatList.map((item) => {
-      if (item.chatId === chatItem.chatId) {
-        return { ...item, isRead: true };
-      }
-      return item;
-    });
-    setChatList(updatedChatList);
-  }
-
   return (
     <div className={cx('wrapper')}>
       {/* 메시지함 전체 영역 */}
@@ -81,10 +71,7 @@ export default function MessageList({ chatInfoSelect }) {
                     className={messageItem}
                     onClick={() => {
                       chatInfoSelect(chatItem.chatId);
-                      handleUpdateRoomStatus(chatItem);
                     }}
-                    key={index}
-                    style={{}}
                   >
                     {/* 프로필사진, n이미지 영역 */}
                     <div className={cx('user-profilebox')}>
@@ -98,7 +85,7 @@ export default function MessageList({ chatInfoSelect }) {
                         alt="상대유저 프로필이미지"
                       />
                       <div className={cx('newSign-box')}>
-                        {chatItem.isRead && chatItem.sender === chatItem.userId ? null : (
+                        {chatItem.sender === chatItem.userId ? null : chatItem.isRead ? null : (
                           <img className={cx('img-newmessage')} src={NewMessageImage} alt="새메시지이미지" />
                         )}
                       </div>
@@ -133,7 +120,14 @@ export default function MessageList({ chatInfoSelect }) {
                     {/* 날짜, 시분표시 영역 */}
                     <div className={cx('date-box')}>
                       <p className={cx('last-date')}>{date.changeDateToYearAndMonthAndDate(chatItem.updateDate)}</p>
-                      <p className={cx('last-time')}>{date.changeDateToAmPmAndHHMM(chatItem.updateDate)}</p>
+                      <p className={cx('last-time')}>
+                        {new Date(chatItem.updateDate).toLocaleTimeString('en-US', {
+                          hour: '2-digit',
+                          minute: '2-digit',
+                          hour12: true,
+                          timeZone: 'UTC',
+                        })}
+                      </p>
                     </div>
                   </li>
                 );
