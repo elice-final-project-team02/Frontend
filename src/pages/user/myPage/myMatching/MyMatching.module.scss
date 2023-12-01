@@ -8,7 +8,19 @@
       padding: 20px 50px;
     }
   }
-
+  .not-found-wrapper {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 30px;
+  }
+  .not-found {
+    width: 100px;
+    display: inline-block;
+    img {
+      object-fit: cover;
+    }
+  }
   .content {
     margin-top: 32px;
     width: 80%;

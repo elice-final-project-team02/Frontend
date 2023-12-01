@@ -3,6 +3,7 @@ import styles from './MyWishList.module.scss';
 import cs from 'classnames/bind';
 import { MyTitle, MySideBar, SearchBar, MyList, Pagination, LoadingModal } from 'components';
 import { useGetSavedPostList, usePutCancelBookMarks } from 'hooks';
+import { NotFoundCharacter } from 'assets/images';
 
 const cx = cs.bind(styles);
 
@@ -103,7 +104,12 @@ export default function MyWishList() {
                 ))}
               <div className={cx('content')}>
                 {postList.length === 0 ? (
-                  <div>찜한 목록이 없습니다.</div>
+                  <div className={cx('not-found-wrapper')}>
+                    <span>
+                      <img src={NotFoundCharacter} alt="" />
+                    </span>
+                    찜한 목록이 없습니다.
+                  </div>
                 ) : (
                   <MyList
                     postList={postList}

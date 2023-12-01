@@ -10,6 +10,7 @@ import { roleState } from 'recoil/roleState';
 import { useGetRoom, usePostSendMessage, usePutConfirmMate } from 'hooks';
 import { useLeaveRoom } from 'hooks/leaveRoom';
 import { useQueryClient } from 'react-query';
+import { ChatLoadingModal } from 'components';
 
 const cx = cs.bind(styles);
 
@@ -137,7 +138,7 @@ export default function ChattingRoom({ selectedChatId, chatInfoSelect }) {
     <div className={cx('wrapper', { on: showFlag })}>
       {/* 채팅창 영역 */}
       {isLoading ? (
-        <div className={cx('loading')}>로딩중...</div>
+        <ChatLoadingModal message="접속 중입니다..." />
       ) : (
         <div className={cx('chat-roombox')}>
           {/* 헤더 영역 */}
@@ -167,25 +168,27 @@ export default function ChattingRoom({ selectedChatId, chatInfoSelect }) {
                 {data.chat.post.title}
               </a>
 
-              <span className={cx('matename')}>{data.chat.applicant.name}</span>
-              <span className={cx('keyword', keywordClass[careTarget])}>
-                {data.chat.post.careInformation.careTarget}
-              </span>
+              <div className={cx('name-keyword-wrapper')}>
+                <span className={cx('matename')}>{data.chat.applicant.name}</span>
+                <span className={cx('keyword', keywordClass[careTarget])}>
+                  {data.chat.post.careInformation.careTarget}
+                </span>
+              </div>
               {/* react-icons */}
 
               <div className={cx('icons-box')}>
                 <div className={cx('box1')}>
                   <span>
                     {' '}
-                    <FaUser size="15" color="#999" />
+                    <FaUser size="13" color="#999" />
                   </span>
-                  <span className={cx('genderinfo')}>
+                  <span className={cx('genderinfo', 'gender-address')}>
                     {data.chat.applicant.age} {data.chat.applicant.gender}
                   </span>
                   <span>
-                    <FaMapMarkerAlt size="15" color="#999" />
+                    <FaMapMarkerAlt size="13" color="#999" />
                   </span>
-                  <span className={cx('areainfo')}>
+                  <span className={cx('areainfo', 'gender-address')}>
                     {data.chat.applicant.region} {data.chat.applicant.subRegion}
                   </span>
                 </div>

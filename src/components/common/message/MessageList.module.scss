@@ -22,7 +22,7 @@ $base-color-disabled: #9cb4fa; // 장애인
 
       > h1 {
         padding: 30px;
-        font-size: 40px;
+        font-size: 27px;
         font-weight: 500;
         box-sizing: border-box;
       }
@@ -38,7 +38,7 @@ $base-color-disabled: #9cb4fa; // 장애인
       }
       .bathchair {
         top: 25px;
-        right: 150px;
+        right: 220px;
         transform: rotate(20deg);
       }
     }
@@ -110,22 +110,20 @@ $base-color-disabled: #9cb4fa; // 장애인
           overflow: hidden;
           text-overflow: ellipsis;
           white-space: nowrap;
-          margin-top: 20px;
+          margin-bottom: 14px;
         }
 
         .username {
-          font-size: 18px;
+          font-size: 16px;
           font-weight: 700;
           line-height: 1.8;
         }
 
         .care-target-icon {
           display: inline-block;
-          width: 50px;
-          height: 22px;
           margin-left: 10px;
-          padding-top: 5px;
           border-radius: 20px;
+          padding: 4px 8px;
           font-size: 13px;
           text-align: center;
           vertical-align: middle;
@@ -161,8 +159,8 @@ $base-color-disabled: #9cb4fa; // 장애인
             overflow: hidden;
             display: block;
             height: 2em;
-            margin-top: 8px;
             font-size: 15px;
+            margin-top: 3px;
             text-overflow: ellipsis;
             word-wrap: break-word;
             -webkit-line-clamp: 2;
@@ -171,18 +169,26 @@ $base-color-disabled: #9cb4fa; // 장애인
         }
       }
 
+      .name-icon-wrapper {
+        display: flex;
+        align-items: center;
+        margin-top: -12px;
+      }
+
       .date-box {
         flex: 0 0 auto;
         margin: -40px 20px 0 0;
 
         .last-date {
-          font-size: 13px;
+          font-size: 11px;
           font-weight: 500;
           line-height: 1.8;
+          margin-top: 10px;
         }
 
         .last-time {
           font-size: 11px;
+          text-align: right;
         }
       }
     }

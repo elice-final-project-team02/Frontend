@@ -5,6 +5,7 @@ import { MyTitle, MySideBar, SearchBar, MyList, Pagination, LoadingModal } from 
 import { useGetCompletedPostList } from 'hooks';
 import { useRecoilValue } from 'recoil';
 import { roleState } from 'recoil/roleState';
+import { NotFoundCharacter } from 'assets/images';
 
 const cx = cs.bind(styles);
 
@@ -46,7 +47,12 @@ export default function MyMatching() {
           ) : (
             <div className={cx('content')}>
               {postList.length === 0 ? (
-                <div>매칭 완료된 리스트가 없습니다.</div>
+                <div className={cx('not-found-wrapper')}>
+                  <span className={cx('not-found')}>
+                    <img src={NotFoundCharacter} alt="" />
+                  </span>
+                  매칭 완료된 리스트가 없습니다.
+                </div>
               ) : (
                 <MyList postList={postList} searchText={searchText} matching />
               )}

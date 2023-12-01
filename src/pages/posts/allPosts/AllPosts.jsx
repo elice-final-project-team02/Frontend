@@ -4,6 +4,7 @@ import cs from 'classnames/bind';
 import { Pagination, FilterCareTarget, SearchBar, Card, LoadingModal } from 'components';
 import { useGetPostList } from 'hooks';
 import { Link, useSearchParams } from 'react-router-dom';
+import { NotFoundCharacter } from 'assets/images';
 const cx = cs.bind(styles);
 
 export default function AllPosts() {
@@ -52,7 +53,12 @@ export default function AllPosts() {
       <div className={cx('card-list-container')}>
         {isLoading && <LoadingModal message="게시글 목록을 불러오는 중입니다" />}
         {!isLoading && filteredPostList.length === 0 ? (
-          <div className={cx('none')}>검색결과가 없습니다.</div>
+          <div className={cx('none')}>
+            <span>
+              <img src={NotFoundCharacter} alt="" />
+            </span>
+            검색결과가 없습니다.
+          </div>
         ) : (
           filteredPostList.map((data, index) => (
             <Link to={`/posts/${data._id}`} key={index}>

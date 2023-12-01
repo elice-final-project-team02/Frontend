@@ -50,6 +50,10 @@
       border: none;
       background-color: #8aa1dd;
       color: white;
+      cursor: pointer;
+      &:hover {
+        color: var(--crl-neutral-900);
+      }
     }
   }
 } // wrapper close

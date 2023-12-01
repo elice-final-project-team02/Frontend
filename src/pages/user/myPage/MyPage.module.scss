@@ -103,6 +103,9 @@
     float: right;
     width: 90px;
     border: none;
+    &:hover {
+      color: var(--crl-neutral-900);
+    }
   }
 
   .edit-button,

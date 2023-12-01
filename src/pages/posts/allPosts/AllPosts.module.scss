@@ -16,6 +16,17 @@
     grid-column: 2;
     padding: 100px;
     text-align: center;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 20px;
+    span {
+      display: inline-block;
+      width: 100px;
+      img {
+        object-fit: cover;
+      }
+    }
   }
   .modal-wrapper {
     min-height: 100vh;
