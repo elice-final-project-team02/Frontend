@@ -31,7 +31,7 @@ export default function UserVerifiedApp() {
 
   useEffect(() => {
     const privateRoutes = location.pathname.startsWith('/mypage') || location.pathname.startsWith('/posts');
-    if (privateRoutes) {
+    if (privateRoutes && loginStatus === 'LOGGED_OUT') {
       getUser()
         .then((response) => {
           setLoginStatus('LOGGED_IN');
@@ -42,7 +42,7 @@ export default function UserVerifiedApp() {
           setUserRole('');
         });
     }
-  }, [location]);
+  }, [location, loginStatus]);
 
   return (
     <div className="entireWrapper">
