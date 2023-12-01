@@ -28,7 +28,7 @@ export default function MessageButton() {
     if (!checkUpdateMessage.isLoading && checkUpdateMessage.data) {
       setHasUnreadMessage(checkUpdateMessage.data.isUpdated);
     }
-  }, [location, checkUpdateMessage.isLoading, checkUpdateMessage.data]);
+  }, [location.pathname, checkUpdateMessage.isLoading, checkUpdateMessage.data]);
 
   const toggleMessageBox = (flag) => {
     if (isLoggedIn === 'LOGGED_IN') {
@@ -59,7 +59,7 @@ export default function MessageButton() {
           className={cx('message-box-btn')}
         >
           <img className={cx('img-message')} src={MessageBtn} alt="메시지함 버튼 이미지" />
-          {hasUnreadMessage && <img className={cx('img-newmessage')} src={NewMessageImage} alt="새메시지이미지" />}
+          {!hasUnreadMessage && <img className={cx('img-newmessage')} src={NewMessageImage} alt="새메시지이미지" />}
         </button>
 
         {popup === true ? <MessageBox showmessagebox={showmessagebox} toggleMessageBox={toggleMessageBox} /> : null}
