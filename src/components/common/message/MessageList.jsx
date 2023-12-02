@@ -18,7 +18,7 @@ export default function MessageList({ chatInfoSelect }) {
   useEffect(() => {
     if (!isLoading && roomData) {
       const mapRoomsList = roomData.chats
-        .filter((room) => !room.leaveRoom.includes(room.userId))
+        .filter((room) => !room.leaveRoom.includes(room.userId) && room.post !== null)
         .map((room) => ({
           chatId: room._id,
           postNumber: room.post.postNumber,
@@ -37,10 +37,15 @@ export default function MessageList({ chatInfoSelect }) {
           leaveRoom: room?.leaveRoom,
           deleted: room.deletedAt,
           userId: room.userId,
+          postId: room._id,
         }));
       setChatList(mapRoomsList);
     }
-  }, [roomData]);
+  }, [roomData, isLoading]);
+
+  const matchedPostNumbers = chatList
+    .filter((chatItem) => chatItem.currentStatus === '매칭완료')
+    .map((matchedChatItem) => matchedChatItem.postNumber);
 
   return (
     <div className={cx('wrapper')}>
@@ -63,9 +68,12 @@ export default function MessageList({ chatInfoSelect }) {
             <ul className={cx('message-items')}>
               {/* 채팅 리스트 동적 생성 */}
               {chatList.map((chatItem) => {
+                const isMatched =
+                  matchedPostNumbers.includes(chatItem.postNumber) && chatItem.currentStatus !== '매칭완료';
                 const messageItem = cx('message-item', {
                   confirmed: chatItem.currentStatus === '매칭완료',
                   disabled: chatItem.leaveRoom.length,
+                  mathed: isMatched,
                 });
                 return (
                   <li
@@ -118,7 +126,11 @@ export default function MessageList({ chatInfoSelect }) {
                       </div>
 
                       <div className={cx('message-container')}>
-                        <p className={cx('message-text')}>{chatItem.messagetext}</p>
+                        {isMatched ? (
+                          <p className={cx('matched-message')}>이미 매칭이 완료되었습니다.</p>
+                        ) : (
+                          <p className={cx('message-text')}>{chatItem.messagetext}</p>
+                        )}
                       </div>
                     </div>
                     {/* 날짜, 시분표시 영역 */}

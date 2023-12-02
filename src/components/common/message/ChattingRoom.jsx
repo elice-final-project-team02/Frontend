@@ -1,5 +1,4 @@
 import React, { useState, useEffect, useRef } from 'react';
-import { useNavigate } from 'react-router-dom';
 import styles from './ChattingRoom.module.scss';
 import { ChatBackHat, ChatBackBath, ChatBackYarn, ProfileImage } from 'assets/images';
 import { FaUser, FaMapMarkerAlt } from 'react-icons/fa';
@@ -8,11 +7,10 @@ import cs from 'classnames/bind';
 import { FiSend } from 'react-icons/fi';
 import { useRecoilValue } from 'recoil';
 import { roleState } from 'recoil/roleState';
-import { useGetRoom, usePostSendMessage, usePutConfirmMate } from 'hooks';
+import { useGetRoom, usePostSendMessage, usePutConfirmMate, useDeleteLeaveRoom } from 'hooks';
 import { useQueryClient } from 'react-query';
 import ChatMateConfirmAlert from './ChatMateConfirmAlert';
 import { ChatLoadingModal } from 'components';
-import { useDeleteLeaveRoom } from 'hooks';
 
 const cx = cs.bind(styles);
 const keywordClass = {
@@ -35,7 +33,6 @@ export default function ChattingRoom({ chatInfoSelect, selectedChatId }) {
   const unreadMessageRef = useRef(null);
   const scrollRef = useRef(null);
   const queryClient = useQueryClient();
-  const navigate = useNavigate();
   const role = useRecoilValue(roleState);
   const { data, isLoading } = useGetRoom(selectedChatId);
   const { mutate } = useDeleteLeaveRoom();
@@ -259,19 +256,19 @@ export default function ChattingRoom({ chatInfoSelect, selectedChatId }) {
                         ></p>
                       </div>
                       <p className={cx('chat-time')}>
-                        {/* {new Date(message.createdAt).toLocaleTimeString('en-US', {
+                        {new Date(message.createdAt).toLocaleTimeString('en-US', {
                           hour: '2-digit',
                           minute: '2-digit',
                           hour12: false,
                           timeZone: 'UTC',
-                        })} */}
+                        })}
                       </p>
                       <p className={cx('chat-read')}>{message.isRead ? '읽음' : ''}</p>
                     </li>
                   </div>
                 );
               })}
-              {/* <li>{data.chat.leaveRoom.length ? data.chat.author.name + '님이 나갔습니다.' : ''}</li> */}
+              <li>{data.chat.leaveRoom.length ? data.chat.author.name + '님이 나갔습니다.' : ''}</li>
               <div ref={scrollRef}></div>
 
               {/* 돌봄메이트 확정된 방 알림메시지 컴포넌트 */}

@@ -29,6 +29,12 @@
     justify-content: center;
   }
 
+  .button-group {
+    display: flex;
+    justify-content: flex-end;
+    margin-right: 25%;
+  }
+
   .cancel,
   .delete,
   .edit {

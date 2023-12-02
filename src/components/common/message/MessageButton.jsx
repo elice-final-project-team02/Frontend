@@ -1,6 +1,6 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import styles from './MessageButton.module.scss';
-import { useNavigate, useLocation } from 'react-router';
+import { useNavigate } from 'react-router';
 import { MessageBtn, NewMessageImage } from 'assets/images';
 import MessageBox from './MessageBox';
 import cs from 'classnames/bind';

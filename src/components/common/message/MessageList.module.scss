@@ -70,7 +70,8 @@ $base-color-disabled: #9cb4fa; // 장애인
         background-color: #8aa1dd17;
       }
 
-      &.confirmed {
+      &.confirmed,
+      &.mathed {
         background-color: #e7e7e7;
       }
 
@@ -161,6 +162,16 @@ $base-color-disabled: #9cb4fa; // 장애인
           .message-text {
             overflow: hidden;
             display: block;
+            height: 2em;
+            margin-top: 8px;
+            font-size: 15px;
+            text-overflow: ellipsis;
+            word-wrap: break-word;
+            -webkit-line-clamp: 2;
+            -webkit-box-orient: vertical;
+          }
+          .matched-message {
+            color: #ff8585;
             height: 2em;
             margin-top: 8px;
             font-size: 15px;

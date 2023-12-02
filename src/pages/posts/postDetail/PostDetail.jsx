@@ -28,7 +28,7 @@ export default function PostDetail({ setMessageBoxState, setChatId }) {
   const [requestForm, setRequestForm] = useState(false);
 
   React.useEffect(() => {
-    if (requestData) {
+    if (requestData && userData) {
       setDisplayData({
         title: requestData.post.title,
         content: requestData.post.content,
@@ -56,13 +56,7 @@ export default function PostDetail({ setMessageBoxState, setChatId }) {
         authorImageUrl: requestData.authorProfile.profileUrl,
       });
     }
-  }, [requestData]);
-
-  const currentCareTarget = cx('target-image-wrapper', {
-    child: displayData.careTarget === '아동',
-    senior: displayData.careTarget === '노인',
-    disabled: displayData.careTarget === '장애인',
-  });
+  }, [requestData, userData]);
 
   function handleDeletePost() {
     if (window.confirm('게시물을 삭제하시겠습니까?')) {
