@@ -51,6 +51,13 @@ export default function Card({ data }) {
     }
   };
 
+  function sortCareDays(day) {
+    const dayToNumber = day.map((obj) => date.changeKoreaDayOfWeekToNumber(obj.careDay));
+    const sortedDays = dayToNumber.sort((a, b) => a - b);
+    const numberToDay = sortedDays.map((obj) => date.changeNumberToKoreaDayOfWeek(obj));
+    return numberToDay.join(' ');
+  }
+
   return (
     <div className={cx('wrapper')}>
       <div className={cx('card')}>
@@ -69,7 +76,7 @@ export default function Card({ data }) {
             </div>
           </div>
           <div className={cx('main-bottom')}>
-            <span className={cx('card-status')}>모집 중</span>
+            <span className={cx('card-status', careTarget === '아동' && 'black')}>모집중</span>
             <span className={cx('time-stamp')}>등록일 {date.changeDateToMonthAndDate(createdAt)}</span>
             <div className={cx('heartIcons')}>
               <HeartIcon
@@ -91,9 +98,7 @@ export default function Card({ data }) {
               <FaCalendar color="#d3d3d3" className={cx('extra-info-icon')} />
               {isLongTerm ? (
                 <span className={cx('text-information')}>
-                  {`${date.changeDateToMonthAndDate(longTerm.startDate)}~ ${longTerm.schedule
-                    .map((obj) => obj.careDay)
-                    .join(' ')}`}
+                  {`${date.changeDateToMonthAndDate(longTerm.startDate)}~ `}({sortCareDays(longTerm.schedule)})
                 </span>
               ) : (
                 shortTerm && (
@@ -125,9 +130,7 @@ export default function Card({ data }) {
             </li>
             <li className={cx('prefer-mate')}>
               <BsPersonFill color="#d3d3d3" className={cx('extra-info-icon')} />
-              {formattedMateAge}
-              <br />
-              {preferredmateGender}
+              {formattedMateAge} {preferredmateGender}
             </li>
             <li className={cx('wage')}>
               <PiMoneyFill color="#d3d3d3" className={cx('extra-info-icon')} />

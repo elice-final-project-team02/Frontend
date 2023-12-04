@@ -62,6 +62,9 @@
         margin-top: 12px;
       }
     }
+    .right {
+      margin-left: 60px;
+    }
   }
 
   .introduce {
@@ -100,6 +103,9 @@
     float: right;
     width: 90px;
     border: none;
+    &:hover {
+      color: var(--crl-neutral-900);
+    }
   }
 
   .edit-button,

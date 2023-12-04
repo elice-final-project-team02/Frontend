@@ -10,27 +10,30 @@
     text-align: center;
     justify-content: center;
     align-items: center;
-    gap: 20px;
     padding-block: 3rem;
+    line-height: 1.6;
     span {
-      width: 200px;
+      width: 100px;
       img {
         object-fit: cover;
       }
     }
 
     h2 {
-      font-size: 30px;
+      font-size: 22px;
+      margin-top: 26px;
+      margin-bottom: 16px;
     }
 
     button {
-      width: 100px;
-      height: 40px;
-      background-color: var(--crl-blue-700);
+      width: 80px;
+      height: 36px;
+      background-color: var(--crl-neutral-400);
       border: 1px solid var(--crl-blue-700);
-      border-radius: 5px;
+      border-radius: 10px;
       cursor: pointer;
       transition: 0.3s ease-in-out;
+      margin-top: 35px;
     }
 
     button:hover {

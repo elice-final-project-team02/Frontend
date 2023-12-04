@@ -13,7 +13,6 @@ export function usePostApplicate() {
   const queryClient = useQueryClient();
   return useMutation(postApplicate, {
     onSuccess: (response) => {
-      alert(response.message);
       queryClient.invalidateQueries('getChatRooms', { refetchActive: true });
     },
     onError: (error) => {

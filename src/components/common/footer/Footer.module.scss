@@ -1,15 +1,13 @@
 .wrapper {
-  padding: 30px 50px;
+  padding: 50px 100px;
   background-color: var(--crl-blue-100);
   line-height: 1.5;
 
   div {
-    margin: 20px 0 20px 0;
-
     .logo {
+      width: 145px;
+      object-fit: cover;
       margin-bottom: 10px;
-      width: 130px;
-      height: 25px;
     }
   }
 }

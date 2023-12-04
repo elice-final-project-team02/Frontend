@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React from 'react';
 import { Link } from 'react-router-dom';
 import styles from './MyList.module.scss';
 import { FaHeart } from 'react-icons/fa';
@@ -6,12 +6,12 @@ import { PiTrashFill } from 'react-icons/pi';
 import { useDeletePost } from 'hooks';
 import { useQueryClient } from 'react-query';
 import cs from 'classnames/bind';
+
 const cx = cs.bind(styles);
 
 export default function MyList({
   postList,
   pageNumber,
-  searchText,
   role,
   edit,
   checkedId,
@@ -19,14 +19,8 @@ export default function MyList({
   onChangeCheckbox,
   matching,
 }) {
-  const [filteredPostList, setFilteredPostList] = useState([]);
   const { mutate } = useDeletePost();
   const queryClient = useQueryClient();
-
-  useEffect(() => {
-    const filteredList = postList.filter((post) => post.title.includes(searchText));
-    setFilteredPostList(filteredList);
-  }, [searchText, postList]);
 
   const handleDeletePost = (id, pageNumber) => {
     if (window.confirm('해당 게시글을 삭제하시겠습니까?')) {
@@ -50,8 +44,8 @@ export default function MyList({
           <span>전체선택</span>
         </div>
       )}
-      {filteredPostList.length > 0 ? (
-        filteredPostList.map((post, idx) => (
+      {postList.length > 0 ? (
+        postList.map((post, idx) => (
           <div key={`${post._id}-${idx}`} className={cx('post')}>
             {edit && (
               <input
@@ -78,7 +72,7 @@ export default function MyList({
           </div>
         ))
       ) : (
-        <div className={cx('nothing')}>검색결과가 없습니다.</div>
+        <div className={cx('nothing')}>게시글이 없습니다.</div>
       )}
     </div>
   );

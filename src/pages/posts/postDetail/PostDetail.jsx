@@ -2,22 +2,21 @@ import React, { useState } from 'react';
 import { useParams } from 'react-router-dom';
 import styles from './PostDetail.module.scss';
 import cs from 'classnames/bind';
-import { FiTrash } from 'react-icons/fi';
 import { MdLocationOn, MdWatchLater } from 'react-icons/md';
 import { AiFillCalendar } from 'react-icons/ai';
 import { IoMdPerson } from 'react-icons/io';
 import { PiMoneyFill, PiTrashFill } from 'react-icons/pi';
 import { BiSolidPencil } from 'react-icons/bi';
-import { Child } from 'assets/images';
+import { Child, Senior1, Challenged } from 'assets/images';
 import { Link } from 'react-router-dom';
 import * as date from 'lib';
-import { useGetUser, useDeletePostAndGoHome, useGetRequestGoHome } from 'hooks';
 import * as data from 'lib';
+import { useGetUser, useDeletePostAndGoHome, useGetRequestGoHome } from 'hooks';
 import MessageForm from 'components/common/message/MessageForm.jsx';
 import { LoadingModal } from 'components';
 const cx = cs.bind(styles);
 
-export default function PostDetail() {
+export default function PostDetail({ setMessageBoxState, setChatId }) {
   const { id } = useParams();
   const postId = id;
   const [displayData, setDisplayData] = React.useState({});
@@ -29,7 +28,7 @@ export default function PostDetail() {
   const [requestForm, setRequestForm] = useState(false);
 
   React.useEffect(() => {
-    if (requestData) {
+    if (requestData && userData) {
       setDisplayData({
         title: requestData.post.title,
         content: requestData.post.content,
@@ -57,7 +56,7 @@ export default function PostDetail() {
         authorImageUrl: requestData.authorProfile.profileUrl,
       });
     }
-  }, [requestData]);
+  }, [requestData, userData]);
 
   function handleDeletePost() {
     if (window.confirm('게시물을 삭제하시겠습니까?')) {
@@ -71,6 +70,12 @@ export default function PostDetail() {
   }
   function sortAgeList(array) {
     return array.map((age) => parseInt(age[0])).sort();
+  }
+  function sortCareDays(day) {
+    const dayToNumber = day.map((obj) => date.changeKoreaDayOfWeekToNumber(obj.careDay));
+    const sortedDays = dayToNumber.sort((a, b) => a - b);
+    const numberToDay = sortedDays.map((obj) => date.changeNumberToKoreaDayOfWeek(obj));
+    return numberToDay.join(' ');
   }
   function formmatAgeListToTrimPretty(array) {
     let sortedArray = [];
@@ -148,9 +153,8 @@ export default function PostDetail() {
                 </span>
                 {displayData.isLongTerm ? (
                   <span className={cx('text-information')}>
-                    {`${date.changeDateToMonthAndDate(
-                      displayData.longTerm.startDate
-                    )} ~ ${displayData.longTerm.schedule.map((obj) => obj.careDay)}`}
+                    {`${date.changeDateToMonthAndDate(displayData.longTerm.startDate)}~ `}(
+                    {sortCareDays(displayData.longTerm.schedule)})
                   </span>
                 ) : (
                   displayData &&
@@ -216,6 +220,7 @@ export default function PostDetail() {
                     setRequestForm(!requestForm);
                   }}
                   className={cx(
+                    'post-button',
                     'post-badge',
                     displayData.userRole === 'user' ? 'user-background-accent' : 'care-user-background-accent'
                   )}
@@ -240,7 +245,7 @@ export default function PostDetail() {
           </div>
         </div>
         <div className={cx('body-wrapper')}>
-          <pre>{displayData.content}</pre>
+          <p>{displayData.content}</p>
         </div>
         <div
           className={cx(
@@ -250,26 +255,34 @@ export default function PostDetail() {
         >
           <div className={cx('even-columns')}>
             <div className={cx('features-wrapper')}>
-              <p>
+              <div className={cx('features')}>
                 <span>돌봄 대상 특징</span>
-                <span>{displayData.targetFeatures}</span>
-              </p>
-              <p>
+                <p>{displayData.targetFeatures}</p>
+              </div>
+              <div className={cx('features')}>
                 <span>돌봄 대상 유의사항</span>
-                <span>{displayData.cautionNotes}</span>
-              </p>
+                <p>{displayData.cautionNotes}</p>
+              </div>
             </div>
           </div>
           <div className={cx('even-columns')}>
             <span className={cx('target-image-wrapper')}>
-              <img src={Child} alt="" />
+              <img
+                src={
+                  displayData.careTarget === '아동' ? Child : displayData.careTarget === '노인' ? Senior1 : Challenged
+                }
+                alt="targetImage"
+                className={cx('target-image')}
+              />
             </span>
           </div>
         </div>
       </div>
 
       {/* 신청하기 모달창 띄움 */}
-      {requestForm === true ? <MessageForm setRequestForm={setRequestForm} /> : null}
+      {requestForm === true ? (
+        <MessageForm setMessageBoxState={setMessageBoxState} setChatId={setChatId} setRequestForm={setRequestForm} />
+      ) : null}
     </div>
   );
 }

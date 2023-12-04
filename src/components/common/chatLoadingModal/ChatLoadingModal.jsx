@@ -1,12 +1,11 @@
 import React from 'react';
-import styles from './LoadingModal.module.scss';
+import styles from './ChatLoadingModal.module.scss';
 import cs from 'classnames/bind';
 import { useState } from 'react';
 import RotateLoader from 'react-spinners/RotateLoader';
-
 const cx = cs.bind(styles);
 
-export default function LoadingModal({ message }) {
+export default function ChatLoadingModal({ message }) {
   let [loading, setLoading] = useState(true);
   let [color, setColor] = useState('#8aa1dd');
   return (
@@ -15,13 +14,13 @@ export default function LoadingModal({ message }) {
         <RotateLoader
           color={color}
           loading={loading}
-          margin={10}
-          size={20}
+          margin={1}
+          size={15}
           aria-label="Loading Spinner"
           data-testid="loader"
         />
       </span>
-      <span>{message}</span>
+      <span className={cx('message')}>{message}</span>
     </div>
   );
 }

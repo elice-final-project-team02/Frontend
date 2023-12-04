@@ -6,8 +6,7 @@ import { ProfileImage } from 'assets/images';
 import { FaUser, FaMapMarkerAlt, FaPhone } from 'react-icons/fa';
 import { IoMdClose } from 'react-icons/io';
 import { useGetMateUserInfo, usePostApplicate } from 'hooks';
-import { messageBoxState, chatId } from 'recoil/storage';
-import { useSetRecoilState } from 'recoil';
+
 const cx = cs.bind(styles);
 
 /* 게시글 상세 페이지 (돌봄메이트 -> 일반유저)
@@ -17,6 +16,7 @@ export default function MessageForm({ setRequestForm }) {
   const { id } = useParams();
 
   const [displayData, setDisplayData] = useState({});
+  const [textContent, setTextContent] = useState('');
   const { mutate } = usePostApplicate();
 
   // 돌봄유저 정보 조회
@@ -35,21 +35,31 @@ export default function MessageForm({ setRequestForm }) {
         introduction: getMateUser.user.introduction,
         careTarget: getMateUser.careTarget,
       });
+      setTextContent(getMateUser.user.introduction);
     }
   }, [getMateUser]);
 
   // 신청하기(send)
   const useApplicateRequest = () => {
+    console.log(textContent);
+    if (!textContent) return alert('신청하기 내용을 입력해 주세요.');
+
     mutate(
-      { postId: id, content: displayData.introduction },
+      { postId: id, content: textContent },
       {
         onSuccess: (res) => {
           if (res.data.chat._id) {
+            alert('신청하기가 완료되었습니다! 채팅창을 확인해보세요!');
             setRequestForm(false); // 모달창 닫기 state함수
           }
         },
       }
     );
+  };
+
+  // 채팅 입력(textarea) 메서드
+  const handleInputChange = (e) => {
+    setTextContent(e.target.value);
   };
 
   return (
@@ -111,12 +121,13 @@ export default function MessageForm({ setRequestForm }) {
             id=""
             cols="70"
             rows="10"
-            maxlength="100"
+            maxLength="100"
             placeholder="# 소개글 작성양식 (보유한 자격증 및 소개)
           예시) 안녕하세요 저는 사회복지사 2급 자격증을 보유하고 있는 정도움입니다."
             wrap="hard"
-            defaultValue={displayData?.introduction || ''}
-            autofocus
+            defaultValue={textContent || ''}
+            onChange={handleInputChange}
+            autoFocus
             required
           ></textarea>
           <p>100자 이내로 입력해주세요.</p>
@@ -126,7 +137,7 @@ export default function MessageForm({ setRequestForm }) {
           <button className={cx('btn-cancel')} onClick={() => setRequestForm(false)}>
             취소
           </button>
-          <button className={cx('btn-request')} onClick={useApplicateRequest}>
+          <button className={cx('btn-request')} disabled={!textContent} onClick={useApplicateRequest}>
             신청하기
           </button>
         </div>

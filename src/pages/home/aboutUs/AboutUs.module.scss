@@ -1,4 +1,5 @@
 .wrapper {
+  position: relative;
   .flexContainer {
     display: flex;
     flex-wrap: wrap;
@@ -29,5 +30,53 @@
     display: grid;
     grid-template-columns: 1fr 1fr;
     gap: 22px;
+  }
+  .image-wrapper {
+    span {
+      display: inline-block;
+      position: absolute;
+    }
+    .red-clam {
+      width: 100px;
+      left: 500px;
+      top: 330px;
+      rotate: 35deg;
+    }
+    .red-pearl {
+      top: 600px;
+      left: 30px;
+      width: 90px;
+    }
+    .blue-pearl {
+      top: 410px;
+      right: 120px;
+      width: 55px;
+    }
+    .blue-clam {
+      bottom: 380px;
+      right: 80px;
+      width: 90px;
+      rotate: 310deg;
+    }
+    .yellow-clam {
+      top: 920px;
+      left: 200px;
+      width: 105px;
+      rotate: 330deg;
+    }
+    .yellow-pearl {
+      width: 70px;
+      top: 720px;
+      left: 400px;
+    }
+    .infant {
+      width: 300px;
+      right: -100px;
+      bottom: -200px;
+      rotate: 35deg;
+    }
+    img {
+      object-fit: cover;
+    }
   }
 }

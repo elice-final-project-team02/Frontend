@@ -64,7 +64,7 @@ export default function Header() {
               </li>
             </ul>
           </nav>
-          <ul>
+          <ul className={cx('join-together')}>
             {isLoggedIn === 'LOGGED_IN' ? (
               <li onClick={handleLogout}>로그아웃</li>
             ) : (
