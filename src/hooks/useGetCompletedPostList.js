@@ -2,7 +2,7 @@ import axios from 'axios';
 import { useQuery } from 'react-query';
 import { errorHandler } from 'lib';
 import { useRecoilValue } from 'recoil';
-import { isLoggedInState } from 'recoil/isLoggedInState';
+import { isLoggedInState } from 'recoil/isLoggedInStateAtom';
 
 const getCompletedPostListUser = async (pageNumber) => {
   const response = await axios.get(`/api/post/posts/completed-user?page=${pageNumber}`, { withCredentials: true });

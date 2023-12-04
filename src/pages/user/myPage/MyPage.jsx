@@ -4,8 +4,8 @@ import cs from 'classnames/bind';
 import { ProfileImage } from 'assets/images';
 import { MyTitle, MySideBar, Region, LoadingModal } from 'components';
 import { InputStatus, validateInput } from 'lib';
-import { useGetUser } from '../../../hooks/getUser';
-import { usePutUser } from '../../../hooks/putUser';
+import { useGetUser } from '../../../hooks/useGetUser';
+import { usePutUser } from '../../../hooks/usePutUser';
 const cx = cs.bind(styles);
 
 export default function MyPage() {

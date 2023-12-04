@@ -44,9 +44,9 @@ export default function AboutUs() {
       <div className={styles.flexContainer}>
         <div className={styles.flexMainItem}>
           <MainTitle>
-            쓰담쓰담 서비스는
+            쓰담쓰담은
             <br />
-            어떤것인가요?
+            어떤 서비스인가요?
           </MainTitle>
           <div>
             <MainText>

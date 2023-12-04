@@ -3,6 +3,7 @@ import styles from './MyPosts.module.scss';
 import cs from 'classnames/bind';
 import { MyTitle, MySideBar, MyList, Pagination, LoadingModal } from 'components';
 import { useGetUserPostList } from 'hooks';
+import { NotFoundCharacter } from 'assets/images';
 
 const cx = cs.bind(styles);
 
@@ -37,7 +38,12 @@ export default function MyPosts() {
           ) : (
             <div className={cx('content')}>
               {postList.length === 0 ? (
-                <div>등록된 게시물이 없습니다.</div>
+                <div className={cx('not-found-wrapper')}>
+                  <span className={cx('not-found')}>
+                    <img src={NotFoundCharacter} alt="" />
+                  </span>
+                  등록된 게시물이 없습니다.
+                </div>
               ) : (
                 <MyList postList={postList} pageNumber={currPage + 1} role={role} />
               )}

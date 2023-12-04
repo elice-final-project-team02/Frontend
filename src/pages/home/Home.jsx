@@ -11,7 +11,7 @@ import SeniorItem from '../../assets/images/senior-item.png';
 import DisabledItem from '../../assets/images/disabled-item.png';
 import HomeCard from 'components/home/HomeCard';
 import { useRecoilValue } from 'recoil';
-import { roleState } from 'recoil/roleState';
+import { roleState } from 'recoil/roleStateAtom';
 
 const cx = cs.bind(styles);
 

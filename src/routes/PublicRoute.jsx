@@ -1,6 +1,6 @@
 import { Navigate } from 'react-router-dom';
 import { useRecoilValue } from 'recoil';
-import { isLoggedInState } from 'recoil/isLoggedInState';
+import { isLoggedInState } from 'recoil/isLoggedInStateAtom';
 
 export const PublicRoute = ({ children }) => {
   const loginStatus = useRecoilValue(isLoggedInState);

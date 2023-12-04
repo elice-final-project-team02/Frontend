@@ -4,17 +4,18 @@ import cs from 'classnames/bind';
 import { Link, useNavigate } from 'react-router-dom';
 import { LogoClam } from 'assets/images';
 import { useRecoilValue } from 'recoil';
-import { isLoggedInState } from 'recoil/isLoggedInState';
-import { roleState } from 'recoil/roleState';
+import { isLoggedInState } from 'recoil/isLoggedInStateAtom';
+import { roleState } from 'recoil/roleStateAtom';
 import { usePostLogout } from 'hooks';
 
 const cx = cs.bind(styles);
 
 export default function Header() {
+  const careTargets = ['아동', '노인', '장애인'];
   const navigate = useNavigate();
   const isLoggedIn = useRecoilValue(isLoggedInState);
   const role = useRecoilValue(roleState);
-  const { mutate } = usePostLogout();
+  const { mutate: logoutMutate } = usePostLogout();
 
   const [dropdownOpen, setDropdownOpen] = useState(false);
 
@@ -24,7 +25,7 @@ export default function Header() {
 
   const handleLogout = () => {
     if (window.confirm('로그아웃 하시겠습니까?')) {
-      mutate();
+      logoutMutate();
       navigate('/');
     }
   };
@@ -46,17 +47,13 @@ export default function Header() {
               <li onMouseEnter={handleDropdown} onMouseLeave={handleDropdown}>
                 <Link to={role === 'user' ? '/posts/new' : '/posts'}>돌봄서비스</Link>
                 <ul className={cx('dropdown', { open: dropdownOpen })}>
-                  <li>
-                    <Link to={role === 'user' ? '/posts/new?careTarget=아동' : '/posts?careTarget=아동'}>아동</Link>
-                  </li>
-                  <li>
-                    <Link to={role === 'user' ? '/posts/new?careTarget=노인' : '/posts?careTarget=노인'}>노인</Link>
-                  </li>
-                  <li>
-                    <Link to={role === 'user' ? '/posts/new?careTarget=장애인' : '/posts?careTarget=장애인'}>
-                      장애인
-                    </Link>
-                  </li>
+                  {careTargets.map((target) => (
+                    <li key={target}>
+                      <Link to={role === 'user' ? `/posts/new?careTarget=${target}` : `/posts?careTarget=${target}`}>
+                        {target}
+                      </Link>
+                    </li>
+                  ))}
                 </ul>
               </li>
               <li>

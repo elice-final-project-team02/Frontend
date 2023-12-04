@@ -649,7 +649,7 @@ export default function WritePost({ params, beforeData }) {
             value={postContent.targetFeatures}
             placeholder="ex) 나이, 성격, 좋아하는 것, 싫어하는 것 등"
             onBlur={checkEmptyValue}
-            maxLength={200}
+            maxLength={139}
             tabIndex="11"
           ></textarea>
           <span className={cx('title-level')}>돌봄 대상 유의사항</span>
@@ -661,7 +661,7 @@ export default function WritePost({ params, beforeData }) {
             onBlur={checkEmptyValue}
             placeholder="ex) 나이, 성격, 좋아하는 것, 싫어하는 것 등"
             tabIndex="12"
-            maxLength={200}
+            maxLength={138}
           ></textarea>
         </div>
         <div className={cx('button-wrapper')}>

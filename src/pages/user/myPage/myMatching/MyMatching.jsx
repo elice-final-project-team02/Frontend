@@ -4,7 +4,7 @@ import cs from 'classnames/bind';
 import { MyTitle, MySideBar, MyList, Pagination, LoadingModal } from 'components';
 import { useGetCompletedPostList } from 'hooks';
 import { useRecoilValue } from 'recoil';
-import { roleState } from 'recoil/roleState';
+import { roleState } from 'recoil/roleStateAtom';
 import { NotFoundCharacter } from 'assets/images';
 
 const cx = cs.bind(styles);
@@ -12,9 +12,7 @@ const cx = cs.bind(styles);
 export default function MyMatching() {
   const role = useRecoilValue(roleState);
   const [currPage, setCurrPage] = useState(0);
-
   const { data, isLoading } = useGetCompletedPostList(role, currPage + 1);
-
   const [postList, setPostList] = useState([]);
 
   useEffect(() => {

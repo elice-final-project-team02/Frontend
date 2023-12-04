@@ -2,7 +2,7 @@ import axios from 'axios';
 import { useQuery } from 'react-query';
 import { errorHandler } from 'lib';
 import { useRecoilValue } from 'recoil';
-import { isLoggedInState } from 'recoil/isLoggedInState';
+import { isLoggedInState } from 'recoil/isLoggedInStateAtom';
 
 const getPostList = async ({ controlTarget, controlTerm }) => {
   if (controlTarget === '전체' && controlTerm === 'all') {

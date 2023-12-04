@@ -6,15 +6,13 @@ import { ProfileImage } from 'assets/images';
 import { FaUser, FaMapMarkerAlt, FaPhone } from 'react-icons/fa';
 import { IoMdClose } from 'react-icons/io';
 import { useGetMateUserInfo, usePostApplicate } from 'hooks';
-// import { messageBoxState,chatId } from 'recoil/storage';
-// import { useSetRecoilState } from 'recoil';
+
 const cx = cs.bind(styles);
 
 /* 게시글 상세 페이지 (돌봄메이트 -> 일반유저)
 신청하기 버튼 클릭시 뜨는 신청form 모달 창 컴포넌트 */
 
 export default function MessageForm({ setRequestForm }) {
-
   const { id } = useParams();
 
   const [displayData, setDisplayData] = useState({});
@@ -37,25 +35,21 @@ export default function MessageForm({ setRequestForm }) {
         introduction: getMateUser.user.introduction,
         careTarget: getMateUser.careTarget,
       });
-      setTextContent(getMateUser.user.introduction)
+      setTextContent(getMateUser.user.introduction);
     }
   }, [getMateUser]);
 
-  
-
   // 신청하기(send)
   const useApplicateRequest = () => {
-    console.log(textContent)
     if (!textContent) return alert('신청하기 내용을 입력해 주세요.');
-    
+
     mutate(
       { postId: id, content: textContent },
       {
         onSuccess: (res) => {
           if (res.data.chat._id) {
-            alert("신청하기가 완료되었습니다! 채팅창을 확인해보세요!");
+            alert('신청하기가 완료되었습니다! 채팅창을 확인해보세요!');
             setRequestForm(false); // 모달창 닫기 state함수
-
           }
         },
       }

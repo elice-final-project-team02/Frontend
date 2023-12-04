@@ -2,8 +2,8 @@ import axios from 'axios';
 import { useMutation } from 'react-query';
 import { useNavigate } from 'react-router-dom';
 import { errorHandler } from 'lib';
-import { isLoggedInState } from 'recoil/isLoggedInState';
-import { roleState } from 'recoil/roleState';
+import { isLoggedInState } from 'recoil/isLoggedInStateAtom';
+import { roleState } from 'recoil/roleStateAtom';
 import { useSetRecoilState } from 'recoil';
 
 const postLogin = async (email, password) => {
