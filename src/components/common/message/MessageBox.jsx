@@ -25,8 +25,7 @@ export default function MessageBox({ showmessagebox, toggleMessageBox }) {
     <div ref={outsideRef} className={cx('wrapper', { open: showmessagebox })}>
       <MessageList chatInfoSelect={chatInfoSelect} />
 
-      {selectedChatId !== '' ? <ChattingRoom selectedChatId={selectedChatId} chatInfoSelect={chatInfoSelect} /> : null}
+      {selectedChatId !== '' && <ChattingRoom selectedChatId={selectedChatId} chatInfoSelect={chatInfoSelect} />}
     </div>
   );
 }
-

@@ -1,8 +1,8 @@
 import { useEffect } from 'react';
 import { Navigate } from 'react-router-dom';
 import { useRecoilValue } from 'recoil';
-import { isLoggedInState } from 'recoil/isLoggedInState';
-import { roleState } from 'recoil/roleState';
+import { isLoggedInState } from 'recoil/isLoggedInStateAtom';
+import { roleState } from 'recoil/roleStateAtom';
 
 export const PrivateRoute = ({ role, children }) => {
   const loginStatus = useRecoilValue(isLoggedInState);

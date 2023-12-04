@@ -58,9 +58,7 @@ export default function MyList({
             <Link to={`/posts/${post._id}`}>
               <span className={cx('title')}>{post.title}</span>
             </Link>
-            {matching ? (
-              ''
-            ) : role === '일반' ? (
+            {!matching && role === '일반' ? (
               <PiTrashFill
                 className={cx('delete-button')}
                 onClick={() => handleDeletePost(post._id, pageNumber)}

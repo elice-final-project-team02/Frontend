@@ -4,7 +4,7 @@ import cs from 'classnames/bind';
 import { MyTitle, MySideBar, MyList, Pagination, LoadingModal } from 'components';
 import { useGetCompletedPostList } from 'hooks';
 import { useRecoilValue } from 'recoil';
-import { roleState } from 'recoil/roleState';
+import { roleState } from 'recoil/roleStateAtom';
 import { NotFoundCharacter } from 'assets/images';
 
 const cx = cs.bind(styles);

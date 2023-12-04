@@ -4,7 +4,7 @@ import { useNavigate } from 'react-router';
 import { MessageBtn, NewMessageImage } from 'assets/images';
 import MessageBox from './MessageBox';
 import cs from 'classnames/bind';
-import { isLoggedInState } from 'recoil/isLoggedInState';
+import { isLoggedInState } from 'recoil/isLoggedInStateAtom';
 import { useRecoilValue } from 'recoil';
 
 const cx = cs.bind(styles);
@@ -19,17 +19,17 @@ export default function MessageButton({ checkUpdateUser, checkUpdateCareUser }) 
 
   const navigate = useNavigate();
 
-  const toggleMessageBox = (flag) => {
+  const toggleMessageBox = (isPopupOpen) => {
     if (isLoggedIn === 'LOGGED_IN') {
-      if (!flag) {
-        setPopup(!flag);
+      if (!isPopupOpen) {
+        setPopup(!isPopupOpen);
         setTimeout(() => {
-          setShowMessageBox(!flag);
+          setShowMessageBox(!isPopupOpen);
         }, 200);
       } else {
-        setShowMessageBox(!flag);
+        setShowMessageBox(!isPopupOpen);
         setTimeout(() => {
-          setPopup(!flag);
+          setPopup(!isPopupOpen);
         }, 400);
       }
     } else {

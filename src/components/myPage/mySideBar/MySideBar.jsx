@@ -3,7 +3,7 @@ import styles from './MySideBar.module.scss';
 import cs from 'classnames/bind';
 import { Link } from 'react-router-dom';
 import { useRecoilValue } from 'recoil';
-import { roleState } from 'recoil/roleState';
+import { roleState } from 'recoil/roleStateAtom';
 const cx = cs.bind(styles);
 
 export default function MySideBar() {

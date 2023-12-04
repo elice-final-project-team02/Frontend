@@ -1,6 +1,5 @@
 import axios from 'axios';
 import { useMutation } from 'react-query';
-import { useNavigate } from 'react-router-dom';
 import { errorHandler } from 'lib';
 
 const deleteLeaveRoom = async (selectedChatId) => {
@@ -11,7 +10,6 @@ const deleteLeaveRoom = async (selectedChatId) => {
 };
 
 export function useDeleteLeaveRoom() {
-  const navigate = useNavigate();
   return useMutation((selectedChatId) => deleteLeaveRoom(selectedChatId), {
     onSuccess: (response) => {
       alert(response.message);

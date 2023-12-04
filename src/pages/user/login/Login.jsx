@@ -2,7 +2,7 @@ import React, { useState, useRef } from 'react';
 import { useNavigate } from 'react-router-dom';
 import styles from './Login.module.scss';
 import cs from 'classnames/bind';
-import { usePostLogin } from '../../../hooks/postLogin';
+import { usePostLogin } from '../../../hooks/usePostLogin';
 import Logo from '../../../assets/images/logo.png';
 import InfantItem from '../../../assets/images/infant-item.png';
 import SeniorItem from '../../../assets/images/senior-item.png';
