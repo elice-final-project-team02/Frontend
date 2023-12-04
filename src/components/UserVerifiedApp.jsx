@@ -7,11 +7,11 @@ import { MaxWidth } from './common/maxWidth';
 import MessageButton from './common/message/MessageButton';
 import '../styles/index.scss';
 import { Outlet } from 'react-router-dom';
-import { isLoggedInState } from 'recoil/isLoggedInState';
-import { roleState } from 'recoil/roleState';
+import { isLoggedInState } from 'recoil/isLoggedInStateAtom';
+import { roleState } from 'recoil/roleStateAtom';
 import { useRecoilState } from 'recoil';
-import { getUser } from '../hooks/getUser';
-import { getCheckUpdateUser, getCheckUpdateCareUser } from '../hooks/getCheckUpdateMessage';
+import { getUser } from '../hooks/useGetUser';
+import { getCheckUpdateUser, getCheckUpdateCareUser } from '../hooks/useGetCheckUpdateMessage';
 
 export default function UserVerifiedApp({ setMessageBoxState, setChatId }) {
   const location = useLocation();
@@ -22,48 +22,57 @@ export default function UserVerifiedApp({ setMessageBoxState, setChatId }) {
 
   // 최초 렌더링 시 호출
   useEffect(() => {
-    getUser()
-      .then((response) => {
+    const verifyUser = async () => {
+      try {
+        const response = await getUser();
         setLoginStatus('LOGGED_IN');
         setUserRole(response.role.role);
-      })
-      .catch(() => {
+      } catch {
         setLoginStatus('LOGGED_OUT');
         setUserRole('');
-      });
+      }
+    };
+    verifyUser();
   }, []);
 
   // privateRoute 진입시 호출
   useEffect(() => {
     const privateRoutes = location.pathname.startsWith('/mypage') || location.pathname.startsWith('/posts');
     if (privateRoutes && loginStatus === 'LOGGED_OUT') {
-      getUser()
-        .then((response) => {
+      const verifyUser = async () => {
+        try {
+          const response = await getUser();
           setLoginStatus('LOGGED_IN');
           setUserRole(response.role.role);
-        })
-        .catch(() => {
+        } catch {
           setLoginStatus('LOGGED_OUT');
           setUserRole('');
-        });
+        }
+      };
+      verifyUser();
     }
   }, [location, loginStatus]);
 
   // location 이동 시, message update 확인 (role에 따라 다르게 처리)
   useEffect(() => {
-    if (loginStatus === 'LOGGED_IN' && userRole === 'user') {
-      getCheckUpdateUser()
-        .then((response) => {
+    const checkUpdate = async () => {
+      if (loginStatus === 'LOGGED_IN' && userRole === 'user') {
+        try {
+          const response = await getCheckUpdateUser();
           setCheckUpdateUser(response.isUpdated);
-        })
-        .catch((e) => console.log(e));
-    } else if (loginStatus === 'LOGGED_IN' && userRole === 'careUser') {
-      getCheckUpdateCareUser()
-        .then((response) => {
+        } catch (e) {
+          console.log(e);
+        }
+      } else if (loginStatus === 'LOGGED_IN' && userRole === 'careUser') {
+        try {
+          const response = await getCheckUpdateCareUser();
           setCheckUpdateCareUser(response.isUpdated);
-        })
-        .catch((e) => console.log(e));
-    }
+        } catch (e) {
+          console.log(e);
+        }
+      }
+    };
+    checkUpdate();
   }, [location, loginStatus, userRole]);
 
   return (

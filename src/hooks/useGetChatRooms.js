@@ -3,16 +3,17 @@ import { useEffect } from 'react';
 import { useQuery } from 'react-query';
 import { errorHandler } from 'lib';
 import { useRecoilValue } from 'recoil';
-import { isLoggedInState } from 'recoil/isLoggedInState';
+import { isLoggedInState } from 'recoil/isLoggedInStateAtom';
 
-export const getRoom = async (chatId) => {
-  const response = await axios.get(`/api/chat/room/${chatId}`, { withCredentials: true });
-  return response.data.data.chat;
+const getChatRooms = async (pageNumber) => {
+  const response = await axios.get(`/api/chat/rooms?page=${pageNumber}&limit=10`, { withCredentials: true });
+  return response.data.data;
 };
 
-export function useGetRoom(chatId) {
+export function useGetChatRooms(pageNumber) {
   const loginStatus = useRecoilValue(isLoggedInState);
-  const queryInfo = useQuery('get-room', () => getRoom(chatId), {
+
+  const queryInfo = useQuery(['getChatRooms', pageNumber], () => getChatRooms(pageNumber), {
     onError: (error) => {
       errorHandler(error);
     },

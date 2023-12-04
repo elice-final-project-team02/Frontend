@@ -4,7 +4,7 @@ import { ChildHat, DesabledBathchair, NewMessageImage, ProfileImage, SeniorYarn 
 import cs from 'classnames/bind';
 import { useGetChatRooms } from 'hooks';
 import { useRecoilValue } from 'recoil';
-import { roleState } from 'recoil/roleState';
+import { roleState } from 'recoil/roleStateAtom';
 import * as date from 'lib';
 import { ChatLoadingModal } from 'components';
 const cx = cs.bind(styles);

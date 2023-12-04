@@ -25,14 +25,16 @@ export default function AuthInput({
       onVerify();
       setCountdownDisabled(true);
       setCountdown(30);
-      const timer = setInterval(() => {
+      const timer = setTimeout(function tick() {
         setCountdown((prevCount) => {
-          if (prevCount === 0) {
-            clearInterval(timer);
+          if (prevCount === 1) {
+            clearTimeout(timer);
             setCountdownDisabled(false);
             return 0;
+          } else {
+            setTimeout(tick, 1000);
+            return prevCount - 1;
           }
-          return prevCount - 1;
         });
       }, 1000);
     }

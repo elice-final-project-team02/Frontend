@@ -6,11 +6,13 @@ import { IoReturnUpBackOutline } from 'react-icons/io5';
 import cs from 'classnames/bind';
 import { FiSend } from 'react-icons/fi';
 import { useRecoilValue } from 'recoil';
-import { roleState } from 'recoil/roleState';
+import { roleState } from 'recoil/roleStateAtom';
 import { useGetRoom, usePostSendMessage, usePutConfirmMate, useDeleteLeaveRoom } from 'hooks';
 import { useQueryClient } from 'react-query';
 import ChatMateConfirmAlert from './ChatMateConfirmAlert';
 import { ChatLoadingModal } from 'components';
+import ChatMessage from './ChatMessage';
+import ChatFooter from './ChatFooter';
 
 const cx = cs.bind(styles);
 const keywordClass = {
@@ -230,41 +232,14 @@ export default function ChattingRoom({ chatInfoSelect, selectedChatId }) {
                 const messageDate = new Date(message.createdAt).toISOString().split('T')[0];
                 const prevMessageDate =
                   index > 0 ? new Date(array[index - 1].createdAt).toISOString().split('T')[0] : null;
+
                 return (
                   <div key={message._id}>
                     {/* 채팅 일자 => 이전 메시지 날짜와 해당 메시지 날짜 비교 */}
                     {index === 0 || (prevMessageDate && prevMessageDate !== messageDate) ? (
                       <li className={cx('chat-date')}>{messageDate}</li>
                     ) : null}
-                    <li
-                      key={message._id}
-                      className={cx('text-item', { me: isMe })}
-                      ref={message.isRead ? null : unreadMessageRef}
-                    >
-                      <div className={cx('user-imgbox')}>
-                        <img
-                          className={cx(isMe ? 'img-user2' : 'img-user1')}
-                          src={image || ProfileImage}
-                          alt="채팅창 유저이미지"
-                        />
-                      </div>
-                      <div>
-                        <p className={cx(isMe ? 'username2' : 'username1')}>{isMe ? '나' : name}</p>
-                        <p
-                          className={cx('chat-text')}
-                          dangerouslySetInnerHTML={{ __html: exchangeHtml(message.content) }}
-                        ></p>
-                      </div>
-                      <p className={cx('chat-time')}>
-                        {new Date(message.createdAt).toLocaleTimeString('en-US', {
-                          hour: '2-digit',
-                          minute: '2-digit',
-                          hour12: false,
-                          timeZone: 'UTC',
-                        })}
-                      </p>
-                      <p className={cx('chat-read')}>{message.isRead ? '읽음' : ''}</p>
-                    </li>
+                    <ChatMessage message={message} isMe={isMe} name={name} image={image} exchangeHtml={exchangeHtml} />
                   </div>
                 );
               })}
@@ -283,24 +258,13 @@ export default function ChattingRoom({ chatInfoSelect, selectedChatId }) {
             <img className={cx('backimg-bath')} src={ChatBackBath} alt="채팅창 배경 휠체어이미지" />
           </div>
           {/* 푸터 영역 */}
-          <div className={cx('chat-room-footer')}>
-            <input
-              disabled={data.chat.leaveRoom.length}
-              className={cx('inputbox')}
-              placeholder={data.chat.leaveRoom.length ? '상대방이 채팅을 종료했습니다.' : '메시지를 입력해주세요.'}
-              value={inputmessage}
-              onChange={handleInputChange}
-              onKeyUp={handleInputSend}
-              maxLength="100"
-            ></input>
-            <button
-              disabled={data.chat.leaveRoom.length}
-              onClick={useSendMessageRequest}
-              className={cx('send-message')}
-            >
-              <FiSend size="30" color="var(--crl-blue-900) " />
-            </button>
-          </div>
+          <ChatFooter
+            isChatRoomClosed={data.chat.leaveRoom.length}
+            inputmessage={inputmessage}
+            handleInputChange={handleInputChange}
+            handleInputSend={handleInputSend}
+            useSendMessageRequest={useSendMessageRequest}
+          />
         </div>
       )}
     </div>

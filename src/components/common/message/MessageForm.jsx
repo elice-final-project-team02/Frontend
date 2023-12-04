@@ -41,7 +41,6 @@ export default function MessageForm({ setRequestForm }) {
 
   // 신청하기(send)
   const useApplicateRequest = () => {
-    console.log(textContent);
     if (!textContent) return alert('신청하기 내용을 입력해 주세요.');
 
     mutate(
