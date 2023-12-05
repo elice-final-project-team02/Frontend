@@ -17,7 +17,7 @@ export default function Card({ data }) {
     careInformation: { area, careTarget, preferredmateAge, preferredmateGender },
     createdAt,
     isBookmarked,
-    reservation: { hourlyRate, isLongTerm, negotiableRate, status, longTerm, shortTerm },
+    reservation: { hourlyRate, isLongTerm, negotiableRate, longTerm, shortTerm },
     title,
   } = data;
 
@@ -35,8 +35,6 @@ export default function Card({ data }) {
     disabled: careTarget === '장애인',
   });
 
-  const HeartIcon = isWished ? FaHeart : FaRegHeart;
-
   const handleToggleFavorite = async () => {
     try {
       if (isWished) {
@@ -51,12 +49,13 @@ export default function Card({ data }) {
     }
   };
 
-  function sortCareDays(day) {
-    const dayToNumber = day.map((obj) => date.changeKoreaDayOfWeekToNumber(obj.careDay));
-    const sortedDays = dayToNumber.sort((a, b) => a - b);
-    const numberToDay = sortedDays.map((obj) => date.changeNumberToKoreaDayOfWeek(obj));
-    return numberToDay.join(' ');
-  }
+  const sortCareDays = (day) => {
+    const sortedDays = day
+      .map((obj) => date.changeKoreaDayOfWeekToNumber(obj.careDay))
+      .sort((a, b) => a - b)
+      .map((obj) => date.changeNumberToKoreaDayOfWeek(obj));
+    return sortedDays.join(' ');
+  };
 
   return (
     <div className={cx('wrapper')}>
@@ -79,12 +78,21 @@ export default function Card({ data }) {
             <span className={cx('card-status', careTarget === '아동' && 'black')}>모집중</span>
             <span className={cx('time-stamp')}>등록일 {date.changeDateToMonthAndDate(createdAt)}</span>
             <div className={cx('heartIcons')}>
-              <HeartIcon
-                onClick={(e) => {
-                  e.preventDefault();
-                  handleToggleFavorite();
-                }}
-              />
+              {isWished ? (
+                <FaHeart
+                  onClick={(e) => {
+                    e.preventDefault();
+                    handleToggleFavorite();
+                  }}
+                />
+              ) : (
+                <FaRegHeart
+                  onClick={(e) => {
+                    e.preventDefault();
+                    handleToggleFavorite();
+                  }}
+                />
+              )}
             </div>
           </div>
         </div>

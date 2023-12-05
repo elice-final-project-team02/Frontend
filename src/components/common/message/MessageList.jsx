@@ -17,34 +17,15 @@ export default function MessageList({ chatInfoSelect }) {
 
   useEffect(() => {
     if (!isLoading && roomData) {
-      const mapRoomsList = roomData.chats
-        .filter((room) => !room.leaveRoom.includes(room.userId) && room.post !== null)
-        .map((room) => ({
-          chatId: room._id,
-          postNumber: room.post.postNumber,
-          careUsername: room.applicant.name,
-          username: room.author.name,
-          careTarget: room.post.careInformation.careTarget,
-          postTitle: room.post.title,
-          messagetext: room.message?.content,
-          updateDate: room.message?.createdAt,
-          isRead: room.message?.isRead,
-          sender: room.message?.sender,
-          receiver: room.message?.receiver,
-          careUserProfileImage: room.applicant.profileUrl,
-          userProfileImage: room.author.profileUrl,
-          currentStatus: room.status,
-          leaveRoom: room?.leaveRoom,
-          deleted: room.deletedAt,
-          userId: room.userId,
-          postId: room._id,
-        }));
-      setChatList(mapRoomsList);
+      const existChatList = roomData.chats.filter(
+        (room) => !room.leaveRoom.includes(room.userId) && room.post !== null
+      );
+      setChatList(existChatList);
     }
   }, [roomData, isLoading]);
 
   const matchedPostNumbers = chatList
-    .filter((chatItem) => chatItem.currentStatus === '매칭완료')
+    .filter((chatItem) => chatItem.status === '매칭완료')
     .map((matchedChatItem) => matchedChatItem.postNumber);
 
   return (
@@ -70,19 +51,19 @@ export default function MessageList({ chatInfoSelect }) {
               {/* 채팅 리스트 동적 생성 */}
               {chatList.map((chatItem) => {
                 const isMatched =
-                  matchedPostNumbers.includes(chatItem.postNumber) && chatItem.currentStatus !== '매칭완료';
+                  matchedPostNumbers.includes(chatItem.post.postNumber) && chatItem.status !== '매칭완료';
                 const messageItem = cx('message-item', {
-                  confirmed: chatItem.currentStatus === '매칭완료',
-                  disabled: chatItem.leaveRoom.length,
+                  confirmed: chatItem.status === '매칭완료',
+                  disabled: chatItem?.leaveRoom.length,
                   mathed: isMatched,
                 });
                 return (
                   <li
                     className={messageItem}
                     onClick={() => {
-                      chatInfoSelect(chatItem.chatId);
+                      chatInfoSelect(chatItem._id);
                     }}
-                    key={chatItem.chatId}
+                    key={chatItem._id}
                   >
                     {/* 프로필사진, n이미지 영역 */}
                     <div className={cx('user-profilebox')}>
@@ -90,13 +71,13 @@ export default function MessageList({ chatInfoSelect }) {
                         className={cx('img-profile')}
                         src={
                           role === 'user'
-                            ? chatItem?.careUserProfileImage || ProfileImage
-                            : chatItem?.userProfileImage || ProfileImage
+                            ? chatItem?.applicant.profileUrl || ProfileImage
+                            : chatItem?.author.profileUrl || ProfileImage
                         }
                         alt="상대유저 프로필이미지"
                       />
                       <div className={cx('newSign-box')}>
-                        {chatItem.sender === chatItem.userId ? null : chatItem.isRead ? null : (
+                        {chatItem.message?.sender === chatItem.userId ? null : chatItem.message?.sender ? null : (
                           <img className={cx('img-newmessage')} src={NewMessageImage} alt="새메시지이미지" />
                         )}
                       </div>
@@ -105,40 +86,40 @@ export default function MessageList({ chatInfoSelect }) {
                     {/* 이름, 키워드, 메시지 내용 영역 */}
                     <div className={cx('user-itembox')}>
                       <p className={cx('post-title')}>
-                        <span className={cx('post-num')}>#{chatItem.postNumber} </span>
-                        {chatItem.postTitle}
+                        <span className={cx('post-num')}>#{chatItem.post.postNumber} </span>
+                        {chatItem.post.title}
                       </p>
                       <div className={cx('name-icon-wrapper')}>
                         <span className={cx('username')}>
-                          {role === 'user' ? chatItem.careUsername : chatItem.username}
+                          {role === 'user' ? chatItem.applicant.name : chatItem.author.name}
                         </span>
                         <span
                           className={cx('care-target-icon', {
-                            child: chatItem.careTarget === '아동',
-                            senior: chatItem.careTarget === '노인',
-                            disabled: chatItem.careTarget === '장애인',
+                            child: chatItem.post.careInformation.careTarget === '아동',
+                            senior: chatItem.post.careInformation.careTarget === '노인',
+                            disabled: chatItem.post.careInformation.careTarget === '장애인',
                           })}
                         >
-                          {chatItem.careTarget}
+                          {chatItem.post.careInformation.careTarget}
                         </span>
-                        {chatItem.currentStatus === '매칭완료' ? (
-                          <span className={cx('matching')}>매칭완료</span>
-                        ) : null}
+                        {chatItem.status === '매칭완료' ? <span className={cx('matching')}>매칭완료</span> : null}
                       </div>
 
                       <div className={cx('message-container')}>
                         {isMatched ? (
                           <p className={cx('matched-message')}>이미 매칭이 완료되었습니다.</p>
                         ) : (
-                          <p className={cx('message-text')}>{chatItem.messagetext}</p>
+                          <p className={cx('message-text')}>{chatItem.message?.content}</p>
                         )}
                       </div>
                     </div>
                     {/* 날짜, 시분표시 영역 */}
                     <div className={cx('date-box')}>
-                      <p className={cx('last-date')}>{date.changeDateToYearAndMonthAndDate(chatItem.updateDate)}</p>
+                      <p className={cx('last-date')}>
+                        {date.changeDateToYearAndMonthAndDate(chatItem.message?.createdAt)}
+                      </p>
                       <p className={cx('last-time')}>
-                        {new Date(chatItem.updateDate).toLocaleTimeString('en-US', {
+                        {new Date(chatItem.message?.createdAt).toLocaleTimeString('en-US', {
                           hour: '2-digit',
                           minute: '2-digit',
                           hour12: true,
