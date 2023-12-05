@@ -2,8 +2,8 @@ import React, { useEffect, useState } from 'react';
 import styles from './AllPosts.module.scss';
 import cs from 'classnames/bind';
 import { Pagination, FilterCareTarget, SearchBar, Card, LoadingModal } from 'components';
-import { useGetPostList } from 'hooks';
-import { Link, useSearchParams } from 'react-router-dom';
+import { formatterUrl, useGetPostList } from 'hooks';
+import { Link, useNavigate, useSearchParams } from 'react-router-dom';
 import { NotFoundCharacter } from 'assets/images';
 const cx = cs.bind(styles);
 
@@ -19,6 +19,7 @@ export default function AllPosts() {
   const { data, isLoading } = useGetPostList({ controlTarget, controlTerm });
   const [postList, setPostList] = useState([]);
   const PAGE_LIMIT = 6;
+  const navigate = useNavigate();
   useEffect(() => {
     if (careTarget) {
       setControlTarget(careTarget);
@@ -41,6 +42,7 @@ export default function AllPosts() {
     setPostList([]);
     if (data) {
       setPostList([...data?.posts]);
+      navigate(`/posts${formatterUrl(controlTarget, controlTerm)}`);
     }
   }, [data]);
 
@@ -55,7 +57,7 @@ export default function AllPosts() {
       setPostList(filteredList);
       return;
     }
-  }, [searchInput, controlTarget, controlTerm]);
+  }, [searchInput]);
 
   const handleSearchChange = (text) => {
     setSearchInput(text);
