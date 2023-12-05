@@ -6,7 +6,7 @@ import { useGetChatRooms } from 'hooks';
 import { useRecoilValue } from 'recoil';
 import { roleState } from 'recoil/roleStateAtom';
 import * as date from 'lib';
-import { ChatLoadingModal } from 'components';
+import { LoadingModal } from 'components';
 const cx = cs.bind(styles);
 
 // 메시지함 리스트 컴포넌트 (채팅형식 UI - 레이어 팝업 형태)
@@ -50,8 +50,9 @@ export default function MessageList({ chatInfoSelect }) {
   return (
     <div className={cx('wrapper')}>
       {/* 메시지함 전체 영역 */}
+
       {isLoading ? (
-        <ChatLoadingModal message="접속 중입니다..." />
+        <LoadingModal message="접속 중입니다..." isLoading={isLoading} />
       ) : (
         <div className={cx('message-box')}>
           {/* 메시지 리스트 상단 영역 */}

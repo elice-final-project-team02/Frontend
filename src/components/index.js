@@ -4,7 +4,6 @@ export * from './common/maxWidth';
 export * from './common/region';
 export * from './common/button';
 export * from './common/loadingModal';
-export * from './common/chatLoadingModal';
 export * from './posts/datePicker/datesPicker';
 export * from './posts/datePicker/separateDatesPicker';
 export * from './posts/datePicker/showSelectedDateList';

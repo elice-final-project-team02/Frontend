@@ -55,7 +55,7 @@ export default function FilterCareTarget({ onChangeTarget, onChangeTerm, control
             name="shortTerm"
             value="false"
             onChange={handleChangeTerm}
-            checked={controlTerm !== 'true' && controlTerm !== 'all'}
+            checked={controlTerm === 'false'}
           />
           <span className={cx('term', 'checkmark')}></span>
           단기
@@ -65,7 +65,7 @@ export default function FilterCareTarget({ onChangeTarget, onChangeTerm, control
             type="checkbox"
             name="longTerm"
             onChange={handleChangeTerm}
-            checked={controlTerm !== 'false' && controlTerm !== 'all'}
+            checked={controlTerm === 'true'}
             value="true"
           />
           <span className={cx('term', 'checkmark')}></span>

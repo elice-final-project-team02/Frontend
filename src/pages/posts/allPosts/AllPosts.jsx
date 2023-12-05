@@ -18,8 +18,6 @@ export default function AllPosts() {
   const [controlTerm, setControlTerm] = useState(isLongTerm);
   const { data, isLoading } = useGetPostList({ controlTarget, controlTerm });
   const [postList, setPostList] = useState([]);
-  const [filteredPostList, setFilteredPostList] = useState([]);
-  const [recruitingPostList, setRecruitingPostList] = useState([]);
   const PAGE_LIMIT = 6;
   useEffect(() => {
     if (careTarget) {
@@ -44,29 +42,20 @@ export default function AllPosts() {
     if (data) {
       setPostList([...data?.posts]);
     }
-  }, [data, controlTarget, controlTerm]);
+  }, [data]);
 
   useEffect(() => {
-    const recruitingPost = postList.filter((post) => post.reservation.status === '모집중');
-    setRecruitingPostList([...recruitingPost]);
-  }, [postList, data]);
-
-  useEffect(() => {
-    if (searchInput.length === 0) {
-      setFilteredPostList([...recruitingPostList]);
+    if (data && searchInput.length === 0) {
+      setPostList([...data?.posts]);
       return;
-    } else {
-      const filteredList = recruitingPostList.filter((post) =>
+    } else if (data && searchInput.length > 0) {
+      const filteredList = data.posts.filter((post) =>
         post.title.toLowerCase().replace(' ', '').includes(searchInput.toLowerCase().replace(' ', ''))
       );
-      setFilteredPostList(filteredList);
+      setPostList(filteredList);
       return;
     }
-  }, [searchInput, recruitingPostList, careTarget, isLongTerm]);
-
-  useEffect(() => {
-    setCurrPage(0);
-  }, [searchInput, careTarget, isLongTerm]);
+  }, [searchInput, controlTarget, controlTerm]);
 
   const handleSearchChange = (text) => {
     setSearchInput(text);
@@ -82,8 +71,8 @@ export default function AllPosts() {
         controlTerm={controlTerm}
       />
       <div className={cx('card-list-container')}>
-        {isLoading && <LoadingModal message="게시글 목록을 불러오는 중입니다" />}
-        {!isLoading && filteredPostList.length === 0 ? (
+        {isLoading && <LoadingModal message="게시글 목록을 불러오는 중입니다" isLoading={isLoading} />}
+        {!isLoading && postList.length === 0 ? (
           <div className={cx('none')}>
             <span>
               <img src={NotFoundCharacter} alt="" />
@@ -91,7 +80,7 @@ export default function AllPosts() {
             검색결과가 없습니다.
           </div>
         ) : (
-          filteredPostList.slice(PAGE_LIMIT * (nowPage - 1), PAGE_LIMIT * nowPage).map((data, index) => (
+          postList.slice(PAGE_LIMIT * (nowPage - 1), PAGE_LIMIT * nowPage).map((data, index) => (
             <Link to={`/posts/${data._id}`} key={index}>
               <Card data={data} />
             </Link>
@@ -101,7 +90,7 @@ export default function AllPosts() {
       <Pagination
         currPage={currPage}
         onClickPage={setCurrPage}
-        pageCount={filteredPostList && Math.ceil(filteredPostList.length / 6)}
+        pageCount={postList && Math.ceil(postList.length / 6)}
       />
     </div>
   );

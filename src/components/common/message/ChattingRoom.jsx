@@ -10,7 +10,7 @@ import { roleState } from 'recoil/roleStateAtom';
 import { useGetRoom, usePostSendMessage, usePutConfirmMate, useDeleteLeaveRoom } from 'hooks';
 import { useQueryClient } from 'react-query';
 import ChatMateConfirmAlert from './ChatMateConfirmAlert';
-import { ChatLoadingModal } from 'components';
+import { LoadingModal } from 'components';
 import ChatMessage from './ChatMessage';
 import ChatFooter from './ChatFooter';
 
@@ -143,7 +143,7 @@ export default function ChattingRoom({ chatInfoSelect, selectedChatId }) {
     <div className={cx('wrapper', { on: showFlag })}>
       {/* 채팅창 영역 */}
       {isLoading ? (
-        <ChatLoadingModal message="접속 중입니다..." />
+        <LoadingModal message="접속 중입니다..." isLoading={isLoading} />
       ) : (
         <div className={cx('chat-roombox')}>
           {/* 헤더 영역 */}

@@ -1,4 +1,4 @@
-import React from 'react';
+import { useState, useEffect } from 'react';
 import styles from './WritePost.module.scss';
 import { Calendar } from 'assets/images';
 import cs from 'classnames/bind';
@@ -9,6 +9,7 @@ import {
   NewTimesPicker,
   Toggle,
   LoadingModal,
+  Button,
 } from 'components';
 import { regions } from 'lib';
 import InfantImage from 'assets/images/infant.png';
@@ -22,16 +23,16 @@ const cx = cs.bind(styles);
 
 export default function WritePost({ params, beforeData }) {
   const [searchParams, setSearchParams] = useSearchParams('');
-  const [isChangedHourlyRateOfBeforeData, setIsChangedHourlyRateOfBeforeData] = React.useState(false);
-  const [isChangedTimeSchdule, setIsChangedTimeSchdule] = React.useState(false);
+  const [isChangedHourlyRateOfBeforeData, setIsChangedHourlyRateOfBeforeData] = useState(false);
+  const [isChangedTimeSchdule, setIsChangedTimeSchdule] = useState(false);
 
   const predeterminedCareTarget = searchParams.get('careTarget');
-  const [mainTime, setMainTime] = React.useState({
+  const [mainTime, setMainTime] = useState({
     mainStartTime: new Date(2020, 0, 0, 8),
     mainEndTime: new Date(2020, 0, 0, 20),
   });
-  const [isEmptyValueInputNames, setIsEmptyValueInputNames] = React.useState([]);
-  const [postContent, setPostContent] = React.useState({
+  const [isEmptyValueInputNames, setIsEmptyValueInputNames] = useState([]);
+  const [postContent, setPostContent] = useState({
     title: beforeData ? beforeData.post.title : '',
     content: beforeData ? beforeData.post.content : '',
     region: beforeData ? beforeData.post.careInformation.area.region : '',
@@ -179,7 +180,7 @@ export default function WritePost({ params, beforeData }) {
   }
 
   /** 단기, 정기 시작,종료 시간 일괄수정 */
-  React.useEffect(() => {
+  useEffect(() => {
     setPostContent({
       ...postContent,
       shortTerm: postContent.shortTerm.map((obj) => ({
@@ -218,10 +219,10 @@ export default function WritePost({ params, beforeData }) {
     return checkHandler;
   }
   const ageList = ['20대', '30대', '40대', '50대', '60대 이상'];
-  const [checkedAgeList, setCheckedAgeList] = React.useState(
+  const [checkedAgeList, setCheckedAgeList] = useState(
     beforeData ? beforeData.post.careInformation.preferredmateAge : []
   );
-  const [isAgeChecked, setIsAgeChecked] = React.useState(false);
+  const [isAgeChecked, setIsAgeChecked] = useState(false);
   const checkAgeHandler = makeCheckHandler(checkedAgeList, setCheckedAgeList, isAgeChecked, setIsAgeChecked);
 
   function handleAgeFree(e) {
@@ -235,7 +236,7 @@ export default function WritePost({ params, beforeData }) {
   }
 
   /** 선호연령 체크박스 실시간 반영 */
-  React.useEffect(() => {
+  useEffect(() => {
     /** 나이 무관 체크된 상태에서 다른 연령 체크하면 나이무관 해제  */
     if (checkedAgeList.includes('나이 무관') && checkedAgeList.length > 1) {
       const temp = [...checkedAgeList];
@@ -248,12 +249,12 @@ export default function WritePost({ params, beforeData }) {
   }, [checkedAgeList]);
 
   const careDaysList = ['월', '화', '수', '목', '금', '토', '일'];
-  const [checkedDaysList, setCheckedDaysList] = React.useState(['월', '화']);
-  const [isDayChecked, setIsDayChecked] = React.useState(false);
+  const [checkedDaysList, setCheckedDaysList] = useState(['월', '화']);
+  const [isDayChecked, setIsDayChecked] = useState(false);
   const checkDayHandler = makeCheckHandler(checkedDaysList, setCheckedDaysList, isDayChecked, setIsDayChecked);
 
   /** 정기일정 요일 체크박스 실시간 반영 */
-  React.useEffect(() => {
+  useEffect(() => {
     return setPostContent({
       ...postContent,
       longTerm: {
@@ -269,7 +270,7 @@ export default function WritePost({ params, beforeData }) {
   }, [checkedDaysList]);
 
   /** 단기, 정기일정 토글시마다 관련 데이터 초기화 */
-  React.useEffect(() => {
+  useEffect(() => {
     setCheckedDaysList([]);
     setPostContent({
       ...postContent,
@@ -502,7 +503,7 @@ export default function WritePost({ params, beforeData }) {
                 <ShowSelectedDateList
                   type="short"
                   mainTime={mainTime}
-                  array={postContent.shortTerm.map((obj) => obj.careDate)}
+                  timeList={postContent.shortTerm.map((obj) => obj.careDate)}
                   setPostContent={setPostContent}
                   postContent={postContent}
                 />
@@ -511,7 +512,7 @@ export default function WritePost({ params, beforeData }) {
                   <ShowSelectedDateList
                     type="long"
                     mainTime={mainTime}
-                    array={postContent.longTerm.schedule.map((item) => item.careDay)}
+                    timeList={postContent.longTerm.schedule.map((item) => item.careDay)}
                     postContent={postContent}
                     setPostContent={setPostContent}
                   />
@@ -673,7 +674,9 @@ export default function WritePost({ params, beforeData }) {
           </button>
         </div>
       </form>
-      {(isPostLoading || isPatchLoading) && <LoadingModal message="게시글을 등록 중 입니다..." />}
+      {(isPostLoading || isPatchLoading) && (
+        <LoadingModal message="게시글을 등록 중 입니다..." isLoading={isPostLoading || isPatchLoading} />
+      )}
     </div>
   );
 }
