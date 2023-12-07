@@ -45,7 +45,7 @@
 | **주문**                                                                                                                       | **주문 내역**                                                                                                                  |
 | <img src="https://github.com/elice-team03/gazago/assets/87300419/e5633b95-8764-4e8d-b08f-f63f496c7cef" width="300px">          | <img src="https://github.com/elice-team03/gazago/assets/87300419/e5556b31-17b9-4fdb-bd56-b9a361d152e1" width="300px">          |
 | **마이페이지-회원정보**                                                                                                        | **마이페이지-게시글리스트**                                                                                                          |
-| <img src="https://github.com/SunghyunOH/vite-react-deploy/assets/90834728/9eb97b5c-d9d2-4b4e-87c6-a498ba602e3c" width="300px"> | <img src="https://github.com/SunghyunOH/vite-react-deploy/assets/90834728/8385b41e-0b27-430f-8cd8-8f14abd249ea" width="300px"> |
+| <img src="https://github.com/elice-final-project-team02/frontend/assets/109502469/3c7a7f50-80ca-46df-9884-9767ad223dd5" width="300px"> | <img src="https://github.com/elice-final-project-team02/frontend/assets/109502469/cece1ceb-5463-4d3a-91f2-7641c3f98375" width="300px"> |
 |**신청하기 Form & 채팅창 -돌봄유저**|**채팅창 -일반유저**|
 |<img src="https://github.com/elice-final-project-team02/frontend/assets/122779262/33009572-c3b7-43cb-a363-9caa7613728c" width="300px">|<img src="https://github.com/elice-final-project-team02/frontend/assets/122779262/da2bf6bc-47e6-495a-8e82-d06e9da51e05" width="300px">|
 
