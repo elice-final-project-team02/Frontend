@@ -11,7 +11,7 @@
 | 박제성 | 팀장, 프론트엔드 | [깃허브](https://github.com/richdad6208)  |
 | 이선우 | 프론트엔드       | [깃허브](https://github.com/Susan-Lee-01) |
 | 이지원 | 프론트엔드       |[깃허브](https://github.com/jwleeme)       |
-| 이름   | 프론트엔드       |                                           |
+| 신다원 | 프론트엔드       | [깃허브](https://github.com/dawn0314)     |
 | 이름   | 백엔드           | [깃허브](https://github.com/)             |
 
 ## 기술 스택
@@ -42,8 +42,8 @@
 | <img src="https://github.com/elice-final-project-team02/frontend/assets/109502469/55c82aab-e478-4f43-9df0-d86cac9f6100" width="300px"> | <img src="https://github.com/elice-final-project-team02/frontend/assets/109502469/b20a4ae0-62d3-496d-a191-e4aa0cc8a565" width="300px"> |
 | **게시글 작성, 조회**                                                                                                                  | **게시글 수정 및 삭제**                                                                                                                   |
 | <img src="https://github.com/elice-final-project-team02/frontend/assets/126126067/2f86ea38-5f11-4672-8707-be042a24cad2" width="300px">          | <img src="https://github.com/elice-final-project-team02/frontend/assets/126126067/57b1c439-1dfe-40c4-bef1-a1db800bbcab" width="300px">          |
-| **주문**                                                                                                                       | **주문 내역**                                                                                                                  |
-| <img src="https://github.com/elice-team03/gazago/assets/87300419/e5633b95-8764-4e8d-b08f-f63f496c7cef" width="300px">          | <img src="https://github.com/elice-team03/gazago/assets/87300419/e5556b31-17b9-4fdb-bd56-b9a361d152e1" width="300px">          |
+| **전체 게시글 - 필터**                                                                                                        | **전체 게시글 - 검색**                                                                                                                  |
+| <img src="https://github.com/elice-final-project-team02/frontend/assets/135945770/7e7e9e49-0a79-471d-811d-8142b77842e8" width="300px"> | <img src="https://github.com/elice-final-project-team02/frontend/assets/135945770/d0c85429-1b35-4425-b871-4362a320e64e" width="300px"> |
 | **마이페이지-회원정보**                                                                                                        | **마이페이지-게시글리스트**                                                                                                          |
 | <img src="https://github.com/elice-final-project-team02/frontend/assets/109502469/3c7a7f50-80ca-46df-9884-9767ad223dd5" width="300px"> | <img src="https://github.com/elice-final-project-team02/frontend/assets/109502469/cece1ceb-5463-4d3a-91f2-7641c3f98375" width="300px"> |
 |**신청하기 Form & 채팅창 -돌봄유저**|**채팅창 -일반유저**|
@@ -126,14 +126,15 @@
   * API 연동 및 Data Mapping 작업.
   * 신청하기(Send) 기능. (+ 빈내용 보내기 방지, 100자 이내 입력 처리, 버튼 비활성화 등)
 
-#### 이름
+#### 신다원
 
-- 헤더, 푸터
-- 메인페이지
-  - swiper 사용 슬라이드 구현
-- 상품 목록
-  - 브랜드와 상품 가격 선택, 헤제 기능 구현
-  - IntersectionObserver 사용해 무한스크롤 구현
+- 전체 게시글 기획 및 UI/UX
+  - 케어 대상에 따른 필터 기능
+  - 케어 기간에 따른 필터 기능
+  - 타이틀 검색 기능
+- 카드 형식의 게시글
+  - 찜하기 토글 구현
+  - 케어 대상에 따른 UI 처리
 
 #### 이름
 
