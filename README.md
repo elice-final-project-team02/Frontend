@@ -12,7 +12,8 @@
 | 이선우 | 프론트엔드       | [깃허브](https://github.com/Susan-Lee-01) |
 | 이지원 | 프론트엔드       |[깃허브](https://github.com/jwleeme)       |
 | 신다원 | 프론트엔드       | [깃허브](https://github.com/dawn0314)     |
-| 박현규 | 프론트엔드       | [깃허브](https://github.com/bighk95)             |
+| 박현규 | 프론트엔드       | [깃허브](https://github.com/bighk95)      |
+| 허은리 | 백엔드          | [깃허브](https://github.com/eunli)        |
 
 ## 기술 스택
 
