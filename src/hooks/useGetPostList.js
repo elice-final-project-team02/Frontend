@@ -19,6 +19,7 @@ export function useGetPostList({ controlTarget, controlTerm }) {
     },
     retry: 0,
     enabled: loginStatus !== 'LOADING',
+    staleTime: Infinity,
   });
 }
 export function formatterUrl(controlTarget, controlTerm) {
