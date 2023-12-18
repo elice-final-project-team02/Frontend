@@ -10,7 +10,7 @@ export default function ChatFooter({
   inputmessage,
   handleInputChange,
   handleInputSend,
-  useSendMessageRequest,
+  SendMessageRequest,
 }) {
   return (
     <div className={cx('chat-room-footer')}>
@@ -23,7 +23,7 @@ export default function ChatFooter({
         onKeyUp={handleInputSend}
         maxLength="100"
       ></input>
-      <button disabled={isChatRoomClosed} onClick={useSendMessageRequest} className={cx('send-message')}>
+      <button disabled={isChatRoomClosed} onClick={SendMessageRequest} className={cx('send-message')}>
         <FiSend size="30" color="var(--crl-blue-900) " />
       </button>
     </div>

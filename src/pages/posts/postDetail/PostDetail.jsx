@@ -19,7 +19,7 @@ const cx = cs.bind(styles);
 export default function PostDetail({ setMessageBoxState, setChatId }) {
   const { id } = useParams();
   const postId = id;
-  const [displayData, setDisplayData] = React.useState({});
+  const [aplicateFormData, setAplicateFormData] = React.useState({});
   const { data: requestData, isLoading: isRequestLoading } = useGetRequestGoHome(postId);
   const { data: userData, isLoading: isUserLoading } = useGetUser();
   const { mutate } = useDeletePostAndGoHome(postId);
@@ -29,7 +29,7 @@ export default function PostDetail({ setMessageBoxState, setChatId }) {
 
   React.useEffect(() => {
     if (requestData && userData) {
-      setDisplayData({
+      setAplicateFormData({
         title: requestData.post.title,
         content: requestData.post.content,
         region: requestData.post.careInformation.area.region,
@@ -102,39 +102,39 @@ export default function PostDetail({ setMessageBoxState, setChatId }) {
 
   return (
     <div className={cx('wrapper')}>
-      <span className={cx('role-bookmark', displayData.isLongTerm ? 'long-term-background' : 'short-term-background')}>
-        {displayData.isLongTerm ? '정기' : '단기'}
+      <span className={cx('role-bookmark', aplicateFormData.isLongTerm ? 'long-term-background' : 'short-term-background')}>
+        {aplicateFormData.isLongTerm ? '정기' : '단기'}
       </span>
       <div className={cx('inside-wrapper')}>
         <div
           className={cx(
             'title-wrapper',
-            displayData.userRole === 'user' ? 'user-role-background' : 'care-user-role-background'
+            aplicateFormData.userRole === 'user' ? 'user-role-background' : 'care-user-role-background'
           )}
         >
           <div className={cx('even-columns')}>
             <div className={cx('writer-image-wrapper')}>
-              {displayData.authorImageUrl ? (
+              {aplicateFormData.authorImageUrl ? (
                 <span className={cx('writer-image')}>
-                  <img src={displayData.authorImageUrl} alt="작성자 프로필사진" />
+                  <img src={aplicateFormData.authorImageUrl} alt="작성자 프로필사진" />
                 </span>
               ) : (
                 <span className={cx('writer-image')}>{<IoMdPerson />}</span>
               )}
-              <span>{displayData.authorName}</span>
+              <span>{aplicateFormData.authorName}</span>
             </div>
           </div>
           <div className={cx('even-columns')}>
             <div className={cx('post-title-wrapper')}>
-              <p className={cx('post-title')}>{displayData.title}</p>
+              <p className={cx('post-title')}>{aplicateFormData.title}</p>
               <div className={cx('post-badge-wrapper')}>
                 <span
                   className={cx(
                     'post-badge',
-                    displayData.userRole === 'user' ? 'user-background-accent' : 'care-user-background-accent'
+                    aplicateFormData.userRole === 'user' ? 'user-background-accent' : 'care-user-background-accent'
                   )}
                 >
-                  {displayData.status}
+                  {aplicateFormData.status}
                 </span>
               </div>
             </div>
@@ -145,26 +145,26 @@ export default function PostDetail({ setMessageBoxState, setChatId }) {
                 <span className={cx('information-icons')}>
                   <MdLocationOn />
                 </span>
-                <span className={cx('text-information')}>{`${displayData.region} ${displayData.subRegion}`}</span>
+                <span className={cx('text-information')}>{`${aplicateFormData.region} ${aplicateFormData.subRegion}`}</span>
               </div>
               <div className={cx('icon-text-wrapper')}>
                 <span className={cx('information-icons')}>
                   <AiFillCalendar />
                 </span>
-                {displayData.isLongTerm ? (
+                {aplicateFormData.isLongTerm ? (
                   <span className={cx('text-information')}>
-                    {`${date.changeDateToMonthAndDate(displayData.longTerm.startDate)}~ `}(
-                    {sortCareDays(displayData.longTerm.schedule)})
+                    {`${date.changeDateToMonthAndDate(aplicateFormData.longTerm.startDate)}~ `}(
+                    {sortCareDays(aplicateFormData.longTerm.schedule)})
                   </span>
                 ) : (
-                  displayData &&
-                  displayData.shortTerm && (
+                  aplicateFormData &&
+                  aplicateFormData.shortTerm && (
                     <span className={cx('text-information')}>
                       {`${date.changeDateToMonthAndDate(
-                        displayData?.shortTerm[0].careDate
+                        aplicateFormData?.shortTerm[0].careDate
                       )} ~ ${date.changeDateToMonthAndDate(
-                        displayData?.shortTerm[displayData.shortTerm.length - 1].careDate
-                      )} (총 ${displayData.shortTerm.length}일)`}
+                        aplicateFormData?.shortTerm[aplicateFormData.shortTerm.length - 1].careDate
+                      )} (총 ${aplicateFormData.shortTerm.length}일)`}
                     </span>
                   )
                 )}
@@ -173,19 +173,19 @@ export default function PostDetail({ setMessageBoxState, setChatId }) {
                 <span className={cx('information-icons', 'watch-icon')}>
                   <MdWatchLater />
                 </span>
-                {displayData.isLongTerm ? (
+                {aplicateFormData.isLongTerm ? (
                   <span className={cx('text-information')}>
-                    {displayData.longTerm &&
+                    {aplicateFormData.longTerm &&
                       `${date.changeDateToAmPmAndHour(
-                        displayData.longTerm.schedule[0]?.startTime
-                      )} ~ ${date.changeDateToAmPmAndHour(displayData.longTerm.schedule[0]?.endTime)}`}
+                        aplicateFormData.longTerm.schedule[0]?.startTime
+                      )} ~ ${date.changeDateToAmPmAndHour(aplicateFormData.longTerm.schedule[0]?.endTime)}`}
                   </span>
                 ) : (
                   <span className={cx('text-information')}>
-                    {displayData.shortTerm &&
+                    {aplicateFormData.shortTerm &&
                       `${date.changeDateToAmPmAndHour(
-                        displayData.shortTerm[0].startTime
-                      )} ~ ${date.changeDateToAmPmAndHour(displayData.shortTerm[0].endTime)}`}
+                        aplicateFormData.shortTerm[0].startTime
+                      )} ~ ${date.changeDateToAmPmAndHour(aplicateFormData.shortTerm[0].endTime)}`}
                   </span>
                 )}
               </div>
@@ -194,25 +194,25 @@ export default function PostDetail({ setMessageBoxState, setChatId }) {
                   <IoMdPerson />
                 </span>
                 <span className={cx('text-information')}>
-                  {displayData.preferredmateAge &&
-                    formmatAgeListToTrimPretty(displayData.preferredmateAge).map((item, index) => (
+                  {aplicateFormData.preferredmateAge &&
+                    formmatAgeListToTrimPretty(aplicateFormData.preferredmateAge).map((item, index) => (
                       <span key={index}>{item} </span>
                     ))}
                 </span>
-                <span className={cx('text-information', 'gender-span')}>{displayData.preferredmateGender}</span>
+                <span className={cx('text-information', 'gender-span')}>{aplicateFormData.preferredmateGender}</span>
               </div>
               <div className={cx('icon-text-wrapper')}>
                 <span className={cx('information-icons')}>
                   <PiMoneyFill />
                 </span>
-                <span className={cx('text-information')}>{`${data.addCommas(displayData.hourlyRate)}원 ${
-                  displayData.negotiableRate ? '(협의가능)' : ''
+                <span className={cx('text-information')}>{`${data.addCommas(aplicateFormData.hourlyRate)}원 ${
+                  aplicateFormData.negotiableRate ? '(협의가능)' : ''
                 }`}</span>
               </div>
             </div>
           </div>
           <div className={cx('even-columns')}>
-            {displayData.userRole === 'careUser' ? (
+            {aplicateFormData.userRole === 'careUser' ? (
               <div className={cx('button-wrapper')}>
                 {/* 게시글 상세 - 신청하기 버튼 */}
                 <button
@@ -222,14 +222,14 @@ export default function PostDetail({ setMessageBoxState, setChatId }) {
                   className={cx(
                     'post-button',
                     'post-badge',
-                    displayData.userRole === 'user' ? 'user-background-accent' : 'care-user-background-accent'
+                    aplicateFormData.userRole === 'user' ? 'user-background-accent' : 'care-user-background-accent'
                   )}
                 >
                   신청하기
                 </button>
               </div>
             ) : (
-              displayData.userId === displayData.authorId && (
+              aplicateFormData.userId === aplicateFormData.authorId && (
                 <div className={cx('button-wrapper', 'post-control-icon')}>
                   <span className={cx('post-edit-icons')}>
                     <Link to={`/posts/${postId}/edit`}>
@@ -245,23 +245,23 @@ export default function PostDetail({ setMessageBoxState, setChatId }) {
           </div>
         </div>
         <div className={cx('body-wrapper')}>
-          <p>{displayData.content}</p>
+          <p>{aplicateFormData.content}</p>
         </div>
         <div
           className={cx(
             'description-wrapper',
-            displayData.userRole === 'user' ? 'user-role-background' : 'care-user-role-background'
+            aplicateFormData.userRole === 'user' ? 'user-role-background' : 'care-user-role-background'
           )}
         >
           <div className={cx('even-columns')}>
             <div className={cx('features-wrapper')}>
               <div className={cx('features')}>
                 <span>돌봄 대상 특징</span>
-                <p>{displayData.targetFeatures}</p>
+                <p>{aplicateFormData.targetFeatures}</p>
               </div>
               <div className={cx('features')}>
                 <span>돌봄 대상 유의사항</span>
-                <p>{displayData.cautionNotes}</p>
+                <p>{aplicateFormData.cautionNotes}</p>
               </div>
             </div>
           </div>
@@ -269,7 +269,7 @@ export default function PostDetail({ setMessageBoxState, setChatId }) {
             <span className={cx('target-image-wrapper')}>
               <img
                 src={
-                  displayData.careTarget === '아동' ? Child : displayData.careTarget === '노인' ? Senior1 : Challenged
+                  aplicateFormData.careTarget === '아동' ? Child : aplicateFormData.careTarget === '노인' ? Senior1 : Challenged
                 }
                 alt="targetImage"
                 className={cx('target-image')}

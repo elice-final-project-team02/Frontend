@@ -43,7 +43,7 @@ export default function ChattingRoom({ chatInfoSelect, selectedChatId }) {
   const postSendMutate = usePostSendMessage();
   const confirmMate = usePutConfirmMate();
 
-  // 채팅 입력(textarea) 메서드
+  // 채팅 입력 메서드
   const handleInputChange = (e) => {
     setInputMessage(e.target.value);
   };
@@ -56,7 +56,7 @@ export default function ChattingRoom({ chatInfoSelect, selectedChatId }) {
   };
 
   // 채팅 메시지 전송(send) 메서드
-  const useSendMessageRequest = () => {
+  const SendMessageRequest = () => {
     postSendMutate.mutate({ chatId: selectedChatId, content: inputmessage });
   };
   useEffect(() => {
@@ -72,8 +72,8 @@ export default function ChattingRoom({ chatInfoSelect, selectedChatId }) {
       setPostUrl('/posts/' + data.chat.post._id);
       setCareTarget(data.chat.post.careInformation.careTarget);
       setMessage(data.chat.message);
-
-      if (data.chat.status === '매칭완료') setDisable(true);
+       
+      if (data.chat.status === '매칭완료') setDisable(true)
     }
   }, [data, message]);
 
@@ -123,7 +123,7 @@ export default function ChattingRoom({ chatInfoSelect, selectedChatId }) {
   };
   // 대화 종료하기 메서드
   const chatRoomOut = () => {
-    // 검증 로직은 추후에..
+
     if (window.confirm(`대화를 종료하면 채팅방 및 모든 채팅내용이 사라집니다.\n 그래도 대화를 종료하시겠습니까?`)) {
       mutate(selectedChatId);
       moveChatList();
@@ -243,7 +243,7 @@ export default function ChattingRoom({ chatInfoSelect, selectedChatId }) {
                   </div>
                 );
               })}
-              <li>{data.chat.leaveRoom.length ? data.chat.author.name + '님이 나갔습니다.' : ''}</li>
+              <li className={cx('leaveuser')}>{data.chat.leaveRoom.length ? data.chat.author.name + '님이 나갔습니다.' : ''}</li>
               <div ref={scrollRef}></div>
 
               {/* 돌봄메이트 확정된 방 알림메시지 컴포넌트 */}
@@ -263,7 +263,7 @@ export default function ChattingRoom({ chatInfoSelect, selectedChatId }) {
             inputmessage={inputmessage}
             handleInputChange={handleInputChange}
             handleInputSend={handleInputSend}
-            useSendMessageRequest={useSendMessageRequest}
+            SendMessageRequest={SendMessageRequest}
           />
         </div>
       )}

@@ -15,7 +15,7 @@ const cx = cs.bind(styles);
 export default function MessageForm({ setRequestForm }) {
   const { id } = useParams();
 
-  const [displayData, setDisplayData] = useState({});
+  const [aplicateFormData, setAplicateFormData] = useState({});
   const [textContent, setTextContent] = useState('');
   const { mutate } = usePostApplicate();
 
@@ -24,7 +24,7 @@ export default function MessageForm({ setRequestForm }) {
 
   React.useEffect(() => {
     if (getMateUser) {
-      setDisplayData({
+      setAplicateFormData({
         profileUrl: getMateUser.user.profileUrl,
         name: getMateUser.user.name,
         age: getMateUser.user.age,
@@ -40,7 +40,7 @@ export default function MessageForm({ setRequestForm }) {
   }, [getMateUser]);
 
   // 신청하기(send)
-  const useApplicateRequest = () => {
+  const ApplicateRequest = () => {
     if (!textContent) return alert('신청하기 내용을 입력해 주세요.');
 
     mutate(
@@ -56,7 +56,7 @@ export default function MessageForm({ setRequestForm }) {
     );
   };
 
-  // 채팅 입력(textarea) 메서드
+  // 채팅 입력 메서드
   const handleInputChange = (e) => {
     setTextContent(e.target.value);
   };
@@ -74,42 +74,40 @@ export default function MessageForm({ setRequestForm }) {
           <div className={cx('mate-imgbox')}>
             <img
               className={cx('profile-photo')}
-              src={displayData?.profileUrl || ProfileImage}
+              src={aplicateFormData?.profileUrl || ProfileImage}
               alt="돌봄메이트 프로필이미지"
             />
           </div>
 
           {/* 이름, 키워드, 지역, 성별/나이*/}
           <div className={cx('mateinfo-leftbox')}>
-            <p className={cx('matename')}>{displayData?.name}</p>
-            <p className={cx('keyword')}>{displayData?.careTarget}</p>
+            <p className={cx('matename')}>{aplicateFormData?.name}</p>
+            <p className={cx('keyword')}>{aplicateFormData?.careTarget}</p>
             <div className={cx('icons-box')}>
               <div className={cx('box1')}>
                 <span>
                   <FaUser size="15" color="#999" />
                 </span>
                 <span className={cx('genderinfo')}>
-                  {displayData?.age} {displayData?.gender}
+                  {aplicateFormData?.age} {aplicateFormData?.gender}
                 </span>
                 <span>
                   <FaMapMarkerAlt size="15" color="#999" />
                 </span>
                 <span className={cx('areainfo')}>
-                  {displayData?.region} {displayData?.subRegion}
+                  {aplicateFormData?.region} {aplicateFormData?.subRegion}
                 </span>
               </div>
             </div>{' '}
             {/* icons box End */}
           </div>
 
-          {/* 돌봄메이트가 신청하기 전에 본인 핸드폰번호 정보를 확인할수도 있을것같아 피그마대로 우선 휴대폰번호 영역을 넣었습니다.
-           */}
           <div className={cx('phonebox')}>
             <span>
               <FaPhone />
               Phone
             </span>
-            <p className={cx('phonenum')}>{displayData?.phoneNumber}</p>
+            <p className={cx('phonenum')}>{aplicateFormData?.phoneNumber}</p>
           </div>
         </div>
 
@@ -136,7 +134,7 @@ export default function MessageForm({ setRequestForm }) {
           <button className={cx('btn-cancel')} onClick={() => setRequestForm(false)}>
             취소
           </button>
-          <button className={cx('btn-request')} disabled={!textContent} onClick={useApplicateRequest}>
+          <button className={cx('btn-request')} disabled={!textContent} onClick={ApplicateRequest}>
             신청하기
           </button>
         </div>
