@@ -50,9 +50,9 @@
 
 ## 기획
 
-### 1. [프론트 피그마 링크](https://www.figma.com/file/3v9IIxkNrYgIHYfiEu5lxp/Untitled?type=design&node-id=0-1&mode=design&t=UPp46GXNZMoWPAIc-0)
+### 1. [프론트 피그마 링크](https://www.figma.com/file/Yp60grFclpl3YAxRcyCUXE/%EC%97%98%EB%A6%AC%EC%8A%A4-2%EC%B0%A8-%2F-2%ED%8C%80?type=design&node-id=0-1&mode=design&t=j37NI0loeHUvDZ5l-0)
 
-### 2. [API 명세서 링크](https://www.postman.com/grey-shadow-358682/workspace/elice-project-1-team-3/request/25191700-a6b53621-9ccb-4152-bb93-924740d36b78)
+### 2. [API 명세서 링크](https://planetary-shadow-265068.postman.co/workspace/New-Team-Workspace~9a7b6cb4-170e-46b3-b76b-2175885c13bc/overview)
 
 ### 3. ERD
 
