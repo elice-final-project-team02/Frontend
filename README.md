@@ -25,11 +25,9 @@
 
 ### Backend
 
-<img src="https://img.shields.io/badge/node.js-339933?style=for-the-badge&logo=Node.js&logoColor=white"> <img src="https://img.shields.io/badge/express-000000?style=for-the-badge&logo=express&logoColor=white">
+<img src="https://img.shields.io/badge/typescript-3178C6?style=for-the-badge&logo=typescript&logoColor=white"> <img src="https://img.shields.io/badge/node.js-339933?style=for-the-badge&logo=Node.js&logoColor=white"> <img src="https://img.shields.io/badge/express-000000?style=for-the-badge&logo=express&logoColor=white">
 <img src="https://img.shields.io/badge/mongodb-47A248?style=for-the-badge&logo=mongodb&logoColor=white">
-<img src="https://img.shields.io/badge/mongoose-880000?style=for-the-badge&logo=mongoose&logoColor=white"> <br/>
-<img src="https://img.shields.io/badge/jwt-000000?style=for-the-badge&logo=jwt&logoColor=white">
-<img src="https://img.shields.io/badge/passport-2fca6d?style=for-the-badge&logo=passport&logoColor=white"> <img src="https://img.shields.io/badge/stripe-008CDD?style=for-the-badge&logo=stripe&logoColor=white"> <img src="https://img.shields.io/badge/nginx-009639?style=for-the-badge&logo=ngnix&logoColor=white"> <img src="https://img.shields.io/badge/pm2-2B037A?style=for-the-badge&logo=pm2&logoColor=white">
+<img src="https://img.shields.io/badge/mongoose-880000?style=for-the-badge&logo=mongoose&logoColor=white"> <img src="https://img.shields.io/badge/jwt-000000?style=for-the-badge&logo=jsonwebtokens&logoColor=white">
 
 ## 주요 기능
 
@@ -50,10 +48,6 @@
 |**신청하기 Form & 채팅창 -돌봄유저**|**채팅창 -일반유저**|
 |<img src="https://github.com/elice-final-project-team02/frontend/assets/122779262/33009572-c3b7-43cb-a363-9caa7613728c" width="300px">|<img src="https://github.com/elice-final-project-team02/frontend/assets/122779262/da2bf6bc-47e6-495a-8e82-d06e9da51e05" width="300px">|
 
-**결제시스템**
-
-<img src="https://github.com/elice-team03/gazago/assets/39878215/44f526f0-db26-4a5f-b539-9ffb132f6f0b" width="600px">
-
 ## 기획
 
 ### 1. [프론트 피그마 링크](https://www.figma.com/file/3v9IIxkNrYgIHYfiEu5lxp/Untitled?type=design&node-id=0-1&mode=design&t=UPp46GXNZMoWPAIc-0)
@@ -62,7 +56,7 @@
 
 ### 3. ERD
 
-![image](https://github.com/elice-team03/gazago/assets/39878215/c21c5052-0638-4ac6-8964-d5d752980adf)
+![erd 최종](https://github.com/elice-final-project-team02/frontend/assets/122986061/0db64fd2-6a8a-45ab-967a-e79d89d2487a)
 
 ### 4. 프로젝트 구조
 
@@ -74,15 +68,19 @@
 ├── client
 │   ├── routers
 │   └── views
-├── server
-│   ├── routers
-│   ├── services
-│   ├── db
-│   ├── middlewares
-│   ├── passport
-│   ├── stripe
-│   └── utils
 └── app.js
+```
+```bash
+├── server
+│   ├── models
+│   ├── dtos
+│   ├── routers
+│   ├── controllers
+│   ├── services
+│   ├── repositories
+│   ├── middlewares
+│   └── utils
+└── app.ts
 ```
 
 ## 담당 기능
@@ -149,11 +147,13 @@
 
 ### Backend
 
-#### 이름
+#### 허은리
 
 - API 명세서, ERD, 프로젝트 구조, 폴더 구조 설계
 - 라우터 및 서비스 로직 구현
-- fs 모듈 활용 파일 업로드 구현
-- Stripe 활용 결제 시스템 구현
-- Nginx, PM2 활용 배포
-  - 개인 서버 사용
+- 회원가입, 로그인, 게시글, 채팅 기능 구현
+- nodemailer, redis 활용 이메일 인증 구현
+- jwt 토큰 쿠키에 저장하여 보안 설정
+- s3 활용 이미지 업로드 구현
+- 채팅 기능 롱폴링 방식으로 구현
+- 클라우드타입 활용 배포
