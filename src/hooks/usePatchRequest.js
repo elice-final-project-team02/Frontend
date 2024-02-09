@@ -4,7 +4,7 @@ import { useNavigate } from 'react-router';
 import { errorHandler } from 'lib';
 import { queryClient } from 'App';
 
-const apiUrl = '/api/post';
+const apiUrl = `${process.env.REACT_APP_POST}`;
 
 const patchRequest = async (postId, body) => {
   const response = await axios.patch(`${apiUrl}/${postId}`, body, {

@@ -6,7 +6,7 @@ import { roleState } from 'recoil/roleStateAtom';
 import { useSetRecoilState } from 'recoil';
 
 const postLogout = async () => {
-  const response = await axios.post('/api/user/logout', { withCredentials: true });
+  const response = await axios.post(`${process.env.REACT_APP_USER}/logout`, { withCredentials: true });
   return response.data;
 };
 

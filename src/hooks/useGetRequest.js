@@ -2,7 +2,7 @@ import axios from 'axios';
 import { errorHandler } from 'lib';
 import { useQuery } from 'react-query';
 import { useNavigate } from 'react-router';
-const apiUrl = '/api/post';
+const apiUrl = `${process.env.REACT_APP_POST}`;
 export const getRequest = async (postId) => {
   const response = await axios.get(`${apiUrl}/${postId}`, {
     withCredentials: true,

@@ -6,7 +6,7 @@ import { isLoggedInState } from 'recoil/isLoggedInStateAtom';
 import { useRecoilState } from 'recoil';
 
 const deleteUser = async (password) => {
-  const response = await axios.delete('/api/user', {
+  const response = await axios.delete(`${process.env.REACT_APP_USER}`, {
     data: { password: password },
     withCredentials: true,
   });

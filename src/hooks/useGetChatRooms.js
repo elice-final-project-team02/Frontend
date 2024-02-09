@@ -6,7 +6,9 @@ import { useRecoilValue } from 'recoil';
 import { isLoggedInState } from 'recoil/isLoggedInStateAtom';
 
 const getChatRooms = async (pageNumber) => {
-  const response = await axios.get(`/api/chat/rooms?page=${pageNumber}&limit=10`, { withCredentials: true });
+  const response = await axios.get(`${process.env.REACT_APP_CHAT}/rooms?page=${pageNumber}&limit=10`, {
+    withCredentials: true,
+  });
   return response.data.data;
 };
 

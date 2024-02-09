@@ -4,7 +4,7 @@ import { useNavigate } from 'react-router-dom';
 import { errorHandler } from 'lib';
 
 const postRegister = async (userInfo) => {
-  const response = await axios.post('/api/user/register', userInfo, { withCredentials: true });
+  const response = await axios.post(`${process.env.REACT_APP_USER}/register`, userInfo, { withCredentials: true });
   return response.data;
 };
 

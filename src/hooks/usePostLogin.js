@@ -8,7 +8,7 @@ import { useSetRecoilState } from 'recoil';
 
 const postLogin = async (email, password) => {
   const response = await axios.post(
-    '/api/user/login',
+    `${process.env.REACT_APP_USER}/login`,
     {
       email: email,
       password: password,

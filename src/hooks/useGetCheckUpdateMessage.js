@@ -7,7 +7,7 @@ export const getCheckUpdateUser = async () => {
 };
 
 export const getCheckUpdateCareUser = async () => {
-  const response = await axios.get('/api/chat/check-update-careuser', { withCredentials: true });
+  const response = await axios.get(`${process.env.REACT_APP_CHAT}/check-update-careuser`, { withCredentials: true });
   return null;
   return response.data.data;
 };

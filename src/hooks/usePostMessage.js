@@ -3,15 +3,11 @@ import { useQueryClient, useMutation } from 'react-query';
 import { errorHandler } from 'lib';
 
 // 채팅 메시지 전송(send) hooks
-export const postMessage = async ({chatId, content}) => {
+export const postMessage = async ({ chatId, content }) => {
+  const res = await axios.post(`${process.env.REACT_APP_CHAT}/send-message/${chatId}`, { content: content });
 
-  const res = await axios.post(`/api/chat/send-message/${chatId}`,
-    { content: content });
-  
   return res.data;
-
-}
-
+};
 
 export function usePostSendMessage() {
   const queryClient = useQueryClient();
@@ -26,4 +22,3 @@ export function usePostSendMessage() {
     retry: 0,
   });
 }
-

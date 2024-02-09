@@ -3,7 +3,7 @@ import { useMutation } from 'react-query';
 import { errorHandler } from 'lib';
 
 const postSendMail = async (email) => {
-  const response = await axios.post('/api/user/register/send-mail', { email: email });
+  const response = await axios.post(`${process.env.REACT_APP_USER}/register/send-mail`, { email: email });
   return response.data;
 };
 

@@ -5,7 +5,7 @@ import { errorHandler } from 'lib';
 
 // 신청하기(send) 함수
 export const postApplicate = async ({ postId, content }) => {
-  const res = await axios.post(`/api/chat/applicate`, { postId: postId, content: content });
+  const res = await axios.post(`${process.env.REACT_APP_CHAT}/applicate`, { postId: postId, content: content });
   return res.data;
 };
 

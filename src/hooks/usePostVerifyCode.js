@@ -3,7 +3,7 @@ import { useMutation } from 'react-query';
 import { errorHandler } from 'lib';
 
 const postVerifyCode = async (email, code) => {
-  const response = await axios.post('/api/user/register/verify-email-code', {
+  const response = await axios.post(`${process.env.REACT_APP_USER}/register/verify-email-code`, {
     email: email,
     code: code,
   });

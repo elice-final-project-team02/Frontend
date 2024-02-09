@@ -4,7 +4,7 @@ import { errorHandler } from 'lib';
 import { useNavigate } from 'react-router';
 
 const deletePost = async (postId) => {
-  const response = await axios.delete(`/api/post/${postId}`, {
+  const response = await axios.delete(`${process.env.REACT_APP_POST}/${postId}`, {
     withCredentials: true,
   });
   return response.data;

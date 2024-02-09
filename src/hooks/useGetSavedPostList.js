@@ -5,7 +5,9 @@ import { useRecoilValue } from 'recoil';
 import { isLoggedInState } from 'recoil/isLoggedInStateAtom';
 
 const getSavedPostList = async (pageNumber) => {
-  const response = await axios.get(`/api/post/posts/bookmarks?page=${pageNumber}`, { withCredentials: true });
+  const response = await axios.get(`${process.env.REACT_APP_POST}/posts/bookmarks?page=${pageNumber}`, {
+    withCredentials: true,
+  });
   return response.data.data;
 };
 

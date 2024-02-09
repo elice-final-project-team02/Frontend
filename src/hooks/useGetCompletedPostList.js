@@ -5,12 +5,16 @@ import { useRecoilValue } from 'recoil';
 import { isLoggedInState } from 'recoil/isLoggedInStateAtom';
 
 const getCompletedPostListUser = async (pageNumber) => {
-  const response = await axios.get(`/api/post/posts/completed-user?page=${pageNumber}`, { withCredentials: true });
+  const response = await axios.get(`${process.env.REACT_APP_POST}/posts/completed-user?page=${pageNumber}`, {
+    withCredentials: true,
+  });
   return response.data.data;
 };
 
 const getCompletedPostListCareUser = async (pageNumber) => {
-  const response = await axios.get(`/api/post/posts/completed-careuser?page=${pageNumber}`, { withCredentials: true });
+  const response = await axios.get(`${process.env.REACT_APP_POST}/posts/completed-careuser?page=${pageNumber}`, {
+    withCredentials: true,
+  });
   return response.data.data;
 };
 

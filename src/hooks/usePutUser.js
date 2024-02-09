@@ -3,7 +3,7 @@ import { useMutation, useQueryClient } from 'react-query';
 import { errorHandler } from 'lib';
 
 const putUser = async (userInfo) => {
-  const response = await axios.put('/api/user', userInfo, { withCredentials: true });
+  const response = await axios.put(`${process.env.REACT_APP_USER}`, userInfo, { withCredentials: true });
   return response.data;
 };
 

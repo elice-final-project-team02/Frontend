@@ -4,7 +4,7 @@ import { errorHandler } from 'lib';
 
 const putcancelPost = async (postId) => {
   const response = await axios.put(
-    `/api/post/cancel/${postId}`,
+    `${process.env.REACT_APP_POST}/cancel/${postId}`,
     { postId },
     {
       withCredentials: true,

@@ -3,7 +3,7 @@ import { useMutation } from 'react-query';
 import { errorHandler } from 'lib';
 
 const deleteLeaveRoom = async (selectedChatId) => {
-  const response = await axios.delete(`/api/chat/leave-room/${selectedChatId}`, {
+  const response = await axios.delete(`${process.env.REACT_APP_CHAT}/leave-room/${selectedChatId}`, {
     withCredentials: true,
   });
   return response.data;

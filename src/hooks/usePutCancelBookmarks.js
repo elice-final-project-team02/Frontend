@@ -4,7 +4,7 @@ import { errorHandler } from 'lib';
 
 const putCancelBookmarks = async (postIds) => {
   const response = await axios.put(
-    '/api/post/posts/cancels',
+    `${process.env.REACT_APP_POST}/posts/cancels`,
     { postIds },
     {
       withCredentials: true,

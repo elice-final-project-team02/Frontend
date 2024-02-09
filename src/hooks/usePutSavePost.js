@@ -4,7 +4,7 @@ import { errorHandler } from 'lib';
 
 const putSavePost = async (postId) => {
   const response = await axios.put(
-    `/api/post/save/${postId}`,
+    `${process.env.REACT_APP_POST}/save/${postId}`,
     { postId },
     {
       withCredentials: true,

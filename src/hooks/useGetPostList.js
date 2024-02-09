@@ -5,7 +5,7 @@ import { useRecoilValue } from 'recoil';
 import { isLoggedInState } from 'recoil/isLoggedInStateAtom';
 
 const getPostList = async ({ controlTarget, controlTerm }) => {
-  const response = await axios.get(`/api/post${formatterUrl(controlTarget, controlTerm)}`, {
+  const response = await axios.get(`${process.env.REACT_APP_POST}${formatterUrl(controlTarget, controlTerm)}`, {
     withCredentials: true,
   });
   return response.data.data;
